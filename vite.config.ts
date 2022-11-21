@@ -7,7 +7,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     setupFiles: "src/utils/testSetup.js",
-    watch: true,
+    watch: false,
     exclude: [
       "node_modules",
       "dist",
@@ -16,7 +16,7 @@ export default defineConfig({
       ".cache",
       "./src/models",
       "./src/data",
-      "./src/utils/testSetup.js"
+      "./src/utils/testSetup.js",
     ],
   },
 });
