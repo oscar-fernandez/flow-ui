@@ -6,8 +6,17 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: "jsdom",
-    setupFiles: "src/testSetup.js",
-    watch: false,
-    exclude: ["node_modules", "dist", ".idea", ".git", ".cache"],
+    setupFiles: "src/utils/testSetup.js",
+    watch: true,
+    exclude: [
+      "node_modules",
+      "dist",
+      ".idea",
+      ".git",
+      ".cache",
+      "./src/models",
+      "./src/data",
+      "./src/utils/testSetup.js"
+    ],
   },
 });
