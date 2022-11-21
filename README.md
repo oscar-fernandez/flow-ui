@@ -1,3 +1,4 @@
+<pre>
 Vite+React+TS:
 
 Start up local dev server: npm run dev
@@ -26,3 +27,4 @@ models -> the interfaces
 pages -> contains page specific components
 services -> api calls
 utils -> pure/reusable functions
+</pre>
