@@ -1,9 +1,17 @@
+import Row from "../../components/RowComponent/Row";
 import "./App.css";
 
 function App() {
   return (
     <>
-      <h1>Flow-E</h1>
+      {/* <Row
+        key={123456}
+        id={123456}
+        firstName="John"
+        lastName="Doe"
+        techStack={["Java", "React", "NodeJs"]}
+        onClick={() => null}
+      /> */}
     </>
   );
 }
