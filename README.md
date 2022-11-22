@@ -16,8 +16,8 @@ npm run coverage
 
 Pre-commit hooks:
 Triggered when you create a commit message.
-Husky configured to run pretty-quick on staged only files, for consistent file formatting.
-Husky also configured to run all tests. If any test fails, commit is canceled.
+Husky is configured to run all tests, pretty-quick (on staged files only), and eslint (on stage files only).
+If any of these checks fail, the commit is canceled.
 
 UI folder structure ... for reference
 components -> contains reusuable components
