@@ -4,7 +4,6 @@ function PageContainer() {
   return (
     <div className="page-container">
       <div>Menu-side-bar</div>
-      <div>Flow-E</div>
     </div>
   );
 }

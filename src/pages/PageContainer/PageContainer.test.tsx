@@ -6,6 +6,5 @@ describe("PageContainer", () => {
   it("should contain 'Menu-side-bar'", () => {
     render(<PageContainer />);
     expect(screen.getByText("Menu-side-bar")).toBeInTheDocument();
-    expect(screen.getByText("Flow-E")).toBeInTheDocument();
   });
 });
