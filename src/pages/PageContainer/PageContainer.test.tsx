@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import App from "./App";
+import PageContainer from "./PageContainer";
 
-describe("App", () => {
-  it("should render PageContainer", () => {
-    render(<App />);
+describe("PageContainer", () => {
+  it("should contain 'Menu-side-bar'", () => {
+    render(<PageContainer />);
     expect(screen.getByText("Menu-side-bar")).toBeInTheDocument();
   });
 });
