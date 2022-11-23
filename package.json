@@ -10,7 +10,8 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "prepare": "husky install",
-    "sonar": "sonar-scanner"
+    "sonar": "npx sonar-scanner",
+    "lint": "eslint . --fix"
   },
   "lint-staged": {
     "**/*.{tsx, ts, js}": "eslint . --fix"
@@ -32,13 +33,14 @@
     "@typescript-eslint/parser": "^5.44.0",
     "@vitejs/plugin-react": "^2.2.0",
     "@vitest/coverage-c8": "^0.25.2",
+    "@vitest/coverage-istanbul": "^0.25.3",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^8.0.0",
+    "husky": "^8.0.2",
     "jsdom": "^20.0.3",
     "lint-staged": "^13.0.3",
     "pretty-quick": "^3.1.3",
