@@ -41,6 +41,7 @@ pipeline {
                     try {
                         sh 'npm install'
                         sh 'npm run test'
+                        sh 'npm run coverage'
                         updateGitlabCommitStatus name: 'Test', state: 'success'
                     } catch (exec) {
                         updateGitlabCommitStatus name: 'Test Failed', state: 'failed'
