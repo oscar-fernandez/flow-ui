@@ -19,7 +19,7 @@ export default defineConfig({
       "./src/utils/testSetup.js",
     ],
     coverage: {
-      reporter: ["text", "lcov"],
+      reporter: ["lcov"],
     },
   },
 });
