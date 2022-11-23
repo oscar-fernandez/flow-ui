@@ -2,7 +2,7 @@ import "./PageContainer.css";
 
 function PageContainer() {
   return (
-    <div className="PageContainer">
+    <div className="page-container">
       <div>Menu-side-bar</div>
       <div>Flow-E</div>
     </div>
