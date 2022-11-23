@@ -10,7 +10,8 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "prepare": "husky install",
-    "sonar": "sonar-scanner"
+    "sonar": "npx sonar-scanner",
+    "lint": "eslint . --fix"
   },
   "lint-staged": {
     "**/*.{tsx, ts, js}": "eslint . --fix"
