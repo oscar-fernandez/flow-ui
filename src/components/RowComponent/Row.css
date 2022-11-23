@@ -1,7 +1,7 @@
 .row-container {
   display: flex;
   justify-content: space-around;
-  width: 60%;
+  width: 100%;
   border: solid #000048 1px;
   border-radius: 16px;
   box-sizing: border-box;
