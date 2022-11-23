@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { Tooltip } from "@mui/material";
+import { useEffect, useState } from "react";
 import "./Row.css";
 
 interface rowProps {
@@ -11,6 +12,22 @@ interface rowProps {
 
 const Row = ({ id, firstName, lastName, techStack, onClick }: rowProps) => {
   const [style, setStyle] = useState({ display: "none" });
+  const [useTechStack, setTechStack] = useState('')
+  
+  useEffect(() => {
+    let str = ''
+    if (techStack.length >= 1) {
+      str += techStack[0]
+      if (techStack.length >= 2) {
+        str += `, ${techStack[1]}`
+        if (techStack.length >= 3)
+          str += '...'
+      }
+    }
+    setTechStack(str)
+  }, [])
+  
+  
 
   return (
     <>
@@ -18,22 +35,12 @@ const Row = ({ id, firstName, lastName, techStack, onClick }: rowProps) => {
         <p className="row-id">{id}</p>
         <p>{firstName}</p>
         <p>{lastName}</p>
-        <p
-          data-testid="tech-stack"
-          onMouseOver={(e) => {
-            if (techStack.length >= 3) setStyle({ display: "table" });
-          }}
-          onMouseOut={(e) => {
-            setStyle({ display: "none" });
-          }}
-        >
-          {techStack.length >= 1 && `${techStack[0]}`}
-          {techStack.length >= 2 && `, ${techStack[1]} `}
-          {techStack.length >= 3 && "..."}
-        </p>
-        <div className="tooltip-tech-stack" style={style}>
-          {techStack.length > 1 && `${techStack}`}
-        </div>
+        <Tooltip title={techStack.length > 1 ? `${techStack.join(', ')}` : ''} placement='bottom'>
+          <p data-testid="tech-stack">
+          {useTechStack}
+          </p>
+        </Tooltip>
+
         <button
           className="delete-row-button"
           onClick={(event) => {

@@ -22,13 +22,3 @@
   border: none;
   cursor: pointer;
 }
-
-.tooltip-tech-stack {
-  position: absolute;
-  margin-left: 12em;
-  margin-top: 2em;
-  border: 1px solid #000048;
-  border-radius: 8px;
-  color: #000048;
-  z-index: 1;
-}
