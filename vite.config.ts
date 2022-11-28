@@ -18,5 +18,9 @@ export default defineConfig({
       "./src/data",
       "./src/utils/testSetup.js",
     ],
+    coverage: {
+      provider: "istanbul",
+      reporter: ["text", "lcov"],
+    },
   },
 });

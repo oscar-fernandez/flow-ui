@@ -15,6 +15,6 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 ## Remove default nginx index page
 RUN rm -rf /usr/share/nginx/html/*
 # Copy from the stage 1
-COPY --from=builder /app-ui/build /usr/share/nginx/html
+COPY --from=builder /app-ui/dist /usr/share/nginx/html
 EXPOSE 80
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
