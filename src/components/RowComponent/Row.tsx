@@ -11,23 +11,19 @@ interface rowProps {
 }
 
 const Row = ({ id, firstName, lastName, techStack, onClick }: rowProps) => {
-  const [style, setStyle] = useState({ display: "none" });
-  const [useTechStack, setTechStack] = useState('')
-  
+  const [useTechStack, setTechStack] = useState("");
+
   useEffect(() => {
-    let str = ''
+    let str = "";
     if (techStack.length >= 1) {
-      str += techStack[0]
+      str += techStack[0];
       if (techStack.length >= 2) {
-        str += `, ${techStack[1]}`
-        if (techStack.length >= 3)
-          str += '...'
+        str += `, ${techStack[1]}`;
+        if (techStack.length >= 3) str += "...";
       }
     }
-    setTechStack(str)
-  }, [])
-  
-  
+    setTechStack(str);
+  }, []);
 
   return (
     <>
@@ -35,10 +31,11 @@ const Row = ({ id, firstName, lastName, techStack, onClick }: rowProps) => {
         <p className="row-id">{id}</p>
         <p>{firstName}</p>
         <p>{lastName}</p>
-        <Tooltip title={techStack.length > 1 ? `${techStack.join(', ')}` : ''} placement='bottom'>
-          <p data-testid="tech-stack">
-          {useTechStack}
-          </p>
+        <Tooltip
+          title={techStack.length > 1 ? `${techStack.join(", ")}` : ""}
+          placement="bottom"
+        >
+          <p data-testid="tech-stack">{useTechStack}</p>
         </Tooltip>
 
         <button
