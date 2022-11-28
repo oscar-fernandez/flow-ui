@@ -10,7 +10,7 @@ interface RowProps {
   onClick: () => void;
 }
 
-const Row = ({ id, firstName, lastName, techStack, onClick }: rowProps) => {
+const Row = ({ id, firstName, lastName, techStack, onClick }: RowProps) => {
   const [useTechStack, setTechStack] = useState("");
 
   useEffect(() => {
