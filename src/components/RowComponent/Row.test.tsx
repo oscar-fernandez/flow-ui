@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { fireEvent, queryByTestId, render, screen, waitFor } from "@testing-library/react";
+import {
+  fireEvent,
+  queryByTestId,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import Row from "./Row";
 
 describe("Row tests", () => {
@@ -25,7 +31,6 @@ describe("Row tests", () => {
     expect(tsText).toBeInTheDocument();
     expect(tsText?.innerHTML).toContain("...");
   });
-  
 });
 
 const createRow = (arr: string[]) => {
