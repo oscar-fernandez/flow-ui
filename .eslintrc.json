@@ -24,6 +24,8 @@
       "jsx": true
     },
     "project": "./tsconfig.json"
+    // "tsconfigRootDir": "enablement-ui",
+    // "sourceType": "module"
   },
   "settings": {
     "react": {
