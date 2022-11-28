@@ -1,25 +1,19 @@
 import { describe, it, expect } from "vitest";
-import {
-  fireEvent,
-  queryByTestId,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Row from "./Row";
 
 describe("Row tests", () => {
-  it("Render test", () => {
+  it("Render row", () => {
     render(createRow([]));
   });
 
-  it("Render test", () => {
+  it("Renders the row but no text in tech stack portion", () => {
     render(createRow([]));
     const tsText = screen.queryByTestId("tech-stack");
-    expect(tsText).toBeEmpty();
+    expect(tsText).toBeEmptyDOMElement();
   });
 
-  it("Render test", () => {
+  it("Should render java in the component", () => {
     render(createRow(["Java"]));
     const tsText = screen.queryByTestId("tech-stack");
     expect(tsText?.innerHTML).toContain("Java");

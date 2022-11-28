@@ -10,8 +10,7 @@ interface RowProps {
   onClick: () => void;
 }
 
-const Row = ({ id, firstName, lastName, techStack, onClick }: RowProps) => {
-  //const [style, setStyle] = useState({ display: "none" });
+const Row = ({ id, firstName, lastName, techStack, onClick }: rowProps) => {
   const [useTechStack, setTechStack] = useState("");
 
   useEffect(() => {
