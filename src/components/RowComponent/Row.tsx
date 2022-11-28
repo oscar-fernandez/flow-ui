@@ -11,7 +11,6 @@ interface RowProps {
 }
 
 const Row = ({ id, firstName, lastName, techStack, onClick }: RowProps) => {
-  //const [style, setStyle] = useState({ display: "none" });
   const [useTechStack, setTechStack] = useState("");
 
   useEffect(() => {
