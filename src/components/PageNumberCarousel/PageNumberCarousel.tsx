@@ -45,6 +45,7 @@ const PageNumberCarousel: React.FC<Props> = ({ totalPages }) => {
             className="arrow"
             onClick={updatePageBack}
             disabled={disableBack}
+            aria-label="Previous page"
           >
             <svg
               id="arrow-inside"
@@ -121,6 +122,7 @@ const PageNumberCarousel: React.FC<Props> = ({ totalPages }) => {
             className="arrow"
             onClick={updatePageForward}
             disabled={disableForward}
+            aria-label="Next page"
           >
             <svg
               id="arrow-inside"
