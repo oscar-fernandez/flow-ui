@@ -26,8 +26,15 @@
   font-weight: bold;
 }
 
-.number:hover,
-.number:active {
+.active {
+  color: #dc8d0b;
+}
+
+.number.active:hover {
+  color: #8d5b0b;
+}
+
+.number:hover {
   color: #2e2e80;
 }
 
