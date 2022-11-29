@@ -10,22 +10,23 @@ import {
 import ToggleSidebar from "./ToggleSidebar";
 describe("Sidebar tests", () => {
   it("should create sideBar", () => {
-    render(createSidebar());
+    render(createSidebar(true));
   });
 
   it("drawer should be null", () => {
-    render(createSidebar());
+    render(createSidebar(false));
     const drawer = screen.queryByTestId("drawer");
     expect(drawer).toBeNull();
   });
 
   it("drawer should not be null on action", () => {
-    render(createSidebar());
+    render(createSidebar(true));
     const drawer = screen.queryByTestId("drawer");
-    expect(drawer).toBeNull();
+    expect(drawer).not.toBeNull();
   });
 });
 
-const createSidebar = (arr?: string[]) => {
-  return <ToggleSidebar />;
+const createSidebar = (toggle: boolean) => {
+  const setTog = (tog: boolean) => {};
+  return <ToggleSidebar toggle={toggle} setToggle={setTog} />;
 };
