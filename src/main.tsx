@@ -6,6 +6,6 @@ import PageNumberCarousel from "./components/PageNumberCarousel/PageNumberCarous
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <App />
-    <PageNumberCarousel />
+    <PageNumberCarousel totalPages={10} />
   </React.StrictMode>
 );

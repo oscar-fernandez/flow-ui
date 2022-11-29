@@ -42,22 +42,26 @@
 
 .arrow {
   background-color: #000048;
-  border-radius: 32px;
+  border-radius: 50%;
+  border: none;
   height: 40px;
   width: 40px;
-
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.arrow:disabled,
+.arrow:hover:disabled {
+  color: #ced4da;
+  background-color: #868e96;
+  cursor: default;
+}
+
 .arrow:hover,
 .arrow:active {
   background-color: #2e2e80;
-}
-
-#arrow-inside {
-  transform: translateY(2px);
+  cursor: pointer;
 }
 
 .section-search-pagenumber {
