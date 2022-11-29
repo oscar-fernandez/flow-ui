@@ -11,17 +11,6 @@ const PageNumberCarousel: React.FC<Props> = ({ totalPages }) => {
   const [disableBack, setDisableBack] = useState(true);
   const [disableForward, setDisableForward] = useState(false);
 
-  // This is used for debugging to see the current page number
-  // eslint-disable-next-line no-console
-  // console.log("Current Page Number: " + currentPageNumber);
-  // console.log(`totalPages ${totalPages} `);
-  // console.log(`disableForward ${disableForward}`);
-
-  // On component render, check total pages to see if forward button should be disabled
-  useEffect(() => {
-    // totalPages > 1 ? setDisableForward(false) : null;
-  });
-
   // This method updates the current page to go back a page
   const updatePageBack = () => {
     // If the user is on the first page they cannot go back to a previous page.
@@ -33,10 +22,6 @@ const PageNumberCarousel: React.FC<Props> = ({ totalPages }) => {
       setPage(currentPageNumber - 1);
       setDisableBack(false);
     }
-
-    // Used for debugging updated page number
-    // eslint-disable-next-line no-console
-    // console.log('Updated Page Number: ' + currentPageNumber);
   };
 
   // This method updates the current page to go forward a page
@@ -48,10 +33,6 @@ const PageNumberCarousel: React.FC<Props> = ({ totalPages }) => {
       setPage(currentPageNumber + 1);
       setDisableBack(false);
     }
-
-    // Used for debugging updated page number
-    // eslint-disable-next-line no-console
-    // console.log('Updated Page Number: ' + currentPageNumber);
   };
 
   return (
@@ -83,33 +64,55 @@ const PageNumberCarousel: React.FC<Props> = ({ totalPages }) => {
           </button>
 
           <div className="numbers">
-            <a className="number">1</a>
-            {currentPageNumber <= 2 ? null : <p className="dots">...</p>}
-            <a className="number">
-              {currentPageNumber <= 2
+            <a className={`number ${currentPageNumber === 1 ? "active" : ""}`}>
+              1
+            </a>
+            {currentPageNumber > 2 ? <p className="dots">...</p> : <p> </p>}
+            <a className={`number ${currentPageNumber === 2 ? "active" : ""}`}>
+              {currentPageNumber < 2
+                ? currentPageNumber + 1
+                : currentPageNumber === 2
                 ? 2
-                : currentPageNumber >= totalPages - 4
-                ? totalPages - 3
-                : currentPageNumber - 1}
+                : currentPageNumber < totalPages - 2
+                ? currentPageNumber - 1
+                : totalPages - 3}
             </a>
-            <a className="number">
-              {currentPageNumber <= 2
+            <a
+              className={`number ${
+                currentPageNumber > 2 && currentPageNumber < totalPages - 1
+                  ? "active"
+                  : ""
+              }`}
+            >
+              {currentPageNumber < 3
                 ? 3
-                : currentPageNumber >= totalPages - 3
-                ? totalPages - 2
-                : currentPageNumber}
+                : currentPageNumber < totalPages - 2
+                ? currentPageNumber
+                : totalPages - 2}
             </a>
-            <a className="number">
+            <a
+              className={`number ${
+                currentPageNumber === totalPages - 1 ? "active" : ""
+              }`}
+            >
               {currentPageNumber <= 2
                 ? 4
                 : currentPageNumber >= totalPages - 2
                 ? totalPages - 1
                 : currentPageNumber + 1}
             </a>
-            {currentPageNumber >= totalPages - 2 ? null : (
+            {currentPageNumber >= totalPages - 2 ? (
+              "   "
+            ) : (
               <p className="dots">...</p>
             )}
-            <a className="number">{totalPages}</a>
+            <a
+              className={`number ${
+                currentPageNumber === totalPages ? "active" : ""
+              }`}
+            >
+              {totalPages}
+            </a>
           </div>
 
           <button
