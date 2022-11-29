@@ -1,93 +1,140 @@
-import { render } from "@testing-library/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./PageNumberCarousel.css";
 
-function PageNumberCarousel() {
+interface Props {
+  totalPages: number;
+}
+
+const PageNumberCarousel: React.FC<Props> = ({ totalPages }) => {
+  // this will be replaced by prop function from parent to update page
   const [currentPageNumber, setPage] = useState(1);
+  const [disableBack, setDisableBack] = useState(true);
+  const [disableForward, setDisableForward] = useState(false);
 
   // This is used for debugging to see the current page number
   // eslint-disable-next-line no-console
-  console.log("Current Page Number: " + currentPageNumber);
+  // console.log("Current Page Number: " + currentPageNumber);
+  // console.log(`totalPages ${totalPages} `);
+  // console.log(`disableForward ${disableForward}`);
+
+  // On component render, check total pages to see if forward button should be disabled
+  useEffect(() => {
+    // totalPages > 1 ? setDisableForward(false) : null;
+  });
 
   // This method updates the current page to go back a page
   const updatePageBack = () => {
     // If the user is on the first page they cannot go back to a previous page.
-    if (currentPageNumber === 1) {
+    setDisableForward(false);
+    if (currentPageNumber === 2) {
       setPage(1);
+      setDisableBack(true);
     } else {
       setPage(currentPageNumber - 1);
+      setDisableBack(false);
     }
 
     // Used for debugging updated page number
     // eslint-disable-next-line no-console
-    console.log("Updated Page Number: " + currentPageNumber);
+    // console.log('Updated Page Number: ' + currentPageNumber);
   };
 
   // This method updates the current page to go forward a page
   const updatePageForward = () => {
-    setPage(currentPageNumber + 1);
+    if (currentPageNumber === totalPages - 1) {
+      setPage(totalPages);
+      setDisableForward(true);
+    } else {
+      setPage(currentPageNumber + 1);
+      setDisableBack(false);
+    }
 
     // Used for debugging updated page number
     // eslint-disable-next-line no-console
-    console.log("Updated Page Number: " + currentPageNumber);
+    // console.log('Updated Page Number: ' + currentPageNumber);
   };
 
   return (
     <>
       <div className="component">
         <div className="carousel">
-          <div className="arrow" onClick={updatePageBack}>
-            <a href="#">
-              <svg
-                id="arrow-inside"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="#000048"
-                viewBox="0 0 24 24"
-                strokeWidth="4"
-                stroke="#e5e5e5"
-                className="w-6 h-6"
-                height={"32px"}
-                width={"auto"}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-                />
-              </svg>
-            </a>
-          </div>
+          <button
+            className="arrow"
+            onClick={updatePageBack}
+            disabled={disableBack}
+          >
+            <svg
+              id="arrow-inside"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="#000048"
+              viewBox="0 0 24 24"
+              strokeWidth="4"
+              stroke="#e5e5e5"
+              className="w-6 h-6"
+              height={"32px"}
+              width={"auto"}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+              />
+            </svg>
+          </button>
 
           <div className="numbers">
             <a className="number">1</a>
-            <a className="number">2</a>
-            <a className="number">3</a>
-            <a className="number">4</a>
-            <p className="dots">...</p>
-            <a className="number">5</a>
+            {currentPageNumber <= 2 ? null : <p className="dots">...</p>}
+            <a className="number">
+              {currentPageNumber <= 2
+                ? 2
+                : currentPageNumber >= totalPages - 4
+                ? totalPages - 3
+                : currentPageNumber - 1}
+            </a>
+            <a className="number">
+              {currentPageNumber <= 2
+                ? 3
+                : currentPageNumber >= totalPages - 3
+                ? totalPages - 2
+                : currentPageNumber}
+            </a>
+            <a className="number">
+              {currentPageNumber <= 2
+                ? 4
+                : currentPageNumber >= totalPages - 2
+                ? totalPages - 1
+                : currentPageNumber + 1}
+            </a>
+            {currentPageNumber >= totalPages - 2 ? null : (
+              <p className="dots">...</p>
+            )}
+            <a className="number">{totalPages}</a>
           </div>
 
-          <div className="arrow" onClick={updatePageForward}>
-            <a href="#">
-              <svg
-                id="arrow-inside"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="4"
-                stroke="#e5e5e5"
-                className="w-6 h-6"
-                height={"32px"}
-                width={"auto"}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                />
-              </svg>
-            </a>
-          </div>
+          <button
+            className="arrow"
+            onClick={updatePageForward}
+            disabled={disableForward}
+          >
+            <svg
+              id="arrow-inside"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="4"
+              stroke="#e5e5e5"
+              className="w-6 h-6"
+              height={"32px"}
+              width={"auto"}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+              />
+            </svg>
+          </button>
         </div>
 
         <div className="section-search-pagenumber">
@@ -101,6 +148,6 @@ function PageNumberCarousel() {
       </div>
     </>
   );
-}
+};
 
 export default PageNumberCarousel;
