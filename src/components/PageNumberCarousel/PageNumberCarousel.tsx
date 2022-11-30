@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./PageNumberCarousel.css";
 
 interface Props {
   totalPages: number;
 }
 
+// This is how you can use the Page Number Carousel component.
+// <PageNumberCarousel totalPages={10} />
 const PageNumberCarousel: React.FC<Props> = ({ totalPages }) => {
   // this will be replaced by prop function from parent to update page
   const [currentPageNumber, setPage] = useState(1);
