@@ -21,7 +21,6 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
       setDisableBack(true);
     } else {
       setPage(currentPageNumber - 1);
-      // setDisableBack(false);
     }
   };
 
