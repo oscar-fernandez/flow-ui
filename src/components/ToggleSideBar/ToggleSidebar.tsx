@@ -1,4 +1,5 @@
 import { Drawer, TextField } from "@mui/material";
+
 interface ToggleSBProps {
   toggle: boolean;
   setToggle: (toggle: boolean) => void;
@@ -29,6 +30,7 @@ export interface Enablee {
 }
 
 const ToggleSidebar = ({ toggle, setToggle }: ToggleSBProps) => {
+  const dummyArr: number[] = new Array(10).fill(0);
   return (
     <>
       <Drawer
@@ -41,12 +43,7 @@ const ToggleSidebar = ({ toggle, setToggle }: ToggleSBProps) => {
             width: "20%",
             "& .sidebar": {
               width: "100%",
-              display: "flex",
-              flexDirection: "column ",
-              alignItems: "flex=start",
-              height: "50%",
-              justifyContent: "center",
-              paddingX: "4rem",
+              paddingX: "3rem",
             },
             "& .sidebar-content": {
               display: "flex",
@@ -54,19 +51,25 @@ const ToggleSidebar = ({ toggle, setToggle }: ToggleSBProps) => {
               marginTop: "1.5rem",
               gap: "20px",
             },
-            "& .sidebar-button-div": {
-              display: "flex",
-              justifyContent: "center",
+            "& .sidebar-title": {
+              color: "#000048",
+              fontSize: "20px",
             },
-            "* .sidebar-button": {
+            "& .sidebar-button-div": {
+              marginX: "auto",
+              paddingTop: "5vh",
+            },
+            "& .sidebar-button": {
               fontFamily: "Darker Grotesque",
               fontStyle: "normal",
               fontWeight: "700",
-              fontSize: "36px",
-              lineHeight: "100px",
+              fontSize: "18px",
               letterSpacing: ".25rem",
               backgroundColor: "#DC8D0B",
+              padding: ".25vw 2.5vw",
+              borderRadius: "10px",
               color: "#F8e8c4",
+              border: "none",
             },
             "& .sidebar-input-pill": {
               borderRadius: "10px",
@@ -109,96 +112,29 @@ const ToggleSidebar = ({ toggle, setToggle }: ToggleSBProps) => {
             <h3>Add Pod</h3>
           </div>
           <div className="sidebar-content">
-            <TextField
-              disabled
-              className="sidebar-input-pill"
-              defaultValue="Pod Name"
-              variant="filled"
-              InputProps={{
-                sx: {
-                  height: 30,
-                  borderRadius: "10px",
-                  textAlign: "center",
-                  width: "12.5vw",
-                  display: "flex",
-                  paddingBottom: "1rem",
-                  alignItems: "center",
-                },
-                disableUnderline: true,
-              }}
-            ></TextField>
-            <TextField
-              disabled
-              className="sidebar-input-pill"
-              defaultValue="Pod Name"
-              variant="filled"
-              InputProps={{
-                sx: {
-                  height: 30,
-                  borderRadius: "10px",
-                  textAlign: "center",
-                  width: "12.5vw",
-                  display: "flex",
-                  paddingBottom: "1rem",
-                  alignItems: "center",
-                },
-                disableUnderline: true,
-              }}
-            ></TextField>
-            <TextField
-              disabled
-              className="sidebar-input-pill"
-              defaultValue="Pod Name"
-              variant="filled"
-              InputProps={{
-                sx: {
-                  height: 30,
-                  borderRadius: "10px",
-                  textAlign: "center",
-                  width: "12.5vw",
-                  display: "flex",
-                  paddingBottom: "1rem",
-                  alignItems: "center",
-                },
-                disableUnderline: true,
-              }}
-            ></TextField>
-            <TextField
-              disabled
-              className="sidebar-input-pill"
-              defaultValue="Pod Name"
-              variant="filled"
-              InputProps={{
-                sx: {
-                  height: 30,
-                  borderRadius: "10px",
-                  textAlign: "center",
-                  width: "12.5vw",
-                  display: "flex",
-                  paddingBottom: "1rem",
-                  alignItems: "center",
-                },
-                disableUnderline: true,
-              }}
-            ></TextField>
-            <TextField
-              disabled
-              className="sidebar-input-pill"
-              defaultValue="Pod Name"
-              variant="filled"
-              InputProps={{
-                sx: {
-                  height: 30,
-                  borderRadius: "10px",
-                  textAlign: "center",
-                  width: "12.5vw",
-                  display: "flex",
-                  paddingBottom: "1rem",
-                  alignItems: "center",
-                },
-                disableUnderline: true,
-              }}
-            ></TextField>
+            {dummyArr.map((item, i) => {
+              return (
+                <TextField
+                  disabled
+                  className="sidebar-input-pill"
+                  defaultValue="Pod Name"
+                  variant="filled"
+                  key={i}
+                  InputProps={{
+                    sx: {
+                      height: 30,
+                      borderRadius: "10px",
+                      textAlign: "center",
+                      width: "14vw",
+                      display: "flex",
+                      paddingBottom: "1rem",
+                      alignItems: "center",
+                    },
+                    disableUnderline: true,
+                  }}
+                ></TextField>
+              );
+            })}
           </div>
         </div>
         <div className="sidebar-button-div">
