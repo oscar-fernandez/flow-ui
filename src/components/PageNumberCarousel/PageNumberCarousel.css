@@ -75,6 +75,23 @@
   display: inline-flex;
 }
 
+.input-page-divider {
+  margin-left: 150px;
+}
+
+.input-error-main {
+  position: absolute;
+  transform: translateY(-50px);
+  color: red;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.input-error-content {
+  font-size: 16px;
+  font-weight: 500;
+}
+
 .input-pagenumber {
   height: 37px;
   border: 3px solid #000048;
