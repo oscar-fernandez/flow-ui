@@ -20,7 +20,7 @@ const PageNumberCarousel: React.FC<Props> = ({ totalPages }) => {
       setDisableBack(true);
     } else {
       setPage(currentPageNumber - 1);
-      setDisableBack(false);
+      // setDisableBack(false);
     }
   };
 
