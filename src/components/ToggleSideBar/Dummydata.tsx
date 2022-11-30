@@ -1,0 +1,46 @@
+import ITechnology from "../../models/interfaces/ITechnology";
+
+export const dummyEnablees = [
+  {
+    employeeId: 977284,
+    firstName: "Steve",
+    lastName: "Bob",
+    dateOfJoin: new Date(),
+    enablementStartDate: new Date(),
+    enablementEndDate: new Date(),
+    assetTag: "I Don't know",
+    isEmployed: false,
+    technology: [
+      { id: 2, name: "Java" },
+      { id: 8, name: "React" },
+      { id: 12, name: "Rust" },
+      { id: 12, name: "C++" },
+    ],
+    countryCode: 1,
+    gradeId: 1,
+    communityId: 1,
+    employementTypeId: 1,
+    podId: 1,
+    commentId: [1, 2, 3],
+  },
+  {
+    employeeId: 1221,
+    firstName: "Jessabelle",
+    lastName: "Cowringer",
+    dateOfJoin: new Date(),
+    enablementStartDate: new Date(),
+    enablementEndDate: new Date(),
+    assetTag: "I Don't know",
+    isEmployed: false,
+    technology: [
+      { id: 2, name: "Java" },
+      { id: 8, name: "React" },
+    ],
+    countryCode: 1,
+    gradeId: 1,
+    communityId: 1,
+    employementTypeId: 1,
+    podId: 1,
+    commentId: [1, 2, 3],
+  },
+];

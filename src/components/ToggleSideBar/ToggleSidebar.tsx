@@ -1,15 +1,12 @@
 import { Drawer, TextField } from "@mui/material";
+import { elementTypeAcceptingRef } from "@mui/utils";
+import IEnablee from "../../models/interfaces/IEnablee";
+import ITechnology from "../../models/interfaces/ITechnology";
 
 interface ToggleSBProps {
   toggle: boolean;
   setToggle: (toggle: boolean) => void;
-  // action: Action
-}
-
-export enum PageType {
-  ENABLER = "Enabler",
-  POD = "POD",
-  ENABLEE = "Enablee",
+  details: IEnablee;
 }
 
 export enum Action {
@@ -18,19 +15,7 @@ export enum Action {
   VIEW = "View",
 }
 
-export interface Enablee {
-  id: number;
-  firstName: string;
-  lastName: string;
-  technology: string[];
-  dateOfJoin: Date;
-  startDate: Date;
-  endDate: Date;
-  podID: number;
-}
-
-const ToggleSidebar = ({ toggle, setToggle }: ToggleSBProps) => {
-  const dummyArr: number[] = new Array(10).fill(0);
+const ToggleSidebar = ({ toggle, setToggle, details }: ToggleSBProps) => {
   return (
     <>
       <Drawer
@@ -112,14 +97,17 @@ const ToggleSidebar = ({ toggle, setToggle }: ToggleSBProps) => {
             <h3>Add Pod</h3>
           </div>
           <div className="sidebar-content">
-            {dummyArr.map((item, i) => {
+            {Object.keys(details).map((keyName, index) => {
+              const display: string = formatString(
+                details[keyName as keyof IEnablee]
+              );
               return (
                 <TextField
                   disabled
                   className="sidebar-input-pill"
-                  defaultValue="Pod Name"
+                  defaultValue={display}
                   variant="filled"
-                  key={i}
+                  key={index}
                   InputProps={{
                     sx: {
                       height: 30,
@@ -132,7 +120,9 @@ const ToggleSidebar = ({ toggle, setToggle }: ToggleSBProps) => {
                     },
                     disableUnderline: true,
                   }}
-                ></TextField>
+                >
+                  details[keyName]
+                </TextField>
               );
             })}
           </div>
@@ -145,6 +135,28 @@ const ToggleSidebar = ({ toggle, setToggle }: ToggleSBProps) => {
       </Drawer>
     </>
   );
+};
+
+const formatString = (
+  data: number | string | boolean | number[] | Date | ITechnology[]
+): string => {
+  let str = "";
+  if (
+    Array.isArray(data) &&
+    data[0] &&
+    typeof data[0] !== "number" &&
+    "id" in data[0] &&
+    "name" in data[0]
+  ) {
+    (data as ITechnology[]).map((item, i) => {
+      str += i === data.length - 1 ? item?.name : item?.name + ", ";
+    });
+  } else if (data instanceof Date) {
+    str = data.toLocaleDateString();
+  } else {
+    str = data.toString();
+  }
+  return str;
 };
 
 export default ToggleSidebar;

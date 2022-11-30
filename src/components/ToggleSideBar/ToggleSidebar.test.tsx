@@ -8,6 +8,7 @@ import {
 } from "@testing-library/react";
 
 import ToggleSidebar from "./ToggleSidebar";
+import { dummyEnablees } from "./Dummydata";
 describe("Sidebar tests", () => {
   it("should create sideBar", () => {
     render(createSidebar(true));
@@ -28,5 +29,11 @@ describe("Sidebar tests", () => {
 
 const createSidebar = (toggle: boolean) => {
   const setTog = (tog: boolean) => {};
-  return <ToggleSidebar toggle={toggle} setToggle={setTog} />;
+  return (
+    <ToggleSidebar
+      toggle={toggle}
+      setToggle={setTog}
+      details={dummyEnablees[0]}
+    />
+  );
 };
