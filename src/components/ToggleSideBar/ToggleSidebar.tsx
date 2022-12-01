@@ -1,4 +1,4 @@
-import { Drawer, TextField } from "@mui/material";
+import { Button, Drawer, TextField } from "@mui/material";
 import { elementTypeAcceptingRef } from "@mui/utils";
 import IEnablee from "../../models/interfaces/IEnablee";
 import ITechnology from "../../models/interfaces/ITechnology";
@@ -42,7 +42,7 @@ const ToggleSidebar = ({ toggle, setToggle, details }: ToggleSBProps) => {
             },
             "& .sidebar-button-div": {
               marginX: "auto",
-              paddingTop: "5vh",
+              padding: "5vh 0vw",
             },
             "& .sidebar-button": {
               fontFamily: "Darker Grotesque",
@@ -51,10 +51,13 @@ const ToggleSidebar = ({ toggle, setToggle, details }: ToggleSBProps) => {
               fontSize: "18px",
               letterSpacing: ".25rem",
               backgroundColor: "#DC8D0B",
-              padding: ".25vw 2.5vw",
+              padding: "0 2.5vw",
               borderRadius: "10px",
               color: "#F8e8c4",
               border: "none",
+            },
+            "& .sidebar-button:hover": {
+              backgroundColor: "#e7af54",
             },
             "& .sidebar-input-pill": {
               borderRadius: "10px",
@@ -108,6 +111,7 @@ const ToggleSidebar = ({ toggle, setToggle, details }: ToggleSBProps) => {
                   defaultValue={display}
                   variant="filled"
                   key={index}
+                  placeholder={keyName}
                   InputProps={{
                     sx: {
                       height: 30,
@@ -128,9 +132,12 @@ const ToggleSidebar = ({ toggle, setToggle, details }: ToggleSBProps) => {
           </div>
         </div>
         <div className="sidebar-button-div">
-          <button className="sidebar-button" type="submit">
+          {/* <button className="sidebar-button" type="submit">
             Submit{" "}
-          </button>
+          </button> */}
+          <Button variant="contained" className="sidebar-button">
+            Submit{" "}
+          </Button>
         </div>
       </Drawer>
     </>
