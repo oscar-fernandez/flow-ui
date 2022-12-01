@@ -1,21 +1,71 @@
 import { Button, Drawer, TextField } from "@mui/material";
-import { elementTypeAcceptingRef } from "@mui/utils";
+import { useEffect, useState } from "react";
 import IEnablee from "../../models/interfaces/IEnablee";
 import ITechnology from "../../models/interfaces/ITechnology";
+import "./ToggleSideBar.css";
 
+//Props interface for sidebar comment.
 interface ToggleSBProps {
   toggle: boolean;
   setToggle: (toggle: boolean) => void;
   details: IEnablee;
+  action: Action;
 }
 
+//Enum to indicate if the page Adds/Edit/View
 export enum Action {
   ADD = "Add",
   EDIT = "Edit",
   VIEW = "View",
 }
 
-const ToggleSidebar = ({ toggle, setToggle, details }: ToggleSBProps) => {
+const ToggleSidebar = ({
+  toggle,
+  setToggle,
+  details,
+  action,
+}: ToggleSBProps) => {
+  //Hard coded array for enablee labels, more should be made for pods and enablers.
+  const enablee_labels = [
+    "podId",
+    "fName",
+    "lName",
+    "joinDate",
+    "startDate",
+    "endDate",
+    "assetTag",
+    "isEmployed",
+    "techStack",
+    "countryCode",
+    "gradeID",
+    "comId",
+    "employType",
+    "podId",
+    "commentId(s)",
+  ];
+
+  //Checks for isEmployed because the isEmployed property is unique to the Enablee interface and not in the Enabler/Pod
+  const isAnEnablee = (obj: any): obj is IEnablee => {
+    return "isEmployed" in obj;
+  };
+
+  const [title, setTitle] = useState("");
+
+  //Whenever the details propped is updated, the title is set to match properly.
+  useEffect(() => {
+    let str = "";
+    if (action === Action.VIEW && isAnEnablee(details)) {
+      str = details.firstName + " " + details.lastName;
+    } else {
+      str += " enablee";
+      if (action === Action.EDIT) str = "Edit" + str;
+      else {
+        str = "Add" + str;
+      }
+    }
+    setTitle(str);
+  }, [action, details]);
+
   return (
     <>
       <Drawer
@@ -24,25 +74,31 @@ const ToggleSidebar = ({ toggle, setToggle, details }: ToggleSBProps) => {
         onClose={() => setToggle(false)}
         data-testid={"drawer"}
         PaperProps={{
+          // This is all class names to style children components of the drawer.
           sx: {
-            width: "20%",
+            // Width of the entire drawer
+            width: "30%",
             "& .sidebar": {
               width: "100%",
-              paddingX: "3rem",
+              padding: "0 0 0 4rem ",
             },
+            // Where the text-fields are, overflowY gives the scroll.
             "& .sidebar-content": {
               display: "flex",
               flexDirection: "column",
               marginTop: "1.5rem",
-              gap: "20px",
+              gap: "25px",
+              height: "65vh",
+              overflowY: "auto",
             },
             "& .sidebar-title": {
               color: "#000048",
               fontSize: "20px",
             },
+            // View Comment Button
             "& .sidebar-button-div": {
               marginX: "auto",
-              padding: "5vh 0vw",
+              padding: "3vh 0vw 3vh 0",
             },
             "& .sidebar-button": {
               fontFamily: "Darker Grotesque",
@@ -51,7 +107,7 @@ const ToggleSidebar = ({ toggle, setToggle, details }: ToggleSBProps) => {
               fontSize: "18px",
               letterSpacing: ".25rem",
               backgroundColor: "#DC8D0B",
-              padding: "0 2.5vw",
+              padding: "0 1.5vw",
               borderRadius: "10px",
               color: "#F8e8c4",
               border: "none",
@@ -63,7 +119,7 @@ const ToggleSidebar = ({ toggle, setToggle, details }: ToggleSBProps) => {
               borderRadius: "10px",
               height: "20px",
             },
-
+            // Close button
             "& .sidebar-x-button": {
               marginLeft: "auto",
               marginRight: "10%",
@@ -97,57 +153,68 @@ const ToggleSidebar = ({ toggle, setToggle, details }: ToggleSBProps) => {
 
         <div className="sidebar">
           <div className="sidebar-title">
-            <h3>Add Pod</h3>
+            <h3>{title}</h3>
           </div>
           <div className="sidebar-content">
+            {/* Iterates through the keys of an object, and creates a respective label/textField for each object. */}
             {Object.keys(details).map((keyName, index) => {
               const display: string = formatString(
                 details[keyName as keyof IEnablee]
               );
               return (
-                <TextField
-                  disabled
-                  className="sidebar-input-pill"
-                  defaultValue={display}
-                  variant="filled"
-                  key={index}
-                  placeholder={keyName}
-                  InputProps={{
-                    sx: {
-                      height: 30,
-                      borderRadius: "10px",
-                      textAlign: "center",
-                      width: "14vw",
-                      display: "flex",
-                      paddingBottom: "1rem",
-                      alignItems: "center",
-                    },
-                    disableUnderline: true,
-                  }}
-                >
-                  details[keyName]
-                </TextField>
+                <div key={index} className="textFieldContainer">
+                  {/* Label for each text field to give context to the information being displayed */}
+                  <label className="labelField">
+                    {enablee_labels[index]}:{" "}
+                  </label>
+                  {/* The Text field is used to display the information inside Ienablee future work will have it display Pod and Enableers 
+                  information as well. */}
+                  <TextField
+                    disabled
+                    className="sidebar-input-pill"
+                    defaultValue={display}
+                    variant="filled"
+                    key={index}
+                    placeholder={keyName}
+                    // Styling for each text field
+                    InputProps={{
+                      sx: {
+                        height: 30,
+                        borderRadius: "10px",
+                        textAlign: "center",
+                        width: "12vw",
+                        display: "flex",
+                        paddingBottom: "1rem",
+                        alignItems: "center",
+                      },
+                      disableUnderline: true,
+                    }}
+                  >
+                    details[keyName]
+                  </TextField>
+                </div>
               );
             })}
           </div>
         </div>
+        {/* a MUI button that will be used to view comments more work will be done to make it dynamic so it can be 
+        used in other parts of the program */}
         <div className="sidebar-button-div">
-          {/* <button className="sidebar-button" type="submit">
-            Submit{" "}
-          </button> */}
           <Button variant="contained" className="sidebar-button">
-            Submit{" "}
+            View Comments{" "}
           </Button>
         </div>
       </Drawer>
     </>
   );
 };
-
+//formatString takes in argument called data which could be any of the data types below and returns a formatted string
+//to be displayed in the text field
 const formatString = (
   data: number | string | boolean | number[] | Date | ITechnology[]
 ): string => {
   let str = "";
+  //Checks to see if data is both an Array and contains attributes unqiue to ITechnology
   if (
     Array.isArray(data) &&
     data[0] &&
