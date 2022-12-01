@@ -1,7 +1,7 @@
 import ITechnology from "./ITechnology";
 
 interface IEnablee {
-  employeeId: number;
+  id: number;
   firstName: string;
   lastName: string;
   dateOfJoin: Date;
