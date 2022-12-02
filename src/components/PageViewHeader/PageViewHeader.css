@@ -1,0 +1,27 @@
+.signout-section {
+  text-align: right;
+  margin-right: 30px;
+  margin-top: 15px;
+}
+
+.signout-content {
+  color: #000048;
+  font-size: 16px;
+  letter-spacing: 1.5px;
+  margin-bottom: 111px;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.header {
+  color: #dc8d0b;
+  font-size: 52px;
+}
+
+.plus {
+  color: #000048;
+  font-size: 50px;
+}

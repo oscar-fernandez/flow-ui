@@ -4,16 +4,14 @@ import { useState } from "react";
 import PageNumberCarousel from "../../components/PageNumberCarousel/PageNumberCarousel";
 import Row from "../../components/RowComponent/Row";
 import { dummyEnablees } from "./EnableeMock";
+import { PageViewHeader } from "../../components/PageViewHeader/PageViewHeader";
 
 export function EnableeView() {
   const [ontoggle, setToggle] = useState(false);
 
   return (
     <>
-      <span className="header-section">
-        <h1 className="header">Enablees</h1>
-        <button className="header-btn">+</button>
-      </span>
+      <PageViewHeader name="Ondrew" pageTitle="Enablees" showPlus={true} />
 
       <Filter
         inputOne="employee id"
@@ -36,6 +34,7 @@ export function EnableeView() {
           />
         );
       })}
+
       <PageNumberCarousel totalPages={10} />
     </>
   );
