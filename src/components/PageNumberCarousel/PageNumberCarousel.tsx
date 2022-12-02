@@ -5,16 +5,12 @@ interface Props {
   totalPages: number;
 }
 
-// Use the following functional component below like the following
-// totalPages will eventually be an API call however and not static.
-// <PageNumberCarousel totalPages={10}/>
 const PageNumberCarousel = ({ totalPages }: Props) => {
   // this will be replaced by prop function from parent to update page
   const [currentPageNumber, setPage] = useState(1);
   const [disableBack, setDisableBack] = useState(true);
   const [disableForward, setDisableForward] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [invalidPageRange, setIsInvalidPageRange] = useState(false);
 
   // This method updates the current page to go back a page
   const updatePageBack = () => {
@@ -72,9 +68,6 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
     if (1 <= pageNumber && pageNumber <= totalPages) {
       goToPage(pageNumber);
       setInputValue("");
-      setIsInvalidPageRange(false);
-    } else {
-      setIsInvalidPageRange(true);
     }
   };
 
@@ -193,28 +186,19 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
             </svg>
           </button>
         </div>
-        <div className="input-page-divider">
-          {invalidPageRange ? (
-            <div className="input-error-main">
-              Invalid<br></br>
-              <div className="input-error-content">
-                Enter a number between 1 and {totalPages}
-              </div>
-            </div>
-          ) : null}
-          <form className="section-search-pagenumber">
-            <input
-              className="input-pagenumber"
-              type="text"
-              placeholder="Go to page ..."
-              value={inputValue}
-              onChange={handleChange}
-            />
-            <button className="input-go" type="submit" onClick={handleSubmit}>
-              Go
-            </button>
-          </form>
-        </div>
+
+        <form className="section-search-pagenumber">
+          <input
+            className="input-pagenumber"
+            type="text"
+            placeholder="Go to page ..."
+            value={inputValue}
+            onChange={handleChange}
+          />
+          <button className="input-go" type="submit" onClick={handleSubmit}>
+            Go
+          </button>
+        </form>
       </div>
     </>
   );
