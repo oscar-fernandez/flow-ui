@@ -18,27 +18,29 @@ export function Filter(props: {
 }) {
   return (
     <>
-      <input
-        className="filter-input"
-        type="text"
-        placeholder={props.inputOne}
-      />
-      <input
-        className="filter-input"
-        type="text"
-        placeholder={props.inputTwo}
-      />
-      <input
-        className="filter-input"
-        type="text"
-        placeholder={props.inputThree}
-      />
-      <input
-        className="filter-input"
-        type="text"
-        placeholder={props.inputFour}
-      />
-      <button className="reset-btn">reset</button>
+      <div className="component-center">
+        <input
+          className="filter-input1"
+          type="text"
+          placeholder={props.inputOne}
+        />
+        <input
+          className="filter-input"
+          type="text"
+          placeholder={props.inputTwo}
+        />
+        <input
+          className="filter-input"
+          type="text"
+          placeholder={props.inputThree}
+        />
+        <input
+          className="filter-input"
+          type="text"
+          placeholder={props.inputFour}
+        />
+        <button className="reset-btn">reset</button>
+      </div>
     </>
   );
 }

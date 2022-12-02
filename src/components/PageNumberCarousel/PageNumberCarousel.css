@@ -1,5 +1,7 @@
 .component {
   display: inline-flex;
+  width: 850px;
+  margin: 0 auto;
 }
 
 .carousel {

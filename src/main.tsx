@@ -6,6 +6,6 @@ import { EnableeView } from "./pages/EnableeView/EnableeView";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <App />
-    <EnableeView name={"Ondrew"} />
+    <EnableeView />
   </React.StrictMode>
 );

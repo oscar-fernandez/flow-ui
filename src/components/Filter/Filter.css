@@ -1,3 +1,9 @@
+.component-center {
+  width: 1037px;
+  display: block;
+  margin: 0 auto;
+}
+
 .reset-btn {
   background-color: #dc8d0b;
   color: #f8e8ce;
@@ -17,6 +23,20 @@
 .reset-btn:hover,
 .reset-btn:active {
   background-color: #daa44d;
+}
+
+.filter-input1 {
+  margin-left: 0;
+  background-color: #e6e8e6;
+  border: 0;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  padding: 10px 20px 10px 10px;
+
+  font-family: "Darker Grotesque", sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.75px;
+  font-weight: 400;
 }
 
 .filter-input {
