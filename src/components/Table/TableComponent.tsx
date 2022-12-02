@@ -85,6 +85,21 @@ interface Props {
 //   createData('Nigeria', 'NG',false, 200962417, 923768),
 //   createData('Brazil', 'BR', false, 210147125, 8515767),
 // ];
+let selectedItems: string[] = [];
+function handleSelection(
+  event: React.ChangeEvent<HTMLInputElement>,
+  checked: boolean
+) {
+  // console.log(event);
+  // console.log(event.currentTarget.value);
+  if (checked) {
+    selectedItems.push(event.currentTarget.value);
+  } else {
+    selectedItems = selectedItems.filter(
+      (id) => id != event.currentTarget.value
+    );
+  }
+}
 
 export default function TableComponent({ rows, columns }: Props) {
   return (
@@ -93,13 +108,9 @@ export default function TableComponent({ rows, columns }: Props) {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell style={{ minWidth: 170 }}>Selected</TableCell>
+              <TableCell style={{ maxWidth: 50 }}></TableCell>
               {columns.topics.map((column: string, index) => (
-                <TableCell
-                  key={index}
-                  align={"right"}
-                  style={{ minWidth: 170 }}
-                >
+                <TableCell key={index} align={"right"} style={{ minWidth: 50 }}>
                   {column}
                 </TableCell>
               ))}
@@ -110,7 +121,13 @@ export default function TableComponent({ rows, columns }: Props) {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                   <TableCell>
-                    <Checkbox color="primary" checked={true} inputProps={{}} />
+                    {/* we need to make sure objects have id inorder to grab them for selection. */}
+                    <Checkbox
+                      color="primary"
+                      onChange={handleSelection}
+                      value={row.some}
+                      inputProps={{}}
+                    />
                   </TableCell>
                   {columns.topics.map((column: string, index) => {
                     return (
