@@ -78,6 +78,7 @@ export default function TableComponent({
                       color="primary"
                       onChange={handleSelection}
                       value={row.some}
+                      data-testid={`checkbox${index}`}
                     />
                   </TableCell>
                   {columns.topics.map((column: string, index) => {
