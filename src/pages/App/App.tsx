@@ -1,10 +1,13 @@
+import ToggleProvider from "../../context/ToggleSideBarContext";
 import PageContainer from "../PageContainer/PageContainer";
 import "./App.css";
 
 function App() {
   return (
     <>
-      <PageContainer />
+      <ToggleProvider>
+        <PageContainer />
+      </ToggleProvider>
     </>
   );
 }
