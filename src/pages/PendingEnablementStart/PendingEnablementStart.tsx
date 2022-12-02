@@ -5,7 +5,7 @@ import PageNumberCarousel from "../../components/PageNumberCarousel/PageNumberCa
 import Row from "../../components/RowComponent/Row";
 import { dummyEnablees } from "../../utils/EnableeMock";
 
-export function EnableeView() {
+export function PendingEnablement() {
   const [ontoggle, setToggle] = useState(false);
 
   return (
