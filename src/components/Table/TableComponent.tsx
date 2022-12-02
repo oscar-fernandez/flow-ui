@@ -26,11 +26,9 @@ export default function TableComponent({
   ) {
     if (checked) {
       selectedItems.push(event.currentTarget.value);
-      selectedItems = [""];
     } else {
-      selectedItems = [""];
+      selectedItems.splice(selectedItems.indexOf(event.currentTarget.value), 1);
     }
-    // (id: string) => id != event.currentTarget.value
   }
 
   return (
@@ -61,15 +59,15 @@ export default function TableComponent({
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, idx) => {
+            {rows.map((row, index) => {
               let rowStyle = "";
-              idx % 2 === 0 ? (rowStyle = "#CCCCDA") : (rowStyle = "#E6E8E6");
+              index % 2 === 0 ? (rowStyle = "#CCCCDA") : (rowStyle = "#E6E8E6");
               return (
                 <TableRow
                   hover
                   role="checkbox"
                   tabIndex={-1}
-                  key={row.id}
+                  key={index}
                   style={{
                     background: rowStyle,
                   }}
