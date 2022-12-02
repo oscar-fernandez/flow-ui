@@ -44,17 +44,13 @@ const ToggleSidebar = ({
     "commentId(s)",
   ];
 
-  //Checks for isEmployed because the isEmployed property is unique to the Enablee interface and not in the Enabler/Pod
-  const isAnEnablee = (obj: any): obj is IEnablee => {
-    return "isEmployed" in obj;
-  };
-
   const [title, setTitle] = useState("");
 
   //Whenever the details propped is updated, the title is set to match properly.
   useEffect(() => {
     let str = "";
-    if (action === Action.VIEW && isAnEnablee(details)) {
+    //Checks for isEmployed because the isEmployed property is unique to the Enablee interface and not in the Enabler/Pod
+    if (action === Action.VIEW && "isEmployed" in details) {
       str = details.firstName + " " + details.lastName;
     } else {
       str += " enablee";
@@ -222,7 +218,7 @@ const formatString = (
     "id" in data[0] &&
     "name" in data[0]
   ) {
-    (data as ITechnology[]).map((item, i) => {
+    (data as ITechnology[]).forEach((item, i) => {
       str += i === data.length - 1 ? item?.name : item?.name + ", ";
     });
   } else if (data instanceof Date) {
