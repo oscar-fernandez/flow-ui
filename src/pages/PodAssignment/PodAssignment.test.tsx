@@ -7,6 +7,5 @@ describe("PodAssignment", () => {
     render(<PodAssignment />);
     expect(screen.getByText("Assign Enablees to Pod")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "submit" })).toBeInTheDocument();
-    expect(screen.getByText("some")).toBeInTheDocument();
   });
 });

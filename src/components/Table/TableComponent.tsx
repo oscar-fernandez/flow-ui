@@ -1,11 +1,10 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import Checkbox from "@mui/material/Checkbox";
 import TableRow from "@mui/material/TableRow";
 import IColumns from "../../models/interfaces/IColumns";
 
@@ -20,14 +19,16 @@ export default function TableComponent({
   columns,
   selectedItems,
 }: Props) {
+  const [selectedRows, setSelectedRows] = useState([""]);
   function handleSelection(
-    event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) {
-    if (checked) {
-      selectedItems.push(event.currentTarget.value);
+    if (!selectedItems.includes(event.currentTarget.id)) {
+      selectedItems.push(event.currentTarget.id);
+      setSelectedRows([...selectedItems, event.currentTarget.id]);
     } else {
-      selectedItems.splice(selectedItems.indexOf(event.currentTarget.value), 1);
+      selectedItems.splice(selectedItems.indexOf(event.currentTarget.id), 1);
+      setSelectedRows([...selectedItems]);
     }
   }
 
@@ -37,9 +38,6 @@ export default function TableComponent({
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell
-                style={{ maxWidth: 50, background: "#E6E8E6" }}
-              ></TableCell>
               {columns.topics.map((column: string, index) => (
                 <TableCell
                   key={index}
@@ -68,19 +66,17 @@ export default function TableComponent({
                   role="checkbox"
                   tabIndex={-1}
                   key={index}
-                  style={{
-                    background: rowStyle,
+                  onClick={(e) => handleSelection(e)}
+                  id={row.id}
+                  sx={{
+                    bgcolor: selectedRows.includes(row.id)
+                      ? "red !important"
+                      : "blue !important",
+                    ":hover": {
+                      cursor: "pointer",
+                    },
                   }}
                 >
-                  <TableCell>
-                    {/* we need to make sure objects have id inorder to grab them for selection. */}
-                    <Checkbox
-                      color="primary"
-                      onChange={handleSelection}
-                      value={row.some}
-                      data-testid={`checkbox${index}`}
-                    />
-                  </TableCell>
                   {columns.topics.map((column: string, index) => {
                     return (
                       <TableCell
