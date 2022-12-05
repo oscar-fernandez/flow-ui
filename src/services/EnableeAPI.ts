@@ -1,7 +1,4 @@
-import axios, { AxiosResponse, AxiosError } from "axios";
-import { AnymatchFn } from "vite";
-import IEnablee from "../models/interfaces/IEnablee";
-import IExios from "../models/interfaces/IExios";
+import axios from "axios";
 
 const baseUrl: string = import.meta.env.VITE_ENABLEMENT_FEMS || "";
 
@@ -10,9 +7,10 @@ async function GetPaginatedEnablees(pageNumber: number) {
     const resp = await axios.get(`${baseUrl}/enablee`, {
       params: { pageNumber: `${pageNumber}` },
     });
+
     return resp;
   } catch (error) {
-    console.error("<GetEnableesWithNoStartDate>: There was an error!" + error);
+    console.error("<GetPaginatedEnablees>: There was an error! " + error);
     throw error;
   }
 }
@@ -22,7 +20,7 @@ async function GetEnableesWithNoStartDate() {
     const resp = await axios.get(`${baseUrl}/enablee/pendingStart`);
     return resp;
   } catch (error) {
-    console.error("<GetEnableesWithNoStartDate>: There was an error!" + error);
+    console.error("<GetEnableesWithNoStartDate>: There was an error! " + error);
     throw error;
   }
 }
@@ -33,7 +31,7 @@ async function GetEnableesPendingPodAssignment() {
     return resp;
   } catch (error) {
     console.error(
-      "<GetEnableesPendingPodAssignment>: There was an error!" + error
+      "<GetEnableesPendingPodAssignment>: There was an error! " + error
     );
     throw error;
   }
