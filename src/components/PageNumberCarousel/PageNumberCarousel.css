@@ -1,7 +1,8 @@
 .component {
   display: inline-flex;
-  width: 850px;
+  width: 100%;
   margin: 0 auto;
+  justify-content: center;
 }
 
 .carousel {
@@ -127,4 +128,11 @@
 .input-go:hover,
 .input-go:active {
   background-color: #2e2e80;
+}
+
+/* For mobile view */
+@media only screen and (max-width: 800px) {
+  .input-page-divider {
+    margin-left: 20px;
+  }
 }
