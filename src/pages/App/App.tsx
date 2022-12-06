@@ -1,4 +1,4 @@
-import ToggleProvider from "../../context/ToggleSideBarContext";
+import ToggleProvider from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import PageContainer from "../PageContainer/PageContainer";
 import "./App.css";
 
