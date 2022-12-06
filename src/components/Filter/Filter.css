@@ -19,6 +19,20 @@
   background-color: #daa44d;
 }
 
+.filter-input1 {
+  margin-left: 0;
+  background-color: #e6e8e6;
+  border: 0;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  padding: 10px 20px 10px 10px;
+
+  font-family: "Darker Grotesque", sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.75px;
+  font-weight: 400;
+}
+
 .filter-input {
   background-color: #e6e8e6;
   border: 0;
@@ -31,4 +45,30 @@
   font-size: 18px;
   letter-spacing: 0.75px;
   font-weight: 400;
+}
+
+/* For mobile view */
+@media only screen and (max-width: 800px) {
+  .filter-input1,
+  .filter-input {
+    font-size: 14px;
+    letter-spacing: 0.25px;
+    padding: 5px;
+    width: 100px;
+    border-radius: 8px;
+  }
+
+  .filter-input {
+    margin-left: 5px;
+  }
+
+  .reset-btn {
+    border-radius: 8px;
+    padding-bottom: 3px;
+    padding-left: 4px;
+    padding-right: 3px;
+    margin-left: 5px;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+  }
 }
