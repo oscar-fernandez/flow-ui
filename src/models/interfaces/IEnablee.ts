@@ -13,7 +13,7 @@ interface IEnablee {
   countryCode: number;
   gradeId: number;
   communityId: number;
-  employementTypeId: number;
+  employmentTypeId: number;
   podId: number;
   commentId: number[];
 }
