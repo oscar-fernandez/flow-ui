@@ -1,0 +1,18 @@
+.page-title {
+  font-size: 64px;
+  font-weight: 700;
+  color: #dc8d0b;
+}
+.container {
+  width: 800px;
+  margin-top: 136px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.submit {
+}
+.button-container {
+  margin-top: 100px;
+  display: flex;
+  justify-content: flex-end;
+}

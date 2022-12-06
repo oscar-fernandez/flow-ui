@@ -1,4 +1,6 @@
-export const dummyEnablees = [
+import IEnablee from "../models/interfaces/IEnablee";
+
+export const dummyEnablees: IEnablee[] = [
   {
     employeeId: 977284,
     firstName: "Steve",
@@ -17,7 +19,7 @@ export const dummyEnablees = [
     countryCode: 1,
     gradeId: 1,
     communityId: 1,
-    emloyementTypeId: 1,
+    employmentTypeId: 1,
     podId: 1,
     commentId: [1, 2, 3],
   },
@@ -37,7 +39,7 @@ export const dummyEnablees = [
     countryCode: 1,
     gradeId: 1,
     communityId: 1,
-    employementTypeId: 1,
+    employmentTypeId: 1,
     podId: 1,
     commentId: [1, 2, 3],
   },
@@ -57,7 +59,7 @@ export const dummyEnablees = [
     countryCode: 1,
     gradeId: 1,
     communityId: 1,
-    employementTypeId: 1,
+    employmentTypeId: 1,
     podId: 1,
     commentId: [1, 2, 3],
   },
@@ -77,7 +79,7 @@ export const dummyEnablees = [
     countryCode: 1,
     gradeId: 1,
     communityId: 1,
-    employementTypeId: 1,
+    employmentTypeId: 1,
     podId: 1,
     commentId: [1, 2, 3],
   },
@@ -97,7 +99,7 @@ export const dummyEnablees = [
     countryCode: 1,
     gradeId: 1,
     communityId: 1,
-    employementTypeId: 1,
+    employmentTypeId: 1,
     podId: 1,
     commentId: [1, 2, 3],
   },

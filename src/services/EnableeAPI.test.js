@@ -1,13 +1,13 @@
 import { describe, it, expect, vi } from "vitest";
-import { AxiosResponse } from "axios";
+// import { AxiosResponse } from "axios";
 
 import {
   GetPaginatedEnablees,
   GetEnableesWithNoStartDate,
   GetEnableesPendingPodAssignment,
 } from "./EnableeAPI";
-import IPageOfItems from "../models/interfaces/IPageOfItems";
-import IEnablee from "../models/interfaces/IEnablee";
+// import IPageOfItems from "../models/interfaces/IPageOfItems";
+// import IEnablee from "../models/interfaces/IEnablee";
 import axios from "axios";
 
 vi.mock("axios");
