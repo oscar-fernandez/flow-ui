@@ -18,6 +18,7 @@ async function GetPaginatedEnablees(pageNumber: number) {
 async function GetEnableesWithNoStartDate() {
   try {
     const resp = await axios.get(`${baseUrl}/enablee/pendingStart`);
+
     return resp;
   } catch (error) {
     console.error("<GetEnableesWithNoStartDate>: There was an error! " + error);
@@ -28,6 +29,7 @@ async function GetEnableesWithNoStartDate() {
 async function GetEnableesPendingPodAssignment() {
   try {
     const resp = await axios.get(`${baseUrl}/enablee/pendingPodAssignment`);
+
     return resp;
   } catch (error) {
     console.error(
