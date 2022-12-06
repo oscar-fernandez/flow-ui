@@ -44,7 +44,7 @@ const createSidebar = (toggle: boolean) => {
         countryCode: 1,
         gradeId: 1,
         communityId: 1,
-        employementTypeId: 1,
+        employmentTypeId: 1,
         podId: 1,
         commentId: [1, 2, 3],
       }}
