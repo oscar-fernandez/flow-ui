@@ -19,7 +19,7 @@ export function Filter(props: {
   return (
     <>
       <input
-        className="filter-input"
+        className="filter-input1"
         type="text"
         placeholder={props.inputOne}
       />
