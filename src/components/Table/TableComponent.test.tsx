@@ -1,24 +1,22 @@
-import { beforeEach, describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
-import TableComponent from "./TableComponent";
-import { MockData, MockRows } from "../../data/MockData";
+import { fireEvent, prettyDOM, render, screen } from "@testing-library/react";
+import { describe, it, expect, beforeEach } from "vitest";
+import PodAssignment from "../../pages/PodAssignment/PodAssignment";
 
 describe("TableComponent", () => {
   beforeEach(() => {
-    render(
-      <TableComponent columns={MockData} rows={MockRows} selectedItems={[]} />
-    );
+    render(<PodAssignment />);
   });
-  it("checkboxes should check and uncheck when clicked", () => {
-    const checkboxes = screen.getAllByRole("checkbox");
-    fireEvent.click(checkboxes[1]);
-    expect(checkboxes[0]).not.toBeChecked();
-    expect(checkboxes[1]).toBeChecked();
-    fireEvent.click(checkboxes[1]);
-    expect(checkboxes[1]).not.toBeChecked();
+  it("should render the table", () => {
+    expect(screen.getByText("977284")).toBeTruthy();
   });
-
-  it("should render date passed through props", () => {
-    expect(screen.getByText(MockRows[0].thing)).toBeInTheDocument();
+  it("should change row background color when clicked", () => {
+    const row = screen.getByRole("cell", { name: "977284" }).closest("tr");
+    expect(row).toBeTruthy();
+    // console.log(prettyDOM(podAssignmentView.container));
+    expect(row).toHaveStyle("background-color: #CCCCDA");
+    row && fireEvent.click(row);
+    expect(row).toHaveStyle("background-color: #000048");
+    row && fireEvent.click(row);
+    expect(row).toHaveStyle("background-color: #CCCCDA");
   });
 });

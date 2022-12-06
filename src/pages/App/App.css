@@ -15,3 +15,21 @@
 :root {
   font-family: "Darker Grotesque", sans-serif;
 }
+
+.button {
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.button-orange {
+  background-color: #dc8c0b;
+  color: #f8e8ce;
+}
+
+.button-orange:hover {
+  cursor: pointer;
+  background-color: #daa755;
+}
