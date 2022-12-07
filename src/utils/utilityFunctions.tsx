@@ -1,5 +1,22 @@
 import ITechnology from "../models/interfaces/ITechnology";
 
+export function getName(name: string) {
+  switch (name) {
+    case "id":
+      return "employee ID";
+    case "firstName":
+      return "first name";
+    case "lastName":
+      return "last name";
+    case "techStack":
+      return "tech stack";
+    case "enablementStartDate":
+      return "enablement start date";
+    case "enablementEndDate":
+      return "enablement end date";
+  }
+}
+
 export const shortenStringList = (list: string[]): string => {
   let str = "";
   if (list.length >= 1) {

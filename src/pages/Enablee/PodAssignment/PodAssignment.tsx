@@ -2,9 +2,8 @@ import TableComponent from "../../../components/Table/TableComponent/TableCompon
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import "./PodAssignment.css";
 import { dummyEnablees } from "../../../data/EnableeMock";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import IEnablee from "../../../models/interfaces/IEnablee";
-import ITechnology from "../../../models/interfaces/ITechnology";
 import IColumns from "../../../models/interfaces/IColumns";
 import IEnableeTable from "../../../models/interfaces/IEnableeTable";
 
@@ -17,28 +16,19 @@ export default function PodAssignment() {
       "firstName",
       "lastName",
       "techStack",
-      // 'enablementStartDate',
-      // 'enablementEndDate',
+      "enablementStartDate",
+      "enablementEndDate",
     ],
   };
 
-  // useEffect(() => {}, [receivedEnablees]);
-
-  // let changedEnablees = recivedEnablees;
   const updatedEnablees = receivedEnablees.map((enablee: IEnablee) => {
-    let techList = "";
-    enablee.technology.forEach((tech: ITechnology, idx) => {
-      enablee.technology.length - 1 === idx
-        ? (techList += tech.name)
-        : (techList += `${tech.name}, `);
-    });
     const updatedEnablee: IEnableeTable = {
       id: enablee.employeeId.toString(),
       firstName: enablee.firstName,
       lastName: enablee.lastName,
-      techStack: techList,
-      // enablementStartDate: enablee.enablementStartDate,
-      // enablementEndDate: enablee.enablementEndDate,
+      techStack: enablee.technology,
+      enablementStartDate: enablee.enablementStartDate.toDateString(),
+      enablementEndDate: enablee.enablementEndDate.toDateString(),
     };
     return updatedEnablee;
   });

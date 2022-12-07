@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import IColumns from "../../../models/interfaces/IColumns";
 import TableRowComponent from "../TableRowComponent/TableRowComponent";
 import IEnableeTable from "../../../models/interfaces/IEnableeTable";
+import { getName } from "../../../utils/utilityFunctions";
 
 interface Props {
   columns: IColumns;
@@ -37,7 +38,7 @@ export default function TableComponent({
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ maxHeight: 700 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow sx={{}}>
@@ -55,7 +56,7 @@ export default function TableComponent({
                     "&:last-child": { borderRight: "none" },
                   }}
                 >
-                  {column}
+                  {getName(column)}
                 </TableCell>
               ))}
             </TableRow>
@@ -66,7 +67,7 @@ export default function TableComponent({
                 key={idx}
                 row={thisRow}
                 columns={columns}
-                handleSelection={() => handleSelection}
+                handleSelection={handleSelection}
                 index={idx}
                 selectedRows={selectedRows}
               />

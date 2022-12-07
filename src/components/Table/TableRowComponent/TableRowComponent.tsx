@@ -1,12 +1,19 @@
 import { TableCell, TableRow, Tooltip } from "@mui/material";
-import { Fragment } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import IColumns from "../../../models/interfaces/IColumns";
 import IEnableeTable from "../../../models/interfaces/IEnableeTable";
+import {
+  shortenStringList,
+  convertToStringArr,
+  tooltipString,
+} from "../../../utils/utilityFunctions";
 
 interface Props {
   row: IEnableeTable;
   columns: IColumns;
-  handleSelection: () => void;
+  handleSelection: (
+    event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
+  ) => void;
   index: number;
   selectedRows: string[];
 }
@@ -18,6 +25,14 @@ export default function TableRowComponent({
   index,
   selectedRows,
 }: Props) {
+  const [useTechStack, setTechStack] = useState("");
+  const strTechStack = useRef([""]);
+
+  useEffect(() => {
+    strTechStack.current = [...convertToStringArr(row.techStack)];
+    setTechStack(shortenStringList(strTechStack.current));
+  }, []);
+
   let rowColor = "";
   index % 2 === 0 ? (rowColor = "#CCCCDA") : (rowColor = "#E6E8E6");
   return (
@@ -41,7 +56,10 @@ export default function TableRowComponent({
       {columns.topics.map((column, idx) => (
         <Fragment key={idx}>
           {column === "techStack" ? (
-            <Tooltip title="test" placement="bottom">
+            <Tooltip
+              title={tooltipString(strTechStack.current)}
+              placement="bottom"
+            >
               <TableCell
                 align={"left"}
                 sx={{
@@ -50,7 +68,7 @@ export default function TableRowComponent({
                   color: "inherit",
                 }}
               >
-                {row[column]}
+                {useTechStack}
               </TableCell>
             </Tooltip>
           ) : (

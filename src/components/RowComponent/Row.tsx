@@ -36,7 +36,7 @@ const Row = ({ id, firstName, lastName, techStack, onClick }: RowProps) => {
         </Tooltip>
 
         <button
-        style={{visibility:"hidden"}}
+          style={{ visibility: "visible" }}
           className="delete-row-button"
           onClick={(event) => {
             event.stopPropagation();
