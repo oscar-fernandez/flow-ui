@@ -8,8 +8,21 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import { StyledEngineProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 248;
+const subItems = [
+  {
+    name: "Pending Assignment",
+    testId: "pending-assignment",
+    url: "/pendingStart",
+  },
+  {
+    name: "Pending Enablement Start",
+    testId: "pending-enablement-start",
+    url: "/pendingPodAssignment",
+  },
+];
 
 export function clickHandler(e: React.MouseEvent) {
   if (!e.currentTarget.classList.contains("selected-item")) {
@@ -26,14 +39,15 @@ export function clickHandler(e: React.MouseEvent) {
   }
 }
 
-const subItems = [
-  { name: "Pending Assignment", testId: "pending-assignment" },
-  { name: "Pending Enablement Start", testId: "pending-enablement-start" },
-];
-
 const itemColor = "#CCCCDA";
 
 function EnableeSideBarItems() {
+  const navigate = useNavigate();
+  const clickNavigateCombined = (event: any, path: string) => {
+    clickHandler(event);
+    navigate(path);
+  };
+
   return (
     <>
       <StyledEngineProvider injectFirst>
@@ -57,7 +71,9 @@ function EnableeSideBarItems() {
               <ListItem sx={{ fontSize: 36 }} disablePadding>
                 <ListItemButton
                   className="side-bar-item"
-                  onClick={(e) => clickHandler(e)}
+                  onClick={(e) => {
+                    clickNavigateCombined(e, "/");
+                  }}
                   data-testid="enablee-item"
                 >
                   <ListItemText
@@ -79,7 +95,9 @@ function EnableeSideBarItems() {
                   <ListItem key={item.name} disablePadding>
                     <ListItemButton
                       className="side-bar-item"
-                      onClick={(e) => clickHandler(e)}
+                      onClick={(e) => {
+                        clickNavigateCombined(e, item.url);
+                      }}
                       data-testid={item.testId}
                     >
                       <ListItemText

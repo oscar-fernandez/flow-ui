@@ -1,6 +1,10 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import EnableeSideBarItems from "./EnableeSideBarItems";
+
+vi.mock("react-router-dom", () => ({
+  useNavigate: () => vi.fn(),
+}));
 
 describe("Dummy tests", () => {
   it("should be true", () => {
