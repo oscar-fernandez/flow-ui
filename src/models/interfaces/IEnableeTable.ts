@@ -6,6 +6,6 @@ export default interface IEnableeTable {
   firstName: string;
   lastName: string;
   techStack: ITechnology[];
-  enablementStartDate: String;
-  enablementEndDate: String;
+  enablementStartDate: string;
+  enablementEndDate: string;
 }
