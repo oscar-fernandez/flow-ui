@@ -3,7 +3,7 @@ import "./PageContainer.css";
 import EnableeSideBarItems from "../../components/EnableeSideBarItems/EnableeSideBarItems";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PendingEnablementStart from "../Enablee/PendingEnablementStart/PendingEnablementStart";
-import { EnableeView } from "../Enablee/EnableeView/EnableeView";
+import EnableeView from "../Enablee/EnableeView/EnableeView";
 
 function PageContainer() {
   return (
