@@ -4,15 +4,14 @@
   color: #dc8d0b;
 }
 .container {
+  margin-top: 2rem;
   width: 800px;
-  margin-top: 136px;
   margin-right: auto;
   margin-left: auto;
 }
-.submit {
-}
+
 .button-container {
-  margin-top: 100px;
+  margin-top: 1rem;
   display: flex;
   justify-content: flex-end;
 }

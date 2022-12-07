@@ -6,13 +6,11 @@ export function PageViewHeader(props: {
   showPlus: boolean;
 }) {
   return (
-    <>
-      <span className="header-section">
-        <h1 className="header">
-          {props.pageTitle}{" "}
-          {props.showPlus ? <span className="plus">+</span> : null}
-        </h1>
-      </span>
-    </>
+    <div className="header-section">
+      <h1 className="header">
+        {props.pageTitle}{" "}
+        {props.showPlus ? <span className="plus">+</span> : null}
+      </h1>
+    </div>
   );
 }

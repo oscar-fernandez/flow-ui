@@ -10,14 +10,12 @@ export default function PendingEnablement() {
       <LoginComponent name="ondrew" />
       <div className="page-section">
         <PageViewHeader pageTitle="Pending Enablement Start" showPlus={false} />
-        <div className="filter-container">
-          <Filter
-            inputOne="employee id"
-            inputTwo="first name"
-            inputThree="last name"
-            inputFour="tech stack"
-          />
-        </div>
+        <Filter
+          inputOne="employee id"
+          inputTwo="first name"
+          inputThree="last name"
+          inputFour="tech stack"
+        />
         <GenerateRows />
       </div>
     </>

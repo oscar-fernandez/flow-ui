@@ -1,4 +1,4 @@
-import PodAssignment from "../PodAssignment/PodAssignment";
+import PodAssignment from "../Enablee/PodAssignment/PodAssignment";
 import "./PageContainer.css";
 import SideBarItems from "../../c../../components/SideBarItems/SideBarItems";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
