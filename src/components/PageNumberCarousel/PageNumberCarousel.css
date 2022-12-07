@@ -5,6 +5,9 @@
   justify-content: center;
 }
 
+.component-margin {
+  margin-top: 55px;
+}
 .carousel {
   display: inline-flex;
 }
