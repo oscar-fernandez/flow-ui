@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import EnableeSideBarItems from "./EnableeSideBarItems";
+import EnableeSideBarItems from "./SideBarItems";
 
 vi.mock("react-router-dom", () => ({
   useNavigate: () => vi.fn(),
