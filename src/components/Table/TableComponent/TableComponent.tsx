@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,12 +6,13 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import IColumns from "../../models/interfaces/IColumns";
-import Tooltip from "@mui/material/Tooltip";
+import IColumns from "../../../models/interfaces/IColumns";
+import TableRowComponent from "../TableRowComponent/TableRowComponent";
+import IEnableeTable from "../../../models/interfaces/IEnableeTable";
 
 interface Props {
   columns: IColumns;
-  rows: any[];
+  rows: IEnableeTable[];
   selectedItems: string[];
 }
 
@@ -21,6 +22,7 @@ export default function TableComponent({
   selectedItems,
 }: Props) {
   const [selectedRows, setSelectedRows] = useState([""]);
+
   function handleSelection(
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) {
@@ -59,50 +61,16 @@ export default function TableComponent({
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => {
-              let rowColor = "";
-              index % 2 === 0 ? (rowColor = "#CCCCDA") : (rowColor = "#E6E8E6");
-              return (
-                <TableRow
-                  hover
-                  role="checkbox"
-                  tabIndex={-1}
-                  key={index}
-                  onClick={handleSelection}
-                  id={row.id}
-                  sx={{
-                    backgroundColor: selectedRows.includes(row.id)
-                      ? "#000048"
-                      : rowColor,
-                    color: selectedRows.includes(row.id)
-                      ? "#CCCCDA"
-                      : "#000048",
-                    border: "5px solid black",
-                    "&.MuiTableRow-root:hover": {
-                      cursor: "pointer",
-                      backgroundColor: "#DC8D0B",
-                      color: "#000048",
-                    },
-                  }}
-                >
-                  {columns.topics.map((column: string, index) => {
-                    return (
-                      <TableCell
-                        key={index}
-                        align={"left"}
-                        sx={{
-                          fontSize: "18px",
-                          border: "none",
-                          color: "inherit",
-                        }}
-                      >
-                        {row[column]}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
+            {rows.map((thisRow, idx) => (
+              <TableRowComponent
+                key={idx}
+                row={thisRow}
+                columns={columns}
+                handleSelection={() => handleSelection}
+                index={idx}
+                selectedRows={selectedRows}
+              />
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

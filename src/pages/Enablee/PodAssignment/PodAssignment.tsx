@@ -1,4 +1,4 @@
-import TableComponent from "../../../components/Table/TableComponent";
+import TableComponent from "../../../components/Table/TableComponent/TableComponent";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import "./PodAssignment.css";
 import { dummyEnablees } from "../../../data/EnableeMock";
@@ -6,15 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import IEnablee from "../../../models/interfaces/IEnablee";
 import ITechnology from "../../../models/interfaces/ITechnology";
 import IColumns from "../../../models/interfaces/IColumns";
-
-interface IEnableeTable {
-  id: string;
-  firstName: string;
-  lastName: string;
-  techStack: string;
-  // enablementStartDate: Date;
-  // enablementEndDate: Date;
-}
+import IEnableeTable from "../../../models/interfaces/IEnableeTable";
 
 export default function PodAssignment() {
   const selectedEnablees = useRef([]);
