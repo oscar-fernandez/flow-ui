@@ -14,7 +14,7 @@ export function GenerateRows() {
             id={enablee.employeeId}
             firstName={enablee.firstName}
             lastName={enablee.lastName}
-            techStack={["Java", "React", "Rust", "C++"]}
+            techStack={enablee.technology}
             onClick={() => {
               setToggle(!ontoggle);
             }}

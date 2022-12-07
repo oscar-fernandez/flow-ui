@@ -1,11 +1,11 @@
-import TableComponent from "../../components/Table/TableComponent";
-import { PageViewHeader } from "../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
+import TableComponent from "../../../components/Table/TableComponent";
+import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import "./PodAssignment.css";
-import { dummyEnablees } from "../../data/EnableeMock";
+import { dummyEnablees } from "../../../data/EnableeMock";
 import { useEffect, useRef, useState } from "react";
-import IEnablee from "../../models/interfaces/IEnablee";
-import ITechnology from "../../models/interfaces/ITechnology";
-import IColumns from "../../models/interfaces/IColumns";
+import IEnablee from "../../../models/interfaces/IEnablee";
+import ITechnology from "../../../models/interfaces/ITechnology";
+import IColumns from "../../../models/interfaces/IColumns";
 
 interface IEnableeTable {
   id: string;

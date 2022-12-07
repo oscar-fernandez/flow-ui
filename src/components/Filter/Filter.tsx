@@ -17,9 +17,9 @@ export function Filter(props: {
   inputOne: string | undefined;
 }) {
   return (
-    <>
+    <div className="filter-container">
       <input
-        className="filter-input1"
+        className="filter-input"
         type="text"
         placeholder={props.inputOne}
       />
@@ -38,7 +38,7 @@ export function Filter(props: {
         type="text"
         placeholder={props.inputFour}
       />
-      <button className="reset-btn">reset</button>
-    </>
+      <button className="button button-orange reset-btn">reset</button>
+    </div>
   );
 }

@@ -79,144 +79,142 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
   };
 
   return (
-    <>
-      <div className="component">
-        <div className="carousel">
-          <button
-            className="arrow"
-            onClick={updatePageBack}
-            disabled={disableBack}
-            aria-label="Previous page"
+    <div className="component">
+      <div className="carousel">
+        <button
+          className="arrow"
+          onClick={updatePageBack}
+          disabled={disableBack}
+          aria-label="Previous page"
+        >
+          <svg
+            id="arrow-inside"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#000048"
+            viewBox="0 0 24 24"
+            strokeWidth="4"
+            stroke="#e5e5e5"
+            className="w-6 h-6"
+            height={"32px"}
+            width={"40px"}
           >
-            <svg
-              id="arrow-inside"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#000048"
-              viewBox="0 0 24 24"
-              strokeWidth="4"
-              stroke="#e5e5e5"
-              className="w-6 h-6"
-              height={"32px"}
-              width={"40px"}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-              />
-            </svg>
-          </button>
-
-          <div className="numbers">
-            <a
-              onClick={getNumber}
-              className={`number ${currentPageNumber === 1 ? "active" : ""}`}
-            >
-              1
-            </a>
-            {currentPageNumber > 2 ? <p className="dots">...</p> : <p> </p>}
-            <a
-              onClick={getNumber}
-              className={`number ${currentPageNumber === 2 ? "active" : ""}`}
-            >
-              {currentPageNumber < 2
-                ? currentPageNumber + 1
-                : currentPageNumber === 2
-                ? 2
-                : currentPageNumber < totalPages - 2
-                ? currentPageNumber - 1
-                : totalPages - 3}
-            </a>
-            <a
-              onClick={getNumber}
-              className={`number ${
-                currentPageNumber > 2 && currentPageNumber < totalPages - 1
-                  ? "active"
-                  : ""
-              }`}
-            >
-              {currentPageNumber < 3
-                ? 3
-                : currentPageNumber < totalPages - 2
-                ? currentPageNumber
-                : totalPages - 2}
-            </a>
-            <a
-              onClick={getNumber}
-              className={`number ${
-                currentPageNumber === totalPages - 1 ? "active" : ""
-              }`}
-            >
-              {currentPageNumber <= 2
-                ? 4
-                : currentPageNumber >= totalPages - 2
-                ? totalPages - 1
-                : currentPageNumber + 1}
-            </a>
-            {currentPageNumber >= totalPages - 2 ? (
-              "   "
-            ) : (
-              <p className="dots">...</p>
-            )}
-            <a
-              onClick={getNumber}
-              className={`number ${
-                currentPageNumber === totalPages ? "active" : ""
-              }`}
-            >
-              {totalPages}
-            </a>
-          </div>
-
-          <button
-            className="arrow"
-            onClick={updatePageForward}
-            disabled={disableForward}
-            aria-label="Next page"
-          >
-            <svg
-              id="arrow-inside"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="4"
-              stroke="#e5e5e5"
-              className="w-6 h-6"
-              height={"32px"}
-              width={"40px"}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-              />
-            </svg>
-          </button>
-        </div>
-        <div className="input-page-divider">
-          {invalidPageRange ? (
-            <div className="input-error-main">
-              Invalid<br></br>
-              <div className="input-error-content">
-                Enter a number between 1 and {totalPages}
-              </div>
-            </div>
-          ) : null}
-          <form className="section-search-pagenumber">
-            <input
-              className="input-pagenumber"
-              type="text"
-              placeholder="Go to page ..."
-              value={inputValue}
-              onChange={handleChange}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
             />
-            <button className="input-go" type="submit" onClick={handleSubmit}>
-              Go
-            </button>
-          </form>
+          </svg>
+        </button>
+
+        <div className="numbers">
+          <a
+            onClick={getNumber}
+            className={`number ${currentPageNumber === 1 ? "active" : ""}`}
+          >
+            1
+          </a>
+          {currentPageNumber > 2 ? <p className="dots">...</p> : <p> </p>}
+          <a
+            onClick={getNumber}
+            className={`number ${currentPageNumber === 2 ? "active" : ""}`}
+          >
+            {currentPageNumber < 2
+              ? currentPageNumber + 1
+              : currentPageNumber === 2
+              ? 2
+              : currentPageNumber < totalPages - 2
+              ? currentPageNumber - 1
+              : totalPages - 3}
+          </a>
+          <a
+            onClick={getNumber}
+            className={`number ${
+              currentPageNumber > 2 && currentPageNumber < totalPages - 1
+                ? "active"
+                : ""
+            }`}
+          >
+            {currentPageNumber < 3
+              ? 3
+              : currentPageNumber < totalPages - 2
+              ? currentPageNumber
+              : totalPages - 2}
+          </a>
+          <a
+            onClick={getNumber}
+            className={`number ${
+              currentPageNumber === totalPages - 1 ? "active" : ""
+            }`}
+          >
+            {currentPageNumber <= 2
+              ? 4
+              : currentPageNumber >= totalPages - 2
+              ? totalPages - 1
+              : currentPageNumber + 1}
+          </a>
+          {currentPageNumber >= totalPages - 2 ? (
+            "   "
+          ) : (
+            <p className="dots">...</p>
+          )}
+          <a
+            onClick={getNumber}
+            className={`number ${
+              currentPageNumber === totalPages ? "active" : ""
+            }`}
+          >
+            {totalPages}
+          </a>
         </div>
+
+        <button
+          className="arrow"
+          onClick={updatePageForward}
+          disabled={disableForward}
+          aria-label="Next page"
+        >
+          <svg
+            id="arrow-inside"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="4"
+            stroke="#e5e5e5"
+            className="w-6 h-6"
+            height={"32px"}
+            width={"40px"}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+            />
+          </svg>
+        </button>
       </div>
-    </>
+      <div className="input-page-divider">
+        {invalidPageRange ? (
+          <div className="input-error-main">
+            Invalid<br></br>
+            <div className="input-error-content">
+              Enter a number between 1 and {totalPages}
+            </div>
+          </div>
+        ) : null}
+        <form className="section-search-pagenumber">
+          <input
+            className="input-pagenumber"
+            type="text"
+            placeholder="Go to page ..."
+            value={inputValue}
+            onChange={handleChange}
+          />
+          <button className="input-go" type="submit" onClick={handleSubmit}>
+            Go
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 
