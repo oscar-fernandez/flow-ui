@@ -5,7 +5,7 @@ import { PageViewHeader } from "../../../components/HeaderSectionComponents/Page
 import { LoginComponent } from "../../../components/HeaderSectionComponents/LoginComponent/LoginComponent";
 import { GenerateRows } from "../../../components/GenerateRows/GenerateRows";
 
-export function EnableeView() {
+export default function EnableeView() {
   return (
     <>
       <LoginComponent name="Ondrew" />
