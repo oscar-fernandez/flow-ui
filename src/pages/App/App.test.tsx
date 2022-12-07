@@ -5,6 +5,6 @@ import App from "./App";
 describe("App", () => {
   it("should render PageContainer", () => {
     render(<App />);
-    expect(screen.getByText("Menu-side-bar")).toBeInTheDocument();
+    expect(screen.getByTestId("page-container")).toBeInTheDocument();
   });
 });
