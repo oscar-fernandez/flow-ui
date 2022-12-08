@@ -1,3 +1,5 @@
+import IEnablee from "../models/interfaces/IEnablee";
+import IEnableeTable from "../models/interfaces/IEnableeTable";
 import ITechnology from "../models/interfaces/ITechnology";
 
 export function getName(name: string) {
@@ -39,3 +41,21 @@ export const convertToStringArr = (list: ITechnology[]): string[] => {
 
 export const tooltipString = (list: string[]): string =>
   list.length > 1 ? `${list.join(", ")}` : list[0];
+
+export const updatedEnablees = (receivedEnablees: IEnablee[]) => {
+  const holdingpattern: IEnableeTable[] = receivedEnablees.map(
+    (enablee: IEnablee) => {
+      const updatedEnablee: IEnableeTable = {
+        id: enablee.employeeId.toString(),
+        firstName: enablee.firstName,
+        lastName: enablee.lastName,
+        techStack: enablee.technology,
+        enablementStartDate: enablee.enablementStartDate,
+        enablementEndDate: enablee.enablementEndDate,
+      };
+
+      return updatedEnablee;
+    }
+  );
+  return holdingpattern;
+};

@@ -6,6 +6,7 @@ import IColumns from "../../../models/interfaces/IColumns";
 import IEnableeTable from "../../../models/interfaces/IEnableeTable";
 import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
 import "./PodAssignment.css";
+import { updatedEnablees } from "../../../utils/utilityFunctions";
 
 export default function PodAssignment() {
   const selectedEnablees = useRef([]);
@@ -29,7 +30,6 @@ export default function PodAssignment() {
   const getEnablees = async () => {
     GetEnableesPendingPodAssignment()
       .then((res) => {
-        console.log(res);
         setReceivedEnablees(res);
       })
       .catch((err) => {
@@ -37,17 +37,7 @@ export default function PodAssignment() {
       });
   };
 
-  const updatedEnablees = receivedEnablees.map((enablee: IEnablee) => {
-    const updatedEnablee: IEnableeTable = {
-      id: enablee.employeeId.toString(),
-      firstName: enablee.firstName,
-      lastName: enablee.lastName,
-      techStack: enablee.technology,
-      enablementStartDate: enablee.enablementStartDate,
-      enablementEndDate: enablee.enablementEndDate,
-    };
-    return updatedEnablee;
-  });
+  const updatedRows = updatedEnablees(receivedEnablees);
 
   return (
     <div className="container">
@@ -55,7 +45,7 @@ export default function PodAssignment() {
       <TableComponent
         selectedItems={selectedEnablees.current}
         columns={enableeColumns}
-        rows={updatedEnablees}
+        rows={updatedRows}
       />
       <div className="button-container">
         <button className="button button-orange">submit</button>
