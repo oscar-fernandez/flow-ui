@@ -3,16 +3,16 @@
   font-weight: 700;
   color: #dc8d0b;
 }
+
 .container {
-  width: 800px;
-  margin-top: 136px;
+  margin-top: 2rem;
+  width: 1200px;
   margin-right: auto;
   margin-left: auto;
 }
-.submit {
-}
+
 .button-container {
-  margin-top: 100px;
+  margin-top: 1rem;
   display: flex;
   justify-content: flex-end;
 }

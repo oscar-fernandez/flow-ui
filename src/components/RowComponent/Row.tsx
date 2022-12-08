@@ -1,29 +1,28 @@
 import { Tooltip } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import ITechnology from "../../models/interfaces/ITechnology";
 import "./Row.css";
+import {
+  shortenStringList,
+  convertToStringArr,
+  tooltipString,
+} from "../../utils/utilityFunctions";
 
 interface RowProps {
   id: number;
   firstName: string;
   lastName: string;
-  techStack: string[];
+  techStack: ITechnology[];
   onClick: () => void;
 }
 
 const Row = ({ id, firstName, lastName, techStack, onClick }: RowProps) => {
   const [useTechStack, setTechStack] = useState("");
+  const strTechStack = useRef([""]);
 
   useEffect(() => {
-    let str = "";
-    if (techStack.length >= 1) {
-      str += techStack[0];
-      if (techStack.length >= 2) {
-        str += `, ${techStack[1]}`;
-        if (techStack.length >= 3) str += "...";
-      }
-    }
-    setTechStack(str);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    strTechStack.current = [...convertToStringArr(techStack)];
+    setTechStack(shortenStringList(strTechStack.current));
   }, []);
 
   return (
@@ -32,15 +31,12 @@ const Row = ({ id, firstName, lastName, techStack, onClick }: RowProps) => {
         <p className="row-id">{id}</p>
         <p>{firstName}</p>
         <p>{lastName}</p>
-        <Tooltip
-          title={techStack.length > 1 ? `${techStack.join(", ")}` : ""}
-          placement="bottom"
-        >
+        <Tooltip title={tooltipString(strTechStack.current)} placement="bottom">
           <p data-testid="tech-stack">{useTechStack}</p>
         </Tooltip>
 
         <button
-        style={{visibility:"hidden"}}
+          style={{ visibility: "visible" }}
           className="delete-row-button"
           onClick={(event) => {
             event.stopPropagation();

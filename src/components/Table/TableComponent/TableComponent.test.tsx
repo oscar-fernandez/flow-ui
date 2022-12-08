@@ -1,6 +1,6 @@
 import { fireEvent, prettyDOM, render, screen } from "@testing-library/react";
 import { describe, it, expect, beforeEach } from "vitest";
-import PodAssignment from "../../pages/PodAssignment/PodAssignment";
+import PodAssignment from "../../../pages/Enablee/PodAssignment/PodAssignment";
 
 describe("TableComponent", () => {
   beforeEach(() => {

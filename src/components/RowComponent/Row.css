@@ -1,6 +1,6 @@
 .row-container {
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 2fr 1fr;
   width: 100%;
   border: solid #000048 1px;
   border-radius: 16px;
@@ -12,10 +12,15 @@
   letter-spacing: 0.025em;
   font-size: 24px;
   margin-bottom: 15px;
+  padding: 0.4em 0;
 }
 
 .row-id {
   font-weight: 700;
+}
+
+.row-id:first-child {
+  padding-left: 1rem;
 }
 
 .delete-row-button {
