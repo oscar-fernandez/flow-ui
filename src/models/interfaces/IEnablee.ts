@@ -4,9 +4,9 @@ interface IEnablee {
   employeeId: number;
   firstName: string;
   lastName: string;
-  dateOfJoin: Date;
-  enablementStartDate: Date;
-  enablementEndDate: Date;
+  dateOfJoin: string;
+  enablementStartDate: string;
+  enablementEndDate: string;
   assetTag: string;
   isEmployed: boolean;
   technology: ITechnology[];
