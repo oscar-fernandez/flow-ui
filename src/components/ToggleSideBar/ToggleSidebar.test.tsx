@@ -30,9 +30,9 @@ const createSidebar = (toggle: boolean) => {
         employeeId: 977284,
         firstName: "Steve",
         lastName: "Bob",
-        dateOfJoin: new Date(),
-        enablementStartDate: new Date(),
-        enablementEndDate: new Date(),
+        dateOfJoin: new Date().toDateString(),
+        enablementStartDate: new Date().toDateString(),
+        enablementEndDate: new Date().toDateString(),
         assetTag: "I Don't know",
         isEmployed: false,
         technology: [
