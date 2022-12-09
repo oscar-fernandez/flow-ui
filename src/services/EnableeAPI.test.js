@@ -120,7 +120,7 @@ describe("EnableeAPI tests", () => {
     axios.get.mockResolvedValueOnce(axiosRes);
     const result = await GetEnableesPendingPodAssignment();
 
-    expect(result.data == enableesList && result.status == 200).toBeTruthy();
+    expect(result == enableesList).toBeTruthy();
   });
 
   it("GetEnableesPendingPodAssignment catches an exception error", async () => {

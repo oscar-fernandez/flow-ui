@@ -28,9 +28,11 @@ async function GetEnableesWithNoStartDate() {
 
 async function GetEnableesPendingPodAssignment() {
   try {
-    const resp = await axios.get(`${baseUrl}/enablee/pendingPodAssignment`);
+    const res = await axios.get(
+      `http://34.173.211.180/enablee/pendingPodAssignment`
+    );
 
-    return resp;
+    return res.data;
   } catch (error) {
     console.error(
       "<GetEnableesPendingPodAssignment>: There was an error! " + error

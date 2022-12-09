@@ -38,7 +38,7 @@ export default function TableComponent({
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 700 }}>
+      <TableContainer sx={{ maxHeight: 600 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow sx={{}}>

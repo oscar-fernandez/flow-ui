@@ -1,16 +1,22 @@
 import TableComponent from "../../../components/Table/TableComponent/TableComponent";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
-import "./PodAssignment.css";
-import { dummyEnablees } from "../../../data/EnableeMock";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import IEnablee from "../../../models/interfaces/IEnablee";
 import IColumns from "../../../models/interfaces/IColumns";
 import IEnableeTable from "../../../models/interfaces/IEnableeTable";
+import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
+import "./PodAssignment.css";
+import { updatedEnablees } from "../../../utils/utilityFunctions";
 
 export default function PodAssignment() {
   const selectedEnablees = useRef([]);
-  const [receivedEnablees, setRecivedEnablees] = useState(dummyEnablees);
-  const enableeColumn: IColumns = {
+  const [receivedEnablees, setReceivedEnablees] = useState([]);
+
+  useEffect(() => {
+    getEnablees();
+  }, []);
+
+  const enableeColumns: IColumns = {
     topics: [
       "id",
       "firstName",
@@ -21,25 +27,25 @@ export default function PodAssignment() {
     ],
   };
 
-  const updatedEnablees = receivedEnablees.map((enablee: IEnablee) => {
-    const updatedEnablee: IEnableeTable = {
-      id: enablee.employeeId.toString(),
-      firstName: enablee.firstName,
-      lastName: enablee.lastName,
-      techStack: enablee.technology,
-      enablementStartDate: enablee.enablementStartDate.toDateString(),
-      enablementEndDate: enablee.enablementEndDate.toDateString(),
-    };
-    return updatedEnablee;
-  });
+  const getEnablees = async () => {
+    GetEnableesPendingPodAssignment()
+      .then((res) => {
+        setReceivedEnablees(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const updatedRows = updatedEnablees(receivedEnablees);
 
   return (
     <div className="container">
       <PageViewHeader pageTitle="Assign Enablees to Pod" showPlus={false} />
       <TableComponent
         selectedItems={selectedEnablees.current}
-        columns={enableeColumn}
-        rows={updatedEnablees}
+        columns={enableeColumns}
+        rows={updatedRows}
       />
       <div className="button-container">
         <button className="button button-orange">submit</button>
