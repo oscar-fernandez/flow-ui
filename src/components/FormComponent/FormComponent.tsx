@@ -1,10 +1,10 @@
 import "./FormComponent.css";
 
-function FormComponent() {
+function FormComponent(props: any) {
   return (
     <div className="form-component">
-      <form className="form-margin">
-        <h3>Add Project</h3>
+      <form>
+        <h3 data-testid="title">{props.title}</h3>
         <div className="input-order">
           <div className="column">
             <input
@@ -12,18 +12,21 @@ function FormComponent() {
               id="projectName"
               name="projectName"
               placeholder="project name"
+              readOnly={props.readonly}
             />
             <input
               type="text"
               id="projectDescription"
               name="projectDescription"
               placeholder="link to project repository"
+              readOnly={props.readonly}
             />
             <input
               type="text"
               id="linkToRepo"
               name="linkToRepo"
               placeholder="project summary"
+              readOnly={props.readonly}
             />
           </div>
           <div className="column">
@@ -32,6 +35,7 @@ function FormComponent() {
               id="techstack"
               name="techstack"
               placeholder="tech stack"
+              readOnly={props.readonly}
             />
           </div>
         </div>
