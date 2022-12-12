@@ -1,9 +1,7 @@
 import TableComponent from "../../../components/Table/TableComponent/TableComponent";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import { useEffect, useRef, useState } from "react";
-import IEnablee from "../../../models/interfaces/IEnablee";
 import IColumns from "../../../models/interfaces/IColumns";
-import IEnableeTable from "../../../models/interfaces/IEnableeTable";
 import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
 import "./PodAssignment.css";
 import { updatedEnablees } from "../../../utils/utilityFunctions";
@@ -28,13 +26,12 @@ export default function PodAssignment() {
   };
 
   const getEnablees = async () => {
-    GetEnableesPendingPodAssignment()
-      .then((res) => {
-        setReceivedEnablees(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    GetEnableesPendingPodAssignment().then((res) => {
+      setReceivedEnablees(res.data);
+    });
+    // .catch((err) => { //possible refac https://www.intricatecloud.io/2020/03/how-to-handle-api-errors-in-your-web-app-using-axios/
+    //   console.log(err);
+    // });
   };
 
   const updatedRows = updatedEnablees(receivedEnablees);
