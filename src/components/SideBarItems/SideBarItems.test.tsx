@@ -56,4 +56,14 @@ describe("Item Selection", () => {
 
     expect(pendingEnablementStart.className.includes("selected-item"));
   });
+  it("'Management'  item should change background color when selected", () => {
+    render(<EnableeSideBarItems />);
+
+    const management = screen.getByTestId("management");
+    !expect(management.className.includes("selected-item"));
+
+    management.click();
+
+    expect(management.className.includes("selected-item"));
+  });
 });

@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PendingEnablementStart from "../Enablee/PendingEnablementStart/PendingEnablementStart";
 import EnableeView from "../Enablee/EnableeView/EnableeView";
 import { LoginComponent } from "../../components/HeaderSectionComponents/LoginComponent/LoginComponent";
+import ManagementView from "../Management/ManagementView/ManagementView";
 
 function PageContainer() {
   return (
@@ -17,6 +18,7 @@ function PageContainer() {
             <Route path="/" element={<EnableeView />} />
             <Route path="/pendingStart" element={<PendingEnablementStart />} />
             <Route path="/pendingPodAssignment" element={<PodAssignment />} />
+            <Route path="/management" element={<ManagementView />} />
           </Routes>
         </div>
       </div>
