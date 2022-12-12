@@ -1,9 +1,10 @@
 import ITechnology from "./ITechnology";
 
-export default interface IProject {
+export default interface IProjectTable {
+  [key: string]: any;
   id: number;
   name: string;
   summary: string;
-  technology: ITechnology[];
+  techStack: ITechnology[];
   repoLink: string;
 }
