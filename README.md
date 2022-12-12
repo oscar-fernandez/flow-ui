@@ -2,7 +2,9 @@
 Vite+React+TS:
 
 Start up local dev server: npm run dev
+By default the dev server uses --mode dev to extract environment values from .env.dev file.
 Build: npm run build
+Build by default will use the .env.production file.
 
 Test:
 'watch' is set to false, you can set to true to make life easier. Be sure to set back to false before commiting. File: vite.config.ts
