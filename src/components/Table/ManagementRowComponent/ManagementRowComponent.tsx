@@ -9,13 +9,13 @@ import {
 } from "../../../utils/utilityFunctions";
 
 interface Props {
-  row: IProjectTable;
+  row: any;
   columns: IColumns;
   handleSelection: (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => void;
   index: number;
-  selectedRow: IProjectTable;
+  selectedRow: any;
 }
 
 export default function ManagementRowComponent({
@@ -25,6 +25,7 @@ export default function ManagementRowComponent({
   index,
   selectedRow,
 }: Props) {
+  //const thisObject : any = row;
   const [useTechStack, setTechStack] = useState("");
   const strTechStack = useRef([""]);
 
@@ -37,11 +38,11 @@ export default function ManagementRowComponent({
   index % 2 === 0 ? (rowColor = "#CCCCDA") : (rowColor = "#E6E8E6");
   return (
     <TableRow
-      // hover
-      // tabIndex={-1}
-      // key={index}
+      hover
+      tabIndex={-1}
+      key={index}
       onClick={handleSelection}
-      // id={row.id}
+      //id={row}
       // sx={{
       //   backgroundColor: selectedRows.includes(row.id) ? "#000048" : rowColor,
       //   color: selectedRows.includes(row.id) ? "#CCCCDA" : "#000048",

@@ -8,13 +8,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import IColumns from "../../../models/interfaces/IColumns";
 import ManagementRowComponent from "../ManagementRowComponent/ManagementRowComponent";
-import IProjectTable from "../../../models/interfaces/IProjectTable";
+
 import { getName } from "../../../utils/utilityFunctions";
 
 interface Props {
   columns: IColumns;
-  rows: IProjectTable[];
-  selectedItem?: any;
+  rows: any[];
+  selectedItem: any;
 }
 
 export default function ManagementTableComponent({
@@ -22,21 +22,21 @@ export default function ManagementTableComponent({
   columns,
   selectedItem,
 }: Props) {
-  const defaultProject: IProjectTable = {
-    id: 0,
-    name: "",
-    summary: "",
-    techStack: [],
-    repoLink: "",
-  };
-  const [selectedRow, setSelectedRow] = useState(defaultProject);
+  // const defaultProject: IProjectTable = {
+  //   id: 0,
+  //   name: "",
+  //   summary: "",
+  //   techStack: [],
+  //   repoLink: "",
+  //};
+  //const [selectedRow, setSelectedRow] = useState();
 
   function handleSelection(
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) {
     // if (!selectedItems.includes(event.currentTarget.id)) {
     console.log(event.currentTarget);
-    selectedItem = event.currentTarget;
+    selectedItem.current = event.currentTarget;
     //   setSelectedRows([...selectedItems, event.currentTarget.id]);
     // } else {
     //   selectedItems.splice(selectedItems.indexOf(event.currentTarget.id), 1);
@@ -77,7 +77,7 @@ export default function ManagementTableComponent({
                 columns={columns}
                 handleSelection={handleSelection}
                 index={idx}
-                selectedRow={selectedRow}
+                selectedRow={selectedItem}
               />
             ))}
           </TableBody>

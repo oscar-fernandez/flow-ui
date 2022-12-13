@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PendingEnablementStart from "../Enablee/PendingEnablementStart/PendingEnablementStart";
 import EnableeView from "../Enablee/EnableeView/EnableeView";
 import { LoginComponent } from "../../components/HeaderSectionComponents/LoginComponent/LoginComponent";
+import { MockRows, MockData } from "../../data/MockData";
+import ManagementTableComponent from "../../components/Table/ManagementTableComponent/ManagementTableComponent";
 
 function PageContainer() {
   return (
@@ -14,6 +16,7 @@ function PageContainer() {
         <div className="view-container">
           <LoginComponent name="Andrew" />
           <Routes>
+            <Route path="/test" />
             <Route path="/" element={<EnableeView />} />
             <Route path="/pendingStart" element={<PendingEnablementStart />} />
             <Route path="/pendingPodAssignment" element={<PodAssignment />} />
