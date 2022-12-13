@@ -21,22 +21,30 @@ function FormComponent(props: any) {
               placeholder="link to project repository"
               readOnly={props.readonly}
             />
-            <input
-              type="text"
-              id="linkToRepo"
-              name="linkToRepo"
+            <textarea
+              rows={4}
+              id="projectSummary"
+              name="projectSummary"
               placeholder="project summary"
               readOnly={props.readonly}
-            />
+              className="project-summary"
+            ></textarea>
           </div>
           <div className="column">
-            <input
-              type="text"
-              id="techstack"
-              name="techstack"
-              placeholder="tech stack"
-              readOnly={props.readonly}
-            />
+            <select multiple className="list">
+              <option value="volvo">Volvo</option>
+              <option value="saab">Saab</option>
+              <option value="opel">Opel</option>
+              <option value="audi">Audi</option>
+              <option value="volvo">Volvo</option>
+              <option value="saab">Saab</option>
+              <option value="opel">Opel</option>
+              <option value="audi">Audi</option>
+              <option value="volvo">Volvo</option>
+              <option value="saab">Saab</option>
+              <option value="opel">Opel</option>
+              <option value="audi">Audi</option>
+            </select>
           </div>
         </div>
         <div className="buttons-margin">
