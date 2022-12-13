@@ -1,13 +1,9 @@
 import { describe, it, expect, vi } from "vitest";
-// import { AxiosResponse } from "axios";
-
 import {
   GetPaginatedEnablees,
   GetEnableesWithNoStartDate,
   GetEnableesPendingPodAssignment,
 } from "./EnableeAPI";
-// import IPageOfItems from "../models/interfaces/IPageOfItems";
-// import IEnablee from "../models/interfaces/IEnablee";
 import axios from "axios";
 
 vi.mock("axios");
@@ -120,7 +116,7 @@ describe("EnableeAPI tests", () => {
     axios.get.mockResolvedValueOnce(axiosRes);
     const result = await GetEnableesPendingPodAssignment();
 
-    expect(result == enableesList).toBeTruthy();
+    expect(result.data == enableesList).toBeTruthy();
   });
 
   it("GetEnableesPendingPodAssignment catches an exception error", async () => {

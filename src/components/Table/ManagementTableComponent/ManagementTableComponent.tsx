@@ -35,7 +35,7 @@ export default function ManagementTableComponent({
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) {
     // if (!selectedItems.includes(event.currentTarget.id)) {
-    console.log(event.currentTarget);
+    //console.log(event.currentTarget);
     selectedItem.current = event.currentTarget;
     //   setSelectedRows([...selectedItems, event.currentTarget.id]);
     // } else {

@@ -7,6 +7,7 @@ import EnableeView from "../Enablee/EnableeView/EnableeView";
 import { LoginComponent } from "../../components/HeaderSectionComponents/LoginComponent/LoginComponent";
 import { MockRows, MockData } from "../../data/MockData";
 import ManagementTableComponent from "../../components/Table/ManagementTableComponent/ManagementTableComponent";
+import ManagementView from "../Management/ManagementView/ManagementView";
 
 function PageContainer() {
   return (
@@ -20,6 +21,7 @@ function PageContainer() {
             <Route path="/" element={<EnableeView />} />
             <Route path="/pendingStart" element={<PendingEnablementStart />} />
             <Route path="/pendingPodAssignment" element={<PodAssignment />} />
+            <Route path="/management" element={<ManagementView />} />
           </Routes>
         </div>
       </div>

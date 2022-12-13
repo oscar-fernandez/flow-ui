@@ -11,6 +11,18 @@ import { StyledEngineProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 248;
+const sideBarItems = [
+  {
+    name: "Enablee",
+    testId: "enablee",
+    url: "/",
+  },
+  {
+    name: "Management",
+    testId: "management",
+    url: "/management",
+  },
+];
 const subItems = [
   {
     name: "Pending Assignment",
@@ -117,6 +129,28 @@ function EnableeSideBarItems() {
                 ))}
               </List>
             </Collapse>
+            <List>
+              <ListItem sx={{ fontSize: 36 }} disablePadding>
+                <ListItemButton
+                  className="side-bar-item"
+                  onClick={(e) => {
+                    clickNavigateCombined(e, "/management");
+                  }}
+                  data-testid="management"
+                >
+                  <ListItemText
+                    disableTypography
+                    sx={{
+                      color: itemColor,
+                      fontSize: 36,
+                      fontFamily: "Darker Grotesque",
+                      fontWeight: 700,
+                    }}
+                    primary="Management"
+                  />
+                </ListItemButton>
+              </ListItem>
+            </List>
           </Drawer>
         </Box>
       </StyledEngineProvider>
