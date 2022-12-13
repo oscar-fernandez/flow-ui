@@ -2,13 +2,14 @@ import IColumns from "../models/interfaces/IColumns";
 import ITechnology from "../models/interfaces/ITechnology";
 
 interface thing {
+  [key: string]: any;
   id: number;
   name: string;
   techStack: ITechnology[];
 }
 
 export const MockData: IColumns = {
-  topics: ["id", "name", "teckStack"],
+  topics: ["id", "name", "techStack"],
 };
 export const MockRows: thing[] = [
   {

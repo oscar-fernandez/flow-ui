@@ -42,7 +42,7 @@ export default function ManagementRowComponent({
       tabIndex={-1}
       key={index}
       onClick={handleSelection}
-      //id={row}
+      id={index.toString()}
       // sx={{
       //   backgroundColor: selectedRows.includes(row.id) ? "#000048" : rowColor,
       //   color: selectedRows.includes(row.id) ? "#CCCCDA" : "#000048",
