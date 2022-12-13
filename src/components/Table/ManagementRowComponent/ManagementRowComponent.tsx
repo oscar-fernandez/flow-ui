@@ -18,7 +18,7 @@ interface Props {
   selectedRow: IProjectTable;
 }
 
-export default function ManagmentRowComponent({
+export default function ManagementRowComponent({
   columns,
   row,
   handleSelection,

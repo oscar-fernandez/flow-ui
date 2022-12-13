@@ -7,20 +7,20 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import IColumns from "../../../models/interfaces/IColumns";
-import ManagmentRowComponent from "../ManagmentRowComponent/ManagmentRowComponent";
+import ManagementRowComponent from "../ManagementRowComponent/ManagementRowComponent";
 import IProjectTable from "../../../models/interfaces/IProjectTable";
 import { getName } from "../../../utils/utilityFunctions";
 
 interface Props {
   columns: IColumns;
   rows: IProjectTable[];
-  selectedItems?: string[];
+  selectedItem?: any;
 }
 
-export default function ManagmentTableComponent({
+export default function ManagementTableComponent({
   rows,
   columns,
-  selectedItems,
+  selectedItem,
 }: Props) {
   const defaultProject: IProjectTable = {
     id: 0,
@@ -35,7 +35,8 @@ export default function ManagmentTableComponent({
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) {
     // if (!selectedItems.includes(event.currentTarget.id)) {
-    //   selectedItems.push(event.currentTarget.id);
+    console.log(event.currentTarget);
+    selectedItem = event.currentTarget;
     //   setSelectedRows([...selectedItems, event.currentTarget.id]);
     // } else {
     //   selectedItems.splice(selectedItems.indexOf(event.currentTarget.id), 1);
@@ -70,7 +71,7 @@ export default function ManagmentTableComponent({
           </TableHead>
           <TableBody>
             {rows.map((thisRow, idx) => (
-              <ManagmentRowComponent
+              <ManagementRowComponent
                 key={idx}
                 row={thisRow}
                 columns={columns}
