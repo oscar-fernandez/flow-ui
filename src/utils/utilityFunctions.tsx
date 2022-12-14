@@ -1,6 +1,9 @@
 import IEnablee from "../models/interfaces/IEnablee";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
+import IProject from "../models/interfaces/IProject";
+import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnology from "../models/interfaces/ITechnology";
+import ITechnologyTable from "../models/interfaces/ITechnologyTable";
 
 export function getName(name: string) {
   switch (name) {
@@ -16,6 +19,10 @@ export function getName(name: string) {
       return "enablement start date";
     case "enablementEndDate":
       return "enablement end date";
+    case "skillName":
+      return "Skill Name";
+    case "projectName":
+      return "Project Name";
   }
 }
 
@@ -55,6 +62,36 @@ export const updatedEnablees = (receivedEnablees: IEnablee[]) => {
       };
 
       return updatedEnablee;
+    }
+  );
+  return holdingpattern;
+};
+export const updatedProjects = (receivedProjects: IProject[]) => {
+  const holdingpattern: IProjectTable[] = receivedProjects.map(
+    (project: IProject) => {
+      const updatedProject: IProjectTable = {
+        id: project.id.toString(),
+        projectName: project.name,
+        summary: project.summary,
+        techStack: project.technology,
+        repoLink: project.repoLink,
+      };
+
+      return updatedProject;
+    }
+  );
+  return holdingpattern;
+};
+
+export const updatedTechnology = (receivedTechnologies: ITechnology[]) => {
+  const holdingpattern: ITechnologyTable[] = receivedTechnologies.map(
+    (technology: ITechnology) => {
+      const updatedTechnology: ITechnologyTable = {
+        id: technology.id.toString(),
+        skillName: technology.name,
+      };
+
+      return updatedTechnology;
     }
   );
   return holdingpattern;

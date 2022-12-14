@@ -4,17 +4,17 @@ import ITechnology from "../models/interfaces/ITechnology";
 interface thing {
   [key: string]: any;
   id: number;
-  name: string;
+  projectName: string;
   techStack: ITechnology[];
 }
 
 export const MockData: IColumns = {
-  topics: ["id", "name", "techStack"],
+  topics: ["projectName", "techStack"],
 };
 export const MockRows: thing[] = [
   {
     id: 1,
-    name: "what",
+    projectName: "what",
     techStack: [
       {
         id: 3,
@@ -36,7 +36,7 @@ export const MockRows: thing[] = [
   },
   {
     id: 2,
-    name: "when",
+    projectName: "when",
     techStack: [
       {
         id: 3,
