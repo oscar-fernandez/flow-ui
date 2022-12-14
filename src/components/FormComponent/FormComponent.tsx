@@ -33,6 +33,7 @@ function FormComponent(props: any) {
                 style: {
                   padding: 0,
                 },
+                readOnly: props.readonly,
               }}
               InputProps={{ disableUnderline: true }}
               id="standard-basic"
@@ -47,6 +48,7 @@ function FormComponent(props: any) {
                 style: {
                   padding: 0,
                 },
+                readOnly: props.readonly,
               }}
               InputProps={{ disableUnderline: true }}
               id="standard-basic"
@@ -59,6 +61,7 @@ function FormComponent(props: any) {
                 style: {
                   padding: 0,
                 },
+                readOnly: props.readonly,
               }}
               InputProps={{
                 disableUnderline: true,
