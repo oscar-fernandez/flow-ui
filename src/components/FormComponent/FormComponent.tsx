@@ -1,4 +1,23 @@
+import { createStyles, InputProps, styled, TextField } from "@mui/material";
+import { red } from "@mui/material/colors";
+import { fontWeight } from "@mui/system";
 import "./FormComponent.css";
+
+const inputStyle = (theme: any) => ({
+  marginLeft: "auto",
+  marginRight: "auto",
+  backgroundColor: "#d9d9d9",
+  borderRadius: "10px",
+  width: "80%",
+  padding: "1rem",
+  marginTop: "1rem",
+  input: {
+    "&::placeholder": {
+      fontWeight: "700",
+      fontSize: "14px",
+    },
+  },
+});
 
 function FormComponent(props: any) {
   return (
@@ -7,28 +26,70 @@ function FormComponent(props: any) {
         <h3 data-testid="title">{props.title}</h3>
         <div className="input-order">
           <div className="column">
-            <input
-              type="text"
-              id="projectName"
-              name="projectName"
+            <TextField
+              error
+              required
+              inputProps={{
+                style: {
+                  padding: 0,
+                },
+              }}
+              InputProps={{ disableUnderline: true }}
+              id="standard-basic"
               placeholder="project name"
-              readOnly={props.readonly}
+              variant="standard"
+              sx={inputStyle}
             />
-            <input
-              type="text"
-              id="projectDescription"
-              name="projectDescription"
+            <TextField
+              error
+              required
+              inputProps={{
+                style: {
+                  padding: 0,
+                },
+              }}
+              InputProps={{ disableUnderline: true }}
+              id="standard-basic"
               placeholder="link to project repository"
-              readOnly={props.readonly}
+              variant="standard"
+              sx={inputStyle}
             />
-            <textarea
-              rows={4}
-              id="projectSummary"
-              name="projectSummary"
+            <TextField
+              inputProps={{
+                style: {
+                  padding: 0,
+                },
+              }}
+              InputProps={{
+                disableUnderline: true,
+              }}
+              id="standard-basic"
               placeholder="project summary"
-              readOnly={props.readonly}
-              className="project-summary"
-            ></textarea>
+              variant="standard"
+              sx={inputStyle}
+            />
+            {/* <input
+                            type="text"
+                            id="projectName"
+                            name="projectName"
+                            placeholder="project name"
+                            readOnly={props.readonly}
+                        />
+                        <input
+                            type="text"
+                            id="projectDescription"
+                            name="projectDescription"
+                            placeholder="link to project repository"
+                            readOnly={props.readonly}
+                        />
+                        <textarea
+                            rows={4}
+                            id="projectSummary"
+                            name="projectSummary"
+                            placeholder="project summary"
+                            readOnly={props.readonly}
+                            className="project-summary"
+                        ></textarea> */}
           </div>
           <div className="column">
             <select multiple className="list">
