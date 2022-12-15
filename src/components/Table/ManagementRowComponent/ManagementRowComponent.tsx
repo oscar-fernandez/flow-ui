@@ -41,6 +41,15 @@ export default function ManagementRowComponent({
       key={index}
       onClick={handleSelection}
       id={index.toString()}
+      sx={{
+        backgroundColor: rowColor,
+        border: "5px solid black",
+        "&.MuiTableRow-root:hover": {
+          cursor: "pointer",
+          backgroundColor: "#DC8D0B",
+          color: "#000048",
+        },
+      }}
     >
       {columns.topics.map((column, idx) => (
         <Fragment key={idx}>

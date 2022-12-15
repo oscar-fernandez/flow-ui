@@ -14,7 +14,7 @@ export function getName(name: string) {
     case "lastName":
       return "last name";
     case "techStack":
-      return "tech stack";
+      return "Tech Stack";
     case "enablementStartDate":
       return "enablement start date";
     case "enablementEndDate":

@@ -22,32 +22,27 @@ export default function ManagementTableComponent({
   columns,
   selectedItem,
 }: Props) {
-  // const defaultProject: IProjectTable = {
-  //   id: 0,
-  //   name: "",
-  //   summary: "",
-  //   techStack: [],
-  //   repoLink: "",
-  //};
-  //const [selectedRow, setSelectedRow] = useState();
-
   function handleSelection(
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) {
-    // if (!selectedItems.includes(event.currentTarget.id)) {
     selectedItem.current = rows[Number(event.currentTarget.id)];
-    //   setSelectedRows([...selectedItems, event.currentTarget.id]);
-    // } else {
-    //   selectedItems.splice(selectedItems.indexOf(event.currentTarget.id), 1);
-    //   setSelectedRows([...selectedItems]);
-    // }
   }
-
+  //make row in header with add in second colum align to right
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 600 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
+            <TableRow>
+              {columns.topics[0] === "projectName" ? (
+                <>
+                  <TableCell align={"left"}></TableCell>
+                  <TableCell align={"right"}>+ ADD PROJECT</TableCell>
+                </>
+              ) : (
+                <TableCell align={"right"}>+ ADD SKILL</TableCell>
+              )}
+            </TableRow>
             <TableRow sx={{}}>
               {columns.topics.map((column: string, index) => (
                 <TableCell
