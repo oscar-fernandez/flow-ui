@@ -4,6 +4,9 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import FormComponent from "../../../components/FormComponent/FormComponent";
 import Box from "@mui/material/Box";
+import ManagementTableComponent from "../../../components/Table/ManagementTableComponent/ManagementTableComponent";
+import { useRef } from "react";
+import { MockRows, MockData } from "../../../data/MockData";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -57,6 +60,7 @@ function a11yProps(index: number) {
 
 export default function ManagementTabs() {
   const [value, setValue] = React.useState(0);
+  const selectedItem = useRef("");
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -93,7 +97,11 @@ export default function ManagementTabs() {
           <FormComponent title="Add Project" readonly={false} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          <ManagementTableComponent
+            selectedItem={selectedItem}
+            columns={MockData}
+            rows={MockRows}
+          />
         </TabPanel>
         <TabPanel value={value} index={2}>
           Item Three

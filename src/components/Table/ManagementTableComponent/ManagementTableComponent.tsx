@@ -10,6 +10,7 @@ import IColumns from "../../../models/interfaces/IColumns";
 import ManagementRowComponent from "../ManagementRowComponent/ManagementRowComponent";
 
 import { getName } from "../../../utils/utilityFunctions";
+import { TextField } from "@mui/material";
 
 interface Props {
   columns: IColumns;
@@ -64,6 +65,13 @@ export default function ManagementTableComponent({
             </TableRow>
           </TableHead>
           <TableBody>
+            <TableRow>
+              <TableCell>
+                <form>
+                  <TextField error required />
+                </form>
+              </TableCell>
+            </TableRow>
             {rows.map((thisRow, idx) => (
               <ManagementRowComponent
                 key={idx}
