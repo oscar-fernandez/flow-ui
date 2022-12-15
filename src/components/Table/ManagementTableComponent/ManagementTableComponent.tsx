@@ -27,7 +27,7 @@ export default function ManagementTableComponent({
   ) {
     selectedItem.current = rows[Number(event.currentTarget.id)];
   }
-  //make row in header with add in second colum align to right
+  //make row under header with text box in colum if not project if project call mgt form
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 600 }}>
