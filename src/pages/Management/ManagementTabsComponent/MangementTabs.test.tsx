@@ -6,10 +6,7 @@ vi.mock("react-router-dom", () => ({
   useNavigate: () => vi.fn(),
 }));
 
-describe("Dummy tests", () => {
-  it("should be true", () => {
-    expect(true).toBe(true);
-  });
+describe("ManagementTabs", () => {
   it("should render ManagementTabs", () => {
     render(<ManagementTabs />);
     expect(screen.getByText("Projects")).toBeInTheDocument();

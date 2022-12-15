@@ -2,7 +2,7 @@ import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
-import FormComponent from "../FormComponent/FormComponent";
+import FormComponent from "../../../components/FormComponent/FormComponent";
 import Box from "@mui/material/Box";
 
 interface TabPanelProps {

@@ -1,6 +1,5 @@
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
-import ManagementTabs from "../../../components/ManagementTabsComponent/ManagementTabs";
-//import TableRowComponent from "../../../components/Table/TableRowComponent/TableRowComponent";
+import ManagementTabs from "../ManagementTabsComponent/ManagementTabs";
 
 export default function ManagementView() {
   return (
