@@ -1,42 +1,79 @@
+import { TextField } from "@mui/material";
 import "./FormComponent.css";
+
+const inputStyle = (theme: any) => ({
+  marginLeft: "auto",
+  marginRight: "auto",
+  backgroundColor: "#d9d9d9",
+  borderRadius: "10px",
+  width: "80%",
+  padding: "1rem",
+  marginTop: "1rem",
+  input: {
+    "&::placeholder": {
+      fontWeight: "700",
+      fontSize: "14px",
+    },
+  },
+});
 
 function FormComponent(props: any) {
   return (
     <div className="form-component">
       <form>
-        <h3 data-testid="title">{props.title}</h3>
         <div className="input-order">
           <div className="column">
-            <input
-              type="text"
-              id="projectName"
-              name="projectName"
+            <h3 data-testid="title">{props.title}</h3>
+            <TextField
+              error
+              required
+              inputProps={{
+                style: {
+                  padding: 0,
+                },
+                readOnly: props.readonly,
+              }}
+              InputProps={{ disableUnderline: true }}
+              id="standard-basic"
               placeholder="project name"
-              readOnly={props.readonly}
+              variant="standard"
+              sx={inputStyle}
             />
-            <input
-              type="text"
-              id="projectDescription"
-              name="projectDescription"
+            <TextField
+              error
+              required
+              inputProps={{
+                style: {
+                  padding: 0,
+                },
+                readOnly: props.readonly,
+              }}
+              InputProps={{ disableUnderline: true }}
+              id="standard-basic"
               placeholder="link to project repository"
-              readOnly={props.readonly}
+              variant="standard"
+              sx={inputStyle}
             />
-            <input
-              type="text"
-              id="linkToRepo"
-              name="linkToRepo"
+            <TextField
+              inputProps={{
+                style: {
+                  padding: 0,
+                },
+                readOnly: props.readonly,
+              }}
+              InputProps={{
+                disableUnderline: true,
+              }}
+              id="standard-basic"
               placeholder="project summary"
-              readOnly={props.readonly}
+              variant="standard"
+              sx={inputStyle}
             />
           </div>
           <div className="column">
-            <input
-              type="text"
-              id="techstack"
-              name="techstack"
-              placeholder="tech stack"
-              readOnly={props.readonly}
-            />
+            <select multiple className="list">
+              <option value="value">Java</option>
+            </select>
           </div>
         </div>
         <div className="buttons-margin">
