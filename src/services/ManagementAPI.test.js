@@ -75,7 +75,7 @@ describe("ManagementAPI tests", () => {
       config: {},
     };
 
-    axios.patch.mockResolvedValueOnce(axiosRes);
+    axios.put.mockResolvedValueOnce(axiosRes);
     const result = await updateTechnology();
     expect(
       result.data == technologiesList && result.status == 200
@@ -131,7 +131,7 @@ describe("ManagementAPI tests", () => {
       config: {},
     };
 
-    axios.patch.mockResolvedValueOnce(axiosRes);
+    axios.put.mockResolvedValueOnce(axiosRes);
     const result = await updateProject();
     expect(result.data == projectsList && result.status == 200).toBeTruthy();
   });

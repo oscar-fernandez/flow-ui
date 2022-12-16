@@ -9,7 +9,7 @@ function getTechnologies() {
 }
 
 function updateTechnology(technology: ITechnology) {
-  return axios.patch(`${baseUrl}/technology`, technology);
+  return axios.put(`${baseUrl}/technology`, technology);
 }
 
 function createTechnology(technology: ITechnology) {
@@ -25,7 +25,7 @@ function createProject(project: IProject) {
 }
 
 function updateProject(project: IProject) {
-  return axios.patch(`${baseUrl}/project`, project);
+  return axios.put(`${baseUrl}/project`, project);
 }
 
 export {
