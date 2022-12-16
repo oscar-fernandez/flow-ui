@@ -7,3 +7,5 @@ interface IProject {
   technology: ITechnology[];
   repoLink: string;
 }
+
+export default IProject;
