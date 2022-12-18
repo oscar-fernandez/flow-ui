@@ -20,7 +20,7 @@ const sideBarItems = [
   {
     name: "Management",
     testId: "management",
-    url: "/management",
+    url: "/mgt",
   },
 ];
 const subItems = [
@@ -134,7 +134,7 @@ function EnableeSideBarItems() {
                 <ListItemButton
                   className="side-bar-item"
                   onClick={(e) => {
-                    clickNavigateCombined(e, "/management");
+                    clickNavigateCombined(e, "/mgt");
                   }}
                   data-testid="management"
                 >
