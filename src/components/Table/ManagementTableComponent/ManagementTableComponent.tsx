@@ -34,7 +34,13 @@ export default function ManagementTableComponent({
   }
 
   function handleBoolean(
-    event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
+    event: React.MouseEvent<HTMLTableCellElement, MouseEvent>
+  ) {
+    selectedBoolean(!currentBoolean);
+  }
+
+  function handleAddProject(
+    event: React.MouseEvent<HTMLTableCellElement, MouseEvent>
   ) {
     selectedBoolean(!currentBoolean);
   }
@@ -44,7 +50,7 @@ export default function ManagementTableComponent({
       <TableContainer sx={{ maxHeight: 600 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
-            <TableRow onClick={handleBoolean}>
+            <TableRow>
               {columns.topics[0] === "projectName" ? (
                 <>
                   <TableCell
@@ -61,6 +67,7 @@ export default function ManagementTableComponent({
                   ></TableCell>
                   <TableCell
                     align={"right"}
+                    onClick={handleAddProject}
                     sx={{
                       minWidth: 50,
                       background: "#E6E8E6",
@@ -77,6 +84,7 @@ export default function ManagementTableComponent({
               ) : (
                 <TableCell
                   align={"right"}
+                  onClick={handleBoolean}
                   sx={{
                     minWidth: 50,
                     background: "#E6E8E6",
