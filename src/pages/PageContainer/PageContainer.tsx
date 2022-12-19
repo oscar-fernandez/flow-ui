@@ -18,7 +18,7 @@ function PageContainer() {
             <Route path="/" element={<EnableeView />} />
             <Route path="/pendingStart" element={<PendingEnablementStart />} />
             <Route path="/pendingPodAssignment" element={<PodAssignment />} />
-            <Route path="/management" element={<ManagementView />} />
+            <Route path="/mgt" element={<ManagementView />} />
           </Routes>
         </div>
       </div>
