@@ -1,12 +1,13 @@
 import {
+  Box,
   FormControl,
-  InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import ITechnology from "../../models/interfaces/ITechnology";
 import "./FormComponent.css";
 
 const inputStyle = (theme: any) => ({
@@ -21,99 +22,110 @@ const inputStyle = (theme: any) => ({
   input: {
     "&::placeholder": {
       fontWeight: "700",
-      fontSize: "14px",
+      fontSize: "16px",
+      color: "black",
+      letterSpacing: "0.025em",
+    },
+    "&:invalid": {
+      color: "red",
+      caretColor: "black",
     },
   },
   textarea: {
     "&::placeholder": {
       fontWeight: "700",
-      fontSize: "14px",
+      fontSize: "16px",
+      letterSpacing: "0.025em",
     },
   },
 });
 
 function FormComponent(props: any) {
+  const ts: ITechnology[] = [
+    { id: 0, name: "Java" },
+    { id: 1, name: "React" },
+    { id: 2, name: "SpringBoot" },
+    { id: 3, name: "Jenkins" },
+    { id: 4, name: "Docker" },
+    { id: 5, name: "Angular" },
+  ];
+
   const inputProps = {
     style: {
       padding: 0,
     },
     readOnly: props.readonly,
-    maxLength: 255,
   };
 
   const InputProps = {
     disableUnderline: true,
   };
 
-  const [techStack, setTechStack] = useState("");
+  //manages array of tech objects
+  const [techStack, setTechStack] = useState<ITechnology[]>([]);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setTechStack(event.target.value as string);
+  //manages array of string for select
+  const [techStackString, setTechStackString] = useState<string[]>([]);
+
+  const handleChange = (event: SelectChangeEvent<typeof techStackString>) => {
+    const {
+      target: { value },
+    } = event;
+    setTechStackString(typeof value === "string" ? value.split(",") : value);
   };
-
-  const [text, setText] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const regexp = new RegExp("^[a-zA-Z0-9_]*$");
-
-  useEffect(() => {
-    if (!regexp.test(text)) {
-      setErrorMessage("error");
-    }
-  }, [text]);
-
-  useEffect(() => {
-    if (regexp.test(text)) {
-      setErrorMessage("");
-    }
-  }, [text, errorMessage]);
 
   return (
     <div className="form-component">
-      <h3 data-testid="title">{props.title}</h3>
+      <div style={{ width: "50%" }}>
+        <h3 data-testid="title">{props.title}</h3>
+      </div>
       <form>
         <div className="input-order">
           <div className="column">
-            <TextField
-              error={text.length > 0}
-              required
-              inputProps={inputProps}
-              InputProps={InputProps}
-              placeholder="project name"
-              variant="standard"
-              onChange={(e) => setText(e.target.value)}
-              sx={inputStyle}
-            />
-            <TextField
-              error
-              required
-              inputProps={{
-                style: {
-                  padding: 0,
-                },
-                readOnly: props.readonly,
-                pattern:
-                  "^(http(s)://.)[-a-zA-Z0-9@:%._+~#=]{2,256}.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)$",
-              }}
-              InputProps={InputProps}
-              placeholder="link to project repository"
-              variant="standard"
-              sx={inputStyle}
-            />
-            <TextField
-              multiline
-              rows={4}
-              inputProps={{
-                style: {
-                  padding: 0,
-                },
-                readOnly: props.readonly,
-              }}
-              InputProps={InputProps}
-              placeholder="project summary"
-              variant="standard"
-              sx={inputStyle}
-            />
+            <Box sx={{ color: "#8A8B8A" }}>
+              <TextField
+                error
+                required
+                inputProps={{
+                  ...inputProps,
+                  maxLength: 255,
+                  pattern: "^[a-zA-Z0-9_-]*$",
+                }}
+                InputProps={InputProps}
+                placeholder="project name"
+                variant="standard"
+                sx={inputStyle}
+                autoComplete="off"
+              />
+              <TextField
+                error
+                required
+                inputProps={{
+                  ...inputProps,
+                  pattern:
+                    "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)",
+                }}
+                InputProps={InputProps}
+                placeholder="link to project repository"
+                variant="standard"
+                sx={inputStyle}
+                autoComplete="off"
+              />
+              <TextField
+                error
+                required
+                multiline
+                rows={4}
+                inputProps={{
+                  ...inputProps,
+                }}
+                InputProps={InputProps}
+                placeholder="project summary"
+                variant="standard"
+                sx={inputStyle}
+                autoComplete="off"
+              />
+            </Box>
           </div>
           <div className="column">
             <FormControl
@@ -130,25 +142,45 @@ function FormComponent(props: any) {
                 },
               }}
             >
-              <InputLabel>tech stack</InputLabel>
               <Select
                 required
+                multiple
                 variant="standard"
+                displayEmpty
                 disableUnderline
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <p className="placeholder">tech stack</p>;
+                  }
+
+                  return selected.join(", ");
+                }}
+                value={techStackString}
                 sx={{
                   backgroundColor: "#d9d9d9",
                   borderRadius: "10px",
                   width: "80%",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  marginTop: "1rem",
                 }}
                 onChange={handleChange}
-                value={techStack}
-                label="Age"
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {/* itech as props */}
+                {ts.map((tech) => (
+                  <MenuItem value={tech.name} key={tech.id}>
+                    {tech.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
+            {techStackString.length > 0 ? (
+              <p className="selected-ts">
+                Selected tech stack: {techStackString.join(", ")}
+              </p>
+            ) : (
+              <p className="selected-ts">Selected tech stack: None</p>
+            )}
           </div>
         </div>
         <div className="buttons-margin">
