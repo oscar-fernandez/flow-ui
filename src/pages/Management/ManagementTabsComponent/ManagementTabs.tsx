@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import FormComponent from "../../../components/FormComponent/FormComponent";
 import Box from "@mui/material/Box";
 import ManagementTableComponent from "../../../components/Table/ManagementTableComponent/ManagementTableComponent";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { MockRows, MockData } from "../../../data/MockData";
 
 interface TabPanelProps {
@@ -61,6 +61,7 @@ function a11yProps(index: number) {
 export default function ManagementTabs() {
   const [value, setValue] = React.useState(0);
   const selectedItem = useRef("");
+  const [useBoolean, setBoolean] = useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -101,6 +102,8 @@ export default function ManagementTabs() {
             selectedItem={selectedItem}
             columns={MockData}
             rows={MockRows}
+            selectedBoolean={setBoolean}
+            currentBoolean={useBoolean}
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
