@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import ManagementTableComponent from "../../../components/Table/ManagementTableComponent/ManagementTableComponent";
 import { useRef, useState } from "react";
 import { MockRows, MockData } from "../../../data/MockData";
+import IColumns from "../../../models/interfaces/IColumns";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -33,6 +34,8 @@ export const tabItemStyles = () => ({
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
+  const projectColumn: IColumns = { topics: ["projectName", "techStack"] };
+  const technologyColumn: IColumns = { topics: ["skillName"] };
 
   return (
     <div
@@ -69,7 +72,7 @@ export default function ManagementTabs() {
 
   return (
     <div className="margin">
-      <Box sx={{ "& .MuiBox-root": { p: 0 } }}>
+      <Box sx={{ width: "85%" }}>
         <Box>
           <Tabs
             value={value}

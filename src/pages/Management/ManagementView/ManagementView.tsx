@@ -2,11 +2,9 @@ import { PageViewHeader } from "../../../components/HeaderSectionComponents/Page
 import ManagementTabs from "../ManagementTabsComponent/ManagementTabs";
 
 export default function ManagementView() {
-  //const selectedItem = useRef({});
-
   return (
     <>
-      <div className="page-section">
+      <div>
         <PageViewHeader pageTitle="Management" showPlus={false} />
         <ManagementTabs />
       </div>
