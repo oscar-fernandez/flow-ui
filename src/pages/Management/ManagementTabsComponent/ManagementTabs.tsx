@@ -90,7 +90,7 @@ export default function ManagementTabs() {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <FormComponent title="Add Project" readonly={false} />
+          <FormComponent title="Add Project" readonly={false} edit={false} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           Item Two
