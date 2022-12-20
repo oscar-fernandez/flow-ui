@@ -6,7 +6,7 @@ export default function ManagementView() {
 
   return (
     <>
-      <div>
+      <div className="page-section">
         <PageViewHeader pageTitle="Management" showPlus={false} />
         <ManagementTabs />
       </div>

@@ -69,7 +69,7 @@ export default function ManagementTabs() {
 
   return (
     <div className="margin">
-      <Box sx={{ width: "85%" }}>
+      <Box sx={{ "& .MuiBox-root": { p: 0 } }}>
         <Box>
           <Tabs
             value={value}

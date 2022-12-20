@@ -7,26 +7,29 @@
   width: 100%;
 }
 
-.input,
-input::placeholder,
-#projectSummary::placeholder {
-  font-weight: 700;
-  color: #8a8b8a;
+b {
+  color: "#8A8B8A";
 }
 
 h3 {
   color: #000048;
-  padding-top: 2rem;
-  margin-left: 2rem;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 28px;
   font-weight: 900;
+  width: 66.5%;
+  letter-spacing: 0.025em;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
 }
 
 .column {
   display: flex;
   flex-direction: column;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   width: 80%;
+  max-width: 25rem;
 }
 
 .input-order {
@@ -64,19 +67,32 @@ button {
   font-size: 36px;
 }
 
-.list {
-  border-radius: 10px;
-  background-color: #d9d9d9;
-  border: none;
-  height: 8rem;
-  font-family: "Darker Grotesque", sans-serif;
-  font-size: 16px;
-  margin: 1rem 4rem 1rem 4rem;
-  text-align: center;
-  outline: none;
+button:hover {
+  cursor: pointer;
+  opacity: 0.75;
 }
 
 option {
   font-weight: 700;
   color: #8a8b8a;
+}
+
+.placeholder {
+  font-weight: 700;
+  color: #8a8b8a;
+  font-size: large;
+  letter-spacing: 0.025em;
+}
+
+.selected-ts {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  color: #000048;
+  margin-top: 2.25rem;
+  letter-spacing: 0.025em;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  overflow: break-word;
 }
