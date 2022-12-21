@@ -1,6 +1,6 @@
 import ITechnology from "./ITechnology";
 
-export default interface IProject {
+interface IProject {
   id: number;
   name: string;
   summary: string;

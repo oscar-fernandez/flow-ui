@@ -8,36 +8,12 @@ import ManagementTableComponent from "../../../components/Table/ManagementTableC
 import { useRef, useState, useEffect } from "react";
 import { MockRows } from "../../../data/MockData";
 import IColumns from "../../../models/interfaces/IColumns";
-import { getProjects, getTechnologies } from "../../../services/ManagementAPI";
-import {
-  updatedTechnology,
-  updatedProjects,
-} from "../../../utils/utilityFunctions";
-import IProjectTable from "../../../models/interfaces/IProjectTable";
-import ITechnologyTable from "../../../models/interfaces/ITechnologyTable";
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
-
-export const tabsStyles = () => ({
-  indicator: {
-    display: "none",
-  },
-});
-
-export const tabItemStyles = () => ({
-  root: {
-    background: "#f7f7f7",
-    opacity: 1,
-  },
-  selected: {
-    borderBottomWidth: 0,
-    background: "#ffffff",
-  },
-});
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -72,30 +48,6 @@ export default function ManagementTabs() {
   const [useBoolean, setBoolean] = useState(false);
   const projectColumn: IColumns = { topics: ["projectName", "techStack"] };
   const technologyColumn: IColumns = { topics: ["skillName"] };
-  let projectRows: IProjectTable[] = [];
-  let technologyRows: ITechnologyTable[] = [];
-
-  //making api call here
-  const getAll = async () => {
-    getTechnologies()
-      .then((res) => {
-        technologyRows = updatedTechnology(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    getProjects()
-      .then((res) => {
-        projectRows = updatedProjects(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  useEffect(() => {
-    getAll();
-  }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
