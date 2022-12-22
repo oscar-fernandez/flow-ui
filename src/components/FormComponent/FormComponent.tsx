@@ -1,5 +1,4 @@
 import {
-  Box,
   FormControl,
   MenuItem,
   Select,
@@ -15,7 +14,7 @@ const inputStyle = (theme: any) => ({
   marginRight: "auto",
   backgroundColor: "#d9d9d9",
   borderRadius: "10px",
-  width: "80%",
+  width: "23.5rem",
   padding: "1rem",
   marginTop: "1rem",
   marginBottom: "2.875rem",
@@ -82,50 +81,46 @@ function FormComponent(props: any) {
       <form>
         <div className="input-order">
           <div className="column">
-            <Box sx={{ color: "#8A8B8A" }}>
-              <TextField
-                error
-                required
-                inputProps={{
-                  ...inputProps,
-                  maxLength: 255,
-                  pattern: "^[a-zA-Z0-9_-]*$",
-                }}
-                InputProps={InputProps}
-                placeholder="project name"
-                variant="standard"
-                sx={inputStyle}
-                autoComplete="off"
-              />
-              <TextField
-                error
-                required
-                inputProps={{
-                  ...inputProps,
-                  pattern:
-                    "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)",
-                }}
-                InputProps={InputProps}
-                placeholder="link to project repository"
-                variant="standard"
-                sx={inputStyle}
-                autoComplete="off"
-              />
-              <TextField
-                error
-                required
-                multiline
-                rows={4}
-                inputProps={{
-                  ...inputProps,
-                }}
-                InputProps={InputProps}
-                placeholder="project summary"
-                variant="standard"
-                sx={inputStyle}
-                autoComplete="off"
-              />
-            </Box>
+            <TextField
+              error
+              required
+              inputProps={{
+                ...inputProps,
+                maxLength: 255,
+                pattern: "^[a-zA-Z0-9_-]*$",
+              }}
+              InputProps={InputProps}
+              placeholder="project name"
+              variant="standard"
+              sx={inputStyle}
+              autoComplete="off"
+            />
+            <TextField
+              error
+              required
+              inputProps={{
+                ...inputProps,
+                pattern:
+                  "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)",
+              }}
+              InputProps={InputProps}
+              placeholder="link to project repository"
+              variant="standard"
+              sx={inputStyle}
+              autoComplete="off"
+            />
+            <TextField
+              error
+              required
+              multiline
+              rows={4}
+              inputProps={inputProps}
+              InputProps={InputProps}
+              placeholder="project summary"
+              variant="standard"
+              sx={inputStyle}
+              autoComplete="off"
+            />
           </div>
           <div className="column">
             <FormControl
@@ -159,7 +154,7 @@ function FormComponent(props: any) {
                 sx={{
                   backgroundColor: "#d9d9d9",
                   borderRadius: "10px",
-                  width: "80%",
+                  width: "23.5rem",
                   marginLeft: "auto",
                   marginRight: "auto",
                   marginTop: "1rem",
@@ -185,9 +180,18 @@ function FormComponent(props: any) {
         </div>
         <div className="buttons-margin">
           <div className="buttons">
-            <button className="blue-button">Cancel</button>
-            <button className="blue-button">Reset</button>
-            <button className="orange-button">Submit</button>
+            {props.edit === false ? (
+              <>
+                <button className="blue-button">Cancel</button>
+                <button className="blue-button">Reset</button>
+                <button className="orange-button">Submit</button>
+              </>
+            ) : (
+              <>
+                <button className="blue-button">Back to Projects...</button>
+                <button className="orange-button">Edit Project</button>
+              </>
+            )}
           </div>
         </div>
       </form>
