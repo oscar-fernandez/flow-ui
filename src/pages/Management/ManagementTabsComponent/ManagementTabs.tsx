@@ -8,6 +8,7 @@ import ManagementTableComponent from "../../../components/Table/ManagementTableC
 import { useRef, useState, useEffect } from "react";
 import { MockRows } from "../../../data/MockData";
 import IColumns from "../../../models/interfaces/IColumns";
+import { TableCell, TableRow } from "@mui/material";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -45,7 +46,6 @@ function a11yProps(index: number) {
 export default function ManagementTabs() {
   const [value, setValue] = React.useState(0);
   const selectedItem = useRef("");
-  const [useBoolean, setBoolean] = useState(false);
   const projectColumn: IColumns = { topics: ["projectName", "techStack"] };
   const technologyColumn: IColumns = { topics: ["skillName"] };
 
@@ -53,9 +53,21 @@ export default function ManagementTabs() {
     setValue(newValue);
   };
 
+  const [isShown, setIsShown] = useState(false);
+
+  const handleClick = (event: any) => {
+    setIsShown((current) => !current);
+  };
+
+  const [rowClicked, setRowClicked] = useState(false);
+
+  const handleRow = (event: any) => {
+    setRowClicked((current) => !current);
+  };
+
   return (
     <div className="margin">
-      <Box sx={{ width: "85%" }}>
+      <Box sx={{ "& .MuiBox-root": { p: 0 } }}>
         <Box>
           <Tabs
             value={value}
@@ -81,16 +93,44 @@ export default function ManagementTabs() {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          {useBoolean ? (
-            <FormComponent title="Add Project" readonly={false} />
-          ) : (
+          <TableRow>
+            {!isShown && (
+              <TableCell
+                onClick={handleClick}
+                sx={{
+                  background: "#E6E8E6",
+                  fontWeight: 700,
+                  fontSize: "24px",
+                  color: "#000048",
+                }}
+              >
+                + ADD PROJECT
+              </TableCell>
+            )}
+          </TableRow>
+          {isShown && (
+            <FormComponent
+              title="Add Project"
+              readonly={false}
+              edit={false}
+              handleClick={handleClick}
+            />
+          )}
+          {!isShown && (
             <ManagementTableComponent
               selectedItem={selectedItem}
               columns={projectColumn}
               rows={MockRows}
-              selectedBoolean={setBoolean}
-              currentBoolean={useBoolean}
             />
+          )}
+
+          {rowClicked && (
+            <FormComponent
+              title="Edit Project"
+              readonly={true}
+              edit={true}
+              project={selectedItem}
+            ></FormComponent>
           )}
         </TabPanel>
         <TabPanel value={value} index={1}>
@@ -98,8 +138,6 @@ export default function ManagementTabs() {
             selectedItem={selectedItem}
             columns={technologyColumn}
             rows={MockRows}
-            selectedBoolean={setBoolean}
-            currentBoolean={useBoolean}
           />
         </TabPanel>
         <TabPanel value={value} index={2}>

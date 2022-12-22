@@ -10,22 +10,17 @@ import IColumns from "../../../models/interfaces/IColumns";
 import ManagementRowComponent from "../ManagementRowComponent/ManagementRowComponent";
 
 import { getName } from "../../../utils/utilityFunctions";
-import { TextField } from "@mui/material";
 
 interface Props {
   columns: IColumns;
   rows: any[];
   selectedItem: any;
-  selectedBoolean: any;
-  currentBoolean: any;
 }
 
 export default function ManagementTableComponent({
   rows,
   columns,
   selectedItem,
-  selectedBoolean,
-  currentBoolean,
 }: Props) {
   function handleSelection(
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
@@ -33,72 +28,23 @@ export default function ManagementTableComponent({
     selectedItem.current = rows[Number(event.currentTarget.id)];
   }
 
-  function handleBoolean(
-    event: React.MouseEvent<HTMLTableCellElement, MouseEvent>
-  ) {
-    selectedBoolean(!currentBoolean);
-  }
+  // function handleBoolean(
+  //   event: React.MouseEvent<HTMLTableCellElement, MouseEvent>
+  // ) {
+  //   selectedBoolean(!currentBoolean);
+  // }
 
-  function handleAddProject(
-    event: React.MouseEvent<HTMLTableCellElement, MouseEvent>
-  ) {
-    selectedBoolean(!currentBoolean);
-  }
+  // function handleAddProject(
+  //   event: React.MouseEvent<HTMLTableCellElement, MouseEvent>
+  // ) {
+  //   selectedBoolean(!currentBoolean);
+  // }
   //make row under header with text box in colum if not project if project call mgt form
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 600 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
-            <TableRow>
-              {columns.topics[0] === "projectName" ? (
-                <>
-                  <TableCell
-                    align={"left"}
-                    sx={{
-                      minWidth: 50,
-                      background: "#E6E8E6",
-                      fontWeight: 700,
-                      fontSize: "24px",
-                      color: "#000048",
-                      borderRight: "1px solid #000048",
-                      "&:last-child": { borderRight: "none" },
-                    }}
-                  ></TableCell>
-                  <TableCell
-                    align={"right"}
-                    onClick={handleAddProject}
-                    sx={{
-                      minWidth: 50,
-                      background: "#E6E8E6",
-                      fontWeight: 700,
-                      fontSize: "24px",
-                      color: "#000048",
-                      borderRight: "1px solid #000048",
-                      "&:last-child": { borderRight: "none" },
-                    }}
-                  >
-                    + ADD PROJECT
-                  </TableCell>
-                </>
-              ) : (
-                <TableCell
-                  align={"right"}
-                  onClick={handleBoolean}
-                  sx={{
-                    minWidth: 50,
-                    background: "#E6E8E6",
-                    fontWeight: 700,
-                    fontSize: "24px",
-                    color: "#000048",
-                    borderRight: "1px solid #000048",
-                    "&:last-child": { borderRight: "none" },
-                  }}
-                >
-                  + ADD SKILL
-                </TableCell>
-              )}
-            </TableRow>
             <TableRow sx={{}}>
               {columns.topics.map((column: string, index) => (
                 <TableCell
@@ -120,7 +66,7 @@ export default function ManagementTableComponent({
             </TableRow>
           </TableHead>
           <TableBody>
-            {currentBoolean === true ? (
+            {/* {currentBoolean === true ? (
               <TableRow>
                 <TableCell
                   sx={{
@@ -151,7 +97,7 @@ export default function ManagementTableComponent({
               </TableRow>
             ) : (
               <></>
-            )}
+            )} */}
             {rows.map((thisRow, idx) => (
               <ManagementRowComponent
                 key={idx}
