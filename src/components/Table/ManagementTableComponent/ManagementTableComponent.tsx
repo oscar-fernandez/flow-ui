@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -28,17 +28,6 @@ export default function ManagementTableComponent({
     selectedItem.current = rows[Number(event.currentTarget.id)];
   }
 
-  // function handleBoolean(
-  //   event: React.MouseEvent<HTMLTableCellElement, MouseEvent>
-  // ) {
-  //   selectedBoolean(!currentBoolean);
-  // }
-
-  // function handleAddProject(
-  //   event: React.MouseEvent<HTMLTableCellElement, MouseEvent>
-  // ) {
-  //   selectedBoolean(!currentBoolean);
-  // }
   //make row under header with text box in colum if not project if project call mgt form
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>

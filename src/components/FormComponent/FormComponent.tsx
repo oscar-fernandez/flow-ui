@@ -9,7 +9,7 @@ import { useState } from "react";
 import ITechnology from "../../models/interfaces/ITechnology";
 import "./FormComponent.css";
 
-const inputStyle = (theme: any) => ({
+const inputStyle = () => ({
   marginLeft: "auto",
   marginRight: "auto",
   backgroundColor: "#d9d9d9",
@@ -59,9 +59,6 @@ function FormComponent(props: any) {
   const InputProps = {
     disableUnderline: true,
   };
-
-  //manages array of tech objects
-  const [techStack, setTechStack] = useState<ITechnology[]>([]);
 
   //manages array of string for select
   const [techStackString, setTechStackString] = useState<string[]>([]);

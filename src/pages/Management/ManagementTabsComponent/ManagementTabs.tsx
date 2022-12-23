@@ -5,10 +5,10 @@ import Typography from "@mui/material/Typography";
 import FormComponent from "../../../components/FormComponent/FormComponent";
 import Box from "@mui/material/Box";
 import ManagementTableComponent from "../../../components/Table/ManagementTableComponent/ManagementTableComponent";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { MockRows } from "../../../data/MockData";
 import IColumns from "../../../models/interfaces/IColumns";
-import { TableCell, TableRow } from "@mui/material";
+import { Button } from "@mui/material";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -55,14 +55,8 @@ export default function ManagementTabs() {
 
   const [isShown, setIsShown] = useState(false);
 
-  const handleClick = (event: any) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setIsShown((current) => !current);
-  };
-
-  const [rowClicked, setRowClicked] = useState(false);
-
-  const handleRow = (event: any) => {
-    setRowClicked((current) => !current);
   };
 
   return (
@@ -93,21 +87,29 @@ export default function ManagementTabs() {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <TableRow>
+          <div style={{ width: "100%", backgroundColor: "#E6E8E6" }}>
             {!isShown && (
-              <TableCell
-                onClick={handleClick}
-                sx={{
-                  background: "#E6E8E6",
-                  fontWeight: 700,
-                  fontSize: "24px",
-                  color: "#000048",
-                }}
-              >
-                + ADD PROJECT
-              </TableCell>
+              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                  variant="text"
+                  onClick={handleClick}
+                  sx={{
+                    background: "#E6E8E6",
+                    fontWeight: 900,
+                    fontSize: "18px",
+                    color: "#000048",
+                    padding: "16px",
+                    "&:hover": {
+                      backgroundColor: "#E6E8E6",
+                      opacity: "1",
+                    },
+                  }}
+                >
+                  + Add Project
+                </Button>
+              </Box>
             )}
-          </TableRow>
+          </div>
           {isShown && (
             <FormComponent
               title="Add Project"
@@ -123,17 +125,28 @@ export default function ManagementTabs() {
               rows={MockRows}
             />
           )}
-
-          {rowClicked && (
-            <FormComponent
-              title="Edit Project"
-              readonly={true}
-              edit={true}
-              project={selectedItem}
-            ></FormComponent>
-          )}
         </TabPanel>
         <TabPanel value={value} index={1}>
+          <div style={{ width: "100%", backgroundColor: "#E6E8E6" }}>
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button
+                variant="text"
+                sx={{
+                  background: "#E6E8E6",
+                  fontWeight: 900,
+                  fontSize: "18px",
+                  color: "#000048",
+                  padding: "16px",
+                  "&:hover": {
+                    backgroundColor: "#E6E8E6",
+                    opacity: "1",
+                  },
+                }}
+              >
+                + Add Skill
+              </Button>
+            </Box>
+          </div>
           <ManagementTableComponent
             selectedItem={selectedItem}
             columns={technologyColumn}
