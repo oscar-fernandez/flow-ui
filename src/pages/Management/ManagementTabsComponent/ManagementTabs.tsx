@@ -43,10 +43,12 @@ function a11yProps(index: number) {
   };
 }
 
+const tabLabels = ["Projects", "Technology", "Grade", "Country", "Community"];
+
 export default function ManagementTabs() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState("Projects");
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+    setValue(tabLabels[newValue]);
   };
 
   return (
@@ -76,6 +78,7 @@ export default function ManagementTabs() {
             <Tab label="Community" {...a11yProps(4)} />
           </Tabs>
         </Box>
+        <div>+ Add {value}</div>
       </Box>
     </div>
   );
