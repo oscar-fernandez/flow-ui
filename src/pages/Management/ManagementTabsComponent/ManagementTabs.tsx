@@ -78,7 +78,7 @@ export default function ManagementTabs() {
             <Tab label="Community" {...a11yProps(4)} />
           </Tabs>
         </Box>
-        <div>+ Add {value}</div>
+        <div>+ Add {value === "Technology" ? "Skill" : value}</div>
       </Box>
     </div>
   );

@@ -8,6 +8,7 @@ export default function ManagementView() {
         <PageViewHeader pageTitle="Management" showPlus={false} />
         {/* TODO: include Filter Component */}
         <ManagementTabs />
+        {/* Table View */}
       </div>
     </>
   );
