@@ -6,6 +6,7 @@ export default function ManagementView() {
     <>
       <div>
         <PageViewHeader pageTitle="Management" showPlus={false} />
+        {/* TODO: include Filter Component */}
         <ManagementTabs />
       </div>
     </>
