@@ -2,9 +2,9 @@ import IProject from "../models/interfaces/IProject";
 
 export const dummyProjects: IProject[] = [
   {
-    id: 977284,
-    name: "Steve",
-    summary: "Bob",
+    id: 1,
+    name: "PixelGram",
+    summary: "",
     technology: [
       { id: 2, name: "Java" },
       { id: 8, name: "React" },
@@ -14,9 +14,9 @@ export const dummyProjects: IProject[] = [
     repoLink: "google.com",
   },
   {
-    id: 977284,
-    name: "Steve",
-    summary: "Bob",
+    id: 2,
+    name: "Flow-E",
+    summary: "",
     technology: [
       { id: 2, name: "Java" },
       { id: 8, name: "React" },
@@ -26,9 +26,9 @@ export const dummyProjects: IProject[] = [
     repoLink: "google.com",
   },
   {
-    id: 977284,
-    name: "Steve",
-    summary: "Bob",
+    id: 3,
+    name: "QM",
+    summary: "A summary",
     technology: [
       { id: 2, name: "Java" },
       { id: 8, name: "React" },
@@ -38,9 +38,9 @@ export const dummyProjects: IProject[] = [
     repoLink: "google.com",
   },
   {
-    id: 977284,
-    name: "Steve",
-    summary: "Bob",
+    id: 4,
+    name: "Cognivision",
+    summary: "",
     technology: [
       { id: 2, name: "Java" },
       { id: 8, name: "React" },
@@ -50,9 +50,9 @@ export const dummyProjects: IProject[] = [
     repoLink: "google.com",
   },
   {
-    id: 977284,
-    name: "mark",
-    summary: "steve",
+    id: 5,
+    name: "NetZero",
+    summary: "",
     technology: [
       { id: 2, name: "Java" },
       { id: 8, name: "React" },

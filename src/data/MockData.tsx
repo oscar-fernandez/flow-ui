@@ -1,6 +1,26 @@
 import IColumns from "../models/interfaces/IColumns";
 import ITechnology from "../models/interfaces/ITechnology";
 
+
+export const mockTechnology : ITechnology[] = [
+    {
+      id: 3,
+      name: "Java",
+    },
+    {
+      id: 4,
+      name: "React",
+    },
+    {
+      id: 5,
+      name: "Ruby",
+    },
+    {
+      id: 3,
+      name: "Spring Framework",
+    },
+  ]
+
 interface thing {
   [key: string]: any;
   id: number;

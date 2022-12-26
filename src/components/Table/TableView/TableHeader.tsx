@@ -1,14 +1,27 @@
-const TableHeader = ({ headers }: { headers: Array<string> }) => {
+import { SxProps, TableCell, TableHead, TableRow, Theme } from "@mui/material";
+
+interface Props {
+  headers: string[],
+  headerStyle: SxProps<Theme>,
+}
+
+const TableHeader = (
+  {headers, headerStyle}: Props
+  ) => {
   return (
-    <div data-testid="table-header">
-      {headers.map((h) => {
-        return (
-          <div data-testid={h} key={h}>
-            {h}
-          </div>
-        );
-      })}
-    </div>
+    <TableHead>
+            <TableRow>
+              {headers.map((header: string, index) => (
+                <TableCell
+                  key={index}
+                  align={"left"}
+                  sx={headerStyle}
+                >
+                  {header}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
   );
 };
 

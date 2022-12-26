@@ -1,30 +1,17 @@
-import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import FormComponent from "../../../components/FormComponent/FormComponent";
 import Box from "@mui/material/Box";
-import ManagementTableComponent from "../../../components/Table/ManagementTableComponent/ManagementTableComponent";
-import { useRef, useState } from "react";
-import { MockRows } from "../../../data/MockData";
-import IColumns from "../../../models/interfaces/IColumns";
-import { Button } from "@mui/material";
-import TableContainer from "../../../components/Table/TableView/TableContainer";
 
 function a11yProps(index: number) {
   return {
-    id: `simple-tab-${index}`,
+    id: `${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
-const tabLabels = ["Projects", "Technology", "Grade", "Country", "Community"];
-
-export default function ManagementTabs() {
-  const [value, setValue] = React.useState("Projects");
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(tabLabels[newValue]);
-  };
+export default function ManagementTabs(
+  {handleChange} : {handleChange : (e: React.SyntheticEvent, newValue:number) => void}
+) {
 
   return (
     <div className="margin">
@@ -53,11 +40,6 @@ export default function ManagementTabs() {
             <Tab label="Community" {...a11yProps(4)} />
           </Tabs>
         </Box>
-        <div>+ Add {value === "Technology" ? "Skill" : value}</div>
-        <TableContainer
-          headers={[`${value}ss`, "headers"]}
-          rows={[`${value}sss`, "rows"]}
-        />
       </Box>
     </div>
   );
