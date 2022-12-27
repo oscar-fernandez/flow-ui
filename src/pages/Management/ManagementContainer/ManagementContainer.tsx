@@ -48,20 +48,31 @@ const buttonStyle = {
 export default function ManagementContainer() {
   const [showForm, setShowForm] = useState(false);
   const [value, setValue] = useState(Module.tabLabels[0]);
+  const [active, setActive] = useState("Table");
+  const selectedRow = useRef({});
 
   const toggleShowForm = () => {
-    setShowForm(!showForm);
+    switch (value) {
+      case "Projects":
+        setShowForm(!showForm);
+        setActive("Form");
+    }
   };
 
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(Module.tabLabels[newValue]);
     setShowForm(false);
+    setActive("Table");
   };
 
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    //console.log(mockProjects[+event.currentTarget.id]) //shorthand convert str to number
+    selectedRow.current = mockProjects[+event.currentTarget.id]; //shorthand convert str to number
+    switch (value) {
+      case "Projects":
+        setActive("Details");
+    }
   };
 
   //temporary
@@ -93,30 +104,52 @@ export default function ManagementContainer() {
         <PageViewHeader pageTitle="Management" showPlus={false} />
         {/* TODO: include Filter Component */}
         <ManagementTabs handleChange={handleChange} />
-        {showForm ? (
-          <FormComponent />
-        ) : (
-          <>
-            <div style={{ backgroundColor: "#E6E8E6" }}>
-              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
-                  variant="text"
-                  onClick={toggleShowForm}
-                  sx={buttonStyle}
-                >
-                  + Add {value === "Technology" ? "Skill" : value}
-                </Button>
-              </Box>
-            </div>
-            <CustomTableContainer
-              headers={headers()}
-              rows={fn()}
-              headerStyle={headerStyle}
-              rowStyle={rowStyle}
-              cellStyle={cellStyle}
-              customHandleSelection={customHandleSelection}
-            />
-          </>
+        <div style={{ backgroundColor: "#E6E8E6" }}>
+          {active === "Table" && (
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button variant="text" onClick={toggleShowForm} sx={buttonStyle}>
+                + Add {value === "Technology" ? "Skill" : value}
+              </Button>
+            </Box>
+          )}
+        </div>
+        {active === "Table" && (
+          <CustomTableContainer
+            headers={headers()}
+            rows={fn()}
+            headerStyle={headerStyle}
+            rowStyle={rowStyle}
+            cellStyle={cellStyle}
+            customHandleSelection={customHandleSelection}
+          />
+        )}
+        {active === "Form" && (
+          <FormComponent
+            title="Add Project"
+            readonly={false}
+            edit={false}
+            selectedRow={""}
+            handleClick={() => setActive("Table")}
+          />
+        )}
+        {active === "Details" && (
+          <FormComponent
+            title="Project Details"
+            readonly={true}
+            edit={true}
+            selectedRow={selectedRow}
+            handleClick={() => setActive("Table")}
+            handleEdit={() => setActive("Edit")}
+          />
+        )}
+        {active === "Edit" && (
+          <FormComponent
+            title="Edit Project"
+            readonly={false}
+            edit={false}
+            selectedRow={selectedRow}
+            handleClick={() => setActive("Table")}
+          />
         )}
       </div>
     </>

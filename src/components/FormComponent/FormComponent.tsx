@@ -70,6 +70,16 @@ function FormComponent(props: any) {
     setTechStackString(typeof value === "string" ? value.split(",") : value);
   };
 
+  let name = "";
+  let repo = "";
+  let summ = "";
+
+  if (props.selectedRow != "") {
+    name = props.selectedRow?.current?.name;
+    repo = props.selectedRow?.current?.repoLink;
+    summ = props.selectedRow?.current?.summary;
+  }
+
   return (
     <div className="form-component">
       <div style={{ width: "50%" }}>
@@ -91,6 +101,7 @@ function FormComponent(props: any) {
               variant="standard"
               sx={inputStyle}
               autoComplete="off"
+              defaultValue={name}
             />
             <TextField
               error
@@ -105,6 +116,7 @@ function FormComponent(props: any) {
               variant="standard"
               sx={inputStyle}
               autoComplete="off"
+              defaultValue={repo}
             />
             <TextField
               error
@@ -117,6 +129,7 @@ function FormComponent(props: any) {
               variant="standard"
               sx={inputStyle}
               autoComplete="off"
+              defaultValue={summ}
             />
           </div>
           <div className="column">
@@ -187,8 +200,12 @@ function FormComponent(props: any) {
               </>
             ) : (
               <>
-                <button className="blue-button">Back to Projects...</button>
-                <button className="orange-button">Edit Project</button>
+                <button className="blue-button" onClick={props.handleClick}>
+                  Back to Projects...
+                </button>
+                <button className="orange-button" onClick={props.handleEdit}>
+                  Edit Project
+                </button>
               </>
             )}
           </div>
