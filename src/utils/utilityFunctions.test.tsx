@@ -32,8 +32,8 @@ describe("utilityTest", () => {
     const resultingArray = updatedProjects(dummyProjects);
     const testingMark: IProjectTable = {
       id: "977284",
-      projectName: "Steve",
-      summary: "Bob",
+      projectName: "PixelGram",
+      summary: "",
       techStack: [
         { id: 2, name: "Java" },
         { id: 8, name: "React" },
