@@ -220,7 +220,11 @@ function FormComponent(props: any) {
                 <button className="blue-button" onClick={props.handleClick}>
                   Cancel
                 </button>
-                <button className="blue-button" onClick={clearFields}>
+                <button
+                  className="blue-button"
+                  data-testid="reset"
+                  onClick={clearFields}
+                >
                   Reset
                 </button>
                 <button className="orange-button">Submit</button>
