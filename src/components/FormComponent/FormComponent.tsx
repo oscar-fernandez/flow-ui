@@ -5,7 +5,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import ITechnology from "../../models/interfaces/ITechnology";
 import "./FormComponent.css";
 
@@ -39,6 +39,10 @@ const inputStyle = () => ({
   },
 });
 
+const InputProps = {
+  disableUnderline: true,
+};
+
 function FormComponent(props: any) {
   const ts: ITechnology[] = [
     { id: 0, name: "Java" },
@@ -56,10 +60,6 @@ function FormComponent(props: any) {
     readOnly: props.readonly,
   };
 
-  const InputProps = {
-    disableUnderline: true,
-  };
-
   //manages array of string for select
   const [techStackString, setTechStackString] = useState<string[]>([]);
 
@@ -70,13 +70,30 @@ function FormComponent(props: any) {
     setTechStackString(typeof value === "string" ? value.split(",") : value);
   };
 
-  let name = "";
-  let repo = "";
-  let summ = "";
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    //TODO post project call
+  };
+
+  const clearFields = () => {
+    const projectName = document.getElementById(
+      "projectName"
+    ) as HTMLInputElement;
+    const repoLink = document.getElementById("link") as HTMLInputElement;
+    const summary = document.getElementById("summary") as HTMLInputElement;
+    projectName.value = "";
+    repoLink.value = "";
+    summary.value = "";
+    setTechStackString([]);
+  };
+
+  //for props
+  let name,
+    link,
+    summ = "";
 
   if (props.selectedRow != "") {
     name = props.selectedRow?.current?.name;
-    repo = props.selectedRow?.current?.repoLink;
+    link = props.selectedRow?.current?.repoLink;
     summ = props.selectedRow?.current?.summary;
   }
 
@@ -85,12 +102,14 @@ function FormComponent(props: any) {
       <div style={{ width: "50%" }}>
         <h3 data-testid="title">{props.title}</h3>
       </div>
-      <form>
-        <div className="input-order">
+      <form onSubmit={handleSubmit}>
+        <div style={{ display: "flex" }}>
           <div className="column">
             <TextField
               error
               required
+              id="projectName"
+              name="projectName"
               inputProps={{
                 ...inputProps,
                 maxLength: 255,
@@ -106,6 +125,8 @@ function FormComponent(props: any) {
             <TextField
               error
               required
+              id="link"
+              name="link"
               inputProps={{
                 ...inputProps,
                 pattern:
@@ -116,11 +137,13 @@ function FormComponent(props: any) {
               variant="standard"
               sx={inputStyle}
               autoComplete="off"
-              defaultValue={repo}
+              defaultValue={link}
             />
             <TextField
               error
               required
+              id="summary"
+              name="summary"
               multiline
               rows={4}
               inputProps={inputProps}
@@ -150,6 +173,7 @@ function FormComponent(props: any) {
               <Select
                 required
                 multiple
+                id="techStack"
                 variant="standard"
                 displayEmpty
                 disableUnderline
@@ -170,6 +194,7 @@ function FormComponent(props: any) {
                   marginTop: "1rem",
                 }}
                 onChange={handleChange}
+                readOnly={props.readonly}
               >
                 {/* itech as props */}
                 {ts.map((tech) => (
@@ -195,7 +220,9 @@ function FormComponent(props: any) {
                 <button className="blue-button" onClick={props.handleClick}>
                   Cancel
                 </button>
-                <button className="blue-button">Reset</button>
+                <button className="blue-button" onClick={clearFields}>
+                  Reset
+                </button>
                 <button className="orange-button">Submit</button>
               </>
             ) : (
