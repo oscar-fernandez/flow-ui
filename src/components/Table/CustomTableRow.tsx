@@ -11,6 +11,7 @@ interface Props {
   ) => void;
   updateSelectedEnablees?: (index: number) => void;
   index: number;
+  skill: boolean;
 }
 
 export default function CustomRowComponent({
@@ -21,6 +22,7 @@ export default function CustomRowComponent({
   customHandleSelection,
   updateSelectedEnablees, //currently only used in defaultHandleSelection, will not be called when customHandleSelects for now
   index,
+  skill,
 }: Props) {
   const [toggle, setToggle] = useState(false);
   const defaultHandleSelection = (
@@ -33,29 +35,31 @@ export default function CustomRowComponent({
   let rowColor = "";
   index % 2 === 0 ? (rowColor = "#CCCCDA") : (rowColor = "#E6E8E6");
   return (
-    <TableRow
-      data-testid="table-row"
-      id={rowId}
-      hover
-      tabIndex={-1}
-      onClick={customHandleSelection || defaultHandleSelection}
-      sx={{
-        ...rowStyle,
-        backgroundColor: toggle ? "#000048" : rowColor,
-        color: toggle ? "#CCCCDA" : "#000048",
-      }}
-    >
-      {row.map((r: string, index: number) => (
-        <TableCell
-          data-testid={r}
-          //  title={r}
-          key={index}
-          align={"left"}
-          sx={cellStyle}
-        >
-          {r}
-        </TableCell>
-      ))}
-    </TableRow>
+    <>
+      <TableRow
+        data-testid="table-row"
+        id={rowId}
+        hover
+        tabIndex={-1}
+        onClick={customHandleSelection || defaultHandleSelection}
+        sx={{
+          ...rowStyle,
+          backgroundColor: toggle ? "#000048" : rowColor,
+          color: toggle ? "#CCCCDA" : "#000048",
+        }}
+      >
+        {row.map((r: string, index: number) => (
+          <TableCell
+            data-testid={r}
+            //  title={r}
+            key={index}
+            align={"left"}
+            sx={cellStyle}
+          >
+            {r}
+          </TableCell>
+        ))}
+      </TableRow>
+    </>
   );
 }
