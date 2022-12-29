@@ -5,7 +5,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import ITechnology from "../../models/interfaces/ITechnology";
 import "./FormComponent.css";
 
@@ -43,7 +43,7 @@ const InputProps = {
   disableUnderline: true,
 };
 
-function FormComponent(props: any) {
+export default function FormComponent(props: any) {
   const ts: ITechnology[] = [
     { id: 0, name: "Java" },
     { id: 1, name: "React" },
@@ -70,10 +70,6 @@ function FormComponent(props: any) {
     setTechStackString(typeof value === "string" ? value.split(",") : value);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    //TODO post project call
-  };
-
   const clearFields = () => {
     const projectName = document.getElementById(
       "projectName"
@@ -86,7 +82,7 @@ function FormComponent(props: any) {
     setTechStackString([]);
   };
 
-  //for props
+  //input field value
   let name,
     link,
     summ = "";
@@ -102,7 +98,7 @@ function FormComponent(props: any) {
       <div style={{ width: "50%" }}>
         <h3 data-testid="title">{props.title}</h3>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div style={{ display: "flex" }}>
           <div className="column">
             <TextField
@@ -185,6 +181,7 @@ function FormComponent(props: any) {
                   return selected.join(", ");
                 }}
                 value={techStackString}
+                inputProps={{ "data-testid": "select" }}
                 sx={{
                   backgroundColor: "#d9d9d9",
                   borderRadius: "10px",
@@ -245,5 +242,3 @@ function FormComponent(props: any) {
     </div>
   );
 }
-
-export default FormComponent;

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import FormComponent from "./FormComponent";
 
@@ -26,5 +26,12 @@ describe("FormComponent", () => {
     expect(projectName.value).toBe("");
     expect(repoLink.value).toBe("");
     expect(summary.value).toBe("");
+  });
+
+  it("should create tech stack string array", () => {
+    const utils = render(<FormComponent />);
+    const select = utils.getByTestId("select") as HTMLSelectElement;
+    fireEvent.change(select, { target: { value: "Java" } });
+    expect(select.value).toBe("Java");
   });
 });
