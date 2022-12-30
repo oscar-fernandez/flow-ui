@@ -29,5 +29,33 @@ describe("Management View page", () => {
     fireEvent.click(row);
     const title = utils.getByText("Project Details");
     expect(title).toBeInTheDocument();
+    const backButton = utils.getByText("Back to Projects...");
+    fireEvent.click(backButton);
+  });
+
+  it("should return correct headers", () => {
+    const utils = render(<ManagementContainer />);
+    const gradeTab = utils.getByText("Grade");
+    fireEvent.click(gradeTab);
+    const addSkill = utils.getByTestId("button") as HTMLButtonElement;
+    expect(addSkill.value).toBe("");
+  });
+
+  it("should handle cancel on add project view", () => {
+    const utils = render(<ManagementContainer />);
+    const addButton = utils.getByTestId("button") as HTMLButtonElement;
+    fireEvent.click(addButton);
+    const cancelButton = utils.getByText("Cancel") as HTMLButtonElement;
+    fireEvent.click(cancelButton);
+  });
+
+  it("should toggle edit", () => {
+    const utils = render(<ManagementContainer />);
+    const row = utils.getByText("PixelGram");
+    fireEvent.click(row);
+    const editButton = utils.getByText("Edit Project");
+    fireEvent.click(editButton);
+    const cancel = utils.getByText("Cancel");
+    fireEvent.click(cancel);
   });
 });
