@@ -8,6 +8,7 @@ import { mockTechnology } from "../../../data/MockData";
 import * as Module from "../mgtUtils";
 import { Box, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import CustomTableButton from "../../../components/Table/CustomTableButton";
 
 const headerStyle = {
   minWidth: 50,
@@ -47,7 +48,6 @@ const buttonStyle = {
 };
 
 export default function ManagementContainer() {
-  const [showForm, setShowForm] = useState(false);
   const [value, setValue] = useState(Module.tabLabels[0]);
   const [active, setActive] = useState("Table");
   const selectedRow = useRef({});
@@ -56,7 +56,6 @@ export default function ManagementContainer() {
   const toggleShowForm = () => {
     switch (value) {
       case "Projects":
-        setShowForm(!showForm);
         setActive("Form");
         break;
       case "Technology":
@@ -67,7 +66,6 @@ export default function ManagementContainer() {
 
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(Module.tabLabels[newValue]);
-    setShowForm(false);
     setActive("Table");
     setSkill(false);
   };
@@ -111,16 +109,13 @@ export default function ManagementContainer() {
         <PageViewHeader pageTitle="Management" showPlus={false} />
         {/* TODO: include Filter Component */}
         <ManagementTabs handleChange={handleChange} />
-        <div style={{ backgroundColor: "#E6E8E6" }}>
-          {active === "Table" && (
-            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-              <Button variant="text" onClick={toggleShowForm} sx={buttonStyle}>
-                + Add {value === "Technology" ? "Skill" : value}
-              </Button>
-            </Box>
-          )}
-        </div>
-
+        {active === "Table" && (
+          <CustomTableButton
+            value={value}
+            buttonStyle={buttonStyle}
+            customHandleClick={toggleShowForm}
+          />
+        )}
         {active === "Table" && (
           <CustomTableContainer
             headers={headers()}

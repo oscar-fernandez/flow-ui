@@ -64,9 +64,11 @@ const CustomTableContainer = ({
             <label htmlFor="search">
               <TextField
                 id="search"
+                inputProps={{ "data-testid": "input" }}
                 type="text"
                 onChange={handleNewTechValue}
                 /*onKeyDown={handleNewTechEnter}*/ required
+                value={newTechValue}
               />
               {techError == true && (
                 <>
