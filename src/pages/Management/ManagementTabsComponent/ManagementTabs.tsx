@@ -9,10 +9,11 @@ function a11yProps(index: number) {
   };
 }
 
-export default function ManagementTabs(
-  {handleChange} : {handleChange : (e: React.SyntheticEvent, newValue:number) => void}
-) {
-
+export default function ManagementTabs({
+  handleChange,
+}: {
+  handleChange: (e: React.SyntheticEvent, newValue: number) => void;
+}) {
   return (
     <div className="margin">
       <Box sx={{ "& .MuiBox-root": { p: 0 } }}>
@@ -33,8 +34,8 @@ export default function ManagementTabs(
               "& button.Mui-selected": { backgroundColor: "#EBEDEB" },
             }}
           >
-            <Tab label="Projects" {...a11yProps(0)} />
-            <Tab label="Technology" {...a11yProps(1)} />
+            <Tab data-testid="projectTab" label="Projects" {...a11yProps(0)} />
+            <Tab data-testid="techTab" label="Technology" {...a11yProps(1)} />
             <Tab label="Grade" {...a11yProps(2)} />
             <Tab label="Country" {...a11yProps(3)} />
             <Tab label="Community" {...a11yProps(4)} />
