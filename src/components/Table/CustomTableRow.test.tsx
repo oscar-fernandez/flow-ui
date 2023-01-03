@@ -17,12 +17,16 @@ const hoc = (child: JSX.Element) => (
 
 describe("TableHeader Unit tests", () => {
   it("should render", () => {
-    render(hoc(<CustomeTableRow rowId={""} row={[]} index={0} />));
+    render(
+      hoc(<CustomeTableRow rowId={""} row={[]} index={0} skill={false} />)
+    );
     expect(screen.getByTestId("table-row")).toBeInTheDocument();
   });
 
   it("should render list of header items", () => {
-    render(hoc(<CustomeTableRow rowId={""} row={rows} index={0} />));
+    render(
+      hoc(<CustomeTableRow rowId={""} row={rows} index={0} skill={false} />)
+    );
     expect(screen.getByTestId("A")).toHaveTextContent("A");
   });
 });

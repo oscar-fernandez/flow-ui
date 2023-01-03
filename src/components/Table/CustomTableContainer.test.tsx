@@ -42,7 +42,14 @@ describe("TableView tests", () => {
   });
 
   it("should change row background color when clicked", () => {
-    render(<CustomTableContainer headers={headers} rows={rows} />);
+    render(
+      <CustomTableContainer
+        headers={headers}
+        rows={rows}
+        skill={false}
+        value={""}
+      />
+    );
     const row = screen.getAllByTestId("table-row")?.[0];
     expect(row).toBeInTheDocument();
     expect(row).toHaveStyle("background-color: #CCCCDA");
