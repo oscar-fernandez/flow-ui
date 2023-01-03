@@ -16,10 +16,6 @@
   display: flex;
 }
 
-.number:last-child {
-  margin-right: 20px;
-}
-
 .number:first-child {
   margin-left: 20px;
 }
@@ -30,6 +26,7 @@
   font-size: 28px;
   margin-left: 12px;
   font-weight: bold;
+  height: 28px;
 }
 
 .active {
@@ -46,9 +43,8 @@
 
 .dots {
   color: #000048;
-  margin-left: 12px;
+  margin-left: 6px;
   font-weight: bold;
-  margin-left: 8px;
   margin-right: -6px;
   transform: translateY(12px);
 }
@@ -57,8 +53,8 @@
   background-color: #000048;
   border-radius: 50%;
   border: none;
-  height: 40px;
-  width: 40px;
+  height: 50px;
+  width: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,7 +62,7 @@
 
 .arrow:disabled,
 .arrow:hover:disabled {
-  color: #ced4da;
+  color: #343a40;
   background-color: #868e96;
   cursor: default;
 }
@@ -87,15 +83,9 @@
 
 .input-error-main {
   position: absolute;
-  transform: translateY(-50px);
-  color: red;
-  font-weight: bold;
+  transform: translateY(40px);
+  color: #f03e3e;
   font-size: 18px;
-}
-
-.input-error-content {
-  font-size: 16px;
-  font-weight: 500;
 }
 
 .input-pagenumber {
