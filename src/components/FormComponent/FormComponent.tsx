@@ -9,7 +9,7 @@ import { useState } from "react";
 import ITechnology from "../../models/interfaces/ITechnology";
 import "./FormComponent.css";
 
-const inputStyle = (theme: any) => ({
+const inputStyle = () => ({
   marginLeft: "auto",
   marginRight: "auto",
   backgroundColor: "#d9d9d9",
@@ -39,7 +39,11 @@ const inputStyle = (theme: any) => ({
   },
 });
 
-function FormComponent(props: any) {
+const InputProps = {
+  disableUnderline: true,
+};
+
+export default function FormComponent(props: any) {
   const ts: ITechnology[] = [
     { id: 0, name: "Java" },
     { id: 1, name: "React" },
@@ -56,13 +60,6 @@ function FormComponent(props: any) {
     readOnly: props.readonly,
   };
 
-  const InputProps = {
-    disableUnderline: true,
-  };
-
-  //manages array of tech objects
-  const [techStack, setTechStack] = useState<ITechnology[]>([]);
-
   //manages array of string for select
   const [techStackString, setTechStackString] = useState<string[]>([]);
 
@@ -73,17 +70,42 @@ function FormComponent(props: any) {
     setTechStackString(typeof value === "string" ? value.split(",") : value);
   };
 
+  const clearFields = () => {
+    const projectName = document.getElementById(
+      "projectName"
+    ) as HTMLInputElement;
+    const repoLink = document.getElementById("link") as HTMLInputElement;
+    const summary = document.getElementById("summary") as HTMLInputElement;
+    projectName.value = "";
+    repoLink.value = "";
+    summary.value = "";
+    setTechStackString([]);
+  };
+
+  //input field value
+  let name,
+    link,
+    summ = "";
+
+  if (props.selectedRow != "") {
+    name = props.selectedRow?.current?.name;
+    link = props.selectedRow?.current?.repoLink;
+    summ = props.selectedRow?.current?.summary;
+  }
+
   return (
     <div className="form-component">
       <div style={{ width: "50%" }}>
         <h3 data-testid="title">{props.title}</h3>
       </div>
       <form>
-        <div className="input-order">
+        <div style={{ display: "flex" }}>
           <div className="column">
             <TextField
               error
               required
+              id="projectName"
+              name="projectName"
               inputProps={{
                 ...inputProps,
                 maxLength: 255,
@@ -94,10 +116,13 @@ function FormComponent(props: any) {
               variant="standard"
               sx={inputStyle}
               autoComplete="off"
+              defaultValue={name}
             />
             <TextField
               error
               required
+              id="link"
+              name="link"
               inputProps={{
                 ...inputProps,
                 pattern:
@@ -108,10 +133,13 @@ function FormComponent(props: any) {
               variant="standard"
               sx={inputStyle}
               autoComplete="off"
+              defaultValue={link}
             />
             <TextField
               error
               required
+              id="summary"
+              name="summary"
               multiline
               rows={4}
               inputProps={inputProps}
@@ -120,6 +148,7 @@ function FormComponent(props: any) {
               variant="standard"
               sx={inputStyle}
               autoComplete="off"
+              defaultValue={summ}
             />
           </div>
           <div className="column">
@@ -140,6 +169,7 @@ function FormComponent(props: any) {
               <Select
                 required
                 multiple
+                id="techStack"
                 variant="standard"
                 displayEmpty
                 disableUnderline
@@ -151,6 +181,7 @@ function FormComponent(props: any) {
                   return selected.join(", ");
                 }}
                 value={techStackString}
+                inputProps={{ "data-testid": "select" }}
                 sx={{
                   backgroundColor: "#d9d9d9",
                   borderRadius: "10px",
@@ -160,6 +191,7 @@ function FormComponent(props: any) {
                   marginTop: "1rem",
                 }}
                 onChange={handleChange}
+                readOnly={props.readonly}
               >
                 {/* itech as props */}
                 {ts.map((tech) => (
@@ -182,14 +214,26 @@ function FormComponent(props: any) {
           <div className="buttons">
             {props.edit === false ? (
               <>
-                <button className="blue-button">Cancel</button>
-                <button className="blue-button">Reset</button>
+                <button className="blue-button" onClick={props.handleClick}>
+                  Cancel
+                </button>
+                <button
+                  className="blue-button"
+                  data-testid="reset"
+                  onClick={clearFields}
+                >
+                  Reset
+                </button>
                 <button className="orange-button">Submit</button>
               </>
             ) : (
               <>
-                <button className="blue-button">Back to Projects...</button>
-                <button className="orange-button">Edit Project</button>
+                <button className="blue-button" onClick={props.handleClick}>
+                  Back to Projects...
+                </button>
+                <button className="orange-button" onClick={props.handleEdit}>
+                  Edit Project
+                </button>
               </>
             )}
           </div>
@@ -198,5 +242,3 @@ function FormComponent(props: any) {
     </div>
   );
 }
-
-export default FormComponent;
