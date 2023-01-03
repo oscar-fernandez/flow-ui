@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { screen, render, prettyDOM } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 import CustomeTableRow from "./CustomTableRow";
 import { Table, TableBody, TableContainer } from "@mui/material";
 
@@ -17,14 +17,12 @@ const hoc = (child: JSX.Element) => (
 
 describe("TableHeader Unit tests", () => {
   it("should render", () => {
-    const container = render(
-      hoc(<CustomeTableRow rowId={""} row={[]} index={0} />)
-    );
+    render(hoc(<CustomeTableRow rowId={""} row={[]} index={0} />));
     expect(screen.getByTestId("table-row")).toBeInTheDocument();
   });
 
   it("should render list of header items", () => {
     render(hoc(<CustomeTableRow rowId={""} row={rows} index={0} />));
-    expect(screen.getByTestId("A").textContent).toBe("A");
+    expect(screen.getByTestId("A")).toHaveTextContent("A");
   });
 });

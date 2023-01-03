@@ -2,5 +2,4 @@ coverage
 node_modules
 dist
 vite.config.ts
-**/*.test.tsx
-**/*.spec.tsx
+

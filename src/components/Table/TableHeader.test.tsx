@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { screen, render, prettyDOM } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 import TableHeader from "./TableHeader";
 import { Table, TableContainer } from "@mui/material";
 
@@ -15,12 +15,12 @@ const hoc = (child: JSX.Element) => (
 
 describe("TableHeader Unit tests", () => {
   it("should render", () => {
-    const c = render(hoc(<TableHeader headers={headers} headerStyle={null} />));
+    render(hoc(<TableHeader headers={headers} headerStyle={null} />));
     expect(screen.getByTestId("table-header")).toBeInTheDocument();
   });
 
   it("should render list of header items", () => {
     render(hoc(<TableHeader headers={headers} headerStyle={null} />));
-    expect(screen.getByTestId("A").textContent).toBe("A");
+    expect(screen.getByTestId("A")).toHaveTextContent("A");
   });
 });
