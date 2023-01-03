@@ -10,11 +10,15 @@ describe("FormComponent", () => {
 
   it("should clear input fields on reset click", () => {
     render(<FormComponent edit={false} />);
-    const projectName = document.getElementById(
-      "projectName"
+    const projectName = screen.getByPlaceholderText(
+      "project name"
     ) as HTMLInputElement;
-    const repoLink = document.getElementById("link") as HTMLInputElement;
-    const summary = document.getElementById("summary") as HTMLInputElement;
+    const repoLink = screen.getByPlaceholderText(
+      "link to project repository"
+    ) as HTMLInputElement;
+    const summary = screen.getByPlaceholderText(
+      "project summary"
+    ) as HTMLInputElement;
     const resetButton = screen.getByTestId("reset");
 
     projectName.value = "test";
@@ -29,8 +33,8 @@ describe("FormComponent", () => {
   });
 
   it("should create tech stack string array", () => {
-    const utils = render(<FormComponent />);
-    const select = utils.getByTestId("select") as HTMLSelectElement;
+    render(<FormComponent />);
+    const select = screen.getByTestId("select") as HTMLSelectElement;
     fireEvent.change(select, { target: { value: "Java" } });
     expect(select.value).toBe("Java");
   });

@@ -1,20 +1,18 @@
-import { beforeEach, describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import PageNumberCarousel from "./PageNumberCarousel";
 
 describe("PageNumberCarousel", () => {
-  beforeEach(() => {
-    render(<PageNumberCarousel totalPages={10} />);
-  });
-
   it('should have a "Next page" button', () => {
+    render(<PageNumberCarousel totalPages={10} />);
     const nextPageButton = screen.getByRole("button", {
       name: "Next page",
     });
-    expect(nextPageButton).toBeTruthy();
+    expect(nextPageButton).toBeInTheDocument();
   });
 
   it('should enable previous page button after clicking "Next page"', () => {
+    render(<PageNumberCarousel totalPages={10} />);
     const previousPageButton = screen.getByRole("button", {
       name: "Previous page",
     });
@@ -26,6 +24,7 @@ describe("PageNumberCarousel", () => {
   });
 
   it('should disable "Next Page" when on last page', () => {
+    render(<PageNumberCarousel totalPages={10} />);
     const nextPageButton = screen.getByRole("button", {
       name: "Next page",
     });
@@ -36,6 +35,7 @@ describe("PageNumberCarousel", () => {
   });
 
   it('should disable "Previous page" button when on first page', () => {
+    render(<PageNumberCarousel totalPages={10} />);
     const nextPageButton = screen.getByRole("button", {
       name: "Next page",
     });
@@ -48,6 +48,7 @@ describe("PageNumberCarousel", () => {
   });
 
   it("should have both buttons enabled", () => {
+    render(<PageNumberCarousel totalPages={10} />);
     const nextPageButton = screen.getByRole("button", {
       name: "Next page",
     });
@@ -63,6 +64,7 @@ describe("PageNumberCarousel", () => {
   });
 
   it("goes to page that has been clicked", () => {
+    render(<PageNumberCarousel totalPages={10} />);
     fireEvent.click(screen.getByText("4"));
     expect(screen.getByText("4")).toHaveClass("number", "active");
     fireEvent.click(screen.getByText("1"));
@@ -72,6 +74,7 @@ describe("PageNumberCarousel", () => {
   });
 
   it("goes to the page that is submitted by the user", () => {
+    render(<PageNumberCarousel totalPages={10} />);
     const input = screen.getByRole("textbox");
     const goButton = screen.getByRole("button", { name: "Go" });
     fireEvent.change(input, { target: { value: "5" } });
@@ -83,6 +86,7 @@ describe("PageNumberCarousel", () => {
   });
 
   it("should enable/disable previous and next page buttons correctly", () => {
+    render(<PageNumberCarousel totalPages={10} />);
     const nextPageButton = screen.getByRole("button", {
       name: "Next page",
     });

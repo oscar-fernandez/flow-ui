@@ -1,4 +1,4 @@
-import { screen, render, fireEvent } from "@testing-library/react";
+import { screen, render, fireEvent, prettyDOM } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import CustomTableContainer from "./CustomTableContainer";
 const headers = ["Project Name", "Tech Stack"];
@@ -46,13 +46,12 @@ describe("TableView tests", () => {
       <CustomTableContainer
         headers={headers}
         rows={rows}
-        skill={skill}
-        value={value}
+        skill={false}
+        value={""}
       />
     );
-    const row = screen.getByRole("cell", { name: "A" }).closest("tr");
-    expect(row).toBeTruthy();
-    // console.log(prettyDOM(podAssignmentView.container));
+    const row = screen.getAllByTestId("table-row")?.[0];
+    expect(row).toBeInTheDocument();
     expect(row).toHaveStyle("background-color: #CCCCDA");
     row && fireEvent.click(row);
     expect(row).toHaveStyle("background-color: #000048");
@@ -61,7 +60,7 @@ describe("TableView tests", () => {
   });
 
   it("Should test the  handleNewTechnology method", () => {
-    const utils = render(
+    render(
       <CustomTableContainer
         headers={headers}
         rows={rows}
@@ -69,7 +68,7 @@ describe("TableView tests", () => {
         value={value}
       />
     );
-    const input = utils.getByTestId("input") as HTMLInputElement;
+    const input = screen.getByTestId("input") as HTMLInputElement;
     fireEvent.change(input, { target: { value: "foo" } });
     expect(input.value).toBe("foo");
     fireEvent.change(input, { target: { value: "" } });

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Row from "./Row";
 import ITechnology from "../../models/interfaces/ITechnology";
@@ -32,7 +32,7 @@ describe("Row tests", () => {
     const tsText = screen.queryByTestId("tech-stack");
     tsText && userEvent.hover(tsText);
     await waitFor(() => screen.findByRole("tooltip"));
-    expect(screen.findByRole("tooltip")).toBeTruthy();
+    expect(screen.getByText("Java, React, Node.js")).toBeInTheDocument();
   });
 
   it("should render ... when there is more than 3 elements", () => {
