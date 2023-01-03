@@ -6,6 +6,8 @@ import FormComponent from "../../../components/FormComponent/FormComponent";
 import { dummyProjects as mockProjects } from "../../../data/MockApiCall";
 import { mockTechnology } from "../../../data/MockData";
 import * as Module from "../mgtUtils";
+import { Box, Button } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import CustomTableButton from "../../../components/Table/CustomTableButton";
 
 const headerStyle = {
@@ -49,17 +51,23 @@ export default function ManagementContainer() {
   const [value, setValue] = useState(Module.tabLabels[0]);
   const [active, setActive] = useState("Table");
   const selectedRow = useRef({});
+  const [skill, setSkill] = useState(false);
 
   const toggleShowForm = () => {
     switch (value) {
       case "Projects":
         setActive("Form");
+        break;
+      case "Technology":
+        setSkill(!skill);
+        break;
     }
   };
 
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(Module.tabLabels[newValue]);
     setActive("Table");
+    setSkill(false);
   };
 
   const customHandleSelection = (
@@ -116,6 +124,8 @@ export default function ManagementContainer() {
             rowStyle={rowStyle}
             cellStyle={cellStyle}
             customHandleSelection={customHandleSelection}
+            skill={skill}
+            value={value}
           />
         )}
         {active === "Form" && (

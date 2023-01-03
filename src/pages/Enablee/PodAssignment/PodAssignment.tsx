@@ -77,6 +77,8 @@ export default function PodAssignment() {
         cellStyle={cellStyle}
         rowStyle={rowStyle}
         updateSelectedEnablees={updateSelectedEnablees}
+        skill={false}
+        value={""}
       />
       <div className="button-container">
         <button className="button button-orange">submit</button>
