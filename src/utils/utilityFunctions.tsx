@@ -89,6 +89,7 @@ export const updatedTechnology = (receivedTechnologies: ITechnology[]) => {
       const updatedTechnology: ITechnologyTable = {
         id: technology.id.toString(),
         skillName: technology.name,
+        backgroundColor: technology.backgroundColor,
       };
 
       return updatedTechnology;
