@@ -22,6 +22,10 @@ interface Props {
   value: string;
 }
 
+const divStyle = {
+  marginLeft: "1rem",
+};
+
 const CustomTableContainer = ({
   headers,
   rows,
@@ -35,13 +39,16 @@ const CustomTableContainer = ({
 }: Props) => {
   const [newTechValue, setNewTechValue] = useState("");
   const [techError, setTechError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(" ");
 
   function handleNewTechValue(event: React.ChangeEvent<HTMLInputElement>) {
     setNewTechValue(event.target.value);
 
     if (event.target.value.trim().length === 0) {
+      setErrorMessage("* Invalid Skill Name");
       setTechError(true);
     } else {
+      setErrorMessage(" ");
       setTechError(false);
     }
   }
@@ -59,23 +66,23 @@ const CustomTableContainer = ({
       <TableContainer data-testid="table-container" sx={{ maxHeight: 600 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHeader headers={headers} headerStyle={headerStyle} />
-
           {skill && value === "Technology" && (
-            <label htmlFor="search">
+            <div style={divStyle}>
               <TextField
-                id="search"
-                inputProps={{ "data-testid": "input" }}
+                id="newSkill"
                 type="text"
-                onChange={handleNewTechValue}
-                /*onKeyDown={handleNewTechEnter}*/ required
+                variant="standard"
+                error={techError}
                 value={newTechValue}
+                helperText={errorMessage}
+                onChange={handleNewTechValue}
+                inputProps={{
+                  "data-testid": "input",
+                  style: { padding: "14.5px 0px" },
+                }}
+                // onKeyDown={handleNewTechEnter}
               />
-              {techError == true && (
-                <>
-                  <p>Invalid Technology Name</p>
-                </>
-              )}
-            </label>
+            </div>
           )}
 
           <TableBody>

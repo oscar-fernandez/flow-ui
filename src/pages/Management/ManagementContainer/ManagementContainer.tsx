@@ -6,8 +6,6 @@ import FormComponent from "../../../components/FormComponent/FormComponent";
 import { dummyProjects as mockProjects } from "../../../data/MockApiCall";
 import { mockTechnology } from "../../../data/MockData";
 import * as Module from "../mgtUtils";
-import { Box, Button } from "@mui/material";
-import TextField from "@mui/material/TextField";
 import CustomTableButton from "../../../components/Table/CustomTableButton";
 
 const headerStyle = {
@@ -110,23 +108,23 @@ export default function ManagementContainer() {
         {/* TODO: include Filter Component */}
         <ManagementTabs handleChange={handleChange} />
         {active === "Table" && (
-          <CustomTableButton
-            value={value}
-            buttonStyle={buttonStyle}
-            customHandleClick={toggleShowForm}
-          />
-        )}
-        {active === "Table" && (
-          <CustomTableContainer
-            headers={headers()}
-            rows={fn()}
-            headerStyle={headerStyle}
-            rowStyle={rowStyle}
-            cellStyle={cellStyle}
-            customHandleSelection={customHandleSelection}
-            skill={skill}
-            value={value}
-          />
+          <>
+            <CustomTableButton
+              value={value}
+              buttonStyle={buttonStyle}
+              customHandleClick={toggleShowForm}
+            />
+            <CustomTableContainer
+              headers={headers()}
+              rows={fn()}
+              headerStyle={headerStyle}
+              rowStyle={rowStyle}
+              cellStyle={cellStyle}
+              customHandleSelection={customHandleSelection}
+              skill={skill}
+              value={value}
+            />
+          </>
         )}
         {active === "Form" && (
           <FormComponent
