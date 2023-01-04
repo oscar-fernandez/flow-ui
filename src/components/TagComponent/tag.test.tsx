@@ -5,6 +5,6 @@ import { TagComponent } from "./Tag";
 describe("TagComponent", () => {
   it("should display tag component", () => {
     render(<TagComponent name="test" color="red" />);
-    expect(screen.queryByText("test")).toBeInTheDocument();
+    expect(screen.getByText("test")).toBeInTheDocument();
   });
 });
