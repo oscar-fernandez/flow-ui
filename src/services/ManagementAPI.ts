@@ -1,31 +1,31 @@
-import axios from "axios";
 import ITechnology from "../models/interfaces/ITechnology";
 import IProject from "../models/interfaces/IProject";
+import { mgtGet, mgtPost, mgtPut } from "../services/FacadePattern";
 
 const baseUrl: string = `${import.meta.env.VITE_ENABLEMENT_FEMS}/mgt` || "";
 
 function getTechnologies() {
-  return axios.get(`${baseUrl}/technologies`);
+  return mgtGet(`${baseUrl}/technologies`);
 }
 
 function updateTechnology(technology: ITechnology) {
-  return axios.put(`${baseUrl}/technology`, technology);
+  return mgtPut(`${baseUrl}/technology`, { technology: `${technology}` });
 }
 
 function createTechnology(technology: ITechnology) {
-  return axios.post(`${baseUrl}/technology`, technology);
+  return mgtPost(`${baseUrl}/technology`, { technology: `${technology}` });
 }
 
 function getProjects() {
-  return axios.get(`${baseUrl}/projects`);
+  return mgtGet(`${baseUrl}/projects`);
 }
 
 function createProject(project: IProject) {
-  return axios.post(`${baseUrl}/project`, project);
+  return mgtPost(`${baseUrl}/project`, { project: `${project}` });
 }
 
 function updateProject(project: IProject) {
-  return axios.put(`${baseUrl}/project`, project);
+  return mgtPut(`${baseUrl}/project`, { project: `${project}` });
 }
 
 export {
