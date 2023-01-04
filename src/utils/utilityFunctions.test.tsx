@@ -20,10 +20,10 @@ describe("utilityTest", () => {
       enablementStartDate: "2022-01-21",
       enablementEndDate: "2022-01-21",
       techStack: [
-        { id: 2, name: "Java" },
-        { id: 8, name: "React" },
-        { id: 12, name: "Rust" },
-        { id: 12, name: "C++" },
+        { id: 2, name: "Java", backgroundColor: "grey" },
+        { id: 8, name: "React", backgroundColor: "blue" },
+        { id: 12, name: "Rust", backgroundColor: "brown" },
+        { id: 12, name: "C++", backgroundColor: "yellow" },
       ],
     };
     expect(resultingArray[0].firstName).toEqual(testingMark.firstName);
@@ -35,10 +35,10 @@ describe("utilityTest", () => {
       projectName: "PixelGram",
       summary: "",
       techStack: [
-        { id: 2, name: "Java" },
-        { id: 8, name: "React" },
-        { id: 12, name: "Rust" },
-        { id: 12, name: "C++" },
+        { id: 2, name: "Java", backgroundColor: "grey" },
+        { id: 8, name: "React", backgroundColor: "blue" },
+        { id: 12, name: "Rust", backgroundColor: "brown" },
+        { id: 12, name: "C++", backgroundColor: "yellow" },
       ],
       repoLink: "google.com",
     };
@@ -46,13 +46,17 @@ describe("utilityTest", () => {
   });
   it("map technologies to Table Rows", () => {
     const mockTechnologies = [
-      { id: 2, name: "Java" },
-      { id: 8, name: "React" },
-      { id: 12, name: "Rust" },
-      { id: 12, name: "C++" },
+      { id: 2, name: "Java", backgroundColor: "grey" },
+      { id: 8, name: "React", backgroundColor: "blue" },
+      { id: 12, name: "Rust", backgroundColor: "brown" },
+      { id: 12, name: "C++", backgroundColor: "yellow" },
     ];
     const resultingArray = updatedTechnology(mockTechnologies);
-    const testingMark: ITechnologyTable = { id: "2", skillName: "Java" };
+    const testingMark: ITechnologyTable = {
+      id: "2",
+      skillName: "Java",
+      backgroundColor: "grey",
+    };
     expect(resultingArray[0].skillName).toEqual(testingMark.skillName);
   });
 });
