@@ -92,13 +92,13 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
               <svg
                 id="arrow-inside"
                 xmlns="http://www.w3.org/2000/svg"
-                fill="#000048"
+                fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth="4"
-                stroke="#e5e5e5"
+                stroke="#f8f9fa"
                 className="arrow-stroke"
-                height={"100px"}
-                width={"100px"}
+                height={"15px"}
+                width={"15x"}
               >
                 <path
                   strokeLinecap="round"
@@ -181,10 +181,10 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth="4"
-                stroke="#e5e5e5"
+                stroke="#f8f9fa"
                 className="arrow-stroke"
-                height={"32px"}
-                width={"40px"}
+                height={"15px"}
+                width={"15px"}
               >
                 <path
                   strokeLinecap="round"
