@@ -10,18 +10,18 @@ describe("Sidebar tests", () => {
   it("drawer should be null", () => {
     render(createSidebar(false));
     const drawer = screen.queryByTestId("drawer");
-    expect(drawer).toBeNull();
+    expect(drawer).not.toBeInTheDocument();
   });
 
   it("drawer should not be null on action", () => {
     render(createSidebar(true));
     const drawer = screen.queryByTestId("drawer");
-    expect(drawer).not.toBeNull();
+    expect(drawer).toBeInTheDocument();
   });
 });
 
 const createSidebar = (toggle: boolean) => {
-  const setTog = (tog: boolean) => {};
+  const setTog = (tog: boolean) => tog;
   return (
     <ToggleSidebar
       toggle={toggle}
