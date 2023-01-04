@@ -1,19 +1,17 @@
-import axios from "axios";
+import { getEnablees } from "./FacadePattern";
 
 const baseUrl: string = import.meta.env.VITE_ENABLEMENT_FEMS || "";
 
 function GetPaginatedEnablees(pageNumber: number) {
-  return axios.get(`${baseUrl}/enablee`, {
-    params: { pageNumber: `${pageNumber}` },
-  });
+  return getEnablees(`${baseUrl}/enablee`, { pageNumber: `${pageNumber}` });
 }
 
 function GetEnableesWithNoStartDate() {
-  return axios.get(`${baseUrl}/enablee/pendingStart`);
+  return getEnablees(`${baseUrl}/enablee/pendingStart`);
 }
 
 function GetEnableesPendingPodAssignment() {
-  return axios.get(`${baseUrl}/enablee/pendingPodAssignment`);
+  return getEnablees(`${baseUrl}/enablee/pendingPodAssignment`);
 }
 
 export {
