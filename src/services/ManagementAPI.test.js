@@ -19,6 +19,7 @@ describe("ManagementAPI tests", () => {
       {
         id: 0,
         name: "JAVA",
+        backgroundColor: "grey",
       },
     ];
 
@@ -42,6 +43,7 @@ describe("ManagementAPI tests", () => {
       {
         id: 0,
         name: "JAVA",
+        backgroundColor: "grey",
       },
     ];
 
@@ -64,6 +66,7 @@ describe("ManagementAPI tests", () => {
       {
         id: 0,
         name: "JAVA",
+        backgroundColor: "grey",
       },
     ];
 
@@ -91,6 +94,7 @@ describe("ManagementAPI tests", () => {
         technology: {
           id: 1,
           name: "JavaScript",
+          backgroundCOlor: "black",
         },
         repoLink: "REPO",
       },
@@ -118,6 +122,7 @@ describe("ManagementAPI tests", () => {
         technology: {
           id: 1,
           name: "JavaScript",
+          backgroundColor: "black",
         },
         repoLink: "REPO",
       },
@@ -145,6 +150,7 @@ describe("ManagementAPI tests", () => {
         technology: {
           id: 1,
           name: "JavaScript",
+          backgroundColor: "black",
         },
         repoLink: "REPO",
       },

@@ -47,12 +47,12 @@ const InputProps = {
 
 export default function FormComponent(props: any) {
   const ts: ITechnology[] = [
-    { id: 0, name: "Java" },
-    { id: 1, name: "React" },
-    { id: 2, name: "SpringBoot" },
-    { id: 3, name: "Jenkins" },
-    { id: 4, name: "Docker" },
-    { id: 5, name: "Angular" },
+    { id: 0, name: "Java", backgroundColor: "grey" },
+    { id: 1, name: "React", backgroundColor: "blue" },
+    { id: 2, name: "SpringBoot", backgroundColor: "green" },
+    { id: 3, name: "Jenkins", backgroundColor: "black" },
+    { id: 4, name: "Docker", backgroundColor: "darkblue" },
+    { id: 5, name: "Angular", backgroundColor: "red" },
   ];
 
   const inputProps = {
