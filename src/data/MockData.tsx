@@ -1,25 +1,28 @@
 import IColumns from "../models/interfaces/IColumns";
 import ITechnology from "../models/interfaces/ITechnology";
 
-
-export const mockTechnology : ITechnology[] = [
-    {
-      id: 3,
-      name: "Java",
-    },
-    {
-      id: 4,
-      name: "React",
-    },
-    {
-      id: 5,
-      name: "Ruby",
-    },
-    {
-      id: 3,
-      name: "Spring Framework",
-    },
-  ]
+export const mockTechnology: ITechnology[] = [
+  {
+    id: 3,
+    name: "Java",
+    backgroundColor: "grey",
+  },
+  {
+    id: 4,
+    name: "React",
+    backgroundColor: "blue",
+  },
+  {
+    id: 5,
+    name: "Ruby",
+    backgroundColor: "red",
+  },
+  {
+    id: 3,
+    name: "Spring Framework",
+    backgroundColor: "silver",
+  },
+];
 
 interface thing {
   [key: string]: any;
@@ -39,18 +42,22 @@ export const MockRows: thing[] = [
       {
         id: 3,
         name: "coffee",
+        backgroundColor: "brown",
       },
       {
         id: 4,
         name: "soda",
+        backgroundColor: "black",
       },
       {
         id: 5,
         name: "juice",
+        backgroundColor: "green",
       },
       {
         id: 3,
         name: "milk",
+        backgroundColor: "white",
       },
     ],
   },
@@ -61,18 +68,22 @@ export const MockRows: thing[] = [
       {
         id: 3,
         name: "coffee",
+        backgroundColor: "brown",
       },
       {
         id: 4,
         name: "soda",
+        backgroundColor: "black",
       },
       {
         id: 5,
         name: "juice",
+        backgroundColor: "green",
       },
       {
         id: 3,
         name: "milk",
+        backgroundColor: "white",
       },
     ],
   },
