@@ -16,7 +16,7 @@ describe("Row tests", () => {
   });
 
   it("Should render java in the component", () => {
-    render(createRow([{ id: 1, name: "Java" }]));
+    render(createRow([{ id: 1, name: "Java", backgroundColor: "grey" }]));
     const tsText = screen.queryByTestId("tech-stack");
     expect(tsText?.innerHTML).toContain("Java");
   });
@@ -24,9 +24,9 @@ describe("Row tests", () => {
   it("Should render tooltip while rendering row component", async () => {
     render(
       createRow([
-        { id: 1, name: "Java" },
-        { id: 2, name: "React" },
-        { id: 3, name: "Node.js" },
+        { id: 1, name: "Java", backgroundColor: "grey" },
+        { id: 2, name: "React", backgroundColor: "blue" },
+        { id: 3, name: "Node.js", backgroundColor: "green" },
       ])
     );
     const tsText = screen.queryByTestId("tech-stack");
@@ -38,9 +38,9 @@ describe("Row tests", () => {
   it("should render ... when there is more than 3 elements", () => {
     render(
       createRow([
-        { id: 1, name: "Java" },
-        { id: 2, name: "React" },
-        { id: 3, name: "Node.js" },
+        { id: 1, name: "Java", backgroundColor: "grey" },
+        { id: 2, name: "React", backgroundColor: "blue" },
+        { id: 3, name: "Node.js", backgroundColor: "green" },
       ])
     );
     const tsText = screen.queryByTestId("tech-stack");
