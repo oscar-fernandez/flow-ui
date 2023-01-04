@@ -4,6 +4,8 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  ButtonGroup,
+  Button,
 } from "@mui/material";
 import { useState } from "react";
 import ITechnology from "../../models/interfaces/ITechnology";
@@ -95,147 +97,121 @@ export default function FormComponent(props: any) {
 
   return (
     <div className="form-component">
-      <div style={{ width: "50%" }}>
+      <div style={{ width: "48%" }}>
         <h3 data-testid="title">{props.title}</h3>
       </div>
       <form>
         <div style={{ display: "flex" }}>
-          <div className="column">
-            <TextField
-              error
-              required
-              id="projectName"
-              name="projectName"
-              inputProps={{
-                ...inputProps,
-                maxLength: 255,
-                pattern: "^[a-zA-Z0-9_-]*$",
-              }}
-              InputProps={InputProps}
-              placeholder="project name"
-              variant="standard"
-              sx={inputStyle}
-              autoComplete="off"
-              defaultValue={name}
-            />
-            <TextField
-              error
-              required
-              id="link"
-              name="link"
-              inputProps={{
-                ...inputProps,
-                pattern:
-                  "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)",
-              }}
-              InputProps={InputProps}
-              placeholder="link to project repository"
-              variant="standard"
-              sx={inputStyle}
-              autoComplete="off"
-              defaultValue={link}
-            />
-            <TextField
-              error
-              required
-              id="summary"
-              name="summary"
-              multiline
-              rows={4}
-              inputProps={inputProps}
-              InputProps={InputProps}
-              placeholder="project summary"
-              variant="standard"
-              sx={inputStyle}
-              autoComplete="off"
-              defaultValue={summ}
-            />
-          </div>
-          <div className="column">
-            <FormControl
-              sx={{
-                "& .MuiFormLabel-root": {
-                  fontFamily: "Darker Grotesque",
-                  fontWeight: "700",
-                  color: "#8A8B8A",
-                  fontSize: "18px",
-                  paddingTop: "1rem",
-                },
-                "& .MuiSelect-select": {
-                  padding: "1rem",
-                },
-              }}
-            >
-              <Select
+          <div className="columnL">
+            <div className="formWrap">
+              <label className="pLabel">Project Name</label>
+              <TextField
+                className="formField"
+                error
                 required
-                multiple
-                id="techStack"
+                id="projectName"
+                name="projectName"
+                inputProps={{
+                  ...inputProps,
+                  maxLength: 255,
+                  pattern: "^[a-zA-Z0-9_-]*$",
+                }}
+                InputProps={InputProps}
+                placeholder="project name"
                 variant="standard"
-                displayEmpty
-                disableUnderline
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <p className="placeholder">tech stack</p>;
-                  }
-
-                  return selected.join(", ");
+                autoComplete="off"
+                defaultValue={name}
+              />
+            </div>
+            <div className="formWrap">
+              <label className="pLabel">
+                Link to <br /> Repository
+              </label>
+              <TextField
+                className="formField"
+                error
+                required
+                id="link"
+                name="link"
+                inputProps={{
+                  ...inputProps,
+                  pattern:
+                    "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)",
                 }}
-                value={techStackString}
-                inputProps={{ "data-testid": "select" }}
-                sx={{
-                  backgroundColor: "#d9d9d9",
-                  borderRadius: "10px",
-                  width: "23.5rem",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  marginTop: "1rem",
-                }}
-                onChange={handleChange}
-                readOnly={props.readonly}
+                InputProps={InputProps}
+                placeholder="link to project repository"
+                variant="standard"
+                autoComplete="off"
+                defaultValue={link}
+              />
+            </div>
+            <div className="formWrap">
+              <label className="pLabel">Project Summary</label>
+              <TextField
+                className="formField"
+                error
+                required
+                id="summary"
+                name="summary"
+                multiline
+                rows={4}
+                inputProps={inputProps}
+                InputProps={InputProps}
+                placeholder="project summary"
+                variant="standard"
+                autoComplete="off"
+                defaultValue={summ}
+              />
+            </div>
+          </div>
+          <div className="columnR">
+            <div className="formWrap">
+              <label className="pLabel">Tech Stack</label>
+              <ButtonGroup
+                variant="text"
+                orientation="vertical"
+                aria-label="text button group"
               >
-                {/* itech as props */}
                 {ts.map((tech) => (
-                  <MenuItem value={tech.name} key={tech.id}>
-                    {tech.name}
-                  </MenuItem>
+                  <Button key={tech.id}>{tech.name}</Button>
                 ))}
-              </Select>
-            </FormControl>
-            {techStackString.length > 0 ? (
+              </ButtonGroup>
+            </div>
+            {/* <div className= "buttonWrap">
+            {...techStackString.length > 0 ? (
               <p className="selected-ts">
                 Selected tech stack: {techStackString.join(", ")}
               </p>
             ) : (
               <p className="selected-ts">Selected tech stack: None</p>
             )}
-          </div>
-        </div>
-        <div className="buttons-margin">
-          <div className="buttons">
-            {props.edit === false ? (
-              <>
-                <button className="blue-button" onClick={props.handleClick}>
-                  Cancel
-                </button>
-                <button
-                  className="blue-button"
-                  data-testid="reset"
-                  onClick={clearFields}
-                >
-                  Reset
-                </button>
-                <button className="orange-button">Submit</button>
-              </>
-            ) : (
-              <>
-                <button className="blue-button" onClick={props.handleClick}>
-                  Back to Projects...
-                </button>
-                <button className="orange-button" onClick={props.handleEdit}>
-                  Edit Project
-                </button>
-              </>
-            )}
+            </div> */}
+            <div className="buttons">
+              {props.edit === false ? (
+                <>
+                  <button className="blue-button" onClick={props.handleClick}>
+                    Cancel
+                  </button>
+                  <button
+                    className="reset-btn"
+                    data-testid="reset"
+                    onClick={clearFields}
+                  >
+                    Reset
+                  </button>
+                  <button className="orange-button">Submit</button>
+                </>
+              ) : (
+                <>
+                  <button className="blue-button" onClick={props.handleClick}>
+                    Back to Projects...
+                  </button>
+                  <button className="orange-button" onClick={props.handleEdit}>
+                    Edit Project
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </form>

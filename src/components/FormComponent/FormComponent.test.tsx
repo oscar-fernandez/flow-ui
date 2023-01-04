@@ -32,10 +32,10 @@ describe("FormComponent", () => {
     expect(summary.value).toBe("");
   });
 
-  it("should create tech stack string array", () => {
-    render(<FormComponent />);
-    const select = screen.getByTestId("select") as HTMLSelectElement;
-    fireEvent.change(select, { target: { value: "Java" } });
-    expect(select.value).toBe("Java");
-  });
+  // it("should create tech stack string array", () => {
+  //   render(<FormComponent />);
+  //   const select = screen.getByTestId("select") as HTMLSelectElement;
+  //   fireEvent.change(select, { target: { value: "Java" } });
+  //   expect(select.value).toBe("Java");
+  // });
 });
