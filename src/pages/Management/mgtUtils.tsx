@@ -23,8 +23,10 @@ const enableeRowfactory = (obj: IEnablee): string[] => {
   ];
 };
 
-const transformProjectRowArray = (ar: IProject[]): string[][] =>
-  ar.map((e) => projectRowfactory(e));
+const transformProjectRowArray = (ar: IProject[]): string[][] => {
+  const temp = ar.map((e) => projectRowfactory(e));
+  return temp;
+};
 
 const projectRowfactory = (obj: IProject): string[] => {
   return [obj.name, convertTechArToStr(obj.technology)];
