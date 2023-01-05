@@ -22,14 +22,14 @@ h3 {
   padding-bottom: 2rem;
 }
 
-.columnL {
+.column-l {
   display: flex;
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
   max-width: 25rem;
 }
-.columnR {
+.column-r {
   display: flex;
   flex-direction: column;
   margin-left: auto;
@@ -105,7 +105,7 @@ option {
   overflow: break-word;
 }
 
-.pLabel {
+.p-label {
   width: 1fr;
   font-weight: 600;
   font-size: 15px;
@@ -113,13 +113,13 @@ option {
   color: #8a8b8a;
 }
 
-.formWrap {
+.form-wrap {
   margin-bottom: 4rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
 }
 
-.formField {
+.form-field {
   width: 1fr;
 }

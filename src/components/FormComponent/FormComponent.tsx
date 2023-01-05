@@ -84,6 +84,10 @@ export default function FormComponent(props: any) {
     setTechStackString([]);
   };
 
+  const handleTechStack = (value: string) => {
+    techStackString.push(value);
+  };
+
   //input field value
   let name,
     link,
@@ -102,11 +106,11 @@ export default function FormComponent(props: any) {
       </div>
       <form>
         <div style={{ display: "flex" }}>
-          <div className="columnL">
-            <div className="formWrap">
-              <label className="pLabel">Project Name</label>
+          <div className="column-l">
+            <div className="form-wrap">
+              <label className="p-label">Project Name</label>
               <TextField
-                className="formField"
+                className="form-field"
                 error
                 required
                 id="projectName"
@@ -123,12 +127,12 @@ export default function FormComponent(props: any) {
                 defaultValue={name}
               />
             </div>
-            <div className="formWrap">
-              <label className="pLabel">
+            <div className="form-wrap">
+              <label className="p-label">
                 Link to <br /> Repository
               </label>
               <TextField
-                className="formField"
+                className="form-field"
                 error
                 required
                 id="link"
@@ -145,10 +149,10 @@ export default function FormComponent(props: any) {
                 defaultValue={link}
               />
             </div>
-            <div className="formWrap">
-              <label className="pLabel">Project Summary</label>
+            <div className="form-wrap">
+              <label className="p-label">Project Summary</label>
               <TextField
-                className="formField"
+                className="form-field"
                 error
                 required
                 id="summary"
@@ -164,28 +168,35 @@ export default function FormComponent(props: any) {
               />
             </div>
           </div>
-          <div className="columnR">
-            <div className="formWrap">
-              <label className="pLabel">Tech Stack</label>
+          <div className="column-r">
+            <div className="form-wrap">
+              <label className="p-label">Tech Stack</label>
               <ButtonGroup
                 variant="text"
                 orientation="vertical"
                 aria-label="text button group"
               >
                 {ts.map((tech) => (
-                  <Button key={tech.id}>{tech.name}</Button>
+                  <Button
+                    key={tech.id}
+                    onClick={() => {
+                      handleTechStack(tech.name);
+                    }}
+                  >
+                    {tech.name}
+                  </Button>
                 ))}
               </ButtonGroup>
             </div>
-            {/* <div className= "buttonWrap">
-            {...techStackString.length > 0 ? (
-              <p className="selected-ts">
-                Selected tech stack: {techStackString.join(", ")}
-              </p>
-            ) : (
-              <p className="selected-ts">Selected tech stack: None</p>
-            )}
-            </div> */}
+            <div className="button-wrap">
+              {techStackString.length > 0 ? (
+                <p className="selected-ts">
+                  Selected tech stack: {techStackString.join(", ")}
+                </p>
+              ) : (
+                <p className="selected-ts">Selected tech stack: None</p>
+              )}
+            </div>
             <div className="buttons">
               {props.edit === false ? (
                 <>
