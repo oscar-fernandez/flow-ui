@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 
 interface Props {
   text: string;
-  handleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function AlertButton({ text, handleClick }: Props) {
@@ -10,7 +10,7 @@ export default function AlertButton({ text, handleClick }: Props) {
     <>
       <Button
         variant="contained"
-        onClick={handleClick}
+        onClick={handleClick || undefined}
         sx={{
           backgroundColor: "#DC8D0B",
           fontFamily: "Darker Grotesque",

@@ -5,7 +5,7 @@ import AlertButton from "./AlertButton";
 interface Props {
   text: string;
   buttonText: string;
-  handleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 function AlertContainer({ text, buttonText, handleClick }: Props) {
