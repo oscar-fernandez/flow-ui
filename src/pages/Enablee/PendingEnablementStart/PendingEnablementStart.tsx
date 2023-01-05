@@ -2,6 +2,7 @@ import { Filter } from "../../../components/Filter/Filter";
 import "./PendingEnablementStart.css";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import { GenerateRows } from "../../../components/GenerateRows/GenerateRows";
+import PodTemplate from "../../../components/PodTemplate/PodTemplate";
 
 export default function PendingEnablement() {
   return (
@@ -16,6 +17,7 @@ export default function PendingEnablement() {
         />
         <GenerateRows />
       </div>
+      <PodTemplate showPodTemplate={true} />
     </>
   );
 }
