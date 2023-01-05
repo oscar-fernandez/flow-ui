@@ -22,10 +22,6 @@ interface Props {
   value: string;
 }
 
-const divStyle = {
-  marginLeft: "1rem",
-};
-
 const CustomTableContainer = ({
   headers,
   rows,
@@ -38,28 +34,13 @@ const CustomTableContainer = ({
   value,
 }: Props) => {
   const [newTechValue, setNewTechValue] = useState("");
-  const [techError, setTechError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(" ");
 
-  function handleNewTechValue(event: React.ChangeEvent<HTMLInputElement>) {
-    setNewTechValue(event.target.value);
-
-    if (event.target.value.trim().length === 0) {
-      setErrorMessage("* Invalid Skill Name");
-      setTechError(true);
-    } else {
-      setErrorMessage(" ");
-      setTechError(false);
+  const handleNewTechEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    if (event.key === "Enter") {
+      rows.push([target.value]);
     }
-  }
-
-  // const handleNewTechEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if(event.key==='Enter'){
-  //     //post to tech list here
-  //     console.log(newTechValue)
-  //     skill = false;
-  //   }
-  // }
+  };
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -67,24 +48,24 @@ const CustomTableContainer = ({
         <Table stickyHeader aria-label="sticky table">
           <TableHeader headers={headers} headerStyle={headerStyle} />
           {skill && value === "Technology" && (
-            <div style={divStyle}>
+            <div style={{ marginLeft: "1rem" }}>
               <TextField
                 id="newSkill"
                 type="text"
                 variant="standard"
-                error={techError}
+                autoComplete="off"
                 value={newTechValue}
-                helperText={errorMessage}
-                onChange={handleNewTechValue}
+                error={newTechValue.trim().length === 0}
+                helperText={newTechValue === "" ? "* Invalid Skill Name" : " "}
+                onChange={(e) => setNewTechValue(e.target.value)}
+                onKeyDown={handleNewTechEnter}
                 inputProps={{
                   "data-testid": "input",
                   style: { padding: "14.5px 0px" },
                 }}
-                // onKeyDown={handleNewTechEnter}
               />
             </div>
           )}
-
           <TableBody>
             {rows.map((r: string[], index: number) => (
               <CustomTableRow
