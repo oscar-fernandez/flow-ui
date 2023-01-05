@@ -4,7 +4,17 @@ import AlertContainer from "./AlertContainer";
 
 describe("AlertContainer tests", () => {
   it("should render", () => {
-    render(<AlertContainer text="text" buttonText="button"></AlertContainer>);
+    let bool = false;
+    const handleClick = () => {
+      bool = true;
+    };
+    render(
+      <AlertContainer
+        text="text"
+        buttonText="button"
+        handleClick={handleClick}
+      ></AlertContainer>
+    );
     expect(screen.getByText("button")).toBeInTheDocument();
   });
 });
