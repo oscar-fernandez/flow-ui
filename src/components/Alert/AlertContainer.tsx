@@ -2,13 +2,21 @@ import "./Alert.css";
 import AlertText from "./AlertText";
 import AlertButton from "./AlertButton";
 
-export default function AlertContainer() {
+interface Props {
+  text: string;
+  buttonText: string;
+  handleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+function AlertContainer({ text, buttonText, handleClick }: Props) {
   return (
     <>
       <div style={{ display: "flex" }}>
-        <AlertText text={"No pending pods ..."}></AlertText>
-        <AlertButton text={"Create Pod"}></AlertButton>
+        <AlertText text={text}></AlertText>
+        <AlertButton text={buttonText} handleClick={handleClick}></AlertButton>
       </div>
     </>
   );
 }
+
+export default AlertContainer;

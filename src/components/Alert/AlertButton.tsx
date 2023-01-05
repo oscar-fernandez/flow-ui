@@ -1,10 +1,16 @@
 import { Button } from "@mui/material";
 
-export default function AlertButton(props: any) {
+interface Props {
+  text: string;
+  handleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+export default function AlertButton({ text, handleClick }: Props) {
   return (
     <>
       <Button
         variant="contained"
+        onClick={handleClick}
         sx={{
           backgroundColor: "#DC8D0B",
           fontFamily: "Darker Grotesque",
@@ -20,7 +26,7 @@ export default function AlertButton(props: any) {
           },
         }}
       >
-        {props.text}
+        {text}
       </Button>
     </>
   );
