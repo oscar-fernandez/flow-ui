@@ -92,13 +92,13 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
               <svg
                 id="arrow-inside"
                 xmlns="http://www.w3.org/2000/svg"
-                fill="#000048"
+                fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth="4"
-                stroke="#e5e5e5"
-                className="w-6 h-6"
-                height={"32px"}
-                width={"40px"}
+                stroke="#f8f9fa"
+                className="arrow-stroke"
+                height={"15px"}
+                width={"15x"}
               >
                 <path
                   strokeLinecap="round"
@@ -181,10 +181,10 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth="4"
-                stroke="#e5e5e5"
-                className="w-6 h-6"
-                height={"32px"}
-                width={"40px"}
+                stroke="#f8f9fa"
+                className="arrow-stroke"
+                height={"15px"}
+                width={"15px"}
               >
                 <path
                   strokeLinecap="round"
@@ -196,12 +196,7 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
           </div>
           <div className="input-page-divider">
             {invalidPageRange ? (
-              <div className="input-error-main">
-                Invalid<br></br>
-                <div className="input-error-content">
-                  Enter a number between 1 and {totalPages}
-                </div>
-              </div>
+              <div className="input-error-main">* Invalid Page Number</div>
             ) : null}
             <form className="section-search-pagenumber">
               <input
