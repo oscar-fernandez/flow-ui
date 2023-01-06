@@ -20,8 +20,8 @@ interface Props {
   updateSelectedEnablees?: (index: number) => void;
   skill: boolean;
   value: string;
-  setTechnology: (tech: string) => void;
-  setSkill: (skill: boolean) => void;
+  setTechnology?: (tech: string) => void;
+  setSkill?: (skill: boolean) => void;
 }
 
 const CustomTableContainer = ({

@@ -3,8 +3,8 @@ import { useState } from "react";
 
 interface Props {
   skill: boolean;
-  setTechnology: (tech: string) => void;
-  setSkill: (skill: boolean) => void;
+  setTechnology?: (tech: string) => void;
+  setSkill?: (skill: boolean) => void;
 }
 
 function TableInput({ skill, setTechnology, setSkill }: Props) {
@@ -13,8 +13,8 @@ function TableInput({ skill, setTechnology, setSkill }: Props) {
   const handleNewTechEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     if (event.key === "Enter") {
-      setTechnology(target.value);
-      setSkill(!skill);
+      setTechnology && setTechnology(target.value);
+      setSkill && setSkill(!skill);
       setNewTechValue("");
     }
   };
