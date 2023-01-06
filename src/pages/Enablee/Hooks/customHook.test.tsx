@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
+import { GetEnableesPendingPodAssignment } from "../../services/EnableeAPI";
 import usePendingPodEnablees from "./customHook";
 import { vi, describe, it, expect } from "vitest";
 
