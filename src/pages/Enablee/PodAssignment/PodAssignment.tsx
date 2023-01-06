@@ -69,7 +69,12 @@ export default function PodAssignment() {
 
   return (
     <div className="container">
-      <PageViewHeader pageTitle="Assign Enablees to Pod" showPlus={false} />
+      <PageViewHeader
+        pageTitle="Assign Enablees to Pod"
+        showPlus={false}
+        isHeader={true}
+        plusClicked={false}
+      />
       <CustomTableContainer
         headers={headers}
         headerStyle={headerStyle}

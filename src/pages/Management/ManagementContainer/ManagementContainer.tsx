@@ -6,8 +6,6 @@ import FormComponent from "../../../components/FormComponent/FormComponent";
 import { dummyProjects as mockProjects } from "../../../data/MockApiCall";
 import { mockTechnology } from "../../../data/MockData";
 import * as Module from "../mgtUtils";
-import { Box, Button } from "@mui/material";
-import TextField from "@mui/material/TextField";
 import CustomTableButton from "../../../components/Table/CustomTableButton";
 
 const headerStyle = {
@@ -106,7 +104,12 @@ export default function ManagementContainer() {
   return (
     <>
       <div>
-        <PageViewHeader pageTitle="Management" showPlus={false} />
+        <PageViewHeader
+          pageTitle="Management"
+          showPlus={false}
+          isHeader={true}
+          plusClicked={false}
+        />
         {/* TODO: include Filter Component */}
         <ManagementTabs handleChange={handleChange} />
         {active === "Table" && (

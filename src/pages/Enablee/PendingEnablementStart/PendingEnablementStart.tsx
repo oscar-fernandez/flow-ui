@@ -8,7 +8,12 @@ export default function PendingEnablement() {
   return (
     <>
       <div className="page-section">
-        <PageViewHeader pageTitle="Pending Enablement Start" showPlus={false} />
+        <PageViewHeader
+          pageTitle="Pending Enablement Start"
+          showPlus={false}
+          isHeader={true}
+          plusClicked={false}
+        />
         <Filter
           inputOne="employee id"
           inputTwo="first name"

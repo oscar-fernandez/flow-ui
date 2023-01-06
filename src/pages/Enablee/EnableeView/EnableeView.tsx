@@ -8,7 +8,12 @@ export default function EnableeView() {
   return (
     <>
       <div className="page-section">
-        <PageViewHeader pageTitle="Enablees" showPlus={true} />
+        <PageViewHeader
+          pageTitle="Enablees"
+          showPlus={true}
+          isHeader={true}
+          plusClicked={false}
+        />
         <Filter
           inputOne="employee id"
           inputTwo="first name"

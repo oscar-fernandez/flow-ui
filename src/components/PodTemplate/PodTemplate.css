@@ -87,7 +87,7 @@
   outline: none;
 }
 
-.completion {
+.numpods {
   width: 125px;
   height: 18px;
   font-weight: 600;
@@ -112,7 +112,7 @@
   color: rgba(138, 139, 138, 0.8);
 }
 
-.input {
+.empty {
   width: 54px;
   height: 21px;
   font-weight: 600;
@@ -120,46 +120,14 @@
   line-height: 100%;
   letter-spacing: 0.025em;
   color: rgba(138, 139, 138, 0.4);
-  border: none;
-  outline: none;
 }
 
-.input.project {
+.empty.project {
   width: 150px;
 }
 /* END OF INPUT STYLING */
 
 /* START OF ENABLEES PROJECT SECTION */
-.enablees.header {
-  margin-top: 30px;
-  width: 339px;
-  height: 19px;
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 100%;
-  letter-spacing: 0.025em;
-  color: #000048;
-}
-
-.plus {
-  cursor: pointer;
-  width: 37px;
-  height: 32px;
-  font-weight: 900;
-  font-size: 28px;
-  line-height: 100%;
-  letter-spacing: 0.025em;
-  color: rgba(220, 141, 11, 0.5);
-}
-
-.plus:hover {
-  color: rgba(141, 90, 9, 0.5);
-}
-
-.input.project.enablees {
-  margin-top: 20px;
-}
-
 .btn-container {
   display: flex;
   justify-content: center;
