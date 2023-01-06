@@ -7,6 +7,14 @@ const skill = true;
 const value = "Technology";
 
 describe("TableView tests", () => {
+  let skill = true;
+  let tech = "";
+  function setSkill() {
+    skill = false;
+  }
+  function handleTechnology() {
+    tech = "tech";
+  }
   it("should render", () => {
     render(
       <CustomTableContainer
@@ -14,6 +22,8 @@ describe("TableView tests", () => {
         rows={rows}
         skill={skill}
         value={value}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
       />
     );
     expect(screen.getByTestId("table-container")).toBeInTheDocument();
@@ -25,6 +35,8 @@ describe("TableView tests", () => {
         rows={rows}
         skill={skill}
         value={value}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
       />
     );
     expect(screen.getByText("Project Name")).toBeInTheDocument();
@@ -36,6 +48,8 @@ describe("TableView tests", () => {
         rows={rows}
         skill={skill}
         value={value}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
       />
     );
     expect(screen.getByText("A")).toBeInTheDocument();
@@ -48,6 +62,8 @@ describe("TableView tests", () => {
         rows={rows}
         skill={false}
         value={""}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
       />
     );
     const row = screen.getAllByTestId("table-row")?.[0];
@@ -66,6 +82,8 @@ describe("TableView tests", () => {
         rows={rows}
         skill={skill}
         value={value}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
       />
     );
     const input = screen.getByTestId("input") as HTMLInputElement;
