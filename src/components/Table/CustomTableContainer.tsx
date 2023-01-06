@@ -6,7 +6,7 @@ import TableBody from "@mui/material/TableBody";
 import CustomTableRow from "./CustomTableRow";
 import TableHeader from "./TableHeader";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import React, { useState } from "react";
 
 interface Props {
   headers: string[];
@@ -20,6 +20,8 @@ interface Props {
   updateSelectedEnablees?: (index: number) => void;
   skill: boolean;
   value: string;
+  setTechnology: (tech: string) => void;
+  setSkill: (skill: boolean) => void;
 }
 
 const CustomTableContainer = ({
@@ -30,7 +32,9 @@ const CustomTableContainer = ({
   cellStyle,
   customHandleSelection,
   updateSelectedEnablees,
-  skill = false,
+  setTechnology,
+  setSkill,
+  skill,
   value,
 }: Props) => {
   const [newTechValue, setNewTechValue] = useState("");
@@ -38,7 +42,9 @@ const CustomTableContainer = ({
   const handleNewTechEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     if (event.key === "Enter") {
-      rows.push([target.value]);
+      setTechnology(target.value);
+      setSkill(!skill);
+      setNewTechValue("");
     }
   };
 
