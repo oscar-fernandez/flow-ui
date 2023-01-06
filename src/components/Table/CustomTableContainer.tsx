@@ -20,8 +20,8 @@ interface Props {
   updateSelectedEnablees?: (index: number) => void;
   skill: boolean;
   value: string;
-  toggleShowForm: () => void;
-  buttonStyle: any;
+  toggleShowForm?: () => void;
+  buttonStyle?: any;
 }
 
 const CustomTableContainer = ({
