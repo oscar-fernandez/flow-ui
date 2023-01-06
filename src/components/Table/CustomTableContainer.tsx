@@ -22,6 +22,8 @@ interface Props {
   value: string;
   setTechnology?: (tech: string) => void;
   setSkill?: (skill: boolean) => void;
+  toggleShowForm: () => void;
+  buttonStyle?: any;
 }
 
 const CustomTableContainer = ({
@@ -36,12 +38,21 @@ const CustomTableContainer = ({
   setSkill,
   skill,
   value,
+  toggleShowForm,
+  buttonStyle,
 }: Props) => {
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer data-testid="table-container" sx={{ maxHeight: 600 }}>
         <Table stickyHeader aria-label="sticky table">
-          <TableHeader headers={headers} headerStyle={headerStyle} />
+          <TableHeader
+            headers={headers}
+            headerStyle={headerStyle}
+            buttonStyle={buttonStyle}
+            toggleShowForm={toggleShowForm}
+            value={value}
+          />
+
           {skill && value === "Technology" && (
             <TableInput
               setTechnology={setTechnology}
