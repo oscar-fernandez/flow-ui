@@ -58,4 +58,16 @@ describe("Management View page", () => {
     const cancel = screen.getByText("Cancel");
     fireEvent.click(cancel);
   });
+
+  it("should handle new technology", () => {
+    render(<ManagementContainer />);
+    const technologyTab = screen.getByTestId("techTab");
+    fireEvent.click(technologyTab);
+    const addSkill = screen.getByTestId("button") as HTMLButtonElement;
+    fireEvent.click(addSkill);
+    const input = screen.getByTestId("input") as HTMLInputElement;
+    fireEvent.change(input, { target: { value: "test" } });
+    fireEvent.keyDown(input, { key: "Enter", code: "Enter", charCode: 13 });
+    expect(input.value).toBe("");
+  });
 });
