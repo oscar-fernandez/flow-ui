@@ -34,7 +34,12 @@ const techStackColors = [
 ];
 
 function getRandomColor(): string {
-  const num = Math.floor(Math.random() * (24 - 0 + 1) + 0);
+  const randomBuffer = new Uint32Array(1);
+  window.crypto.getRandomValues(randomBuffer);
+  const randomNumber = randomBuffer[0] / (0xffffffff + 1);
+  const min = Math.ceil(0);
+  const max = Math.floor(24);
+  const num = Math.floor(randomNumber * (max - min + 1)) + min;
   return techStackColors[num];
 }
 
