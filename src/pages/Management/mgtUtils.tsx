@@ -75,4 +75,5 @@ export {
   transformProjectRowArray,
   transformTechRowArray,
   tabLabels,
+  getRandomColor,
 };

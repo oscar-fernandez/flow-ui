@@ -80,7 +80,11 @@ export default function ManagementContainer() {
   };
 
   const handleTechnology = (tech: string) => {
-    const newTechnology = { id: 0, name: tech };
+    const newTechnology = {
+      id: 0,
+      name: tech,
+      backgroundColor: Module.getRandomColor(),
+    };
     setTechnologies([newTechnology, ...technologies]);
   };
 
