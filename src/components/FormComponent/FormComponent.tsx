@@ -58,6 +58,9 @@ export default function FormComponent(props: any) {
   const inputProps = {
     style: {
       padding: 0,
+      fontSize: "15px",
+      fontWeight: 600,
+      color: "rgba(138, 139, 138, 0.4)",
     },
     readOnly: props.readonly,
   };
@@ -113,6 +116,7 @@ export default function FormComponent(props: any) {
                 className="form-field"
                 error
                 required
+                data-testid="pName"
                 id="projectName"
                 name="projectName"
                 inputProps={{
@@ -121,7 +125,7 @@ export default function FormComponent(props: any) {
                   pattern: "^[a-zA-Z0-9_-]*$",
                 }}
                 InputProps={InputProps}
-                placeholder="project name"
+                placeholder="Empty"
                 variant="standard"
                 autoComplete="off"
                 defaultValue={name}
@@ -129,12 +133,14 @@ export default function FormComponent(props: any) {
             </div>
             <div className="form-wrap">
               <label className="p-label">
-                Link to <br /> Repository
+                Link to Project
+                <br /> Repository
               </label>
               <TextField
                 className="form-field"
                 error
                 required
+                data-testid="pLink"
                 id="link"
                 name="link"
                 inputProps={{
@@ -143,7 +149,7 @@ export default function FormComponent(props: any) {
                     "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)",
                 }}
                 InputProps={InputProps}
-                placeholder="link to project repository"
+                placeholder="Empty"
                 variant="standard"
                 autoComplete="off"
                 defaultValue={link}
@@ -155,13 +161,14 @@ export default function FormComponent(props: any) {
                 className="form-field"
                 error
                 required
+                data-testid="pDesc"
                 id="summary"
                 name="summary"
                 multiline
                 rows={4}
                 inputProps={inputProps}
                 InputProps={InputProps}
-                placeholder="project summary"
+                placeholder="Empty"
                 variant="standard"
                 autoComplete="off"
                 defaultValue={summ}
@@ -205,7 +212,7 @@ export default function FormComponent(props: any) {
                   </button>
                   <button
                     className="reset-btn"
-                    data-testid="reset"
+                    data-testid="resetButton"
                     onClick={clearFields}
                   >
                     Reset

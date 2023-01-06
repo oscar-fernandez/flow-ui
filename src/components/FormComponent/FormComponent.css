@@ -14,12 +14,12 @@ h3 {
   color: #000048;
   margin-left: auto;
   margin-right: auto;
-  font-size: 28px;
-  font-weight: 900;
   width: 23.5rem;
   letter-spacing: 0.025em;
   padding-top: 4rem;
   padding-bottom: 2rem;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .column-l {
@@ -47,32 +47,34 @@ h3 {
 .blue-button {
   background-color: #000048;
   color: #ccccda;
-  font-size: 20px;
-  padding: 10px 20px;
+  font-size: 15px;
 }
 .reset-btn {
   background-color: #000048;
   color: #ccccda;
-  font-size: 20px;
-  padding: 10px 20px;
+  font-size: 15px;
   margin-left: 1.5rem;
+  width: 80px;
+  height: 32px;
 }
 
 .orange-button {
   background-color: #dc8d0b;
   color: #f8e8ce;
-  font-size: 20px;
   margin-left: 1.5rem;
+  font-size: 15px;
+  letter-spacing: 0.025em;
 }
 
 button {
   border: none;
   padding: 0px 15px 4px 15px;
-  border-radius: 10px;
   font-weight: 700;
   margin-bottom: 2rem;
   justify-content: center;
   font-size: 28px;
+  margin-left: 1.5rem;
+  border-radius: 5px;
 }
 
 button:hover {
@@ -109,7 +111,6 @@ option {
   width: 1fr;
   font-weight: 600;
   font-size: 15px;
-  font-family: "Darker-Grotesque";
   color: #8a8b8a;
 }
 

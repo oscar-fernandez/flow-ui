@@ -20,6 +20,8 @@ interface Props {
   updateSelectedEnablees?: (index: number) => void;
   skill: boolean;
   value: string;
+  toggleShowForm: () => void;
+  buttonStyle: any;
 }
 
 const CustomTableContainer = ({
@@ -32,6 +34,8 @@ const CustomTableContainer = ({
   updateSelectedEnablees,
   skill = false,
   value,
+  toggleShowForm,
+  buttonStyle,
 }: Props) => {
   const [newTechValue, setNewTechValue] = useState("");
   const [techError, setTechError] = useState(false);
@@ -58,7 +62,13 @@ const CustomTableContainer = ({
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer data-testid="table-container" sx={{ maxHeight: 600 }}>
         <Table stickyHeader aria-label="sticky table">
-          <TableHeader headers={headers} headerStyle={headerStyle} />
+          <TableHeader
+            headers={headers}
+            headerStyle={headerStyle}
+            buttonStyle={buttonStyle}
+            toggleShowForm={toggleShowForm}
+            value={value}
+          />
 
           {skill && value === "Technology" && (
             <label htmlFor="search">
