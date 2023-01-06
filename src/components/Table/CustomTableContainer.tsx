@@ -20,7 +20,7 @@ interface Props {
   updateSelectedEnablees?: (index: number) => void;
   skill: boolean;
   value: string;
-  toggleShowForm?: () => void;
+  toggleShowForm: () => void;
   buttonStyle?: any;
 }
 
