@@ -52,6 +52,7 @@ export default function ManagementContainer() {
   const [active, setActive] = useState("Table");
   const selectedRow = useRef({});
   const [skill, setSkill] = useState(false);
+  const [technologies, setTechnologies] = useState(mockTechnology);
 
   const toggleShowForm = () => {
     switch (value) {
@@ -80,13 +81,22 @@ export default function ManagementContainer() {
     }
   };
 
+  const handleTechnology = (tech: string) => {
+    const newTechnology = {
+      id: 0,
+      name: tech,
+      backgroundColor: Module.getRandomColor(),
+    };
+    setTechnologies([newTechnology, ...technologies]);
+  };
+
   //temporary
   function fn(): string[][] {
     switch (value) {
       case "Projects":
         return Module.transformProjectRowArray(mockProjects);
       case "Technology":
-        return Module.transformTechRowArray(mockTechnology);
+        return Module.transformTechRowArray(technologies);
       default:
         return [["no tab matches value"]];
     }
@@ -121,6 +131,8 @@ export default function ManagementContainer() {
             value={value}
             toggleShowForm={toggleShowForm}
             buttonStyle={buttonStyle}
+            setTechnology={handleTechnology}
+            setSkill={setSkill}
           />
         )}
         {active === "Form" && (

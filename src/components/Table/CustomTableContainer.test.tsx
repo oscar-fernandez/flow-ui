@@ -11,6 +11,14 @@ const toggleShowForm = () => {
 };
 
 describe("TableView tests", () => {
+  let skill = true;
+  let tech = "";
+  function setSkill() {
+    skill = false;
+  }
+  function handleTechnology() {
+    tech = "tech";
+  }
   it("should render", () => {
     render(
       <CustomTableContainer
@@ -18,6 +26,8 @@ describe("TableView tests", () => {
         rows={rows}
         skill={skill}
         value={value}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
         buttonStyle={buttonStyle}
         toggleShowForm={toggleShowForm}
       />
@@ -31,6 +41,8 @@ describe("TableView tests", () => {
         rows={rows}
         skill={skill}
         value={value}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
         buttonStyle={buttonStyle}
         toggleShowForm={toggleShowForm}
       />
@@ -44,6 +56,8 @@ describe("TableView tests", () => {
         rows={rows}
         skill={skill}
         value={value}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
         buttonStyle={buttonStyle}
         toggleShowForm={toggleShowForm}
       />
@@ -58,6 +72,8 @@ describe("TableView tests", () => {
         rows={rows}
         skill={false}
         value={""}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
         buttonStyle={buttonStyle}
         toggleShowForm={toggleShowForm}
       />
@@ -78,6 +94,8 @@ describe("TableView tests", () => {
         rows={rows}
         skill={skill}
         value={value}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
         buttonStyle={buttonStyle}
         toggleShowForm={toggleShowForm}
       />
