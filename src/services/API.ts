@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getEnablees = async (url: string, params = {}) => {
+const get = async (url: string, params = {}) => {
   const queryString = Object.entries(params)
     .map((param) => {
       return `${param[0]}=${param[1]}`;
@@ -9,11 +9,7 @@ const getEnablees = async (url: string, params = {}) => {
   return await axios.get(`${url}?${queryString}`);
 };
 
-const mgtGet = async (url: string) => {
-  return await axios.get(`${url}`);
-};
-
-const mgtPost = async (url: string, params = {}) => {
+const post = async (url: string, params = {}) => {
   const queryString = Object.entries(params)
     .map((param) => {
       return `${param[0]}=${param[1]}`;
@@ -22,7 +18,7 @@ const mgtPost = async (url: string, params = {}) => {
   return await axios.post(`${url}?${queryString}`);
 };
 
-const mgtPut = async (url: string, params = {}) => {
+const put = async (url: string, params = {}) => {
   const queryString = Object.entries(params)
     .map((param) => {
       return `${param[0]}=${param[1]}`;
@@ -31,4 +27,4 @@ const mgtPut = async (url: string, params = {}) => {
   return await axios.put(`${url}?${queryString}`);
 };
 
-export { getEnablees, mgtGet, mgtPost, mgtPut };
+export { get, post, put };
