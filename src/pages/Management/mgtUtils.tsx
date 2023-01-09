@@ -38,6 +38,7 @@ const techRowFactory = (obj: ITechnology): string[] => {
 };
 
 export {
+  convertTechArToStr,
   transformEnableeArray,
   transformProjectRowArray,
   transformTechRowArray,

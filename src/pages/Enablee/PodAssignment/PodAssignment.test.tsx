@@ -5,7 +5,7 @@ import PodAssignment from "./PodAssignment";
 describe("PodAssignment", () => {
   it("should render title, table, button", () => {
     render(<PodAssignment />);
-    expect(screen.getByText("Assign Enablees to Pod")).toBeInTheDocument();
+    expect(screen.getByText("Enablee")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "submit" })).toBeInTheDocument();
   });
 });

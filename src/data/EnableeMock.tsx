@@ -55,6 +55,8 @@ export const dummyEnablees: IEnablee[] = [
     technology: [
       { id: 2, name: "Java", backgroundColor: "grey" },
       { id: 8, name: "React", backgroundColor: "blue" },
+      { id: 12, name: "Rust", backgroundColor: "brown" },
+      { id: 12, name: "C++", backgroundColor: "yellow" },
     ],
     countryCode: 1,
     gradeId: 1,

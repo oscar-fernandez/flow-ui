@@ -1,18 +1,31 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, ChangeEvent } from "react";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
 import "./PodAssignment.css";
 import * as Module from "../../Management/mgtUtils";
+import * as Unit from "../../Pod/podUtils";
 import IEnablee from "../../../models/interfaces/IEnablee";
+import { Box, Checkbox, FormControlLabel } from "@mui/material";
+import { mockPods } from "../../../data/PodMock";
+import IPod from "../../../models/interfaces/IPod";
 
-const headers = [
+const headersEnablee = [
   "Employee Id",
   "First Name",
   "Last Name",
-  "Skills",
+  "Tech Stack",
   "Enablement Start Date",
   "Enablement End Date",
+];
+
+const headersPods = [
+  "Project",
+  "Pod Name",
+  "Tech Stack",
+  "Pod Start Date",
+  "Pod End Date",
+  "Capacity",
 ];
 const headerStyle = {
   minWidth: 50,
@@ -40,6 +53,7 @@ const rowStyle = {
 export default function PodAssignment() {
   const selectedEnablees = useRef<number[]>([]);
   const [receivedEnablees, setReceivedEnablees] = useState<IEnablee[]>([]);
+  const [receivedPods, setReceivedPods] = useState<IPod[]>([]);
 
   useEffect(() => {
     getEnablees();
@@ -67,13 +81,65 @@ export default function PodAssignment() {
     }
   };
 
+  const [checked, setChecked] = useState([false, false]);
+
+  const handleChange1 = (event: ChangeEvent<HTMLInputElement>) => {
+    setChecked([event.target.checked, checked[1]]);
+  };
+
+  const handleChange2 = (event: ChangeEvent<HTMLInputElement>) => {
+    setChecked([checked[0], event.target.checked]);
+  };
+
+  const checkboxes = (
+    <Box sx={{ display: "flex", flexDirection: "row", ml: 3 }}>
+      <FormControlLabel
+        label="Match Tech Stack"
+        control={
+          <Checkbox
+            checked={checked[0]}
+            onChange={handleChange1}
+            sx={{
+              color: "#dc8d0b",
+            }}
+          />
+        }
+      />
+      <FormControlLabel
+        label="Contains Tech Stack"
+        control={
+          <Checkbox
+            checked={checked[1]}
+            onChange={handleChange2}
+            sx={{
+              color: "#dc8d0b",
+            }}
+          />
+        }
+      />
+    </Box>
+  );
+
   return (
     <div className="container">
-      <PageViewHeader pageTitle="Assign Enablees to Pod" showPlus={false} />
+      <PageViewHeader pageTitle="Enablee" showPlus={true} />
+      {checkboxes}
       <CustomTableContainer
-        headers={headers}
+        headers={headersEnablee}
         headerStyle={headerStyle}
         rows={Module.transformEnableeArray(receivedEnablees)}
+        cellStyle={cellStyle}
+        rowStyle={rowStyle}
+        updateSelectedEnablees={updateSelectedEnablees}
+        skill={false}
+        value={""}
+      />
+
+      <div className="container"></div>
+      <CustomTableContainer
+        headers={headersPods}
+        headerStyle={headerStyle}
+        rows={Unit.transformPodArray(mockPods)}
         cellStyle={cellStyle}
         rowStyle={rowStyle}
         updateSelectedEnablees={updateSelectedEnablees}
