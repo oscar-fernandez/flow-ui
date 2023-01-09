@@ -133,6 +133,9 @@ export default function PodAssignment() {
         updateSelectedEnablees={updateSelectedEnablees}
         skill={false}
         value={""}
+        toggleShowForm={() => {
+          return null;
+        }}
       />
 
       <div className="container"></div>

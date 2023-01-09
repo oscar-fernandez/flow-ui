@@ -16,16 +16,14 @@ const CustomTableButton = ({
   return (
     <>
       <div style={{ backgroundColor: "#E6E8E6" }}>
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button
-            variant="text"
-            data-testid="button"
-            onClick={customHandleClick}
-            sx={buttonStyle}
-          >
-            + Add {value === "Technology" ? "Skill" : value}
-          </Button>
-        </Box>
+        <Button
+          variant="text"
+          data-testid="button"
+          onClick={customHandleClick}
+          sx={buttonStyle}
+        >
+          + Add {value === "Technology" ? "Skill" : value}
+        </Button>
       </div>
     </>
   );

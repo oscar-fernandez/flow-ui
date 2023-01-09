@@ -5,8 +5,20 @@ const headers = ["Project Name", "Tech Stack"];
 const rows = [["A"], ["B"]];
 const skill = true;
 const value = "Technology";
+const buttonStyle = { color: "blue" };
+const toggleShowForm = () => {
+  return false;
+};
 
 describe("TableView tests", () => {
+  let skill = true;
+  let tech = "";
+  function setSkill() {
+    skill = false;
+  }
+  function handleTechnology() {
+    tech = "tech";
+  }
   it("should render", () => {
     render(
       <CustomTableContainer
@@ -14,6 +26,10 @@ describe("TableView tests", () => {
         rows={rows}
         skill={skill}
         value={value}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
+        buttonStyle={buttonStyle}
+        toggleShowForm={toggleShowForm}
       />
     );
     expect(screen.getByTestId("table-container")).toBeInTheDocument();
@@ -25,6 +41,10 @@ describe("TableView tests", () => {
         rows={rows}
         skill={skill}
         value={value}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
+        buttonStyle={buttonStyle}
+        toggleShowForm={toggleShowForm}
       />
     );
     expect(screen.getByText("Project Name")).toBeInTheDocument();
@@ -36,6 +56,10 @@ describe("TableView tests", () => {
         rows={rows}
         skill={skill}
         value={value}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
+        buttonStyle={buttonStyle}
+        toggleShowForm={toggleShowForm}
       />
     );
     expect(screen.getByText("A")).toBeInTheDocument();
@@ -48,6 +72,10 @@ describe("TableView tests", () => {
         rows={rows}
         skill={false}
         value={""}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
+        buttonStyle={buttonStyle}
+        toggleShowForm={toggleShowForm}
       />
     );
     const row = screen.getAllByTestId("table-row")?.[0];
@@ -66,6 +94,10 @@ describe("TableView tests", () => {
         rows={rows}
         skill={skill}
         value={value}
+        setTechnology={handleTechnology}
+        setSkill={setSkill}
+        buttonStyle={buttonStyle}
+        toggleShowForm={toggleShowForm}
       />
     );
     const input = screen.getByTestId("input") as HTMLInputElement;
