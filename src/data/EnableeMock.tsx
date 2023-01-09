@@ -75,8 +75,8 @@ export const dummyEnablees: IEnablee[] = [
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
-      { id: 2, name: "Java", backgroundColor: "grey" },
-      { id: 8, name: "React", backgroundColor: "blue" },
+      { id: 2, name: "Ruby", backgroundColor: "grey" },
+      { id: 8, name: "C Sharp", backgroundColor: "blue" },
     ],
     countryCode: 1,
     gradeId: 1,

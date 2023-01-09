@@ -13,10 +13,10 @@
 
 import IPod from "../../models/interfaces/IPod";
 import { convertTechArToStr } from "../Management/mgtUtils";
-import * as _ from "lodash";
 import IEnablee from "../../models/interfaces/IEnablee";
 import { mockPods } from "../../data/PodMock";
 import { dummyEnablees } from "../../data/EnableeMock";
+import { areArraysEqual } from "@mui/base";
 
 const podRowFactory = (obj: IPod): string[] => {
   return [
@@ -30,21 +30,28 @@ const podRowFactory = (obj: IPod): string[] => {
 const transformPodArray = (ar: IPod[]): string[][] =>
   ar.map((e) => podRowFactory(e));
 
-const filterSkillsInPod = (obj: IPod): string =>
-  obj.project.technology.map((t) => t.name).join(", ");
+const eqSet = (xs, ys) =>
+  xs.size === ys.size && [...xs].every((x) => ys.has(x));
 
-const filterSkillsInEnablee = (ar: IEnablee[]): string[] =>
-  ar.map((t) => t.technology.map((e) => e.name).join(", "));
+const matchAllSkills = (ar: IEnablee[], obj: IPod) =>
+  ar.filter((e) => {
+    return eqSet(
+      new Set(e.technology.map((t) => t.name)),
+      new Set(obj.project.technology.map((t) => t.name))
+    );
+  });
 
-const matchSkills = filterSkillsInEnablee(dummyEnablees).filter(
-  (s) => s.indexOf(filterSkillsInPod(mockPods[0])) === 0
-);
+const includeSet = (xs, ys) => [...xs].some((x) => ys.has(x));
 
-// const filterEnableeBySkills = (ar: IEnablee[]): string[][] =>
-//     ar.filter(e => filterSkill.name.includes(e.technology.map(t => t.name))).toString ;
+const matchSomeSkills = (ar: IEnablee[], obj: IPod) =>
+  ar.filter((e) => {
+    return includeSet(
+      new Set(e.technology.map((t) => t.name)),
+      new Set(obj.project.technology.map((t) => t.name))
+    );
+  });
 
-// console.log(filterSkillsInPod(mockPods[0]));
-// console.log(filterSkillsInEnablee(dummyEnablees));
-// console.log(matchSkills);
+// console.log(matchAllSkills(dummyEnablees, mockPods[0]));
+// console.log(matchSomeSkills(dummyEnablees, mockPods[0]));
 
-export { transformPodArray };
+export { transformPodArray, matchAllSkills, matchSomeSkills };
