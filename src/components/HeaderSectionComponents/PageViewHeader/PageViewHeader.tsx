@@ -43,15 +43,6 @@ export function PageViewHeader(props: {
     cursor: "pointer",
   };
 
-  const headerPlusStylingHover = {
-    color: "#01016b",
-    fontWeight: "700",
-    fontSize: "42px",
-    lineHeight: "100%",
-    letterSpacing: "0.025em",
-    cursor: "pointer",
-  };
-
   // Non header styling (used in modals)
   const nonHeaderStyling = {
     color: "#000048",
@@ -64,16 +55,6 @@ export function PageViewHeader(props: {
   // Non header's plus styling (used in modals)
   const nonHeaderPlusStyling = {
     color: "#DC8D0B",
-    fontWeight: "700",
-    fontSize: "32px",
-    lineHeight: "100%",
-    letterSpacing: "0.025em",
-    cursor: "pointer",
-  };
-
-  // Non header's plus styling (used in modals) with hover
-  const nonHeaderPlusStylingHover = {
-    color: "#915c08",
     fontWeight: "700",
     fontSize: "32px",
     lineHeight: "100%",

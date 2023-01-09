@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import "./PodTemplate.css";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 
@@ -27,6 +27,25 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
     setClose(!close);
   };
 
+  // Checks if pod name input is empty helps manage disabling the submit button
+  const checkPodName = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === null || event.target.value === "") {
+      setEmptyPodName(true);
+    } else {
+      setEmptyPodName(false);
+    }
+  };
+
+  // THIS WILL NEED TO BE MODIFIED ONCE THE DATE PICKER COMPONENT GETS PUT IN.
+  const checkDate = () => {
+    setEmptyDates(true);
+  };
+
+  // THIS WILL NEED TO BE MODIFIED
+  const checkProjectName = () => {
+    setEmptyProjectName(true);
+  };
+
   return (
     <>
       {close ? (
@@ -51,13 +70,26 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
               </svg>
             </div>
             <div className="content-section">
-              <div className="div1">
-                <input
-                  className="podname-input"
-                  type="text"
-                  placeholder="Untitled"
-                />
-              </div>
+              {emptyPodName ? (
+                <div className="div1">
+                  <input
+                    className="podname-input null"
+                    type="text"
+                    placeholder="Untitled"
+                    onChange={(event) => checkPodName(event)}
+                  />
+                  <div className="errormsg">* Pod Name required</div>
+                </div>
+              ) : (
+                <div className="div1">
+                  <input
+                    className="podname-input"
+                    type="text"
+                    placeholder="Untitled"
+                    onChange={(event) => checkPodName(event)}
+                  />
+                </div>
+              )}
               <div className="div2">
                 <span className="numpods">0 / 15</span>
               </div>
@@ -66,7 +98,10 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                 <p className="label">Dates</p>
               </div>
               <div className="div4">
-                <p className="empty">Empty</p>
+                <p className="empty null" onChange={checkDate}>
+                  Empty
+                </p>
+                <div className="errormsg">* Pod Dates required</div>
               </div>
 
               <div className="div5">
@@ -77,10 +112,13 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
               </div>
 
               <div className="div7">
-                <p className="label">Project name</p>
+                <p className="label" onChange={checkProjectName}>
+                  Project name
+                </p>
               </div>
               <div className="div8">
-                <p className="empty">Empty</p>
+                <p className="empty null">Empty</p>
+                <div className="errormsg">* Project Name required</div>
               </div>
               <div className="div9">
                 <p className="label">Tech Stack</p>
@@ -99,7 +137,13 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
             />
             <p className="empty project">Select Project</p>
             <div className="btn-container">
-              <button className="btn-submit">Submit</button>
+              {emptyPodName || emptyDates || emptyProjectName ? (
+                <button className="disabled btn-submit" disabled>
+                  Submit
+                </button>
+              ) : (
+                <button className="btn-submit">Submit</button>
+              )}
             </div>
           </div>
         </div>

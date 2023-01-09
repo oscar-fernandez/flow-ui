@@ -82,9 +82,27 @@
   font-weight: 700;
   font-size: 32px;
   letter-spacing: 0.025em;
-  color: rgba(138, 139, 138, 0.35);
   border: none;
   outline: none;
+  color: #000048;
+}
+
+.podname-input::placeholder {
+  color: rgba(138, 139, 138, 0.35);
+}
+
+.podname-input.null {
+  border-bottom: 1px solid #ef233c;
+}
+
+.errormsg {
+  width: 116px;
+  height: 21px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0.025em;
+  color: #ef233c;
 }
 
 .numpods {
@@ -122,6 +140,11 @@
   color: rgba(138, 139, 138, 0.4);
 }
 
+.empty.null {
+  width: 119px;
+  border-bottom: 1px solid #ef233c;
+}
+
 .empty.project {
   width: 150px;
 }
@@ -139,12 +162,16 @@
   margin-top: 40px;
   width: 80px;
   height: 32px;
-  background: rgba(220, 141, 11, 0.5);
+  background: #dc8d0b;
   border-radius: 5px;
   font-weight: 700;
   font-size: 15px;
   line-height: 100%;
   letter-spacing: 0.025em;
   color: #f8e8ce;
+}
+
+.disabled.btn-submit {
+  background: rgba(220, 141, 11, 0.5);
 }
 /* END OF ENABLEES PROJECT SECTION */
