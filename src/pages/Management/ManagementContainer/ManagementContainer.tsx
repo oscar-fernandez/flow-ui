@@ -38,11 +38,13 @@ const buttonStyle = {
   fontWeight: 900,
   fontSize: "18px",
   color: "#000048",
-  padding: "16px",
   "&:hover": {
     backgroundColor: "#E6E8E6",
     opacity: "1",
   },
+  float: "right",
+  marginTop: "none",
+  padding: "none",
 };
 
 export default function ManagementContainer() {
@@ -50,6 +52,7 @@ export default function ManagementContainer() {
   const [active, setActive] = useState("Table");
   const selectedRow = useRef({});
   const [skill, setSkill] = useState(false);
+  const [technologies, setTechnologies] = useState(mockTechnology);
 
   const toggleShowForm = () => {
     switch (value) {
@@ -78,13 +81,22 @@ export default function ManagementContainer() {
     }
   };
 
+  const handleTechnology = (tech: string) => {
+    const newTechnology = {
+      id: 0,
+      name: tech,
+      backgroundColor: Module.getRandomColor(),
+    };
+    setTechnologies([newTechnology, ...technologies]);
+  };
+
   //temporary
   function fn(): string[][] {
     switch (value) {
       case "Projects":
         return Module.transformProjectRowArray(mockProjects);
       case "Technology":
-        return Module.transformTechRowArray(mockTechnology);
+        return Module.transformTechRowArray(technologies);
       default:
         return [["no tab matches value"]];
     }
@@ -93,7 +105,7 @@ export default function ManagementContainer() {
   function headers(): string[] {
     switch (value) {
       case "Projects":
-        return ["project name", "tech stack"];
+        return ["Project Name", "Tech Stack"];
       case "Technology":
         return ["skill name"];
       default:
@@ -108,13 +120,6 @@ export default function ManagementContainer() {
         {/* TODO: include Filter Component */}
         <ManagementTabs handleChange={handleChange} />
         {active === "Table" && (
-          <CustomTableButton
-            value={value}
-            buttonStyle={buttonStyle}
-            customHandleClick={toggleShowForm}
-          />
-        )}
-        {active === "Table" && (
           <CustomTableContainer
             headers={headers()}
             rows={fn()}
@@ -124,6 +129,10 @@ export default function ManagementContainer() {
             customHandleSelection={customHandleSelection}
             skill={skill}
             value={value}
+            toggleShowForm={toggleShowForm}
+            buttonStyle={buttonStyle}
+            setTechnology={handleTechnology}
+            setSkill={setSkill}
           />
         )}
         {active === "Form" && (

@@ -5,8 +5,8 @@ import { SxProps, Theme } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import CustomTableRow from "./CustomTableRow";
 import TableHeader from "./TableHeader";
-import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import React from "react";
+import TableInput from "./TableInput";
 
 interface Props {
   headers: string[];
@@ -20,6 +20,10 @@ interface Props {
   updateSelectedEnablees?: (index: number) => void;
   skill: boolean;
   value: string;
+  setTechnology?: (tech: string) => void;
+  setSkill?: (skill: boolean) => void;
+  toggleShowForm: () => void;
+  buttonStyle?: any;
 }
 
 const CustomTableContainer = ({
@@ -30,54 +34,32 @@ const CustomTableContainer = ({
   cellStyle,
   customHandleSelection,
   updateSelectedEnablees,
-  skill = false,
+  setTechnology,
+  setSkill,
+  skill,
   value,
+  toggleShowForm,
+  buttonStyle,
 }: Props) => {
-  const [newTechValue, setNewTechValue] = useState("");
-  const [techError, setTechError] = useState(false);
-
-  function handleNewTechValue(event: React.ChangeEvent<HTMLInputElement>) {
-    setNewTechValue(event.target.value);
-
-    if (event.target.value.trim().length === 0) {
-      setTechError(true);
-    } else {
-      setTechError(false);
-    }
-  }
-
-  // const handleNewTechEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if(event.key==='Enter'){
-  //     //post to tech list here
-  //     console.log(newTechValue)
-  //     skill = false;
-  //   }
-  // }
-
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer data-testid="table-container" sx={{ maxHeight: 600 }}>
         <Table stickyHeader aria-label="sticky table">
-          <TableHeader headers={headers} headerStyle={headerStyle} />
+          <TableHeader
+            headers={headers}
+            headerStyle={headerStyle}
+            buttonStyle={buttonStyle}
+            toggleShowForm={toggleShowForm}
+            value={value}
+          />
 
           {skill && value === "Technology" && (
-            <label htmlFor="search">
-              <TextField
-                id="search"
-                inputProps={{ "data-testid": "input" }}
-                type="text"
-                onChange={handleNewTechValue}
-                /*onKeyDown={handleNewTechEnter}*/ required
-                value={newTechValue}
-              />
-              {techError == true && (
-                <>
-                  <p>Invalid Technology Name</p>
-                </>
-              )}
-            </label>
+            <TableInput
+              setTechnology={setTechnology}
+              setSkill={setSkill}
+              skill={skill}
+            ></TableInput>
           )}
-
           <TableBody>
             {rows.map((r: string[], index: number) => (
               <CustomTableRow

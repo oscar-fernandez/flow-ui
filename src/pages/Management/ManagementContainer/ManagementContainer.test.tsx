@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import ManagementContainer from "./ManagementContainer";
 import ManagementView from "./ManagementContainer";
@@ -57,5 +57,22 @@ describe("Management View page", () => {
     fireEvent.click(editButton);
     const cancel = screen.getByText("Cancel");
     fireEvent.click(cancel);
+  });
+
+  it("should handle new technology", async () => {
+    render(<ManagementContainer />);
+    const technologyTab = screen.getByTestId("techTab");
+    expect(technologyTab).toBeInTheDocument();
+    fireEvent.click(technologyTab);
+    const addSkill = screen.getByTestId("button") as HTMLButtonElement;
+    expect(addSkill).toBeInTheDocument();
+    fireEvent.click(addSkill);
+    const input = screen.getByTestId("input") as HTMLInputElement;
+    expect(input).toBeInTheDocument();
+    fireEvent.change(input, { target: { value: "test" } });
+    fireEvent.keyDown(input, { key: "Enter", code: "Enter", charCode: 13 });
+    await waitFor(() => {
+      expect(input).not.toBeInTheDocument();
+    });
   });
 });
