@@ -34,13 +34,13 @@ const TableHeader = ({
               }}
             >
               {header}
-              {index === headers.length - 1 && (
+              {/* {index === headers.length - 1 && (
                 <CustomTableButton
                   value={value}
                   buttonStyle={buttonStyle}
                   customHandleClick={toggleShowForm}
                 />
-              )}
+              )} */}
             </div>
           </TableCell>
         ))}

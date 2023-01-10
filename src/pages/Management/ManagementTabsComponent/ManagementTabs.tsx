@@ -1,6 +1,7 @@
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import "./ManagementTabs.css";
 
 function a11yProps(index: number) {
   return {
@@ -29,9 +30,10 @@ export default function ManagementTabs({
                 color: "#000048",
                 fontFamily: "Darker Grotesque",
                 fontWeight: 900,
-                fontSize: 18,
+                fontSize: 28,
               },
               "& button.Mui-selected": { backgroundColor: "#EBEDEB" },
+              "& button:focus": { backgroundColor: "#E6E8E6" },
             }}
           >
             <Tab data-testid="projectTab" label="Projects" {...a11yProps(0)} />
