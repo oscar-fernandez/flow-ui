@@ -9,6 +9,7 @@ import IEnablee from "../../../models/interfaces/IEnablee";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
 import { mockPods } from "../../../data/PodMock";
 import IPod from "../../../models/interfaces/IPod";
+import { dummyEnablees } from "../../../data/EnableeMock";
 
 const headersEnablee = [
   "Employee Id",
@@ -50,10 +51,17 @@ const rowStyle = {
   },
 };
 
+interface Props {
+  checkboxId: number;
+}
+
 export default function PodAssignment() {
   const selectedEnablees = useRef<number[]>([]);
   const [receivedEnablees, setReceivedEnablees] = useState<IEnablee[]>([]);
   const [receivedPods, setReceivedPods] = useState<IPod[]>([]);
+  const [value, setValue] = useState([]);
+  const selectedRow = useRef({});
+  const [checked, setChecked] = useState([false, false]);
 
   useEffect(() => {
     getEnablees();
@@ -70,6 +78,26 @@ export default function PodAssignment() {
     //possible refac https://www.intricatecloud.io/2020/03/how-to-handle-api-errors-in-your-web-app-using-axios/
   };
 
+  function fn(): IEnablee[] {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+
+    switch (value) {
+      case "MatchTS":
+        return matchAllSkills(receivedEnablees, mockPods[0]);
+      // case "ContainsTS":
+      //   return matchSomeSkills(dummyEnablees, mockPods[0]);
+      default:
+        return receivedEnablees;
+    }
+  }
+
+  const customHandleSelection = (
+    event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
+  ) => {
+    selectedRow.current = mockPods[+event.currentTarget.id]; //shorthand convert str to number
+    setReceivedEnablees(dummyEnablees);
+  };
+
   //temp location
   const updateSelectedEnablees = (index: number) => {
     const e = receivedEnablees[index];
@@ -81,14 +109,14 @@ export default function PodAssignment() {
     }
   };
 
-  const [checked, setChecked] = useState([false, false]);
-
   const handleChange1 = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked([event.target.checked, checked[1]]);
+    Unit.matchAllSkills(dummyEnablees, mockPods[0]);
   };
 
   const handleChange2 = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked([checked[0], event.target.checked]);
+    Unit.matchSomeSkills(dummyEnablees, mockPods[0]);
   };
 
   const checkboxes = (
@@ -97,6 +125,7 @@ export default function PodAssignment() {
         label="Match Tech Stack"
         control={
           <Checkbox
+            data-testid="checkbox"
             checked={checked[0]}
             onChange={handleChange1}
             sx={{
@@ -127,7 +156,7 @@ export default function PodAssignment() {
       <CustomTableContainer
         headers={headersEnablee}
         headerStyle={headerStyle}
-        rows={Module.transformEnableeArray(receivedEnablees)}
+        rows={Module.transformEnableeArray(fn())}
         cellStyle={cellStyle}
         rowStyle={rowStyle}
         updateSelectedEnablees={updateSelectedEnablees}
@@ -145,9 +174,12 @@ export default function PodAssignment() {
         rows={Unit.transformPodArray(mockPods)}
         cellStyle={cellStyle}
         rowStyle={rowStyle}
-        updateSelectedEnablees={updateSelectedEnablees}
+        customHandleSelection={customHandleSelection}
         skill={false}
         value={""}
+        toggleShowForm={function (): void {
+          throw new Error("Function not implemented.");
+        }}
       />
       <div className="button-container">
         <button className="button button-orange">submit</button>
