@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./PageNumberCarousel.css";
 
 interface Props {
@@ -78,6 +78,12 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
     }
   };
 
+  useEffect(() => {
+    if (totalPages === currentPageNumber) {
+      setDisableForward(true);
+    }
+  });
+
   return (
     <>
       <div className="component-margin">
@@ -109,64 +115,126 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
             </button>
 
             <div className="numbers">
+              {/* shows page 1 */}
               <a
                 onClick={getNumber}
                 className={`number ${currentPageNumber === 1 ? "active" : ""}`}
               >
                 1
               </a>
-              {currentPageNumber > 3 ? <p className="dots">...</p> : <p> </p>}
-              <a
-                onClick={getNumber}
-                className={`number ${currentPageNumber === 2 ? "active" : ""}`}
-              >
-                {currentPageNumber < 2
-                  ? currentPageNumber + 1
-                  : currentPageNumber === 2
-                  ? 2
-                  : currentPageNumber < totalPages - 2
-                  ? currentPageNumber - 1
-                  : totalPages - 3}
-              </a>
-              <a
-                onClick={getNumber}
-                className={`number ${
-                  currentPageNumber > 2 && currentPageNumber < totalPages - 1
-                    ? "active"
-                    : ""
-                }`}
-              >
-                {currentPageNumber < 3
-                  ? 3
-                  : currentPageNumber < totalPages - 2
-                  ? currentPageNumber
-                  : totalPages - 2}
-              </a>
-              <a
-                onClick={getNumber}
-                className={`number ${
-                  currentPageNumber === totalPages - 1 ? "active" : ""
-                }`}
-              >
-                {currentPageNumber <= 2
-                  ? 4
-                  : currentPageNumber >= totalPages - 2
-                  ? totalPages - 1
-                  : currentPageNumber + 1}
-              </a>
-              {currentPageNumber >= totalPages - 2 ? (
+              {totalPages < 5 ? (
+                <>
+                  {totalPages > 1 ? (
+                    <a
+                      onClick={getNumber}
+                      className={`number ${
+                        currentPageNumber === 2 ? "active" : ""
+                      }`}
+                    >
+                      2
+                    </a>
+                  ) : null}
+                  {totalPages > 2 ? (
+                    <a
+                      onClick={getNumber}
+                      className={`number ${
+                        currentPageNumber === 3 ? "active" : ""
+                      }`}
+                    >
+                      3
+                    </a>
+                  ) : null}
+
+                  {totalPages > 3 ? (
+                    <a
+                      onClick={getNumber}
+                      className={`number ${
+                        currentPageNumber === 4 ? "active" : ""
+                      }`}
+                    >
+                      4
+                    </a>
+                  ) : null}
+                </>
+              ) : null}
+
+              {/* toggle the dots to display if page is greater than 3 and if total pages is greater than 4 */}
+              {currentPageNumber > 3 && totalPages > 4 ? (
+                <p className="dots">...</p>
+              ) : (
+                <p> </p>
+              )}
+
+              {/* displays left sibling if total pages is greater than 4*/}
+              {totalPages > 4 ? (
+                <a
+                  onClick={getNumber}
+                  className={`number ${
+                    currentPageNumber === 2 ? "active" : ""
+                  }`}
+                >
+                  {currentPageNumber < 2
+                    ? currentPageNumber + 1
+                    : currentPageNumber === 2
+                    ? 2
+                    : currentPageNumber < totalPages - 2
+                    ? currentPageNumber - 1
+                    : totalPages - 3}
+                </a>
+              ) : null}
+
+              {/* displays current middle if total pages is less than 5*/}
+              {totalPages < 5 ? (
+                " "
+              ) : (
+                <a
+                  onClick={getNumber}
+                  className={`number ${
+                    currentPageNumber > 2 && currentPageNumber < totalPages - 1
+                      ? "active"
+                      : ""
+                  }`}
+                >
+                  {currentPageNumber < 3
+                    ? 3
+                    : currentPageNumber < totalPages - 2
+                    ? currentPageNumber
+                    : totalPages - 2}
+                </a>
+              )}
+
+              {/* displays right sibling if total pages is greater than 4*/}
+              {totalPages > 4 ? (
+                <a
+                  onClick={getNumber}
+                  className={`number ${
+                    currentPageNumber === totalPages - 1 ? "active" : ""
+                  }`}
+                >
+                  {currentPageNumber <= 2
+                    ? 4
+                    : currentPageNumber >= totalPages - 2
+                    ? totalPages - 1
+                    : currentPageNumber + 1}
+                </a>
+              ) : null}
+
+              {/* toggles dots to not show if current page is 2 away from the end or if total pages is less than 5 */}
+              {currentPageNumber >= totalPages - 2 || totalPages < 5 ? (
                 "   "
               ) : (
                 <p className="dots">...</p>
               )}
-              <a
-                onClick={getNumber}
-                className={`number ${
-                  currentPageNumber === totalPages ? "active" : ""
-                }`}
-              >
-                {totalPages}
-              </a>
+              {totalPages < 5 ? null : (
+                <a
+                  onClick={getNumber}
+                  className={`number ${
+                    currentPageNumber === totalPages ? "active" : ""
+                  }`}
+                >
+                  {totalPages}
+                </a>
+              )}
             </div>
 
             <button
