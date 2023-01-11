@@ -117,7 +117,7 @@ export default function ManagementContainer() {
 
   return (
     <>
-      <div>
+      <div className="table-container">
         <PageViewHeader pageTitle="Management" showPlus={false} />
         {/* TODO: include Filter Component */}
         <ManagementTabs handleChange={handleChange} />
