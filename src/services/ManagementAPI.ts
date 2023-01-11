@@ -21,11 +21,11 @@ function getProjects() {
 }
 
 function createProject(project: IProject) {
-  return mgtPost(`${baseUrl}/project`, { project: `${project}` });
+  return mgtPost(`${baseUrl}/project`, project);
 }
 
 function updateProject(project: IProject) {
-  return mgtPut(`${baseUrl}/project`, { project: `${project}` });
+  return mgtPut(`${baseUrl}/project`, project);
 }
 
 export {
