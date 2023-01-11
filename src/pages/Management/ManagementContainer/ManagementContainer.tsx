@@ -3,8 +3,6 @@ import { PageViewHeader } from "../../../components/HeaderSectionComponents/Page
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import ManagementTabs from "../ManagementTabsComponent/ManagementTabs";
 import FormComponent from "../../../components/FormComponent/FormComponent";
-import { dummyProjects as mockProjects } from "../../../data/MockApiCall";
-import { mockTechnology } from "../../../data/MockData";
 import * as Module from "../mgtUtils";
 import { getTechnologies, getProjects } from "../../../services/ManagementAPI";
 import IProject from "../../../models/interfaces/IProject";
@@ -123,7 +121,7 @@ export default function ManagementContainer() {
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    selectedRow.current = mockProjects[+event.currentTarget.id]; //shorthand convert str to number
+    selectedRow.current = projects[+event.currentTarget.id]; //shorthand convert str to number
     switch (value) {
       case "Projects":
         setActive("Details");

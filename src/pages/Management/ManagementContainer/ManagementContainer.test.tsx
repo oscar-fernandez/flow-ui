@@ -233,19 +233,14 @@ describe("Management View page", () => {
     render(<ManagementContainer />);
 
     let selectedRow;
-    let editButton;
-    let cancel;
-
-    /* await waitFor(() => {
+    await waitFor(() => {
       selectedRow = screen.queryByText(projects.data[0].name);
-      editButton = screen.getByText("Edit Project");
-      cancel = screen.getByText("Cancel");
-
-      selectedRow && fireEvent.click(selectedRow);
-     
-      editButton && fireEvent.click(editButton);
-      cancel && fireEvent.click(cancel);
-    });  */
+      /*  selectedRow && fireEvent.click(selectedRow);
+      const editButton = screen.getByText("Edit Project");
+      fireEvent.click(editButton);
+        const cancel = screen.getByText("Cancel");
+       fireEvent.click(cancel);  */
+    });
   });
 
   it("should handle new technology", async () => {
