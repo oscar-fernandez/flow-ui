@@ -14,10 +14,13 @@
 import IPod from "../../models/interfaces/IPod";
 import { convertTechArToStr } from "../Management/mgtUtils";
 import IEnablee from "../../models/interfaces/IEnablee";
-import * as Module from "../../Management/mgtUtils";
 import { mockPods } from "../../data/PodMock";
 import { dummyEnablees } from "../../data/EnableeMock";
-import { useState } from "react";
+
+const listCheckboxes = [
+  { name: "Match Tech Stack" },
+  { name: "Contains Tech Stack" },
+];
 
 const podRowFactory = (obj: IPod): string[] => {
   return [
@@ -55,4 +58,4 @@ const matchSomeSkills = (ar: IEnablee[], obj: IPod) =>
 // console.log(matchAllSkills(dummyEnablees, mockPods[0]));
 // console.log(matchSomeSkills(dummyEnablees, mockPods[0]));
 
-export { transformPodArray, matchAllSkills, matchSomeSkills };
+export { transformPodArray, matchAllSkills, matchSomeSkills, listCheckboxes };

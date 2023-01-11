@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, ChangeEvent } from "react";
+import { useEffect, useState, useRef, ChangeEvent, useCallback } from "react";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
@@ -60,8 +60,13 @@ export default function PodAssignment() {
   const [receivedEnablees, setReceivedEnablees] = useState<IEnablee[]>([]);
   const [receivedPods, setReceivedPods] = useState<IPod[]>([]);
   const [value, setValue] = useState([]);
+  const [active, setActive] = useState("");
   const selectedRow = useRef({});
-  const [checked, setChecked] = useState([false, false]);
+  const [selectPod, setSelectPod] = useState(false);
+  const [checked1, setChecked1] = useState(false);
+  const [checked2, setChecked2] = useState(false);
+
+  const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
     getEnablees();
@@ -80,12 +85,11 @@ export default function PodAssignment() {
 
   function fn(): IEnablee[] {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-
-    switch (value) {
-      case "MatchTS":
-        return matchAllSkills(receivedEnablees, mockPods[0]);
-      // case "ContainsTS":
-      //   return matchSomeSkills(dummyEnablees, mockPods[0]);
+    switch (active) {
+      case "Match Tech Stack":
+        return Unit.matchAllSkills(dummyEnablees, mockPods[0]);
+      case "Contains Tech Stack":
+        return Unit.matchSomeSkills(dummyEnablees, mockPods[0]);
       default:
         return receivedEnablees;
     }
@@ -96,6 +100,7 @@ export default function PodAssignment() {
   ) => {
     selectedRow.current = mockPods[+event.currentTarget.id]; //shorthand convert str to number
     setReceivedEnablees(dummyEnablees);
+    setDisabled(!disabled);
   };
 
   //temp location
@@ -110,39 +115,36 @@ export default function PodAssignment() {
   };
 
   const handleChange1 = (event: ChangeEvent<HTMLInputElement>) => {
-    setChecked([event.target.checked, checked[1]]);
-    Unit.matchAllSkills(dummyEnablees, mockPods[0]);
+    setChecked1(event.target.checked);
+    setActive(Unit.listCheckboxes[0].name);
   };
 
   const handleChange2 = (event: ChangeEvent<HTMLInputElement>) => {
-    setChecked([checked[0], event.target.checked]);
-    Unit.matchSomeSkills(dummyEnablees, mockPods[0]);
+    setChecked2(event.target.checked);
+    setActive(Unit.listCheckboxes[1].name);
   };
 
   const checkboxes = (
-    <Box sx={{ display: "flex", flexDirection: "row", ml: 3 }}>
+    <Box
+      sx={{ display: "flex", flexDirection: "row", ml: 3, color: "#dc8d0b" }}
+    >
       <FormControlLabel
-        label="Match Tech Stack"
+        label={Unit.listCheckboxes[0].name}
         control={
           <Checkbox
-            data-testid="checkbox"
-            checked={checked[0]}
+            checked={checked1}
+            disabled={disabled}
             onChange={handleChange1}
-            sx={{
-              color: "#dc8d0b",
-            }}
           />
         }
       />
       <FormControlLabel
-        label="Contains Tech Stack"
+        label={Unit.listCheckboxes[1].name}
         control={
           <Checkbox
-            checked={checked[1]}
+            checked={checked2}
+            disabled={disabled}
             onChange={handleChange2}
-            sx={{
-              color: "#dc8d0b",
-            }}
           />
         }
       />
