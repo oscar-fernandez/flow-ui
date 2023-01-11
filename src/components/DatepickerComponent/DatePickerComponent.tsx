@@ -3,7 +3,7 @@ import "./DatepickerComponent.css";
 import DatePicker from "react-datepicker";
 
 export const DatepickerComponent = () => {
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
   return (
@@ -18,6 +18,7 @@ export const DatepickerComponent = () => {
         // selectsRange
         minDate={new Date()}
         dateFormat="MMMM d, yyyy -"
+        placeholderText="No Start Date Selected"
       />
       <DatePicker
         className="date-picker"
@@ -29,6 +30,7 @@ export const DatepickerComponent = () => {
         // selectsRange
         minDate={startDate}
         dateFormat="MMMM d, yyyy"
+        placeholderText="No End Date Selected"
       />
     </div>
   );
