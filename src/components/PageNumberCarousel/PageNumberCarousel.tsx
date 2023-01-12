@@ -33,6 +33,7 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
     if (currentPageNumber === totalPages - 1) {
       setPage(totalPages);
       setDisableForward(true);
+      setDisableBack(false);
     } else {
       setPage(currentPageNumber + 1);
       setDisableBack(false);
