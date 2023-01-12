@@ -123,9 +123,9 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
               >
                 1
               </a>
-              {totalPages < 5 ? (
+              {totalPages < 5 && (
                 <>
-                  {totalPages > 1 ? (
+                  {totalPages > 1 && (
                     <a
                       onClick={getNumber}
                       className={`number ${
@@ -134,8 +134,8 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
                     >
                       2
                     </a>
-                  ) : null}
-                  {totalPages > 2 ? (
+                  )}
+                  {totalPages > 2 && (
                     <a
                       onClick={getNumber}
                       className={`number ${
@@ -144,9 +144,9 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
                     >
                       3
                     </a>
-                  ) : null}
+                  )}
 
-                  {totalPages > 3 ? (
+                  {totalPages > 3 && (
                     <a
                       onClick={getNumber}
                       className={`number ${
@@ -155,9 +155,9 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
                     >
                       4
                     </a>
-                  ) : null}
+                  )}
                 </>
-              ) : null}
+              )}
 
               {/* toggle the dots to display if page is greater than 3 and if total pages is greater than 4 */}
               {currentPageNumber > 3 && totalPages > 4 ? (
@@ -167,7 +167,7 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
               )}
 
               {/* displays left sibling if total pages is greater than 4*/}
-              {totalPages > 4 ? (
+              {totalPages > 4 && (
                 <a
                   onClick={getNumber}
                   className={`number ${
@@ -182,7 +182,7 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
                     ? currentPageNumber - 1
                     : totalPages - 3}
                 </a>
-              ) : null}
+              )}
 
               {/* displays current middle if total pages is less than 5*/}
               {totalPages < 5 ? (
@@ -205,7 +205,7 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
               )}
 
               {/* displays right sibling if total pages is greater than 4*/}
-              {totalPages > 4 ? (
+              {totalPages > 4 && (
                 <a
                   onClick={getNumber}
                   className={`number ${
@@ -218,7 +218,7 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
                     ? totalPages - 1
                     : currentPageNumber + 1}
                 </a>
-              ) : null}
+              )}
 
               {/* toggles dots to not show if current page is 2 away from the end or if total pages is less than 5 */}
               {currentPageNumber >= totalPages - 2 || totalPages < 5 ? (
