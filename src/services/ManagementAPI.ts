@@ -2,7 +2,7 @@ import ITechnology from "../models/interfaces/ITechnology";
 import IProject from "../models/interfaces/IProject";
 import { mgtGet, mgtPost, mgtPut } from "../services/FacadePattern";
 
-const baseUrl: string = `${import.meta.env.VITE_ENABLEMENT_FEMS}/mgt` || "";
+const baseUrl: string = `${process.env.VITE_ENABLEMENT_FEMS}/mgt` || "";
 
 function getTechnologies() {
   return mgtGet(`${baseUrl}/technologies`);
@@ -21,11 +21,11 @@ function getProjects() {
 }
 
 function createProject(project: IProject) {
-  return mgtPost(`${baseUrl}/project`, { project: `${project}` });
+  return mgtPost(`${baseUrl}/project`, project);
 }
 
 function updateProject(project: IProject) {
-  return mgtPut(`${baseUrl}/project`, { project: `${project}` });
+  return mgtPut(`${baseUrl}/project`, project);
 }
 
 export {

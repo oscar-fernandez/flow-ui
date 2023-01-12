@@ -1,15 +1,73 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import FormComponent from "./FormComponent";
+import { getProjects, createProject } from "../../services/ManagementAPI";
 
+vi.mock("../../services/ManagementAPI");
 describe("FormComponent", () => {
+  let ts: any = [];
+  beforeEach(() => {
+    ts = [
+      { id: 0, name: "Java", backgroundColor: "grey" },
+      { id: 1, name: "React", backgroundColor: "blue" },
+      { id: 2, name: "SpringBoot", backgroundColor: "green" },
+      { id: 3, name: "Jenkins", backgroundColor: "black" },
+      { id: 4, name: "Docker", backgroundColor: "darkblue" },
+      { id: 5, name: "Angular", backgroundColor: "red" },
+    ];
+  });
   it("should render form component", () => {
-    render(<FormComponent />);
+    render(<FormComponent technologies={ts} />);
     expect(screen.getByTestId("title")).toBeInTheDocument();
   });
 
+  it("Should save new project on submit click", () => {
+    (createProject as jest.Mock).mockResolvedValueOnce({});
+    //const handleSubmit= jest.fn();
+    const handleProjectChange = vi.fn(() => "outside callback");
+    const handleClick = vi.fn(() => "outside callback");
+
+    render(
+      <FormComponent
+        handleProjectChange={handleProjectChange}
+        handleClick={handleClick}
+        technologies={ts}
+        title="Add Project"
+        edit={false}
+      />
+    );
+    const projectName = screen.getByTestId("pName") as HTMLInputElement;
+    const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
+    const summary = screen.getByTestId("pDesc") as HTMLInputElement;
+    const submitButton = screen.getByTestId(
+      "submitButton"
+    ) as HTMLButtonElement;
+    projectName.value = "projectTest";
+    repoLink.value =
+      "https://git.work.cognizant.studio/enablement/team-projects/a";
+    summary.value = "project test ";
+
+    const project = {
+      id: 100,
+      name: "projectTest",
+      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      summary: "project test ",
+      technologies: {},
+    };
+
+    (createProject as jest.Mock).mockResolvedValueOnce(project);
+
+    submitButton.click();
+
+    expect(projectName.value).toBe("projectTest");
+    expect(repoLink.value).toBe(
+      "https://git.work.cognizant.studio/enablement/team-projects/a"
+    );
+    expect(summary.value).toBe("project test ");
+  });
+
   it("should clear input fields on reset click", () => {
-    render(<FormComponent edit={false} />);
+    render(<FormComponent technologies={ts} edit={false} />);
     const projectName = screen.getByTestId("pName") as HTMLInputElement;
     const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
     const summary = screen.getByTestId("pDesc") as HTMLInputElement;

@@ -1,11 +1,12 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import ManagementTabs from "../ManagementTabsComponent/ManagementTabs";
 import FormComponent from "../../../components/FormComponent/FormComponent";
-import { dummyProjects as mockProjects } from "../../../data/MockApiCall";
-import { mockTechnology } from "../../../data/MockData";
 import * as Module from "../mgtUtils";
+import { getTechnologies, getProjects } from "../../../services/ManagementAPI";
+import IProject from "../../../models/interfaces/IProject";
+import ITechnology from "../../../models/interfaces/ITechnology";
 import CustomTableButton from "../../../components/Table/CustomTableButton";
 
 const headerStyle = {
@@ -52,7 +53,9 @@ export default function ManagementContainer() {
   const [active, setActive] = useState("Table");
   const selectedRow = useRef({});
   const [skill, setSkill] = useState(false);
-  const [technologies, setTechnologies] = useState(mockTechnology);
+  // const [technologies, setTechnologies] = useState(mockTechnology);
+  const [projects, setProjects] = useState<IProject[]>([]);
+  const [technologies, setTechnologies] = useState<ITechnology[]>([]);
 
   const toggleShowForm = () => {
     switch (value) {
@@ -65,6 +68,50 @@ export default function ManagementContainer() {
     }
   };
 
+  useEffect(() => {
+    getListOfProjects();
+    getListOfTechnology();
+  }, []);
+
+  const getListOfProjects = async () => {
+    getProjects()
+      .then((res: any) => {
+        setProjects(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const getListOfTechnology = () => {
+    getTechnologies()
+      .then((res: any) => {
+        setTechnologies(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const handleProjectChange = (project: IProject) => {
+    if (value == "Projects" && active === "Form") {
+      const tempProjects = projects.map((proj) => {
+        return { ...proj };
+      });
+      tempProjects.push(project);
+      setProjects(tempProjects);
+    } else if (value == "Projects" && active === "Edit") {
+      const index = projects.findIndex((item) => item.id == project.id);
+      if (index != -1) {
+        const tempProjects = projects.map((proj) => {
+          return { ...proj };
+        });
+        tempProjects[index] = project;
+        setProjects(tempProjects);
+      }
+    }
+  };
+
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(Module.tabLabels[newValue]);
     setActive("Table");
@@ -74,7 +121,7 @@ export default function ManagementContainer() {
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    selectedRow.current = mockProjects[+event.currentTarget.id]; //shorthand convert str to number
+    selectedRow.current = projects[+event.currentTarget.id]; //shorthand convert str to number
     switch (value) {
       case "Projects":
         setActive("Details");
@@ -94,7 +141,7 @@ export default function ManagementContainer() {
   function fn(): string[][] {
     switch (value) {
       case "Projects":
-        return Module.transformProjectRowArray(mockProjects);
+        return Module.transformProjectRowArray(projects);
       case "Technology":
         return Module.transformTechRowArray(technologies);
       default:
@@ -141,6 +188,8 @@ export default function ManagementContainer() {
             readonly={false}
             edit={false}
             selectedRow={""}
+            technologies={technologies}
+            handleProjectChange={handleProjectChange}
             handleClick={() => setActive("Table")}
           />
         )}
@@ -150,6 +199,8 @@ export default function ManagementContainer() {
             readonly={true}
             edit={true}
             selectedRow={selectedRow}
+            technologies={technologies}
+            handleProjectChange={handleProjectChange}
             handleClick={() => setActive("Table")}
             handleEdit={() => setActive("Edit")}
           />
@@ -160,6 +211,8 @@ export default function ManagementContainer() {
             readonly={false}
             edit={false}
             selectedRow={selectedRow}
+            technologies={technologies}
+            handleProjectChange={handleProjectChange}
             handleClick={() => setActive("Table")}
           />
         )}
