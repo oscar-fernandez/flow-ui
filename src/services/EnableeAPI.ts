@@ -1,6 +1,6 @@
 import { getEnablees } from "./FacadePattern";
 
-const baseUrl: string = import.meta.env.VITE_ENABLEMENT_FEMS || "";
+const baseUrl: string = process.env.VITE_ENABLEMENT_FEMS || "";
 
 function GetPaginatedEnablees(pageNumber: number) {
   return getEnablees(`${baseUrl}/enablee`, { pageNumber: `${pageNumber}` });
