@@ -160,7 +160,7 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
               )}
 
               {/* toggle the dots to display if page is greater than 3 and if total pages is greater than 4 */}
-              {currentPageNumber > 3 && totalPages > 4 ? (
+              {currentPageNumber > 3 && totalPages > 5 ? (
                 <p className="dots">...</p>
               ) : (
                 <p> </p>
@@ -221,7 +221,7 @@ const PageNumberCarousel = ({ totalPages }: Props) => {
               )}
 
               {/* toggles dots to not show if current page is 2 away from the end or if total pages is less than 5 */}
-              {currentPageNumber >= totalPages - 2 || totalPages < 5 ? (
+              {currentPageNumber >= totalPages - 2 || totalPages < 6 ? (
                 "   "
               ) : (
                 <p className="dots">...</p>
