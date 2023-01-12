@@ -22,7 +22,10 @@ const CustomTableButton = ({
           onClick={customHandleClick}
           sx={buttonStyle}
         >
-          + Add {value === "Technology" ? "Skill" : value}
+          <p>
+            <span style={{ fontSize: "32px" }}>+ </span>Add{" "}
+            {value === "Technology" ? "Skill" : value}
+          </p>
         </Button>
       </div>
     </>

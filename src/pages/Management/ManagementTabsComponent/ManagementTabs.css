@@ -1,3 +1,7 @@
 .margin {
-  margin-left: 20px;
+  width: 60%;
+}
+
+.focus {
+  background-color: #abc123;
 }
