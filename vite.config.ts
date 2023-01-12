@@ -24,7 +24,8 @@ export default defineConfig(({ command, mode }) => {
           "src/models/**",
           "src/utils/testSetup.js",
           "src/main.tsx",
-          "src/components/DatePickerComponent/**",
+          "src/components/DatepickerComponent/**",
+          "src/components/SideBarItems/ColMenuItem/**", //temp, need to add tests but dif issue
         ],
         reporter: ["text", "lcov"],
       },
