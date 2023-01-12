@@ -17,6 +17,7 @@ export default defineConfig({
       "./src/models",
       "./src/data",
       "./src/utils/testSetup.js",
+      "./src/components/SideBarItems/customHooks.ts",
     ],
     coverage: {
       provider: "istanbul",
