@@ -24,14 +24,18 @@ describe("EnableeAPI tests", () => {
       config: {},
     };
 
-    axios.get.mockResolvedValueOnce(axiosres);
+    const mockGet = axios.get as jest.Mock;
+
+    mockGet.mockResolvedValueOnce(axiosres);
     const result = await GetPaginatedEnablees(3);
 
     expect(result.data == pageOfItem && result.status == 200).toBeTruthy();
   });
 
   it("GetPaginatedEnablees catches an excpetion error", async () => {
-    axios.get.mockRejectedValueOnce({ error: "some error" });
+    const mockGet = axios.get as jest.Mock;
+
+    mockGet.mockRejectedValueOnce({ error: "some error" });
     await GetPaginatedEnablees(3).catch((err) =>
       expect(err).toEqual({ error: "some error" })
     );
@@ -68,14 +72,16 @@ describe("EnableeAPI tests", () => {
       headers: {},
       config: {},
     };
+    const mockGet = axios.get as jest.Mock;
 
-    axios.get.mockResolvedValueOnce(axiosRes);
+    mockGet.mockResolvedValueOnce(axiosRes);
     const result = await GetEnableesWithNoStartDate();
     expect(result.data == enableesList && result.status == 200).toBeTruthy();
   });
 
   it("GetEnableesWithNoStartDate catches an excpetion error", async () => {
-    axios.get.mockRejectedValueOnce({ error: "some error" });
+    const mockGet = axios.get as jest.Mock;
+    mockGet.mockRejectedValueOnce({ error: "some error" });
     await GetEnableesWithNoStartDate().catch((err) =>
       expect(err).toEqual({ error: "some error" })
     );
@@ -113,14 +119,18 @@ describe("EnableeAPI tests", () => {
       config: {},
     };
 
-    axios.get.mockResolvedValueOnce(axiosRes);
+    const mockGet = axios.get as jest.Mock;
+
+    mockGet.mockResolvedValueOnce(axiosRes);
     const result = await GetEnableesPendingPodAssignment();
 
     expect(result.data == enableesList).toBeTruthy();
   });
 
   it("GetEnableesPendingPodAssignment catches an exception error", async () => {
-    axios.get.mockRejectedValueOnce({ error: "some error" });
+    const mockGet = axios.get as jest.Mock;
+
+    mockGet.mockRejectedValueOnce({ error: "some error" });
     await GetEnableesPendingPodAssignment().catch((err) =>
       expect(err).toEqual({ error: "some error" })
     );
