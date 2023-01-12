@@ -9,6 +9,9 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import ITechnology from "../../models/interfaces/ITechnology";
+import IProject from "../../models/interfaces/IProject";
+import { updateProject, createProject } from "../../services/ManagementAPI";
+
 import "./FormComponent.css";
 
 const inputStyle = () => ({
@@ -46,15 +49,6 @@ const InputProps = {
 };
 
 export default function FormComponent(props: any) {
-  const ts: ITechnology[] = [
-    { id: 0, name: "Java", backgroundColor: "grey" },
-    { id: 1, name: "React", backgroundColor: "blue" },
-    { id: 2, name: "SpringBoot", backgroundColor: "green" },
-    { id: 3, name: "Jenkins", backgroundColor: "black" },
-    { id: 4, name: "Docker", backgroundColor: "darkblue" },
-    { id: 5, name: "Angular", backgroundColor: "red" },
-  ];
-
   const inputProps = {
     style: {
       padding: 0,
@@ -89,6 +83,80 @@ export default function FormComponent(props: any) {
 
   const handleTechStack = (value: string) => {
     techStackString.push(value);
+  };
+
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    if (props.title === "Add Project") {
+      const newProject: IProject = formHelper(0);
+      const savedProject = await createNewProject(newProject);
+      if (JSON.stringify(savedProject) != "{}") {
+        props.handleProjectChange(savedProject);
+      }
+    } else {
+      const updatedProject: IProject = formHelper(
+        props.selectedRow?.current?.id
+      );
+      const savedProject = await updateProjectChange(updatedProject);
+      if (JSON.stringify(savedProject) != "{}") {
+        props.handleProjectChange(savedProject);
+      }
+    }
+    props.handleClick();
+  };
+
+  const createNewProject = async (project: IProject) => {
+    let newProject = {};
+
+    try {
+      const resp = await createProject(project);
+      newProject = resp.data;
+    } catch (error) {
+      console.error(error);
+    }
+
+    return newProject;
+  };
+
+  const updateProjectChange = async (project: IProject) => {
+    let updatedProject = {};
+
+    try {
+      const resp = await updateProject(project);
+      updatedProject = resp.data;
+    } catch (error) {
+      console.error(error);
+    }
+    return updatedProject;
+  };
+
+  const formHelper = (id: number) => {
+    let techArr: ITechnology[] = [];
+
+    techArr = techStackString
+      .map((techName) =>
+        props.technologies.find((item: ITechnology) => item.name === techName)
+      )
+      .filter((tech): tech is ITechnology => tech !== undefined);
+
+    const currentProjectName = document.getElementById(
+      "projectName"
+    ) as HTMLInputElement;
+    const currentRepoLink = document.getElementById("link") as HTMLInputElement;
+    const currentProjectsummary = document.getElementById(
+      "summary"
+    ) as HTMLInputElement;
+
+    const project: IProject = {
+      id: id,
+      name: currentProjectName.value,
+      summary: currentProjectsummary.value,
+      technology: techArr,
+      repoLink: currentRepoLink.value,
+    };
+
+    return project;
   };
 
   //input field value
@@ -183,7 +251,7 @@ export default function FormComponent(props: any) {
                 orientation="vertical"
                 aria-label="text button group"
               >
-                {ts.map((tech) => (
+                {props.technologies.map((tech: ITechnology) => (
                   <Button
                     key={tech.id}
                     onClick={() => {
@@ -217,7 +285,13 @@ export default function FormComponent(props: any) {
                   >
                     Reset
                   </button>
-                  <button className="orange-button">Submit</button>
+                  <button
+                    className="orange-button"
+                    data-testid="submitButton"
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </button>
                 </>
               ) : (
                 <>
