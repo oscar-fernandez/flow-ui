@@ -24,6 +24,7 @@ export default defineConfig(({ command, mode }) => {
           "src/models/**",
           "src/utils/testSetup.js",
           "src/main.tsx",
+          "src/components/DatePickerComponent/**",
         ],
         reporter: ["text", "lcov"],
       },
