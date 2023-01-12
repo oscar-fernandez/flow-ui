@@ -22,7 +22,7 @@ export default function ManagementTabs({
   return (
     <div className="margin">
       <Box sx={{ "& .MuiBox-root": { p: 0 } }}>
-        <Box sx={{ "&": { marginLeft: "-16px" } }}>
+        <Box sx={{ "&": { marginLeft: "-16px", marginBottom: "30px" } }}>
           <Tabs
             data-testid="projectTabs"
             value={false}
@@ -49,7 +49,6 @@ export default function ManagementTabs({
               label="Projects"
               style={{ backgroundColor: focus === "Projects" ? "#EBEDEB" : "" }}
               {...a11yProps(0)}
-              autoFocus
             />
             <Tab
               data-testid="techTab"

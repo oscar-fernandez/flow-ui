@@ -37,8 +37,9 @@ const rowStyle = {
 
 const buttonStyle = {
   background: "#FFFFF",
+  fontFamily: "Darker Grotesque",
   fontWeight: 900,
-  fontSize: "15px",
+  fontSize: "22px",
   color: "#000048",
   "&:hover": {
     backgroundColor: "#E6E8E6",
