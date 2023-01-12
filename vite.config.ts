@@ -1,7 +1,6 @@
 import { defineConfig } from "vitest/config";
 import { loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
-
 export default defineConfig(({ command, mode }) => {
   //https://vitejs.dev/config/#define
   const env = loadEnv(mode, process.cwd(), "");
@@ -24,6 +23,7 @@ export default defineConfig(({ command, mode }) => {
           "src/models/**",
           "src/utils/testSetup.js",
           "src/main.tsx",
+          "./src/components/SideBarItems/customHooks.ts",
         ],
         reporter: ["text", "lcov"],
       },
