@@ -23,7 +23,7 @@ const CustomTableButton = ({
           sx={buttonStyle}
         >
           <p>
-            <span style={{ fontSize: "32px" }}>+ </span>Add{" "}
+            <span style={{ fontSize: "20px" }}>+ </span>Add{" "}
             {value === "Technology" ? "Skill" : value}
           </p>
         </Button>
