@@ -4,7 +4,7 @@ import IProject from "./IProject";
 
 interface IFEPod {
   id: number;
-  podName: String;
+  podName: string;
   enablee: IEnablee[];
   enabler: IEnabler[] | null;
   podStartDate: Date;
