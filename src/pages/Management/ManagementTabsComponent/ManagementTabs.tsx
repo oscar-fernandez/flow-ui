@@ -40,7 +40,8 @@ export default function ManagementTabs({
                 color: "#000048",
                 fontFamily: "Darker Grotesque",
                 fontWeight: 900,
-                fontSize: 28,
+                fontSize: 20,
+                letterSpacing: "0.025em",
               },
             }}
           >
