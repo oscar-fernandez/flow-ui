@@ -1,6 +1,6 @@
 .row-container {
-  display: grid;
-  grid-template-columns: 2fr 2fr 2fr 2fr 1fr;
+  display: flex;
+  justify-content: space-evenly;
   width: 100%;
   border: solid #000048 1px;
   border-radius: 16px;
@@ -11,8 +11,12 @@
   font-family: "Darker Grotesque";
   letter-spacing: 0.025em;
   font-size: 24px;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
   padding: 0.4em 0;
+}
+.row-container:hover {
+  background-color: #0000481a;
+  cursor: pointer;
 }
 
 .row-id {
@@ -32,11 +36,6 @@
   padding: 0;
 }
 
-.grid-child {
-  place-self: center;
-}
-
-.button-child {
-  justify-content: center;
-  align-items: center;
+.row-child {
+  flex: 1;
 }
