@@ -3,9 +3,9 @@ import IFEPod from "./IFEPod";
 
 interface IEnabler {
   employeeId: number;
-  firstName: String;
-  lastName: String;
-  assetTag: String;
+  firstName: string;
+  lastName: string;
+  assetTag: string;
   isActive: boolean;
   technology: ITechnology[];
   countryCode: number;

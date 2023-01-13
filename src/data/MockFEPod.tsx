@@ -1,5 +1,5 @@
 import IFEPod from "../models/interfaces/IFEPod";
-import IEnabler from "../models/interfaces/IEnabler";
+//import IEnabler from "../models/interfaces/IEnabler";
 import IProject from "../models/interfaces/IProject";
 import { dummyEnablees } from "./EnableeMock";
 import ITechnology from "../models/interfaces/ITechnology";
@@ -37,27 +37,12 @@ const project: IProject = {
   repoLink: "",
 };
 
-const mockEnabler: IEnabler[] = [
-  {
-    employeeId: 3,
-    firstName: "John",
-    lastName: "Smith",
-    assetTag: "I do not know",
-    isActive: true,
-    technology: mockTech,
-    countryCode: 20,
-    communityId: 65,
-    employmentTypeId: 4,
-    podId: [],
-  },
-];
-
 export const mockFePod: IFEPod[] = [
   {
     id: 3,
     podName: "Crew",
     enablee: dummyEnablees,
-    enabler: mockEnabler,
+    enabler: null,
     podStartDate: new Date(),
     podEndDate: new Date(),
     project: project,
