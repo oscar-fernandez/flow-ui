@@ -10,7 +10,7 @@ export default function AlertButton({ text, handleClick }: Props) {
     <>
       <Button
         variant="contained"
-        onClick={handleClick || undefined}
+        onClick={handleClick}
         sx={{
           backgroundColor: "#DC8D0B",
           fontFamily: "Darker Grotesque",
