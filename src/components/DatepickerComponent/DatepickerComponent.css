@@ -1,0 +1,17 @@
+.date-picker {
+  font-size: 15px;
+  font-family: inherit;
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  color: #8a8b8a;
+}
+
+.date-picker:focus {
+  outline: none;
+}
+
+.date-picker-container {
+  display: flex;
+  flex-direction: column;
+}

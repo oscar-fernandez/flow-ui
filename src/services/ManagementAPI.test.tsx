@@ -30,8 +30,9 @@ describe("ManagementAPI tests", () => {
       headers: {},
       config: {},
     };
+    const mockGet = axios.get as jest.Mock;
 
-    axios.get.mockResolvedValueOnce(axiosRes);
+    mockGet.mockResolvedValueOnce(axiosRes);
     const result = await getTechnologies();
     expect(
       result.data == technologiesList && result.status == 200
@@ -54,8 +55,10 @@ describe("ManagementAPI tests", () => {
       headers: {},
       config: {},
     };
-    axios.post.mockResolvedValueOnce(axiosRes);
-    const result = await createTechnology();
+    const mockPost = axios.post as jest.Mock;
+
+    mockPost.mockResolvedValueOnce(axiosRes);
+    const result = await createTechnology(technologiesList[0]);
     expect(
       result.data == technologiesList && result.status == 200
     ).toBeTruthy();
@@ -77,9 +80,10 @@ describe("ManagementAPI tests", () => {
       headers: {},
       config: {},
     };
+    const mockPut = axios.put as jest.Mock;
 
-    axios.put.mockResolvedValueOnce(axiosRes);
-    const result = await updateTechnology();
+    mockPut.mockResolvedValueOnce(axiosRes);
+    const result = await updateTechnology(technologiesList[0]);
     expect(
       result.data == technologiesList && result.status == 200
     ).toBeTruthy();
@@ -107,8 +111,9 @@ describe("ManagementAPI tests", () => {
       headers: {},
       config: {},
     };
+    const mockGet = axios.get as jest.Mock;
 
-    axios.get.mockResolvedValueOnce(axiosRes);
+    mockGet.mockResolvedValueOnce(axiosRes);
     const result = await getProjects();
     expect(result.data == projectsList && result.status == 200).toBeTruthy();
   });
@@ -119,11 +124,13 @@ describe("ManagementAPI tests", () => {
         id: 20,
         name: "Pixelgram",
         summary: "STRING",
-        technology: {
-          id: 1,
-          name: "JavaScript",
-          backgroundColor: "black",
-        },
+        technology: [
+          {
+            id: 1,
+            name: "JavaScript",
+            backgroundColor: "black",
+          },
+        ],
         repoLink: "REPO",
       },
     ];
@@ -136,8 +143,10 @@ describe("ManagementAPI tests", () => {
       config: {},
     };
 
-    axios.put.mockResolvedValueOnce(axiosRes);
-    const result = await updateProject();
+    const mockPut = axios.put as jest.Mock;
+
+    mockPut.mockResolvedValueOnce(axiosRes);
+    const result = await updateProject(projectsList[0]);
     expect(result.data == projectsList && result.status == 200).toBeTruthy();
   });
 
@@ -147,11 +156,13 @@ describe("ManagementAPI tests", () => {
         id: 20,
         name: "Pixelgram",
         summary: "STRING",
-        technology: {
-          id: 1,
-          name: "JavaScript",
-          backgroundColor: "black",
-        },
+        technology: [
+          {
+            id: 1,
+            name: "JavaScript",
+            backgroundColor: "black",
+          },
+        ],
         repoLink: "REPO",
       },
     ];
@@ -164,8 +175,10 @@ describe("ManagementAPI tests", () => {
       config: {},
     };
 
-    axios.post.mockResolvedValueOnce(axiosRes);
-    const result = await createProject();
+    const mockPost = axios.post as jest.Mock;
+
+    mockPost.mockResolvedValueOnce(axiosRes);
+    const result = await createProject(projectsList[0]);
     expect(result.data == projectsList && result.status == 200).toBeTruthy();
   });
 });

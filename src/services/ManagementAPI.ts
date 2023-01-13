@@ -2,7 +2,7 @@ import ITechnology from "../models/interfaces/ITechnology";
 import IProject from "../models/interfaces/IProject";
 import { get, post, put } from "./API";
 
-const baseUrl: string = `${import.meta.env.VITE_ENABLEMENT_FEMS}/mgt` || "";
+const baseUrl: string = `${process.env.VITE_ENABLEMENT_FEMS}/mgt` || "";
 
 function getTechnologies() {
   return get(baseUrl + "/technologies");
