@@ -18,11 +18,6 @@
   grid-auto-rows: 1fr;
 }
 
-input[type="checkbox"] {
-  accent-color: #000048;
-  vertical-align: middle;
-}
-
 .button-center {
   text-align: center;
 }
@@ -31,3 +26,15 @@ input[type="checkbox"] {
   padding: 3rem;
   max-width: 430px;
 }
+
+/* .MuiInputBase-root::before {
+  border-bottom: transparent !important;
+}
+
+.MuiInput-root:after {
+  border-bottom: none !important;
+}
+
+.Mui-error:after {
+  border-bottom-color: #d32f2f !important;
+} */

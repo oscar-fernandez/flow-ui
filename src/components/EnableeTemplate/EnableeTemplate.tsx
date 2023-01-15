@@ -1,7 +1,9 @@
-import { Button, TextField } from "@mui/material";
+import { Button, Checkbox, TextField } from "@mui/material";
 import { useState } from "react";
-import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
+import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
 import "./EnableeTemplate.css";
+import { mockTechnology } from "../../data/MockData";
+import { TagComponent } from "../TagComponent/Tag";
 
 const InputProps = {
   disableUnderline: true,
@@ -10,9 +12,6 @@ const InputProps = {
 const inputStyle = {
   input: {
     color: "#8A8B8A",
-    "&:invalid": {
-      color: "red",
-    },
   },
 };
 
@@ -44,16 +43,15 @@ const buttonStyle = {
 
 export default function EnableeTemplate() {
   const [name, setName] = useState("");
-  const [enablementDates, setEnablementDates] = useState("");
-  const [employeeId, setEmployeeId] = useState("");
-  const [dateOfJoin, setDateOfJoin] = useState("");
+  //  const [enablementDates, setEnablementDates] = useState(""); // string?
+  const [employeeId, setEmployeeId] = useState(""); // string or num ?
+  //  const [dateOfJoin, setDateOfJoin] = useState(""); // string?
   const [assetTag, setAssetTag] = useState("");
-  const [country, setCountry] = useState("");
-  const [community, setCommunity] = useState("");
-  const [employmentType, setEmploymentType] = useState("");
-  // const [community, setCommunity] = useState("");
-  const [isEmployed, setIsEmployed] = useState(true);
-  const [grade, setGrade] = useState("");
+  const [country, setCountry] = useState(""); // num?
+  const [community, setCommunity] = useState(""); // num?
+  const [employmentType, setEmploymentType] = useState(""); // num?
+  const [isEmployed, setIsEmployed] = useState(false);
+  const [grade, setGrade] = useState(""); // num?
 
   return (
     <>
@@ -61,120 +59,136 @@ export default function EnableeTemplate() {
         <form>
           <TextField
             value={name}
-            placeholder="Empty"
+            placeholder="empty"
             variant="standard"
             autoComplete="off"
             InputProps={titleProps}
             onChange={(e) => setName(e.target.value)}
+            inputProps={{ "data-testid": "enableeName" }}
             error={name.length === 0}
             helperText={name.length === 0 ? "* Enablee Name required" : " "}
           />
           <div className="grid-container">
             <p className="text">Enablement Dates</p>
-            <TextField
-              placeholder="Empty"
-              variant="standard"
-              autoComplete="off"
-              InputProps={InputProps}
-              sx={inputStyle}
-              onChange={(e) => setName(e.target.value)}
-              error={name.length === 0}
-              helperText={name.length === 0 ? "* Dates required" : " "}
-            />
+            <DatepickerComponent />
             <p className="text">Employee Id</p>
             <TextField
+              value={employeeId}
               placeholder="Empty"
               variant="standard"
               autoComplete="off"
               InputProps={InputProps}
               sx={inputStyle}
-              onChange={(e) => setName(e.target.value)}
-              error={name.length === 0}
-              helperText={name.length === 0 ? "* Id required" : " "}
+              onChange={(e) => setEmployeeId(e.target.value)}
+              error={employeeId.length === 0}
+              helperText={
+                employeeId.trim().length === 0 ? "* Id required" : " "
+              }
+              inputProps={{ "data-testid": "employeeId" }}
             />
             <p className="text">Date of Join</p>
-            <TextField
-              placeholder="Empty"
-              variant="standard"
-              autoComplete="off"
-              InputProps={InputProps}
-              sx={inputStyle}
-              onChange={(e) => setName(e.target.value)}
-              error={name.length === 0}
-              helperText={name.length === 0 ? "* Date of Join required" : " "}
-            />
+            <DatepickerComponent />
             <p className="text">Asset Tag</p>
             <TextField
+              value={assetTag}
               placeholder="Empty"
               variant="standard"
               autoComplete="off"
               InputProps={InputProps}
               sx={inputStyle}
-              onChange={(e) => setName(e.target.value)}
-              error={name.length === 0}
-              helperText={name.length === 0 ? "* Asset Tag required" : " "}
+              onChange={(e) => setAssetTag(e.target.value)}
+              inputProps={{ "data-testid": "assetTag" }}
+              error={assetTag.trim().length === 0}
+              helperText={
+                assetTag.trim().length === 0 ? "* Asset Tag required" : " "
+              }
             />
             <p className="text">Country</p>
             <TextField
+              value={country}
               placeholder="Empty"
               variant="standard"
               autoComplete="off"
               InputProps={InputProps}
               sx={inputStyle}
-              onChange={(e) => setName(e.target.value)}
-              error={name.length === 0}
-              helperText={name.length === 0 ? "* Country required" : " "}
-            />
-            <p className="text">Community</p>
-            <TextField
-              placeholder="Empty"
-              variant="standard"
-              autoComplete="off"
-              InputProps={InputProps}
-              sx={inputStyle}
-              onChange={(e) => setName(e.target.value)}
-              error={name.length === 0}
-              helperText={name.length === 0 ? "* Country required" : " "}
-            />
-            <p className="text">Employment Type</p>
-            <TextField
-              placeholder="Empty"
-              variant="standard"
-              autoComplete="off"
-              InputProps={InputProps}
-              sx={inputStyle}
-              onChange={(e) => setName(e.target.value)}
-              error={name.length === 0}
+              onChange={(e) => setCountry(e.target.value)}
+              inputProps={{ "data-testid": "country" }}
+              error={country.trim().length === 0}
               helperText={
-                name.length === 0 ? "* Employment Type required" : " "
+                country.trim().length === 0 ? "* Country required" : " "
               }
             />
             <p className="text">Community</p>
             <TextField
+              value={community}
               placeholder="Empty"
               variant="standard"
               autoComplete="off"
               InputProps={InputProps}
               sx={inputStyle}
-              onChange={(e) => setName(e.target.value)}
-              error={name.length === 0}
-              helperText={name.length === 0 ? "* Community required" : " "}
+              onChange={(e) => setCommunity(e.target.value)}
+              error={community.trim().length === 0}
+              helperText={
+                community.trim().length === 0 ? "* Community required" : " "
+              }
+              inputProps={{ "data-testid": "community" }}
+            />
+            <p className="text">Employment Type</p>
+            <TextField
+              value={employmentType}
+              placeholder="Empty"
+              variant="standard"
+              autoComplete="off"
+              InputProps={InputProps}
+              sx={inputStyle}
+              onChange={(e) => setEmploymentType(e.target.value)}
+              error={employmentType.trim().length === 0}
+              inputProps={{ "data-testid": "employmentType" }}
+              helperText={
+                employmentType.trim().length === 0
+                  ? "* Employment Type required"
+                  : " "
+              }
             />
             <p className="text">Is Employed?</p>
             <div>
-              <input type="checkbox" className="check-box"></input>
+              <Checkbox
+                size="small"
+                checked={isEmployed}
+                inputProps={{ "aria-label": "isEmployed" }}
+                onChange={(e) => setIsEmployed(e.target.checked)}
+                sx={{
+                  "&.Mui-checked": {
+                    color: "#000048;",
+                  },
+                }}
+              />
             </div>
             <p className="text">Grade</p>
             <TextField
+              value={grade}
               placeholder="Empty"
               variant="standard"
               autoComplete="off"
               InputProps={InputProps}
               sx={inputStyle}
-              onChange={(e) => setName(e.target.value)}
-              error={name.length === 0}
-              helperText={name.length === 0 ? "* Grade required" : " "}
+              onChange={(e) => setGrade(e.target.value)}
+              error={grade.trim().length === 0}
+              inputProps={{ "data-testid": "grade" }}
+              helperText={grade.trim().length === 0 ? "* Grade required" : " "}
             />
+            <p className="text">Tech Stack</p>
+            <div>
+              <div>
+                {mockTechnology.map((tech) => (
+                  <TagComponent
+                    name={tech.name}
+                    color={tech.backgroundColor}
+                    key={tech.name}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
           <div className="button-center">
             <Button variant="contained" sx={buttonStyle}>
