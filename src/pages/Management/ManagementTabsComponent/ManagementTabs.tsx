@@ -50,7 +50,7 @@ export default function ManagementTabs({
               label="Projects"
               style={{
                 backgroundColor: focus === "Projects" ? "#EBEDEB" : "",
-                padding: "0 8px",
+                padding: "0 2px",
                 marginLeft: "15px",
               }}
               {...a11yProps(0)}
