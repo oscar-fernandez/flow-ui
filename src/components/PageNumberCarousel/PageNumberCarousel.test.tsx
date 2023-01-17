@@ -104,4 +104,18 @@ describe("PageNumberCarousel", () => {
     expect(nextPageButton).toBeEnabled();
     expect(previousPageButton).toBeDisabled();
   });
+
+  it("should handle page size less than 5", () => {
+    render(<PageNumberCarousel totalPages={4} />);
+    const nextPageButton = screen.getByRole("button", {
+      name: "Next page",
+    });
+    const previousPageButton = screen.getByRole("button", {
+      name: "Previous page",
+    });
+    fireEvent.click(screen.getByText("2"));
+    fireEvent.click(screen.getByText("3"));
+    fireEvent.click(screen.getByText("4"));
+    expect(nextPageButton).toBeDisabled();
+  });
 });
