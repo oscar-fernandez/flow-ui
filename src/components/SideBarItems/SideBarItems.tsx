@@ -25,14 +25,14 @@ const sideBarItems = [
 ];
 const subItems = [
   {
-    name: "Pending Assignment",
+    name: "Pending Pod Assignment",
     testId: "pending-assignment",
-    url: "/pendingStart",
+    url: "/pendingPodAssignment",
   },
   {
-    name: "Pending Enablement Start",
+    name: "Pending Enablement Start Date",
     testId: "pending-enablement-start",
-    url: "/pendingPodAssignment",
+    url: "/pendingStart",
   },
 ];
 
