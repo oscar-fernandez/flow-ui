@@ -51,7 +51,6 @@ const buttonStyle = {
   },
   float: "right",
   marginTop: "none",
-  marginBottom: "1rem",
   padding: "none",
 };
 
