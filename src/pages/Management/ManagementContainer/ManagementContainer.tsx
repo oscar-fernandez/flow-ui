@@ -11,17 +11,21 @@ import CustomTableButton from "../../../components/Table/CustomTableButton";
 import "./ManagementContainer.css";
 
 const headerStyle = {
+  fontFamily: "Darker-Grotesque",
   minWidth: 50,
   background: "#E6E8E6",
   fontWeight: 700,
-  fontSize: "24px",
+  fontSize: "15px",
   color: "#000048",
   borderRight: "1px solid #000048",
   "&:last-child": { borderRight: "none" },
 };
 
 const cellStyle = {
-  fontSize: "18px",
+  fontFamily: "Darker Grotesque",
+  fontWeight: 400,
+  letterSpacing: "0.025em",
+  fontSize: "15px",
   border: "none",
   color: "inherit",
 };
@@ -39,7 +43,7 @@ const buttonStyle = {
   background: "#FFFFF",
   fontFamily: "Darker Grotesque",
   fontWeight: 900,
-  fontSize: "22px",
+  fontSize: "15px",
   color: "#000048",
   "&:hover": {
     backgroundColor: "#E6E8E6",
@@ -47,7 +51,6 @@ const buttonStyle = {
   },
   float: "right",
   marginTop: "none",
-  marginBottom: "1rem",
   padding: "none",
 };
 
