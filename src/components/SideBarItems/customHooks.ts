@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-
+import Toggle from "../../models/interfaces/Toggle";
 export const useCustomNavigate = (routePath: string) => {
   const navigate = useNavigate();
   const handleNavigate = () => {
@@ -15,6 +15,9 @@ export const useToggle = (intialToggleValue: boolean) => {
   const handleClick = () => {
     setToggle(!toggle);
   };
-
-  return [toggle, handleClick];
+  const toggleModel: Toggle = {
+    toggle,
+    handleClick,
+  };
+  return toggleModel;
 };
