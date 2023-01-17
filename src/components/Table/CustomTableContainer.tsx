@@ -42,7 +42,7 @@ const CustomTableContainer = ({
   buttonStyle,
 }: Props) => {
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+    <Paper sx={{ width: "100%", overflow: "hidden", boxShadow: "none" }}>
       <TableContainer data-testid="table-container" sx={{ maxHeight: 600 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHeader
@@ -63,7 +63,7 @@ const CustomTableContainer = ({
           <TableBody>
             {rows.map((r: string[], index: number) => (
               <CustomTableRow
-                key={index}
+                key={r[0]}
                 rowId={index.toString()}
                 row={r}
                 rowStyle={rowStyle}

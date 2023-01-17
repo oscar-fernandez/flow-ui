@@ -8,19 +8,24 @@ import { getTechnologies, getProjects } from "../../../services/ManagementAPI";
 import IProject from "../../../models/interfaces/IProject";
 import ITechnology from "../../../models/interfaces/ITechnology";
 import CustomTableButton from "../../../components/Table/CustomTableButton";
+import "./ManagementContainer.css";
 
 const headerStyle = {
+  fontFamily: "Darker-Grotesque",
   minWidth: 50,
   background: "#E6E8E6",
   fontWeight: 700,
-  fontSize: "24px",
+  fontSize: "15px",
   color: "#000048",
   borderRight: "1px solid #000048",
   "&:last-child": { borderRight: "none" },
 };
 
 const cellStyle = {
-  fontSize: "18px",
+  fontFamily: "Darker Grotesque",
+  fontWeight: 400,
+  letterSpacing: "0.025em",
+  fontSize: "15px",
   border: "none",
   color: "inherit",
 };
@@ -35,9 +40,10 @@ const rowStyle = {
 };
 
 const buttonStyle = {
-  background: "#E6E8E6",
+  background: "#FFFFF",
+  fontFamily: "Darker Grotesque",
   fontWeight: 900,
-  fontSize: "18px",
+  fontSize: "15px",
   color: "#000048",
   "&:hover": {
     backgroundColor: "#E6E8E6",
@@ -45,6 +51,7 @@ const buttonStyle = {
   },
   float: "right",
   marginTop: "none",
+  marginBottom: "1rem",
   padding: "none",
 };
 
@@ -154,7 +161,7 @@ export default function ManagementContainer() {
       case "Projects":
         return ["Project Name", "Tech Stack"];
       case "Technology":
-        return ["skill name"];
+        return ["Skill Name"];
       default:
         return ["no tab matches value"];
     }
@@ -162,25 +169,32 @@ export default function ManagementContainer() {
 
   return (
     <>
-      <div>
+      <div className="table-container">
         <PageViewHeader pageTitle="Management" showPlus={false} />
         {/* TODO: include Filter Component */}
         <ManagementTabs handleChange={handleChange} />
         {active === "Table" && (
-          <CustomTableContainer
-            headers={headers()}
-            rows={fn()}
-            headerStyle={headerStyle}
-            rowStyle={rowStyle}
-            cellStyle={cellStyle}
-            customHandleSelection={customHandleSelection}
-            skill={skill}
-            value={value}
-            toggleShowForm={toggleShowForm}
-            buttonStyle={buttonStyle}
-            setTechnology={handleTechnology}
-            setSkill={setSkill}
-          />
+          <div className="page-table">
+            <CustomTableButton
+              value={value}
+              buttonStyle={buttonStyle}
+              customHandleClick={toggleShowForm}
+            />
+            <CustomTableContainer
+              headers={headers()}
+              rows={fn()}
+              headerStyle={headerStyle}
+              rowStyle={rowStyle}
+              cellStyle={cellStyle}
+              customHandleSelection={customHandleSelection}
+              skill={skill}
+              value={value}
+              toggleShowForm={toggleShowForm}
+              buttonStyle={buttonStyle}
+              setTechnology={handleTechnology}
+              setSkill={setSkill}
+            />
+          </div>
         )}
         {active === "Form" && (
           <FormComponent
