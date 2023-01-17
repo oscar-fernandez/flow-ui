@@ -1,5 +1,5 @@
 import { Button, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
 import "./EnableeTemplate.css";
 import { mockTechnology } from "../../data/MockData";
@@ -72,6 +72,24 @@ export default function EnableeTemplate() {
   const [employmentType, setEmploymentType] = useState(""); // num?
   const [isEmployed, setIsEmployed] = useState(false);
   const [grade, setGrade] = useState(""); // num?
+  const [disableSubmit, setDisableSubmit] = useState(true);
+
+  //method to check if all fields are valid
+  useEffect(() => {
+    if (
+      name === "" ||
+      employeeId === "" ||
+      assetTag === "" ||
+      country === "" ||
+      community === "" ||
+      employmentType === "" ||
+      grade === ""
+    ) {
+      setDisableSubmit(true);
+    } else {
+      setDisableSubmit(false);
+    }
+  });
 
   return (
     <>
@@ -194,6 +212,7 @@ export default function EnableeTemplate() {
                 type="checkbox"
                 checked={isEmployed}
                 onChange={(e) => setIsEmployed(e.target.checked)}
+                data-testid="isEmployed"
               ></input>
             </div>
             <Typography sx={labelStyle}>Grade</Typography>
@@ -211,7 +230,7 @@ export default function EnableeTemplate() {
             />
             <Typography sx={labelStyle}>Tech Stack</Typography>
             <div>
-              <div>
+              <div className="test">
                 {mockTechnology.map((tech) => (
                   <TagComponent
                     name={tech.name}
@@ -225,7 +244,11 @@ export default function EnableeTemplate() {
           <PageViewHeader pageTitle={"Pod"} showPlus={true} />
           <PageViewHeader pageTitle={"Comments"} showPlus={true} />
           <div className="button-center">
-            <Button variant="contained" sx={buttonStyle}>
+            <Button
+              disabled={disableSubmit}
+              variant="contained"
+              sx={buttonStyle}
+            >
               Submit
             </Button>
           </div>
