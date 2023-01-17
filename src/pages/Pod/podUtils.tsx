@@ -29,10 +29,13 @@ const podRowFactory = (obj: IPod): string[] => {
     convertTechArToStr(obj.project.technology),
     obj.podStartDate,
     obj.podEndDate,
+    capasityEmployee(obj.enableeEmployee),
   ];
 };
 const transformPodArray = (ar: IPod[]): string[][] =>
   ar.map((e) => podRowFactory(e));
+
+const capasityEmployee = (ar: IEnablee[]) => ar.length.toString();
 
 const eqSet = (xs, ys) =>
   xs.size === ys.size && [...xs].every((x) => ys.has(x));
@@ -58,4 +61,10 @@ const matchSomeSkills = (ar: IEnablee[], obj: IPod) =>
 // console.log(matchAllSkills(dummyEnablees, mockPods[0]));
 // console.log(matchSomeSkills(dummyEnablees, mockPods[0]));
 
-export { transformPodArray, matchAllSkills, matchSomeSkills, listCheckboxes };
+export {
+  transformPodArray,
+  matchAllSkills,
+  matchSomeSkills,
+  listCheckboxes,
+  capasityEmployee,
+};

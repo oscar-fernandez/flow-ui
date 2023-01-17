@@ -4,6 +4,7 @@ export const mockPods: IPod[] = [
   {
     id: 12,
     podName: "Podz",
+    enableeEmployee: [{ id: 9772 }, { id: 977284 }],
     podStartDate: "2022-01-15",
     podEndDate: "2022-06-21",
     project: {
@@ -23,6 +24,7 @@ export const mockPods: IPod[] = [
   {
     id: 11,
     podName: "Pod3",
+    enableeEmployee: [],
     podStartDate: "2022-01-15",
     podEndDate: "2022-06-21",
     project: {

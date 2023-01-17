@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, ChangeEvent, useCallback } from "react";
+import { useEffect, useState, useRef, ChangeEvent } from "react";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
@@ -6,10 +6,12 @@ import "./PodAssignment.css";
 import * as Module from "../../Management/mgtUtils";
 import * as Unit from "../../Pod/podUtils";
 import IEnablee from "../../../models/interfaces/IEnablee";
-import { Box, Checkbox, FormControlLabel } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, SxProps, Theme } from "@mui/material";
 import { mockPods } from "../../../data/PodMock";
 import IPod from "../../../models/interfaces/IPod";
 import { dummyEnablees } from "../../../data/EnableeMock";
+import usePendingPodEnablees, { getEnablees } from "../Hooks/customHook";
+import { f } from "vitest/dist/index-2f5b6168";
 
 const headersEnablee = [
   "Employee Id",
@@ -52,7 +54,15 @@ const rowStyle = {
 };
 
 interface Props {
+  headers: string[];
+  headerStyle?: SxProps<Theme>;
+  rows: string[][];
+  rowStyle: SxProps<Theme>;
+  cellStyle: SxProps<Theme>;
+  customHandleSelection?: () => void;
+  updateSelectedEnablees?: (index: number) => void;
   checkboxId: number;
+  label?: string;
 }
 
 export default function PodAssignment() {
@@ -60,32 +70,34 @@ export default function PodAssignment() {
   const [receivedEnablees, setReceivedEnablees] = useState<IEnablee[]>([]);
   const [receivedPods, setReceivedPods] = useState<IPod[]>([]);
   const [value, setValue] = useState([]);
-  const [active, setActive] = useState("");
+  const [name, setName] = useState("");
   const selectedRow = useRef({});
   const [selectPod, setSelectPod] = useState(false);
   const [checked1, setChecked1] = useState(false);
   const [checked2, setChecked2] = useState(false);
-
   const [disabled, setDisabled] = useState(true);
+  const [activTable, setActivTable] = useState(false);
 
   useEffect(() => {
     getEnablees();
-  }, []);
+    fn();
+  }, [receivedEnablees, dummyEnablees]);
 
   const getEnablees = async () => {
     GetEnableesPendingPodAssignment()
-      .then((res) => {
-        setReceivedEnablees(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+      .then((res) => res.data)
+      .then((receivedEnablees) => setReceivedEnablees(receivedEnablees));
     //possible refac https://www.intricatecloud.io/2020/03/how-to-handle-api-errors-in-your-web-app-using-axios/
   };
 
+  // useEffect(() => {
+  //   //let isDisabled = disabled ? true : false;
+  //   const isActivTable = activTable ? dummyEnablees : null;
+
+  // },[ dummyEnablees]);
+
   function fn(): IEnablee[] {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    switch (active) {
+    switch (name) {
       case "Match Tech Stack":
         return Unit.matchAllSkills(dummyEnablees, mockPods[0]);
       case "Contains Tech Stack":
@@ -99,7 +111,6 @@ export default function PodAssignment() {
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
     selectedRow.current = mockPods[+event.currentTarget.id]; //shorthand convert str to number
-    setReceivedEnablees(dummyEnablees);
     setDisabled(!disabled);
   };
 
@@ -116,12 +127,12 @@ export default function PodAssignment() {
 
   const handleChange1 = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked1(event.target.checked);
-    setActive(Unit.listCheckboxes[0].name);
+    setName(Unit.listCheckboxes[0].name);
   };
 
   const handleChange2 = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked2(event.target.checked);
-    setActive(Unit.listCheckboxes[1].name);
+    setName(Unit.listCheckboxes[1].name);
   };
 
   const checkboxes = (

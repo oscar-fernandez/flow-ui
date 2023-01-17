@@ -4,6 +4,7 @@ import IProject from "./IProject";
 interface IPod {
   id: number;
   podName: string;
+  enableeEmployee: IEnablee[];
   podStartDate: string;
   podEndDate: string;
   project: IProject;
