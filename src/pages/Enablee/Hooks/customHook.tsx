@@ -4,7 +4,7 @@ import {
   GetEnableesWithNoStartDate,
 } from "../../../services/EnableeAPI";
 
-function usePendingPodEnablees() {
+export const usePendingPodEnablees = () => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -13,9 +13,9 @@ function usePendingPodEnablees() {
     });
   }, []);
   return { list, setList };
-}
+};
 
-function usePendingStartEnablees() {
+export const usePendingStartEnablees = () => {
   const [list, setList] = useState([]);
   useEffect(() => {
     GetEnableesWithNoStartDate().then((enablees) => {
@@ -23,6 +23,4 @@ function usePendingStartEnablees() {
     });
   }, []);
   return { list, setList };
-}
-
-export default { usePendingPodEnablees, usePendingStartEnablees };
+};
