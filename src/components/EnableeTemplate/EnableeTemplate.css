@@ -14,7 +14,7 @@
 
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 1fr;
 }
 
@@ -27,14 +27,25 @@
   max-width: 430px;
 }
 
+.close-end {
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  accent-color: #000048;
+  vertical-align: middle;
+}
+
 /* .MuiInputBase-root::before {
   border-bottom: transparent !important;
-}
+} */
 
-.MuiInput-root:after {
-  border-bottom: none !important;
-}
+/* .MuiInput-root:after {
+  border-bottom: transparent;
+} */
 
-.Mui-error:after {
+/* .Mui-error:after {
   border-bottom-color: #d32f2f !important;
 } */

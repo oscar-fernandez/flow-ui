@@ -1,26 +1,38 @@
-import { Button, Checkbox, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
 import "./EnableeTemplate.css";
 import { mockTechnology } from "../../data/MockData";
 import { TagComponent } from "../TagComponent/Tag";
+import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 
 const InputProps = {
-  disableUnderline: true,
+  disableUnderline: false,
 };
 
 const inputStyle = {
   input: {
-    color: "#8A8B8A",
+    fontFamily: "Darker Grotesque",
+    "&::placeholder": {
+      fontWeight: "600",
+      fontSize: "15px",
+      color: "#8A8B8A",
+      letterSpacing: "0.025em",
+    },
   },
 };
 
 const titleProps = {
-  disableUnderline: true,
-  style: {
+  marginBottom: "1rem",
+  input: {
+    fontFamily: "Darker Grotesque",
     fontSize: "32px",
     color: "#000048",
     fontWeight: 700,
+    letterSpacing: "0.025em",
+    "&::placeholder": {
+      color: "#8A8B8A",
+    },
   },
 };
 
@@ -41,6 +53,14 @@ const buttonStyle = {
   },
 };
 
+const labelStyle = {
+  color: "#8A8B8A",
+  fontSize: "15px",
+  letterSpacing: "0.025em",
+  fontFamily: "Darker Grotesque",
+  fontWeight: 600,
+};
+
 export default function EnableeTemplate() {
   const [name, setName] = useState("");
   //  const [enablementDates, setEnablementDates] = useState(""); // string?
@@ -56,22 +76,40 @@ export default function EnableeTemplate() {
   return (
     <>
       <div className="enablee-container">
+        <div className="close-end">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="4"
+            stroke="#DC8D0B"
+            height={32}
+            width={32}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </div>
         <form>
           <TextField
             value={name}
             placeholder="empty"
             variant="standard"
             autoComplete="off"
-            InputProps={titleProps}
+            sx={titleProps}
+            InputProps={InputProps}
             onChange={(e) => setName(e.target.value)}
             inputProps={{ "data-testid": "enableeName" }}
             error={name.length === 0}
             helperText={name.length === 0 ? "* Enablee Name required" : " "}
           />
           <div className="grid-container">
-            <p className="text">Enablement Dates</p>
+            <Typography sx={labelStyle}>Enablement Dates</Typography>
             <DatepickerComponent />
-            <p className="text">Employee Id</p>
+            <Typography sx={labelStyle}>Employee Id</Typography>
             <TextField
               value={employeeId}
               placeholder="Empty"
@@ -86,9 +124,9 @@ export default function EnableeTemplate() {
               }
               inputProps={{ "data-testid": "employeeId" }}
             />
-            <p className="text">Date of Join</p>
+            <Typography sx={labelStyle}>Date of Join</Typography>
             <DatepickerComponent />
-            <p className="text">Asset Tag</p>
+            <Typography sx={labelStyle}>Asset Tag</Typography>
             <TextField
               value={assetTag}
               placeholder="Empty"
@@ -103,7 +141,7 @@ export default function EnableeTemplate() {
                 assetTag.trim().length === 0 ? "* Asset Tag required" : " "
               }
             />
-            <p className="text">Country</p>
+            <Typography sx={labelStyle}>Country</Typography>
             <TextField
               value={country}
               placeholder="Empty"
@@ -118,7 +156,7 @@ export default function EnableeTemplate() {
                 country.trim().length === 0 ? "* Country required" : " "
               }
             />
-            <p className="text">Community</p>
+            <Typography sx={labelStyle}>Community</Typography>
             <TextField
               value={community}
               placeholder="Empty"
@@ -133,7 +171,7 @@ export default function EnableeTemplate() {
               }
               inputProps={{ "data-testid": "community" }}
             />
-            <p className="text">Employment Type</p>
+            <Typography sx={labelStyle}>Employment Type</Typography>
             <TextField
               value={employmentType}
               placeholder="Empty"
@@ -150,21 +188,15 @@ export default function EnableeTemplate() {
                   : " "
               }
             />
-            <p className="text">Is Employed?</p>
+            <Typography sx={labelStyle}>Is Employed?</Typography>
             <div>
-              <Checkbox
-                size="small"
+              <input
+                type="checkbox"
                 checked={isEmployed}
-                inputProps={{ "aria-label": "isEmployed" }}
                 onChange={(e) => setIsEmployed(e.target.checked)}
-                sx={{
-                  "&.Mui-checked": {
-                    color: "#000048;",
-                  },
-                }}
-              />
+              ></input>
             </div>
-            <p className="text">Grade</p>
+            <Typography sx={labelStyle}>Grade</Typography>
             <TextField
               value={grade}
               placeholder="Empty"
@@ -177,7 +209,7 @@ export default function EnableeTemplate() {
               inputProps={{ "data-testid": "grade" }}
               helperText={grade.trim().length === 0 ? "* Grade required" : " "}
             />
-            <p className="text">Tech Stack</p>
+            <Typography sx={labelStyle}>Tech Stack</Typography>
             <div>
               <div>
                 {mockTechnology.map((tech) => (
@@ -190,6 +222,8 @@ export default function EnableeTemplate() {
               </div>
             </div>
           </div>
+          <PageViewHeader pageTitle={"Pod"} showPlus={true} />
+          <PageViewHeader pageTitle={"Comments"} showPlus={true} />
           <div className="button-center">
             <Button variant="contained" sx={buttonStyle}>
               Submit
