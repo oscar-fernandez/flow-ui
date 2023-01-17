@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 export const useCustomNavigate = (routePath: string) => {
@@ -7,4 +7,14 @@ export const useCustomNavigate = (routePath: string) => {
     navigate(routePath);
   };
   return { handleNavigate };
+};
+
+export const useToggle = (intialToggleValue: boolean) => {
+  const [toggle, setToggle] = useState(intialToggleValue);
+
+  const handleClick = () => {
+    setToggle(!toggle);
+  };
+
+  return [toggle, handleClick];
 };
