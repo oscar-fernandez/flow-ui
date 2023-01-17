@@ -48,7 +48,11 @@ export default function ManagementTabs({
             <Tab
               data-testid="projectTab"
               label="Projects"
-              style={{ backgroundColor: focus === "Projects" ? "#EBEDEB" : "" }}
+              style={{
+                backgroundColor: focus === "Projects" ? "#EBEDEB" : "",
+                padding: "0 8px",
+                marginLeft: "15px",
+              }}
               {...a11yProps(0)}
             />
             <Tab

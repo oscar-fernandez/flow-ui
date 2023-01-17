@@ -5,3 +5,7 @@
 .focus {
   background-color: #abc123;
 }
+
+.project-tab-bg-width {
+  padding: 0 8px;
+}
