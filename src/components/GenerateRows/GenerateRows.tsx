@@ -3,13 +3,17 @@ import IEnablee from "../../models/interfaces/IEnablee";
 import { GetPaginatedEnablees } from "../../services/EnableeAPI";
 import Row from "../RowComponent/Row";
 
-export function GenerateRows() {
+interface Props {
+  pageNum: number;
+}
+
+export function GenerateRows({ pageNum }: Props) {
   const [ontoggle, setToggle] = useState(false);
   const [enablees, setEnablees] = useState<IEnablee[]>([]);
 
   useEffect(() => {
-    getEnablees(0);
-  }, []);
+    getEnablees(pageNum - 1);
+  }, [pageNum]);
 
   const getEnablees = async (pageNumber: number) => {
     GetPaginatedEnablees(pageNumber)

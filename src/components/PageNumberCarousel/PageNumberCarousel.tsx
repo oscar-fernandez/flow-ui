@@ -3,14 +3,20 @@ import "./PageNumberCarousel.css";
 
 interface Props {
   totalPages: number;
+  currentPageNumber: number;
+  setPage: (val: number) => void;
 }
 
 // Use the following functional component below like the following
 // totalPages will eventually be an API call however and not static.
 // <PageNumberCarousel totalPages={10}/>
-const PageNumberCarousel = ({ totalPages }: Props) => {
+const PageNumberCarousel = ({
+  totalPages,
+  currentPageNumber,
+  setPage,
+}: Props) => {
   // this will be replaced by prop function from parent to update page
-  const [currentPageNumber, setPage] = useState(1);
+  // const [currentPageNumber, setPage] = useState(1);
   const [disableBack, setDisableBack] = useState(true);
   const [disableForward, setDisableForward] = useState(false);
   const [inputValue, setInputValue] = useState("");
