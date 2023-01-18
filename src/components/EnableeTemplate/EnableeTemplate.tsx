@@ -13,12 +13,10 @@ const InputProps = {
 const inputStyle = {
   input: {
     fontFamily: "Darker Grotesque",
-    "&::placeholder": {
-      fontWeight: "600",
-      fontSize: "15px",
-      color: "#8A8B8A",
-      letterSpacing: "0.025em",
-    },
+    fontWeight: "600",
+    color: "#8A8B8A",
+    fontSize: "15px",
+    letterSpacing: "0.025em",
   },
 };
 
@@ -51,6 +49,10 @@ const buttonStyle = {
     backgroundColor: "#DC8D0B",
     boxShadow: "none",
   },
+  "&:disabled": {
+    backgroundColor: "rgba(220, 141, 11, 0.5)",
+    color: "#F8E8CE",
+  },
 };
 
 const labelStyle = {
@@ -74,7 +76,7 @@ export default function EnableeTemplate() {
   const [grade, setGrade] = useState(""); // num?
   const [disableSubmit, setDisableSubmit] = useState(true);
 
-  //method to check if all fields are valid
+  //check if all fields are entered
   useEffect(() => {
     if (
       name === "" ||
