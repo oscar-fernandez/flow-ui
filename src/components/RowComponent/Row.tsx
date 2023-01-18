@@ -7,18 +7,19 @@ import {
   convertToStringArr,
   tooltipString,
 } from "../../utils/utilityFunctions";
+import { useToggle } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 
 interface RowProps {
   id: number;
   firstName: string;
   lastName: string;
   techStack: ITechnology[];
-  onClick: () => void;
 }
 
-const Row = ({ id, firstName, lastName, techStack, onClick }: RowProps) => {
+const Row = ({ id, firstName, lastName, techStack }: RowProps) => {
   const [useTechStack, setTechStack] = useState("");
   const strTechStack = useRef([""]);
+  const [, setToggle] = useToggle();
 
   useEffect(() => {
     strTechStack.current = [...convertToStringArr(techStack)];
@@ -27,7 +28,7 @@ const Row = ({ id, firstName, lastName, techStack, onClick }: RowProps) => {
 
   return (
     <>
-      <div className="row-container" onClick={() => onClick()}>
+      <div className="row-container" onClick={() => setToggle()}>
         <p className="row-id">{id}</p>
         <p>{firstName}</p>
         <p>{lastName}</p>

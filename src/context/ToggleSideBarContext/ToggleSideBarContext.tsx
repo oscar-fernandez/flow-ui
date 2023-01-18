@@ -20,6 +20,19 @@ export const DetailsContext = React.createContext<
   },
 ]);
 
+export const LocationContext = React.createContext<
+  [string, (locationString: string) => void]
+>([
+  "",
+  () => {
+    return;
+  },
+]);
+
+export function useRouteLocation() {
+  return useContext(LocationContext);
+}
+
 export function useToggle() {
   return useContext(ToggleContext);
 }
@@ -30,10 +43,17 @@ export function useDetails() {
 
 const ToggleProvider = ({ children }: ToggleBarProps) => {
   const [toggle, setToggle] = useState(false);
+  const [template, setTemplate] = useState("");
   const [details, setDetails] = useState<IEnablee>({} as IEnablee);
 
   const changeToggle = () => {
     setToggle((prevToggle) => !prevToggle);
+  };
+
+  const changeTemplate = (locString: string) => {
+    if (locString == "enablee") {
+      setTemplate("enableeTemplate");
+    }
   };
 
   const changeDetails = (viewDetails: IEnablee) => {
@@ -42,9 +62,11 @@ const ToggleProvider = ({ children }: ToggleBarProps) => {
 
   return (
     <DetailsContext.Provider value={[details, changeDetails]}>
-      <ToggleContext.Provider value={[toggle, changeToggle]}>
-        {children}
-      </ToggleContext.Provider>
+      <LocationContext.Provider value={[template, changeTemplate]}>
+        <ToggleContext.Provider value={[toggle, changeToggle]}>
+          {children}
+        </ToggleContext.Provider>
+      </LocationContext.Provider>
     </DetailsContext.Provider>
   );
 };
