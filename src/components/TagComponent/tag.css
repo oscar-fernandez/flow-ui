@@ -1,15 +1,13 @@
 .tag-container {
   font-size: 15px;
-  line-height: 100%;
-  position: absolute;
-  display: inline-block;
-  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 .tag {
   color: #ffffff;
   font-weight: 600;
-  padding: 0px 5px 5px 5px;
+  padding: 0px 2px 0px 2px;
   border-radius: 5px;
   letter-spacing: 0.035em;
+  display: inline-block;
 }
