@@ -13,7 +13,7 @@ export const useAllEnablees = () => {
   };
 
   useEffect(() => {
-    updateEnablees(1);
+    updateEnablees(0);
   }, []);
 
   return { enablees, updateEnablees };
