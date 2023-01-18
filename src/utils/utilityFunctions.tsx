@@ -97,3 +97,45 @@ export const updatedTechnology = (receivedTechnologies: ITechnology[]) => {
   );
   return holdingpattern;
 };
+
+let subMenuItemsArr: Array<{ name: string; routePath: string }>;
+let subMenuItemName: string;
+
+/**
+ * Exportable function that is used inside of SideBarItems component
+ * which can be used to add the subMenuItems to the SideBarItems component.
+ * @param subMenuItems an array that contains the name of item and the route
+ * @returns subMenuItems array used to transport to other components
+ */
+export const setSubMenuItems = (
+  subMenuItems: Array<{ name: string; routePath: string }>,
+  subMenuItem: string
+) => {
+  subMenuItemsArr = subMenuItems;
+  subMenuItemName = subMenuItem;
+};
+
+/**
+ * Exportable function that is used inside of SideBarItems component
+ * which can be used to add the subMenuItems to the SideBarItems component.
+ * @param subMenuItems an array that contains the name of item and the route
+ * @returns subMenuItems array used to transport to other components
+ */
+export const getSubMenuItems = () => {
+  return subMenuItemsArr;
+};
+
+export const getSubMenuItemSelected = () => {
+  return subMenuItemName;
+};
+
+/**
+ * Exportable function that is used inside of SideBarItems component
+ * to expand the SideBarItems if a subMenuItem is clicked. This function
+ * is updated inside of OnHoverMenuItems component.
+ * @param isClicked boolean
+ * @returns boolean value
+ */
+export const setIsSubMenuItemsClicked = (isClicked: boolean) => {
+  return isClicked;
+};

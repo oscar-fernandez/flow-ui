@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,6 +9,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import { StyledEngineProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { getSubMenuItems } from "../../utils/utilityFunctions";
 
 const drawerWidth = 248;
 const sideBarItems = [
@@ -59,6 +60,15 @@ function EnableeSideBarItems() {
     clickHandler(event);
     navigate(path);
   };
+
+  // const [subMenuItems, setSubMenuItems] = useState(getSubMenuItems());
+  const [itemClicked, setItemClicked] = useState(false);
+  const subMenuItems = [
+    { name: "Active", routePath: "/active" },
+    { name: "Pending Start", routePath: "/pendingstart" },
+    { name: "Available", routePath: "/available" },
+    { name: "Completed", routePath: "/completed" },
+  ];
 
   return (
     <>
@@ -127,6 +137,39 @@ function EnableeSideBarItems() {
                     </ListItemButton>
                   </ListItem>
                 ))}
+                {itemClicked ? (
+                  <div>
+                    {subMenuItems.map((item, i) => (
+                      <ListItem
+                        key={i}
+                        disablePadding
+                        sx={{
+                          bgcolor: "#666691",
+                        }}
+                      >
+                        <ListItemButton
+                          className="side-bar-item"
+                          onClick={(e) => {
+                            clickNavigateCombined(e, item.routePath);
+                          }}
+                        >
+                          <ListItemText
+                            disableTypography
+                            sx={{
+                              pl: 5,
+                              whiteSpace: "unset",
+                              color: itemColor,
+                              fontSize: 15,
+                              fontFamily: "Darker Grotesque",
+                              fontWeight: 400,
+                            }}
+                            primary={item.name}
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
+                  </div>
+                ) : null}
               </List>
             </Collapse>
             <List>
