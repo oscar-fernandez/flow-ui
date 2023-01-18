@@ -57,9 +57,9 @@ describe("EnableeTemplate tests", () => {
   it("should handle isEmployed toggle", () => {
     render(<EnableeTemplate />);
     const isEmployed = screen.getByTestId("isEmployed") as HTMLInputElement;
-    expect(isEmployed).not.toBeChecked();
-    fireEvent.click(isEmployed);
     expect(isEmployed).toBeChecked();
+    fireEvent.click(isEmployed);
+    expect(isEmployed).not.toBeChecked();
   });
 
   it("should handle grade change", () => {
@@ -73,21 +73,9 @@ describe("EnableeTemplate tests", () => {
     render(<EnableeTemplate />);
     const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
     const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
-    const assetTag = screen.getByTestId("assetTag") as HTMLInputElement;
-    const country = screen.getByTestId("country") as HTMLInputElement;
-    const community = screen.getByTestId("community") as HTMLInputElement;
-    const employmentType = screen.getByTestId(
-      "employmentType"
-    ) as HTMLInputElement;
-    const grade = screen.getByTestId("grade") as HTMLInputElement;
     expect(screen.getByText("Submit")).toBeDisabled();
     fireEvent.change(nameInput, { target: { value: "test" } });
     fireEvent.change(employeeId, { target: { value: "test" } });
-    fireEvent.change(assetTag, { target: { value: "test" } });
-    fireEvent.change(country, { target: { value: "test" } });
-    fireEvent.change(community, { target: { value: "test" } });
-    fireEvent.change(employmentType, { target: { value: "test" } });
-    fireEvent.change(grade, { target: { value: "test" } });
     expect(screen.getByText("Submit")).toBeEnabled();
   });
 });

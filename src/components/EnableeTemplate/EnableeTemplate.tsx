@@ -7,7 +7,15 @@ import { TagComponent } from "../TagComponent/Tag";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 
 const InputProps = {
-  disableUnderline: false,
+  disableUnderline: true,
+};
+
+const dateStyle = {
+  fontFamily: "Darker Grotesque",
+  fontWeight: "600",
+  color: "#8A8B8A",
+  fontSize: "15px",
+  letterSpacing: "0.025em",
 };
 
 const inputStyle = {
@@ -61,32 +69,30 @@ const labelStyle = {
   letterSpacing: "0.025em",
   fontFamily: "Darker Grotesque",
   fontWeight: 600,
+  width: "90px",
 };
 
 export default function EnableeTemplate() {
+  const current = new Date().toLocaleDateString("en-us", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
   const [name, setName] = useState("");
   //  const [enablementDates, setEnablementDates] = useState(""); // string?
   const [employeeId, setEmployeeId] = useState(""); // string or num ?
-  //  const [dateOfJoin, setDateOfJoin] = useState(""); // string?
+  // const [dateOfJoin, setDateOfJoin] = useState(current.getDate); // string?
   const [assetTag, setAssetTag] = useState("");
   const [country, setCountry] = useState(""); // num?
   const [community, setCommunity] = useState(""); // num?
   const [employmentType, setEmploymentType] = useState(""); // num?
-  const [isEmployed, setIsEmployed] = useState(false);
+  const [isEmployed, setIsEmployed] = useState(true);
   const [grade, setGrade] = useState(""); // num?
   const [disableSubmit, setDisableSubmit] = useState(true);
 
   //check if all fields are entered
   useEffect(() => {
-    if (
-      name === "" ||
-      employeeId === "" ||
-      assetTag === "" ||
-      country === "" ||
-      community === "" ||
-      employmentType === "" ||
-      grade === ""
-    ) {
+    if (name.trim() === "" || employeeId.trim() === "") {
       setDisableSubmit(true);
     } else {
       setDisableSubmit(false);
@@ -116,15 +122,17 @@ export default function EnableeTemplate() {
         <form>
           <TextField
             value={name}
-            placeholder="empty"
+            placeholder="Empty"
             variant="standard"
             autoComplete="off"
             sx={titleProps}
             InputProps={InputProps}
             onChange={(e) => setName(e.target.value)}
             inputProps={{ "data-testid": "enableeName" }}
-            error={name.length === 0}
-            helperText={name.length === 0 ? "* Enablee Name required" : " "}
+            error={name.trim().length === 0}
+            helperText={
+              name.trim().length === 0 ? "* Enablee Name required" : " "
+            }
           />
           <div className="grid-container">
             <Typography sx={labelStyle}>Enablement Dates</Typography>
@@ -138,14 +146,14 @@ export default function EnableeTemplate() {
               InputProps={InputProps}
               sx={inputStyle}
               onChange={(e) => setEmployeeId(e.target.value)}
-              error={employeeId.length === 0}
+              error={employeeId.trim().length === 0}
               helperText={
                 employeeId.trim().length === 0 ? "* Id required" : " "
               }
               inputProps={{ "data-testid": "employeeId" }}
             />
             <Typography sx={labelStyle}>Date of Join</Typography>
-            <DatepickerComponent />
+            <Typography sx={dateStyle}>{current}</Typography>
             <Typography sx={labelStyle}>Asset Tag</Typography>
             <TextField
               value={assetTag}
@@ -156,10 +164,6 @@ export default function EnableeTemplate() {
               sx={inputStyle}
               onChange={(e) => setAssetTag(e.target.value)}
               inputProps={{ "data-testid": "assetTag" }}
-              error={assetTag.trim().length === 0}
-              helperText={
-                assetTag.trim().length === 0 ? "* Asset Tag required" : " "
-              }
             />
             <Typography sx={labelStyle}>Country</Typography>
             <TextField
@@ -171,10 +175,6 @@ export default function EnableeTemplate() {
               sx={inputStyle}
               onChange={(e) => setCountry(e.target.value)}
               inputProps={{ "data-testid": "country" }}
-              error={country.trim().length === 0}
-              helperText={
-                country.trim().length === 0 ? "* Country required" : " "
-              }
             />
             <Typography sx={labelStyle}>Community</Typography>
             <TextField
@@ -185,10 +185,6 @@ export default function EnableeTemplate() {
               InputProps={InputProps}
               sx={inputStyle}
               onChange={(e) => setCommunity(e.target.value)}
-              error={community.trim().length === 0}
-              helperText={
-                community.trim().length === 0 ? "* Community required" : " "
-              }
               inputProps={{ "data-testid": "community" }}
             />
             <Typography sx={labelStyle}>Employment Type</Typography>
@@ -200,13 +196,7 @@ export default function EnableeTemplate() {
               InputProps={InputProps}
               sx={inputStyle}
               onChange={(e) => setEmploymentType(e.target.value)}
-              error={employmentType.trim().length === 0}
               inputProps={{ "data-testid": "employmentType" }}
-              helperText={
-                employmentType.trim().length === 0
-                  ? "* Employment Type required"
-                  : " "
-              }
             />
             <Typography sx={labelStyle}>Is Employed?</Typography>
             <div>
@@ -226,9 +216,7 @@ export default function EnableeTemplate() {
               InputProps={InputProps}
               sx={inputStyle}
               onChange={(e) => setGrade(e.target.value)}
-              error={grade.trim().length === 0}
               inputProps={{ "data-testid": "grade" }}
-              helperText={grade.trim().length === 0 ? "* Grade required" : " "}
             />
             <Typography sx={labelStyle}>Tech Stack</Typography>
             <div>
