@@ -17,6 +17,7 @@ export default function EnableeView() {
   const getTotalPages = async () => {
     GetPaginatedEnablees(0)
       .then((res) => {
+        // setTotalPages(Math.ceil(6));
         setTotalPages(Math.ceil(res.data.totalElements / 25));
       })
       .catch((e) => console.error(e));

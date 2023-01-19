@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./PageNumberCarousel.css";
 
 interface Props {
@@ -17,18 +17,14 @@ const PageNumberCarousel = ({
 }: Props) => {
   // this will be replaced by prop function from parent to update page
   // const [currentPageNumber, setPage] = useState(1);
-  const [disableBack, setDisableBack] = useState(true);
-  const [disableForward, setDisableForward] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [invalidPageRange, setIsInvalidPageRange] = useState(false);
 
   // This method updates the current page to go back a page
   const updatePageBack = () => {
     // If the user is on the first page they cannot go back to a previous page.
-    setDisableForward(false);
     if (currentPageNumber === 2) {
       setPage(1);
-      setDisableBack(true);
     } else {
       setPage(currentPageNumber - 1);
     }
@@ -38,33 +34,15 @@ const PageNumberCarousel = ({
   const updatePageForward = () => {
     if (currentPageNumber === totalPages - 1) {
       setPage(totalPages);
-      setDisableForward(true);
-      setDisableBack(false);
     } else {
       setPage(currentPageNumber + 1);
-      setDisableBack(false);
     }
   };
 
   // Page number from anchor tag needs to be converted to type number
   const getNumber = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     const pageNumber = Number(e.currentTarget.text);
-    goToPage(pageNumber);
-  };
-
-  // Called by clicking on page number anchors or submitting number by form
-  const goToPage = (pageNumber: number) => {
     setPage(pageNumber);
-    if (pageNumber === 1) {
-      setDisableBack(true);
-      disableForward && setDisableForward(false);
-    } else if (pageNumber === totalPages) {
-      setDisableForward(true);
-      disableBack && setDisableBack(false);
-    } else {
-      disableBack && setDisableBack(false);
-      disableForward && setDisableForward(false);
-    }
   };
 
   // Handles state for 'Go to page' form
@@ -77,19 +55,13 @@ const PageNumberCarousel = ({
     e.preventDefault();
     const pageNumber = Number(inputValue);
     if (1 <= pageNumber && pageNumber <= totalPages) {
-      goToPage(pageNumber);
+      setPage(pageNumber);
       setInputValue("");
       setIsInvalidPageRange(false);
     } else {
       setIsInvalidPageRange(true);
     }
   };
-
-  useEffect(() => {
-    if (totalPages === currentPageNumber) {
-      setDisableForward(true);
-    }
-  });
 
   return (
     <>
@@ -99,7 +71,7 @@ const PageNumberCarousel = ({
             <button
               className="arrow"
               onClick={updatePageBack}
-              disabled={disableBack}
+              disabled={currentPageNumber === 1}
               aria-label="Previous page"
             >
               <svg
@@ -247,7 +219,7 @@ const PageNumberCarousel = ({
             <button
               className="arrow"
               onClick={updatePageForward}
-              disabled={disableForward}
+              disabled={currentPageNumber === totalPages}
               aria-label="Next page"
             >
               <svg
