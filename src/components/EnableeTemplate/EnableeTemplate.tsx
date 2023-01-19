@@ -80,8 +80,8 @@ const current = new Date().toLocaleDateString("en-us", {
 
 export default function EnableeTemplate() {
   const [name, setName] = useState("");
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
   const [employeeId, setEmployeeId] = useState("");
   const [dateOfJoin, setDateOfJoin] = useState(current);
   const [assetTag, setAssetTag] = useState("");
@@ -97,8 +97,8 @@ export default function EnableeTemplate() {
     if (
       name.trim() === "" ||
       employeeId.trim() === "" ||
-      startDate === null ||
-      endDate === null
+      startDate === undefined ||
+      endDate === undefined
     ) {
       setDisableSubmit(true);
     } else {

@@ -1,10 +1,9 @@
-import { useState } from "react";
 import "./DatepickerComponent.css";
 import DatePicker from "react-datepicker";
 
 interface Props {
-  startDate: Date | null;
-  endDate: Date | null;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
   setStartDate: (date: Date) => void;
   setEndDate: (date: Date) => void;
 }
