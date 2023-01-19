@@ -83,7 +83,7 @@ const PageNumberCarousel = ({
                 stroke="#f8f9fa"
                 className="arrow-stroke"
                 height={"15px"}
-                width={"15x"}
+                width={"15px"}
               >
                 <path
                   strokeLinecap="round"
