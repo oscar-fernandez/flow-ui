@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import IEnablee from "../../models/interfaces/IEnablee";
-import { GetPaginatedEnablees } from "../../services/EnableeAPI";
+import {
+  GetEnableesPendingPodAssignment,
+  GetPaginatedEnablees,
+} from "../../services/EnableeAPI";
 import Row from "../RowComponent/Row";
 
 interface Props {
@@ -12,13 +15,24 @@ export function GenerateRows({ pageNum }: Props) {
   const [enablees, setEnablees] = useState<IEnablee[]>([]);
 
   useEffect(() => {
-    getEnablees(pageNum - 1);
+    if (pageNum !== -1) getEnablees(pageNum - 1);
+    else {
+      getPendingEnablees();
+    }
   }, [pageNum]);
 
   const getEnablees = async (pageNumber: number) => {
     GetPaginatedEnablees(pageNumber)
       .then((res) => {
         setEnablees(res.data.items);
+      })
+      .catch((e) => console.error(e));
+  };
+
+  const getPendingEnablees = async () => {
+    GetEnableesPendingPodAssignment()
+      .then((res) => {
+        setEnablees(res.data);
       })
       .catch((e) => console.error(e));
   };
