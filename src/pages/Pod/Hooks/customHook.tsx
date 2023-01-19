@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { mockFePod } from "../../../data/MockFEPod";
 import IFEPod from "../../../models/interfaces/IFEPod";
 //import {getCompletedPods} from "../../../services/PodAPI"
@@ -16,3 +15,13 @@ export const useCompletedPods = () => {
 
   return { completedPods };
 };
+
+export function useAvailablePods() {
+  const [podList, setPodList] = useState<IFEPod[]>([]);
+
+  useEffect(() => {
+    setPodList(mockFePod);
+  }, []);
+
+  return [podList, setPodList];
+}
