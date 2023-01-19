@@ -11,6 +11,7 @@ import { useState } from "react";
 import ITechnology from "../../models/interfaces/ITechnology";
 import IProject from "../../models/interfaces/IProject";
 import { updateProject, createProject } from "../../services/ManagementAPI";
+import { TagComponent } from "../TagComponent/Tag";
 
 import "./FormComponent.css";
 
@@ -59,15 +60,8 @@ export default function FormComponent(props: any) {
     readOnly: props.readonly,
   };
 
-  //manages array of string for select
-  const [techStackString, setTechStackString] = useState<string[]>([]);
-
-  const handleChange = (event: SelectChangeEvent<typeof techStackString>) => {
-    const {
-      target: { value },
-    } = event;
-    setTechStackString(typeof value === "string" ? value.split(",") : value);
-  };
+  const [techStack, setTechStack] = useState(props.allTechnologies);
+  const [selectedStack, setSelectedStack] = useState(props.technologies);
 
   const clearFields = () => {
     const projectName = document.getElementById(
@@ -78,11 +72,21 @@ export default function FormComponent(props: any) {
     projectName.value = "";
     repoLink.value = "";
     summary.value = "";
-    setTechStackString([]);
+    setTechStack([]);
   };
 
-  const handleTechStack = (value: string) => {
-    techStackString.push(value);
+  const handleTechStack = (value: ITechnology) => {
+    const found = selectedStack.find(
+      (tech: ITechnology) => tech.id === value.id
+    );
+    const notFound = selectedStack.filter(
+      (tech: ITechnology) => tech.id !== value.id
+    );
+    if (found) {
+      setSelectedStack(notFound);
+    } else {
+      setSelectedStack([...selectedStack, value]);
+    }
   };
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -134,11 +138,7 @@ export default function FormComponent(props: any) {
   const formHelper = (id: number) => {
     let techArr: ITechnology[] = [];
 
-    techArr = techStackString
-      .map((techName) =>
-        props.technologies.find((item: ITechnology) => item.name === techName)
-      )
-      .filter((tech): tech is ITechnology => tech !== undefined);
+    techArr = techStack;
 
     const currentProjectName = document.getElementById(
       "projectName"
@@ -244,30 +244,38 @@ export default function FormComponent(props: any) {
             </div>
           </div>
           <div className="column-r">
-            <div className="form-wrap">
-              <label className="p-label">Tech Stack</label>
-              <ButtonGroup
-                variant="text"
-                orientation="vertical"
-                aria-label="text button group"
-              >
-                {props.technologies.map((tech: ITechnology) => (
-                  <Button
+            <div className="tech-wrap">
+              <label className="p-label">Technologies</label>
+              <div className="tech-stack">
+                {techStack.map((tech: ITechnology) => (
+                  <MenuItem
                     key={tech.id}
+                    className="tech-item"
+                    disabled={props.edit}
                     onClick={() => {
-                      handleTechStack(tech.name);
+                      handleTechStack(tech);
                     }}
                   >
                     {tech.name}
-                  </Button>
+                  </MenuItem>
                 ))}
-              </ButtonGroup>
+              </div>
             </div>
             <div className="button-wrap">
-              {techStackString.length > 0 ? (
-                <p className="selected-ts">
-                  Selected tech stack: {techStackString.join(", ")}
-                </p>
+              {selectedStack.length > 0 ? (
+                <div className="selected-tag-wrap">
+                  <label className="t-label">Current Tech Stack: </label>
+                  <div className="selected-tags">
+                    {selectedStack?.map((tech: ITechnology) => (
+                      <div className="selected-tag" key={tech.id}>
+                        <TagComponent
+                          name={tech.name}
+                          color={tech.backgroundColor}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
               ) : (
                 <p className="selected-ts">Selected tech stack: None</p>
               )}

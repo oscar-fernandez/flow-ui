@@ -1,7 +1,7 @@
 .tag-container {
   font-size: 15px;
   line-height: 100%;
-  position: absolute;
+  position: relative;
   display: inline-block;
   text-align: center;
 }

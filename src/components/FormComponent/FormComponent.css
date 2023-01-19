@@ -111,12 +111,37 @@ option {
   font-size: 15px;
   color: #8a8b8a;
 }
+.t-label {
+  width: 1fr;
+  font-weight: 600;
+  font-size: 15px;
+  color: #000048;
+}
 
 .form-wrap {
   margin-bottom: 4rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
+}
+
+.tech-wrap {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.selected-tag-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.selected-tags {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding-left: 1rem;
 }
 
 .form-field {
