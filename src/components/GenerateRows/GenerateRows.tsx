@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import IEnablee from "../../models/interfaces/IEnablee";
 import {
-  GetEnableesPendingPodAssignment,
+  GetEnableesWithNoStartDate,
   GetPaginatedEnablees,
 } from "../../services/EnableeAPI";
 import Row from "../RowComponent/Row";
@@ -17,7 +17,7 @@ export function GenerateRows({ pageNum }: Props) {
   useEffect(() => {
     if (pageNum !== -1) getEnablees(pageNum - 1);
     else {
-      getPendingEnablees();
+      getPendingStartEnablees();
     }
   }, [pageNum]);
 
@@ -29,8 +29,8 @@ export function GenerateRows({ pageNum }: Props) {
       .catch((e) => console.error(e));
   };
 
-  const getPendingEnablees = async () => {
-    GetEnableesPendingPodAssignment()
+  const getPendingStartEnablees = async () => {
+    GetEnableesWithNoStartDate()
       .then((res) => {
         setEnablees(res.data);
       })
