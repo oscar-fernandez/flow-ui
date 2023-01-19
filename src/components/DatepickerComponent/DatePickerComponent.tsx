@@ -2,10 +2,19 @@ import { useState } from "react";
 import "./DatepickerComponent.css";
 import DatePicker from "react-datepicker";
 
-export const DatepickerComponent = () => {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+interface Props {
+  startDate: Date | null;
+  endDate: Date | null;
+  setStartDate: (date: Date) => void;
+  setEndDate: (date: Date) => void;
+}
 
+export const DatepickerComponent = ({
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+}: Props) => {
   return (
     <div className="date-picker-container">
       <DatePicker

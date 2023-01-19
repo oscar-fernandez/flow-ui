@@ -72,27 +72,34 @@ const labelStyle = {
   width: "90px",
 };
 
+const current = new Date().toLocaleDateString("en-us", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
 export default function EnableeTemplate() {
-  const current = new Date().toLocaleDateString("en-us", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
   const [name, setName] = useState("");
-  //  const [enablementDates, setEnablementDates] = useState(""); // string?
-  const [employeeId, setEmployeeId] = useState(""); // string or num ?
-  // const [dateOfJoin, setDateOfJoin] = useState(current.getDate); // string?
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [employeeId, setEmployeeId] = useState("");
+  const [dateOfJoin, setDateOfJoin] = useState(current);
   const [assetTag, setAssetTag] = useState("");
-  const [country, setCountry] = useState(""); // num?
-  const [community, setCommunity] = useState(""); // num?
-  const [employmentType, setEmploymentType] = useState(""); // num?
+  const [country, setCountry] = useState("");
+  const [community, setCommunity] = useState("");
+  const [employmentType, setEmploymentType] = useState("");
   const [isEmployed, setIsEmployed] = useState(true);
-  const [grade, setGrade] = useState(""); // num?
+  const [grade, setGrade] = useState("");
   const [disableSubmit, setDisableSubmit] = useState(true);
 
   //check if all fields are entered
   useEffect(() => {
-    if (name.trim() === "" || employeeId.trim() === "") {
+    if (
+      name.trim() === "" ||
+      employeeId.trim() === "" ||
+      startDate === null ||
+      endDate === null
+    ) {
       setDisableSubmit(true);
     } else {
       setDisableSubmit(false);
@@ -136,7 +143,12 @@ export default function EnableeTemplate() {
           />
           <div className="grid-container">
             <Typography sx={labelStyle}>Enablement Dates</Typography>
-            <DatepickerComponent />
+            <DatepickerComponent
+              startDate={startDate}
+              endDate={endDate}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+            />
             <Typography sx={labelStyle}>Employee Id</Typography>
             <TextField
               value={employeeId}
@@ -153,7 +165,7 @@ export default function EnableeTemplate() {
               inputProps={{ "data-testid": "employeeId" }}
             />
             <Typography sx={labelStyle}>Date of Join</Typography>
-            <Typography sx={dateStyle}>{current}</Typography>
+            <Typography sx={dateStyle}>{dateOfJoin}</Typography>
             <Typography sx={labelStyle}>Asset Tag</Typography>
             <TextField
               value={assetTag}
