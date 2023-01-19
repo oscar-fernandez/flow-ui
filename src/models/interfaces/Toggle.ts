@@ -1,5 +1,5 @@
 interface Toggle {
   toggle: boolean;
-  handleClick: (intialToggleValue: boolean) => void;
+  handleClick: () => void;
 }
 export default Toggle;

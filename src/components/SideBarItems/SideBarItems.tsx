@@ -9,6 +9,31 @@ import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import { StyledEngineProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import ColMenuItem from "./ColMenuItem/ColMenuItem";
+
+interface SubMenuItem {
+  name: string;
+  routePath: string;
+  handleOnClick: () => void;
+}
+
+const listOfSubMenuItems = [
+  {
+    name: "Sub Test 1",
+    routePath: "",
+    handleOnClick: () => null,
+  },
+  {
+    name: "Sub Test 2",
+    routePath: "",
+    handleOnClick: () => null,
+  },
+  {
+    name: "Sub Test 3",
+    routePath: "/pendingStart",
+    handleOnClick: () => null,
+  },
+];
 
 const drawerWidth = 248;
 const sideBarItems = [
@@ -149,6 +174,12 @@ function EnableeSideBarItems() {
                     primary="Management"
                   />
                 </ListItemButton>
+              </ListItem>
+              <ListItem sx={{ fontSize: 36 }} disablePadding>
+                <ColMenuItem
+                  menuItemName="Test"
+                  subMenuItems={listOfSubMenuItems}
+                />
               </ListItem>
             </List>
           </Drawer>
