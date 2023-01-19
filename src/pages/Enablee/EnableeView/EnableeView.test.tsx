@@ -1,14 +1,16 @@
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  debug,
-} from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import React from "react";
-import { describe, it, expect, vi, afterEach } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  afterEach,
+  beforeEach,
+  beforeAll,
+} from "vitest";
 import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
 import EnableeView from "./EnableeView";
 import { dummyEnablees } from "../../../data/EnableeMock";
@@ -18,40 +20,8 @@ import { dummyEnablees } from "../../../data/EnableeMock";
 // Call the buttons in carousel to test the set, and make sure buttons change active number displayed in carousel, and form input displayed in carousel
 // Makes sure it maps enablees? or maybe test this in Enablee View.
 vi.mock("../../../services/EnableeAPI");
-describe("Enablee View page", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  // it("should display enablee view page with correct components", () => {
-  //   render(<EnableeView />);
-  // });
-
-  // it('should enable previous page button after clicking "Next page"', () => {
-  //   render(<EnableeView />);
-  //   const previousPageButton = screen.getByRole("button", {
-  //     name: "Previous page",
-  //   });
-  //   const nextPageButton = screen.getByRole("button", {
-  //     name: "Next page",
-  //   });
-  //   fireEvent.click(nextPageButton);
-  //   expect(previousPageButton).toBeEnabled();
-  // });
-
-  // it('should enable previous page button after clicking "Next page"', () => {
-  //   render(<EnableeView />);
-  //   const nextPageButton = screen.getByRole("button", {
-  //     name: "Next page",
-  //   });
-  //   for (let i = 0; i < 100; i++) {
-  //     console.log(i)
-  //     fireEvent.click(nextPageButton);
-  //   }
-  //   expect(nextPageButton).toBeDisabled();
-  // });
-
-  it('should enable previous page button after clicking "Next page"', async () => {
+describe("Async tests for enablee View", () => {
+  beforeAll(() => {
     const pageOfItem = {
       data: {
         items: [dummyEnablees[0]],
@@ -59,10 +29,23 @@ describe("Enablee View page", () => {
         totalElements: 150,
       },
     };
-
     (GetPaginatedEnablees as jest.Mock).mockResolvedValue(pageOfItem);
-    render(<EnableeView />);
+  });
 
+  it('should enable previous page button after clicking "Next page"', async () => {
+    render(<EnableeView />);
+    const previousPageButton = screen.getByRole("button", {
+      name: "Previous page",
+    });
+    const nextPageButton = screen.getByRole("button", {
+      name: "Next page",
+    });
+    await userEvent.click(nextPageButton);
+    expect(previousPageButton).toBeEnabled();
+  });
+
+  it('should enable previous page button after clicking "Next page"', async () => {
+    render(<EnableeView />);
     const nextPageButton = screen.getByRole("button", {
       name: "Next page",
     });
@@ -73,6 +56,40 @@ describe("Enablee View page", () => {
 
     await waitFor(() => {
       expect(nextPageButton).toBeDisabled();
+    });
+  });
+
+  it("goes to the page that is submitted by the user", async () => {
+    render(<EnableeView />);
+
+    const input = screen.getByTestId("CarouselInput");
+    const goButton = screen.getByRole("button", { name: "Go" });
+    await userEvent.type(input, "3");
+    await userEvent.click(goButton);
+    const nextPageButton = screen.getByRole("button", {
+      name: "Next page",
+    });
+    const previousPageButton = screen.getByRole("button", {
+      name: "Previous page",
+    });
+    await waitFor(() => {
+      expect(previousPageButton).toBeEnabled();
+    });
+    await waitFor(() => {
+      expect(nextPageButton).toBeEnabled();
+    });
+  });
+
+  it("Try to go to page that is above max page, should give error message", async () => {
+    render(<EnableeView />);
+
+    const input = screen.getByTestId("CarouselInput");
+    const goButton = screen.getByRole("button", { name: "Go" });
+    await userEvent.type(input, "100");
+    await userEvent.click(goButton);
+    const errorMessage = screen.getByText("* Invalid Page Number");
+    await waitFor(() => {
+      expect(errorMessage).toBeInTheDocument();
     });
   });
 });

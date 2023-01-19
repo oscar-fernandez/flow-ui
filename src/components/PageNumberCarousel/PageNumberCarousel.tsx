@@ -250,6 +250,7 @@ const PageNumberCarousel = ({
                 className="input-pagenumber"
                 type="text"
                 placeholder="Go to page ..."
+                data-testid="CarouselInput"
                 value={inputValue}
                 onChange={handleChange}
               />
