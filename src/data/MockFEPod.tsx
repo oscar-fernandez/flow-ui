@@ -47,4 +47,13 @@ export const mockFePod: IFEPod[] = [
     podEndDate: new Date().toString(),
     project: project,
   },
+  {
+    id: 7,
+    podName: "AngularPod",
+    enablee: dummyEnablees,
+    enabler: null,
+    podStartDate: new Date().toString(),
+    podEndDate: new Date().toString(),
+    project: project,
+  },
 ];
