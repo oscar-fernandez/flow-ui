@@ -20,6 +20,7 @@ import { dummyEnablees } from "../../data/EnableeMock";
 const listCheckboxes = [
   { name: "Match Tech Stack" },
   { name: "Contains Tech Stack" },
+  { name: "Available Enablees" },
 ];
 
 const podRowFactory = (obj: IPod): string[] => {
