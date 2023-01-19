@@ -9,7 +9,6 @@ import ToggleSidebarUpdate from "../../../components/ToggleSideBar/ToggleSideBar
 export default function EnableeView() {
   return (
     <>
-      <ToggleSidebarUpdate />
       <div className="page-section">
         <PageViewHeader pageTitle="Enablees" showPlus={true} />
         <Filter

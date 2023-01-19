@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import IEnablee from "../../models/interfaces/IEnablee";
 
 interface ToggleBarProps {
   children: JSX.Element;
@@ -11,63 +10,42 @@ export const ToggleContext = React.createContext<[boolean, () => void]>([
     return;
   },
 ]);
-export const DetailsContext = React.createContext<
-  [IEnablee, (view: IEnablee) => void]
+
+export const ToggleArrowContext = React.createContext<
+  [boolean, (arrow: boolean) => void]
 >([
-  {} as IEnablee,
+  false,
   () => {
     return;
   },
 ]);
-
-export const LocationContext = React.createContext<
-  [string, (locationString: string) => void]
->([
-  "",
-  () => {
-    return;
-  },
-]);
-
-export function useRouteLocation() {
-  return useContext(LocationContext);
-}
 
 export function useToggle() {
   return useContext(ToggleContext);
 }
 
-export function useDetails() {
-  return useContext(DetailsContext);
+export function useToggleArrow() {
+  return useContext(ToggleArrowContext);
 }
 
 const ToggleProvider = ({ children }: ToggleBarProps) => {
   const [toggle, setToggle] = useState(false);
-  const [template, setTemplate] = useState("");
-  const [details, setDetails] = useState<IEnablee>({} as IEnablee);
+  const [toggleArrow, setToggleArrow] = useState(false);
 
   const changeToggle = () => {
     setToggle((prevToggle) => !prevToggle);
   };
 
-  const changeTemplate = (locString: string) => {
-    if (locString == "enablee") {
-      setTemplate("enableeTemplate");
-    }
-  };
-
-  const changeDetails = (viewDetails: IEnablee) => {
-    setDetails(viewDetails);
+  const changeToggleArrow = (arrow = false) => {
+    setToggleArrow(arrow);
   };
 
   return (
-    <DetailsContext.Provider value={[details, changeDetails]}>
-      <LocationContext.Provider value={[template, changeTemplate]}>
-        <ToggleContext.Provider value={[toggle, changeToggle]}>
-          {children}
-        </ToggleContext.Provider>
-      </LocationContext.Provider>
-    </DetailsContext.Provider>
+    <ToggleContext.Provider value={[toggle, changeToggle]}>
+      <ToggleArrowContext.Provider value={[toggleArrow, changeToggleArrow]}>
+        {children}
+      </ToggleArrowContext.Provider>
+    </ToggleContext.Provider>
   );
 };
 
