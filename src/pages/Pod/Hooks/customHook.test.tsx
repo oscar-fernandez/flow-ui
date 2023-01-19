@@ -1,14 +1,21 @@
 import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 
-import { useAvailablePods } from "./customHook";
+import { useAvailablePods, useCompletedPods } from "./customHook";
 import { mockFePod } from "../../../data/MockFEPod";
 
-describe("useAvailablePods hook tests", async () => {
+describe("useCustomHook Pods tests", async () => {
   it("should get available pods on mount", async () => {
     const mockFePodData = mockFePod;
     const { result } = renderHook(() => useAvailablePods());
 
     expect(result.current[0]).toEqual(mockFePodData);
+  });
+
+  it("should get completed pods on mount", async () => {
+    const mockFePodData = mockFePod;
+    const { result } = renderHook(() => useCompletedPods());
+
+    expect(result.current.completedPods).toEqual(mockFePodData);
   });
 });
