@@ -1,4 +1,12 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  debug,
+} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
 import React from "react";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
@@ -44,32 +52,27 @@ describe("Enablee View page", () => {
   // });
 
   it('should enable previous page button after clicking "Next page"', async () => {
-    // jest.spyOn(React, 'useEffect').mockImplementation((f) => f())
-    // jest.spyOn( GetPaginatedEnablees,'GetPaginatedEnablees')
-
     const pageOfItem = {
       data: {
-        items: dummyEnablees,
+        items: [dummyEnablees[0]],
         hasNext: false,
         totalElements: 150,
-      }
+      },
     };
+
     (GetPaginatedEnablees as jest.Mock).mockResolvedValue(pageOfItem);
     render(<EnableeView />);
 
-    await waitFor(() => {
-      const nextPageButton = screen.getByRole("button", {
-        name: "Next page",
-      })
-      for (let i = 0; i < 1; i++) {
-        fireEvent.click(nextPageButton);
-      }
-      // console.log(nextPageButton.innerHTML)
-      const display = screen.getByText("5")
-      expect(nextPageButton).toBeDisabled();
+    const nextPageButton = screen.getByRole("button", {
+      name: "Next page",
     });
 
-    // expect(GetPaginatedEnablees).toBeCalledTimes(2)
-    // expect(display).toBeInTheDocument()
+    for (let i = 0; i < 5; i++) {
+      userEvent.click(nextPageButton);
+    }
+
+    await waitFor(() => {
+      expect(nextPageButton).toBeDisabled();
+    });
   });
 });
