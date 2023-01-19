@@ -42,7 +42,14 @@ const CustomTableContainer = ({
   buttonStyle,
 }: Props) => {
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", boxShadow: "none" }}>
+    <Paper
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+        boxShadow: "none",
+        marginBottom: "40px",
+      }}
+    >
       <TableContainer data-testid="table-container" sx={{ maxHeight: 600 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHeader

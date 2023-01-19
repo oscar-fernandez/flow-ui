@@ -43,8 +43,8 @@ export const mockFePod: IFEPod[] = [
     podName: "Crew",
     enablee: dummyEnablees,
     enabler: null,
-    podStartDate: new Date(),
-    podEndDate: new Date(),
+    podStartDate: new Date().toString(),
+    podEndDate: new Date().toString(),
     project: project,
   },
 ];

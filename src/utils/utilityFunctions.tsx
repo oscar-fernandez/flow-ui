@@ -1,9 +1,11 @@
 import IEnablee from "../models/interfaces/IEnablee";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
+import IFEPod from "../models/interfaces/IFEPod";
 import IProject from "../models/interfaces/IProject";
 import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnology from "../models/interfaces/ITechnology";
 import ITechnologyTable from "../models/interfaces/ITechnologyTable";
+import PodAssignment from "../pages/Enablee/PodAssignment/PodAssignment";
 
 export function getName(name: string) {
   switch (name) {
@@ -138,4 +140,19 @@ export const getSubMenuItemSelected = () => {
  */
 export const setIsSubMenuItemsClicked = (isClicked: boolean) => {
   return isClicked;
+};
+
+export const isEnableeValidForPod = (fepod: IFEPod, enablee: IEnablee) => {
+  const startDateFePod = new Date(fepod.podStartDate);
+  const endDateFePod = new Date(fepod.podEndDate);
+  const startDateEnablee = new Date(enablee.enablementStartDate);
+  const endDateEnablee = new Date(enablee.enablementEndDate);
+  const isDateRangeValid =
+    endDateFePod.getTime() - startDateFePod.getTime() >=
+    endDateEnablee.getTime() - startDateEnablee.getTime();
+  return (
+    (isDateRangeValid &&
+      startDateFePod.getTime() >= startDateEnablee.getTime()) ||
+    endDateFePod.getTime() >= endDateEnablee.getTime()
+  );
 };

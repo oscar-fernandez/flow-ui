@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
-import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
+import {
+  GetEnableesPendingPodAssignment,
+  GetEnableesWithNoStartDate,
+} from "../../../services/EnableeAPI";
 
-function usePendingPodEnablees() {
+export const usePendingPodEnablees = () => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -10,6 +13,14 @@ function usePendingPodEnablees() {
     });
   }, []);
   return { list, setList };
-}
+};
 
-export default usePendingPodEnablees;
+export const usePendingStartEnablees = () => {
+  const [list, setList] = useState([]);
+  useEffect(() => {
+    GetEnableesWithNoStartDate().then((enablees) => {
+      setList(enablees.data);
+    });
+  }, []);
+  return { list, setList };
+};
