@@ -3,6 +3,7 @@ import "./EnableeView.css";
 import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumberCarousel";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import { GenerateRows } from "../../../components/GenerateRows/GenerateRows";
+import ToggleProvider from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { useEffect, useState } from "react";
 import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
 
@@ -33,7 +34,9 @@ export default function EnableeView() {
           inputThree="last name"
           inputFour="tech stack"
         />
-        <GenerateRows pageNum={pageNum} />
+        <ToggleProvider>
+          <GenerateRows pageNum={pageNum} />
+        </ToggleProvider>
         <PageNumberCarousel
           totalPages={totalPages}
           currentPageNumber={pageNum}
