@@ -17,13 +17,14 @@ interface RowProps {
 }
 
 const Row = ({ id, firstName, lastName, techStack, onClick }: RowProps) => {
-  const [useTechStack, setTechStack] = useState("");
-  const strTechStack = useRef([""]);
+  // const [useTechStack, setTechStack] = useState("");
+  // const strTechStack = useRef(convertToStringArr(techStack)); //was causing bug with how tech was rendered will document later
+  const t = convertToStringArr(techStack);
 
-  useEffect(() => {
-    strTechStack.current = [...convertToStringArr(techStack)];
-    setTechStack(shortenStringList(strTechStack.current));
-  }, []);
+  // useEffect(() => { //was cuasing bug when tech was rendering, will document later
+  //   // strTechStack.current = [...convertToStringArr(techStack)];
+  //   // setTechStack(shortenStringList(strTechStack.current));
+  // }, []);
 
   return (
     <>
@@ -31,8 +32,8 @@ const Row = ({ id, firstName, lastName, techStack, onClick }: RowProps) => {
         <p className="row-id">{id}</p>
         <p>{firstName}</p>
         <p>{lastName}</p>
-        <Tooltip title={tooltipString(strTechStack.current)} placement="bottom">
-          <p data-testid="tech-stack">{useTechStack}</p>
+        <Tooltip title={tooltipString(t)} placement="bottom">
+          <p data-testid="tech-stack">{shortenStringList(t)}</p>
         </Tooltip>
 
         <button
