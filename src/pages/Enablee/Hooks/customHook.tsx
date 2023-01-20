@@ -1,20 +1,26 @@
-import React, { useState, useEffect } from "react";
-import IEnablee from "../../../models/interfaces/IEnablee";
-import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
-import { getEnablees } from "../../../services/FacadePattern";
+import { useState, useEffect } from "react";
+import {
+  GetEnableesPendingPodAssignment,
+  GetEnableesWithNoStartDate,
+} from "../../../services/EnableeAPI";
 
-function usePendingPodEnablees() {
-  const [receivedEnablees, setReceivedEnablees] = useState([]);
+export const usePendingPodEnablees = () => {
+  const [list, setList] = useState([]);
 
-  const getEnablees = async () => {
-    GetEnableesPendingPodAssignment()
-      .then((res) => {
-        setReceivedEnablees(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    //   possible React https://www.intricatecloud.io/2020/03/how-to-handle-api-errors-in-your-web-app-using-axios/
-  };
-}
-export { getEnablees };
+  useEffect(() => {
+    GetEnableesPendingPodAssignment().then((items) => {
+      setList(items.data);
+    });
+  }, []);
+  return { list, setList };
+};
+
+export const usePendingStartEnablees = () => {
+  const [list, setList] = useState([]);
+  useEffect(() => {
+    GetEnableesWithNoStartDate().then((enablees) => {
+      setList(enablees.data);
+    });
+  }, []);
+  return { list, setList };
+};

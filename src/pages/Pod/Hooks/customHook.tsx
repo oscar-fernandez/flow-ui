@@ -1,31 +1,27 @@
 import { useEffect, useState } from "react";
+import { mockFePod } from "../../../data/MockFEPod";
+import IFEPod from "../../../models/interfaces/IFEPod";
+//import {getCompletedPods} from "../../../services/PodAPI"
 
-const pods = [
-  {
-    id: 1,
-    podName: "The Podz",
-    enableeEmployeeId: 12,
-    enablerEmployeeId: 12,
-    projectId: 123,
-  },
-  {
-    id: 2,
-    podName: "The Pod",
-    enableeEmployeeId: 12,
-    enablerEmployeeId: 12,
-    projectId: 12,
-  },
-];
-
-function useAvailablePods() {
-  const [pods, setPods] = useState([]);
+export const useCompletedPods = () => {
+  const [completedPods, setCompletedPods] = useState<IFEPod[]>([]);
 
   useEffect(() => {
-    setPods((prevPods) => [...prevPods, ...pods]);
+    /* getCompletedPods().then((pods) => {
+            setCompletedPods(pods.data);
+        });  */
+    setCompletedPods(mockFePod);
   }, []);
-}
-export default useAvailablePods;
 
-function mockFn() {
-  throw new Error("Function not implemented. Shoul be get method.");
+  return { completedPods };
+};
+
+export function useAvailablePods() {
+  const [podList, setPodList] = useState<IFEPod[]>([]);
+
+  useEffect(() => {
+    setPodList(mockFePod);
+  }, []);
+
+  return [podList, setPodList];
 }
