@@ -16,6 +16,10 @@ interface Props {
   subMenuItems: SubMenuItem[];
 }
 
+const ChildComp: React.FC = () => (
+  <p className="hover-menu">This is a child component</p>
+);
+
 export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
   const { toggle, handleClick } = useToggle(false);
   const navigate = useNavigate();
@@ -34,6 +38,7 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
         routePath={subMenuItems[0].routePath}
         handleOnClick={toggleAndNavigate}
       />
+      <ChildComp />
       <Collapse in={toggle} timeout={1}>
         <div>
           {subMenuItems.map((item, idx) => (
