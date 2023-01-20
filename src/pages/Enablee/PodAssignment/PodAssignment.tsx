@@ -106,7 +106,6 @@ export default function PodAssignment() {
   ) => {
     if (disabled) {
       selectedRow.current = mockPods[+event.currentTarget.id]; //shorthand convert str to number
-
       setReceivedEnablees(dummyEnablees);
     }
     setDisabled(!disabled);
@@ -132,13 +131,12 @@ export default function PodAssignment() {
   const updateSelectedEnablees = (index: number) => {
     const e = receivedEnablees[index];
     const ar = selectedEnablees.current;
-    //  let countCurrent = count;
     if (!ar.includes(e.employeeId)) {
       ar.push(e.employeeId);
-      increment();
+      return increment();
     } else {
       ar.splice(ar.indexOf(e.employeeId), 1);
-      decrement();
+      return decrement();
     }
   };
 
