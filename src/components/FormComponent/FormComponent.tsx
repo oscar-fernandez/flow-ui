@@ -7,7 +7,7 @@ import {
   ButtonGroup,
   Button,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ITechnology from "../../models/interfaces/ITechnology";
 import IProject from "../../models/interfaces/IProject";
 import { updateProject, createProject } from "../../services/ManagementAPI";
@@ -62,17 +62,34 @@ export default function FormComponent(props: any) {
 
   const [techStack, setTechStack] = useState(props.allTechnologies);
   const [selectedStack, setSelectedStack] = useState(props.technologies);
+  const [projectName, setProjectName] =
+    useState(props.selectedRow?.current?.name) || null;
+  const [projectLink, setProjectLink] =
+    useState(props.selectedRow?.current?.repoLink) || null;
+  const [projectDescription, setProjectDescription] =
+    useState(props.selectedRow?.current?.description) || null;
+  const [disableSubmit, setDisableSubmit] = useState(true);
+  const [hasTechStack, setHasTechStack] = useState(true);
 
-  const clearFields = () => {
-    const projectName = document.getElementById(
-      "projectName"
-    ) as HTMLInputElement;
-    const repoLink = document.getElementById("link") as HTMLInputElement;
-    const summary = document.getElementById("summary") as HTMLInputElement;
-    projectName.value = "";
-    repoLink.value = "";
-    summary.value = "";
-    setTechStack([]);
+  useEffect(() => {
+    if (
+      projectName?.trim() === "" ||
+      projectLink?.trim() === "" ||
+      projectDescription?.length > 100 ||
+      !hasTechStack
+    ) {
+      setDisableSubmit(true);
+    } else {
+      setDisableSubmit(false);
+    }
+  });
+
+  //function to reset form values to origonal values
+  const resetForm = () => {
+    setProjectName(props.selectedRow?.current?.name);
+    setProjectLink(props.selectedRow?.current?.repoLink);
+    setProjectDescription(props.selectedRow?.current?.description);
+    setSelectedStack(props.technologies);
   };
 
   const handleTechStack = (value: ITechnology) => {
@@ -138,7 +155,7 @@ export default function FormComponent(props: any) {
   const formHelper = (id: number) => {
     let techArr: ITechnology[] = [];
 
-    techArr = techStack;
+    techArr = selectedStack;
 
     const currentProjectName = document.getElementById(
       "projectName"
@@ -182,8 +199,7 @@ export default function FormComponent(props: any) {
               <label className="p-label">Project Name</label>
               <TextField
                 className="form-field"
-                error
-                required
+                value={projectName || ""}
                 data-testid="pName"
                 id="projectName"
                 name="projectName"
@@ -196,7 +212,13 @@ export default function FormComponent(props: any) {
                 placeholder="Empty"
                 variant="standard"
                 autoComplete="off"
-                defaultValue={name}
+                onChange={(e) => setProjectName(e.target.value)}
+                error={projectName === null || projectName?.trim().length === 0}
+                helperText={
+                  projectName?.trim().length === 0
+                    ? "* Invalid Project Name"
+                    : " "
+                }
               />
             </div>
             <div className="form-wrap">
@@ -206,8 +228,6 @@ export default function FormComponent(props: any) {
               </label>
               <TextField
                 className="form-field"
-                error
-                required
                 data-testid="pLink"
                 id="link"
                 name="link"
@@ -220,15 +240,26 @@ export default function FormComponent(props: any) {
                 placeholder="Empty"
                 variant="standard"
                 autoComplete="off"
-                defaultValue={link}
+                value={projectLink || ""}
+                onChange={(e) => setProjectLink(e.target.value)}
+                error={
+                  !projectLink?.match(
+                    "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)"
+                  )
+                }
+                helperText={
+                  !projectLink?.match(
+                    "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)"
+                  )
+                    ? "* Invalid Project Link"
+                    : " "
+                }
               />
             </div>
             <div className="form-wrap">
               <label className="p-label">Project Summary</label>
               <TextField
                 className="form-field"
-                error
-                required
                 data-testid="pDesc"
                 id="summary"
                 name="summary"
@@ -239,27 +270,61 @@ export default function FormComponent(props: any) {
                 placeholder="Empty"
                 variant="standard"
                 autoComplete="off"
-                defaultValue={summ}
+                onChange={(e) => setProjectDescription(e.target.value)}
+                value={projectDescription || ""}
+                error={
+                  projectDescription === null ||
+                  projectDescription?.length > 100
+                }
+                helperText={
+                  projectDescription?.length > 100
+                    ? "* Max Character Limit Reached"
+                    : " "
+                }
               />
             </div>
           </div>
           <div className="column-r">
             <div className="tech-wrap">
               <label className="p-label">Technologies</label>
-              <div className="tech-stack">
-                {techStack.map((tech: ITechnology) => (
-                  <MenuItem
-                    key={tech.id}
-                    className="tech-item"
-                    disabled={props.edit}
-                    onClick={() => {
-                      handleTechStack(tech);
-                    }}
-                  >
-                    {tech.name}
-                  </MenuItem>
-                ))}
-              </div>
+
+              {selectedStack.length === 0 ? (
+                <>
+                  <div className="stack-error">
+                    {techStack.map((tech: ITechnology) => (
+                      <MenuItem
+                        key={tech.id}
+                        className="tech-item"
+                        disabled={props.edit}
+                        onClick={() => {
+                          handleTechStack(tech);
+                        }}
+                      >
+                        {tech.name}
+                      </MenuItem>
+                    ))}
+                    <p className="customErrorMessage">
+                      {" "}
+                      * Must Select A Technology{" "}
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <div className="tech-stack">
+                  {techStack.map((tech: ITechnology) => (
+                    <MenuItem
+                      key={tech.id}
+                      className="tech-item"
+                      disabled={props.edit}
+                      onClick={() => {
+                        handleTechStack(tech);
+                      }}
+                    >
+                      {tech.name}
+                    </MenuItem>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="button-wrap">
               {selectedStack.length > 0 ? (
@@ -277,7 +342,7 @@ export default function FormComponent(props: any) {
                   </div>
                 </div>
               ) : (
-                <p className="selected-ts">Selected tech stack: None</p>
+                <p className="tn-label">Current Tech Stack: None</p>
               )}
             </div>
             <div className="buttons">
@@ -289,7 +354,7 @@ export default function FormComponent(props: any) {
                   <button
                     className="reset-btn"
                     data-testid="resetButton"
-                    onClick={clearFields}
+                    onClick={resetForm}
                   >
                     Reset
                   </button>
@@ -297,6 +362,7 @@ export default function FormComponent(props: any) {
                     className="orange-button"
                     data-testid="submitButton"
                     onClick={handleSubmit}
+                    disabled={disableSubmit}
                   >
                     Submit
                   </button>
