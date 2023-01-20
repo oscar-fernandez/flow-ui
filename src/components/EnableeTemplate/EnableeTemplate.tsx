@@ -5,6 +5,7 @@ import "./EnableeTemplate.css";
 import { mockTechnology } from "../../data/MockData";
 import { TagComponent } from "../TagComponent/Tag";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
+import FilteredPod from "./FilteredPod";
 
 const InputProps = {
   disableUnderline: true,
@@ -244,6 +245,7 @@ export default function EnableeTemplate() {
             </div>
           </div>
           <PageViewHeader pageTitle={"Pod"} showPlus={true} />
+          <FilteredPod podName={"test"} technologies={mockTechnology} />
           <PageViewHeader pageTitle={"Comments"} showPlus={true} />
           <div className="button-center">
             <Button
