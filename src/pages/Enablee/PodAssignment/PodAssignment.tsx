@@ -77,18 +77,6 @@ export default function PodAssignment() {
   //  const [toggle, setToggle] = useState(false);
   const [count, setCount] = useState(0);
 
-  // // useEffect(() => {
-  // //   getEnablees();
-  // // }, []);
-
-  // // const getEnablees = async () => {
-  // //   GetEnableesPendingPodAssignment()
-  // //     .then((res) => res.data)
-  // //     .then((receivedEnablees) => setReceivedEnablees(receivedEnablees));
-
-  //   //possible refac https://www.intricatecloud.io/2020/03/how-to-handle-api-errors-in-your-web-app-using-axios/
-  // };
-
   function fn(): IEnablee[] {
     switch (name) {
       case "Match Tech Stack":
@@ -105,9 +93,11 @@ export default function PodAssignment() {
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
+    selectedRow.current = mockPods[+event.currentTarget.id]; //shorthand convert str to number
     if (disabled) {
-      selectedRow.current = mockPods[+event.currentTarget.id]; //shorthand convert str to number
       setReceivedEnablees;
+    } else {
+      setReceivedEnablees(dummyEnablees);
     }
     setDisabled(!disabled);
   };
@@ -132,11 +122,11 @@ export default function PodAssignment() {
   const updateSelectedEnablees = (index: number) => {
     const e = receivedEnablees[index];
     const ar = selectedEnablees.current;
-    if (!ar.includes(e.employeeId)) {
-      ar.push(e.employeeId);
+    if (!ar.includes(e)) {
+      ar.push(e);
       return increment();
     } else {
-      ar.splice(ar.indexOf(e.employeeId), 1);
+      ar.splice(ar.indexOf(e), 1);
       return decrement();
     }
   };
