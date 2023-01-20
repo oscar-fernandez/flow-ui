@@ -28,7 +28,6 @@ export default function FilteredPod({ podName, technologies }: Props) {
             {technologies.map((tech) => (
               <div
                 key={tech.name}
-                className="techstack-color"
                 style={{
                   width: "7px",
                   height: "12px",

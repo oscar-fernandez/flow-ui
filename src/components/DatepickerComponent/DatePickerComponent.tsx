@@ -2,10 +2,10 @@ import "./DatepickerComponent.css";
 import DatePicker from "react-datepicker";
 
 interface Props {
-  startDate: Date | undefined;
-  endDate: Date | undefined;
-  setStartDate: (date: Date) => void;
-  setEndDate: (date: Date) => void;
+  startDate: Date | null;
+  endDate: Date | null;
+  setStartDate: (date: Date | null) => void;
+  setEndDate: (date: Date | null) => void;
 }
 
 export const DatepickerComponent = ({
