@@ -1,32 +1,35 @@
-import { Route, Routes } from "react-router";
 import "./OnHoverMenuItems.css";
 import {
   setSubMenuItems,
   setIsSubMenuItemsClicked,
 } from "../../utils/utilityFunctions";
+import SimpleMenuItem from "../SideBarItems/SimpleMenuItem/SimpleMenuItem";
+import { useCustomNavigate } from "../SideBarItems/customHooks";
+import { useState } from "react";
 
 export function OnHoverMenuItems(props: {
   subMenuItems: Array<{ name: string; routePath: string }>;
 }) {
-  function goToPage(routePath: string, name: string) {
-    setSubMenuItems(props.subMenuItems, name);
-    setIsSubMenuItemsClicked(true);
-    <Routes>
-      <Route path={routePath} />
-    </Routes>;
-  }
+  const [itemRoute, setItemRoute] = useState("");
+  const { handleNavigate } = useCustomNavigate(itemRoute);
+
+  const itemClicked = (path: string) => {
+    setItemRoute(path);
+    handleNavigate();
+  };
 
   return (
     <div className="hovermenuitems-container">
       <ul className="submenu">
         {props.subMenuItems.map((item, i) => (
-          <li
-            className="items"
-            onClick={() => goToPage(item.routePath, item.name)}
-            key={i}
-          >
-            {item.name}
-          </li>
+          <div key={i}>
+            <SimpleMenuItem
+              menuItemName={item.name}
+              routePath={item.routePath}
+              isMainMenu={false}
+              handleOnClick={itemClicked}
+            />
+          </div>
         ))}
       </ul>
     </div>

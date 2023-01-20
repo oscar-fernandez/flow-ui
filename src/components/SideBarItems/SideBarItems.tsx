@@ -10,6 +10,7 @@ import Collapse from "@mui/material/Collapse";
 import { StyledEngineProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { getSubMenuItems } from "../../utils/utilityFunctions";
+import { OnHoverMenuItems } from "../OnHoverMenuItems/OnHoverMenuItems";
 
 const drawerWidth = 248;
 const sideBarItems = [
@@ -61,8 +62,8 @@ function EnableeSideBarItems() {
     navigate(path);
   };
 
-  // const [subMenuItems, setSubMenuItems] = useState(getSubMenuItems());
-  const [itemClicked, setItemClicked] = useState(false);
+  const [itemHovered, setItemHovered] = useState(false);
+  const [itemClicked, setItemClicked] = useState(true);
   const subMenuItems = [
     { name: "Active", routePath: "/active" },
     { name: "Pending Start", routePath: "/pendingstart" },
@@ -119,6 +120,12 @@ function EnableeSideBarItems() {
                       className="side-bar-item"
                       onClick={(e) => {
                         clickNavigateCombined(e, item.url);
+                      }}
+                      onMouseOver={() => {
+                        setItemHovered(true);
+                      }}
+                      onMouseLeave={() => {
+                        setItemHovered(false);
                       }}
                       data-testid={item.testId}
                     >
@@ -197,6 +204,11 @@ function EnableeSideBarItems() {
           </Drawer>
         </Box>
       </StyledEngineProvider>
+      {itemHovered ? (
+        <div style={{ position: "fixed", transform: "translateX(248px)" }}>
+          <OnHoverMenuItems subMenuItems={subMenuItems} />
+        </div>
+      ) : null}
     </>
   );
 }
