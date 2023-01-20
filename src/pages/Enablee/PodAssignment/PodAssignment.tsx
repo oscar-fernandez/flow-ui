@@ -10,6 +10,7 @@ import { Box, Checkbox, FormControlLabel, SxProps, Theme } from "@mui/material";
 import { mockPods } from "../../../data/PodMock";
 import IPod from "../../../models/interfaces/IPod";
 import { dummyEnablees } from "../../../data/EnableeMock";
+import { usePendingPodEnablees } from "../Hooks/customHook";
 
 const headersEnablee = [
   "Employee Id",
@@ -65,7 +66,7 @@ interface Props {
 
 export default function PodAssignment() {
   const selectedEnablees = useRef<number[]>([]);
-  const [receivedEnablees, setReceivedEnablees] = useState<IEnablee[]>([]);
+  const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
   const [receivedPods, setReceivedPods] = useState<IPod[]>([]);
   const [selectPod, setSelectPod] = useState(false);
   const [name, setName] = useState("");
@@ -76,17 +77,17 @@ export default function PodAssignment() {
   //  const [toggle, setToggle] = useState(false);
   const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    getEnablees();
-  }, []);
+  // // useEffect(() => {
+  // //   getEnablees();
+  // // }, []);
 
-  const getEnablees = async () => {
-    GetEnableesPendingPodAssignment()
-      .then((res) => res.data)
-      .then((receivedEnablees) => setReceivedEnablees(receivedEnablees));
+  // // const getEnablees = async () => {
+  // //   GetEnableesPendingPodAssignment()
+  // //     .then((res) => res.data)
+  // //     .then((receivedEnablees) => setReceivedEnablees(receivedEnablees));
 
-    //possible refac https://www.intricatecloud.io/2020/03/how-to-handle-api-errors-in-your-web-app-using-axios/
-  };
+  //   //possible refac https://www.intricatecloud.io/2020/03/how-to-handle-api-errors-in-your-web-app-using-axios/
+  // };
 
   function fn(): IEnablee[] {
     switch (name) {
@@ -106,7 +107,7 @@ export default function PodAssignment() {
   ) => {
     if (disabled) {
       selectedRow.current = mockPods[+event.currentTarget.id]; //shorthand convert str to number
-      setReceivedEnablees(dummyEnablees);
+      setReceivedEnablees;
     }
     setDisabled(!disabled);
   };

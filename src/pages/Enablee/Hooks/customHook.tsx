@@ -5,14 +5,14 @@ import {
 } from "../../../services/EnableeAPI";
 
 export const usePendingPodEnablees = () => {
-  const [list, setList] = useState([]);
+  const [receivedEnablees, setReceivedEnablees] = useState([]);
 
   useEffect(() => {
     GetEnableesPendingPodAssignment().then((items) => {
-      setList(items.data);
+      setReceivedEnablees(items.data);
     });
   }, []);
-  return { list, setList };
+  return { receivedEnablees, setReceivedEnablees };
 };
 
 export const usePendingStartEnablees = () => {
