@@ -4,7 +4,11 @@ import CustomTableContainer from "../../../components/Table/CustomTableContainer
 import ManagementTabs from "../ManagementTabsComponent/ManagementTabs";
 import FormComponent from "../../../components/FormComponent/FormComponent";
 import * as Module from "../mgtUtils";
-import { getTechnologies, getProjects } from "../../../services/ManagementAPI";
+import {
+  getTechnologies,
+  getProjects,
+  createTechnology,
+} from "../../../services/ManagementAPI";
 import IProject from "../../../models/interfaces/IProject";
 import ITechnology from "../../../models/interfaces/ITechnology";
 import CustomTableButton from "../../../components/Table/CustomTableButton";
@@ -144,6 +148,11 @@ export default function ManagementContainer() {
       backgroundColor: Module.getRandomColor(),
     };
     setAllTechnologies([newTechnology, ...allTechnologies]);
+    createTechnology(newTechnology)
+      .then((res) => {
+        setTechnologies([res.data, ...technologies]);
+      })
+      .catch((error) => console.error(error));
   };
 
   //temporary
