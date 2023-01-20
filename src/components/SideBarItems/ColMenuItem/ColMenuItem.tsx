@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router";
 import { useToggle } from "../customHooks";
+import { Collapse } from "@mui/material";
 import SimpleMenuItem from "../SimpleMenuItem/SimpleMenuItem";
+import "./ColMenuItem.css";
 
 //move to interfaces directory
 interface SubMenuItem {
@@ -20,25 +22,29 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
 
   const toggleAndNavigate = () => {
     handleClick();
-    navigate(subMenuItems[0].routePath);
+    if (!toggle) {
+      navigate(subMenuItems[0].routePath);
+    }
   };
 
   return (
-    <>
+    <div className="colMenuItem-container">
       <SimpleMenuItem
         menuItemName={menuItemName}
         routePath={subMenuItems[0].routePath}
         handleOnClick={toggleAndNavigate}
       />
-      <div>
-        {subMenuItems.map((item, idx) => (
-          <SimpleMenuItem
-            menuItemName={item.name}
-            routePath={item.routePath}
-            key={idx}
-          />
-        ))}
-      </div>
-    </>
+      <Collapse in={toggle} timeout={1}>
+        <div>
+          {subMenuItems.map((item, idx) => (
+            <SimpleMenuItem
+              menuItemName={item.name}
+              routePath={item.routePath}
+              key={idx}
+            />
+          ))}
+        </div>
+      </Collapse>
+    </div>
   );
 }

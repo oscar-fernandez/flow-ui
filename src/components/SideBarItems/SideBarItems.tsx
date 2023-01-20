@@ -17,10 +17,27 @@ interface SubMenuItem {
   handleOnClick: () => void;
 }
 
-const listOfSubMenuItems = [
+const listOfSubMenuItems1 = [
   {
     name: "Sub Test 1",
     routePath: "",
+    handleOnClick: () => null,
+  },
+  {
+    name: "Sub Test 2",
+    routePath: "",
+    handleOnClick: () => null,
+  },
+  {
+    name: "Sub Test 3",
+    routePath: "/pendingStart",
+    handleOnClick: () => null,
+  },
+];
+const listOfSubMenuItems2 = [
+  {
+    name: "Sub Test 1",
+    routePath: "mgt",
     handleOnClick: () => null,
   },
   {
@@ -177,8 +194,14 @@ function EnableeSideBarItems() {
               </ListItem>
               <ListItem sx={{ fontSize: 36 }} disablePadding>
                 <ColMenuItem
-                  menuItemName="Test"
-                  subMenuItems={listOfSubMenuItems}
+                  menuItemName="Test1"
+                  subMenuItems={listOfSubMenuItems1}
+                />
+              </ListItem>
+              <ListItem sx={{ fontSize: 36 }} disablePadding>
+                <ColMenuItem
+                  menuItemName="Test2"
+                  subMenuItems={listOfSubMenuItems2}
                 />
               </ListItem>
             </List>
