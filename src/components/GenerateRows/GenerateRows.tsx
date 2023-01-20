@@ -58,7 +58,7 @@ export function GenerateRows({ pageNum }: Props) {
       {enablees.map((enablee, i) => {
         const tooltip = [...convertToStringArr(enablee.technology)];
         const techDisplay = shortenStringList(tooltip);
-        const startDate = new Date(enablee.enablementEndDate);
+        const startDate = new Date(enablee.enablementStartDate);
         const endDate = new Date(enablee.enablementEndDate);
         return (
           <Row
@@ -98,14 +98,18 @@ export function GenerateRows({ pageNum }: Props) {
 
             <div className="row-lg-child date-container">
               <p className="row-primary">Enablement Dates</p>
-              <p className="row-secondary">{`${startDate.toLocaleString(
-                "en-US",
-                { month: "long", day: "numeric", year: "numeric" }
-              )} - ${endDate.toLocaleString("en-us", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              })}`}</p>
+              {enablee.enablementStartDate ? (
+                <p className="row-secondary">{`${startDate.toLocaleString(
+                  "en-US",
+                  { month: "long", day: "numeric", year: "numeric" }
+                )} - ${endDate.toLocaleString("en-us", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}`}</p>
+              ) : (
+                <p className="row-secondary">Empty</p>
+              )}
             </div>
 
             <div className="row-lg-child">
