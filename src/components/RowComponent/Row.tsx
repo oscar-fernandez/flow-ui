@@ -8,7 +8,11 @@ interface RowProps {
 const Row = ({ children, onClick }: RowProps) => {
   return (
     <>
-      <div className="row-container" onClick={() => onClick()}>
+      <div
+        className="row-container"
+        onClick={() => onClick()}
+        data-testid="rowTest"
+      >
         {children}
       </div>
     </>
