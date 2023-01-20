@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import IEnablee from "../../models/interfaces/IEnablee";
+import ITechnology from "../../models/interfaces/ITechnology";
 import {
   GetEnableesWithNoStartDate,
   GetPaginatedEnablees,
@@ -16,7 +17,8 @@ import {
   useToggle,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar, { Action } from "../ToggleSideBar/ToggleSidebar";
-
+import "./GenerateRows.css";
+import { TagComponent } from "../TagComponent/Tag";
 // Example on how to use toggleSideBarContext
 
 interface Props {
@@ -56,6 +58,8 @@ export function GenerateRows({ pageNum }: Props) {
       {enablees.map((enablee, i) => {
         const tooltip = [...convertToStringArr(enablee.technology)];
         const techDisplay = shortenStringList(tooltip);
+        const startDate = new Date(enablee.enablementEndDate);
+        const endDate = new Date(enablee.enablementEndDate);
         return (
           <Row
             key={i}
@@ -64,16 +68,51 @@ export function GenerateRows({ pageNum }: Props) {
               changeDetails(enablee);
             }}
           >
-            <p className="row-child row-id">{enablee.employeeId}</p>
-            <p className="row-child">{enablee.firstName}</p>
-            <p className="row-child">{enablee.lastName}</p>
+            <div className="row-sm-child">
+              <div className="square"></div>
+            </div>
+
+            <div className="row-child row-name">
+              <p className="row-primary">{`${enablee.firstName} ${enablee.lastName}`}</p>
+              <p className="row-secondary">{enablee.employeeId}</p>
+            </div>
+
             <Tooltip
-              className="row-child"
+              className="row-sm-child tags-container"
               title={tooltipString(tooltip)}
               placement="bottom"
             >
-              <p data-testid="tech-stack">{techDisplay}</p>
+              <div>
+                {enablee.technology
+                  .slice(0, 2)
+                  .map((tech: ITechnology, i: number) => (
+                    <TagComponent
+                      data-testid="tech-stack"
+                      name={tech.name}
+                      color={tech.backgroundColor}
+                      key={i}
+                    />
+                  ))}
+              </div>
             </Tooltip>
+
+            <div className="row-lg-child date-container">
+              <p className="row-primary">Enablement Dates</p>
+              <p className="row-secondary">{`${startDate.toLocaleString(
+                "en-US",
+                { month: "long", day: "numeric", year: "numeric" }
+              )} - ${endDate.toLocaleString("en-us", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}`}</p>
+            </div>
+
+            <div className="row-lg-child">
+              <p className="row-secondary">Enablement Status</p>
+
+              <p>{enablee.assetTag}</p>
+            </div>
           </Row>
         );
       })}
