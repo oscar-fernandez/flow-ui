@@ -11,6 +11,7 @@ import { mockPods } from "../../../data/PodMock";
 import IPod from "../../../models/interfaces/IPod";
 import { dummyEnablees } from "../../../data/EnableeMock";
 import { usePendingPodEnablees } from "../Hooks/customHook";
+import { e } from "vitest/dist/index-2f5b6168";
 
 const headersEnablee = [
   "Employee Id",
@@ -60,21 +61,29 @@ interface Props {
   cellStyle: SxProps<Theme>;
   customHandleSelection?: () => void;
   updateSelectedEnablees?: (index: number) => void;
+  // updateSelectedPod?: (index: number) => void;
+  index: number;
   checkboxId: number;
   label?: string;
 }
 
-export default function PodAssignment() {
+export default function PodAssignment({
+  rows,
+  rowStyle,
+  cellStyle,
+  index,
+  checkboxId,
+  label,
+}: Props) {
   const selectedEnablees = useRef<number[]>([]);
+  const selectedRow = useRef({});
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
   const [receivedPods, setReceivedPods] = useState<IPod[]>([]);
-  const [selectPod, setSelectPod] = useState(false);
   const [name, setName] = useState("");
-  const selectedRow = useRef({});
   const [checked1, setChecked1] = useState(false);
   const [checked2, setChecked2] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  //  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const [count, setCount] = useState(0);
 
   function fn(): IEnablee[] {
@@ -93,6 +102,7 @@ export default function PodAssignment() {
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
+    setToggle(!toggle);
     selectedRow.current = mockPods[+event.currentTarget.id]; //shorthand convert str to number
     if (disabled) {
       setReceivedEnablees;
@@ -124,12 +134,23 @@ export default function PodAssignment() {
     const ar = selectedEnablees.current;
     if (!ar.includes(e)) {
       ar.push(e);
-      return increment();
+      increment();
     } else {
       ar.splice(ar.indexOf(e), 1);
-      return decrement();
+      decrement();
     }
   };
+
+  //   const updateSelectedPod = (index: number) => {
+  //     const p = receivedPods[index];
+  //     const ar = selectedPod.current;
+  //     if (!ar.includes(p.id)) {
+  //       ar.push(p.id);
+  //       console.log(ar);
+  //     } else {
+  //       ar.splice(ar.indexOf(p.id), 1);
+  //     }
+  //   };
 
   const handleChange1 = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked1(event.target.checked);
@@ -180,14 +201,12 @@ export default function PodAssignment() {
     <div className="container">
       <PageViewHeader pageTitle="Enablee" showPlus={true} />
       {checkboxes}
-      {count}
       <CustomTableContainer
         headers={headersEnablee}
         headerStyle={headerStyle}
         rows={Module.transformEnableeArray(fn())}
         cellStyle={cellStyle}
         rowStyle={rowStyle}
-        //     customHandleSelection={handleSelection}
         updateSelectedEnablees={updateSelectedEnablees}
         skill={false}
         value={""}
@@ -200,7 +219,7 @@ export default function PodAssignment() {
       <CustomTableContainer
         headers={headersPods}
         headerStyle={headerStyle}
-        rows={Unit.transformPodArray(mockPods)}
+        rows={Unit.transformPodArray(mockPods, count)}
         cellStyle={cellStyle}
         rowStyle={rowStyle}
         customHandleSelection={customHandleSelection}

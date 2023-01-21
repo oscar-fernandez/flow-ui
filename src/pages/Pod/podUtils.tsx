@@ -14,6 +14,7 @@
 import IPod from "../../models/interfaces/IPod";
 import { convertTechArToStr } from "../Management/mgtUtils";
 import IEnablee from "../../models/interfaces/IEnablee";
+import * as Fun from "../Enablee/PodAssignment/PodAssignment";
 import { mockPods } from "../../data/PodMock";
 import { dummyEnablees } from "../../data/EnableeMock";
 
@@ -23,23 +24,23 @@ const listCheckboxes = [
   { name: "Available Enablees" },
 ];
 
-const podRowFactory = (obj: IPod): string[] => {
+const podRowFactory = (obj: IPod, totalCapacity: number): string[] => {
   return [
     obj.project.name,
     obj.podName,
     convertTechArToStr(obj.project.technology),
     obj.podStartDate,
     obj.podEndDate,
-    capasityEmployee(obj.enableeEmployee),
+    capasityEmployee(obj.enableeEmployee, totalCapacity),
   ];
 };
-const transformPodArray = (ar: IPod[]): string[][] =>
-  ar.map((e) => podRowFactory(e));
+const transformPodArray = (ar: IPod[], totalCapacity: number): string[][] =>
+  ar.map((e) => podRowFactory(e, totalCapacity));
 
 const ARGUMENT = 5;
 
-const capasityEmployee = (ar: IEnablee[] /*total: number*/) =>
-  `${ar.length.toString()} / ${ARGUMENT}`;
+const capasityEmployee = (ar: IEnablee[], totalCapacity: number) =>
+  `${ar.length.toString()} / ${totalCapacity}`;
 
 const eqSet = (xs, ys) =>
   xs.size === ys.size && [...xs].every((x) => ys.has(x));
