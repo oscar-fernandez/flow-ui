@@ -12,3 +12,10 @@
 .tech-stack-margin {
   margin-left: 1rem;
 }
+
+.pod-logo {
+  width: 15px;
+  height: 12px;
+  background-color: #000048;
+  display: inline-block;
+}

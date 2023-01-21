@@ -275,11 +275,26 @@ export default function EnableeTemplate() {
               })}
             </>
           ) : (
-            <Typography sx={{ ...labelStyle, width: "none" }}>
+            <Typography
+              sx={{
+                ...labelStyle,
+                width: "none",
+                color: "rgba(138, 139, 138, 0.4)",
+              }}
+            >
               No Pods Match Enablement Dates
             </Typography>
           )}
           <PageViewHeader pageTitle={"Comments"} showPlus={true} />
+          <Typography
+            sx={{
+              ...labelStyle,
+              width: "none",
+              color: "rgba(138, 139, 138, 0.4)",
+            }}
+          >
+            No Comments
+          </Typography>
           <div className="button-center">
             <Button
               disabled={disableSubmit}

@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ITechnology from "../../models/interfaces/ITechnology";
 import "./FilteredPod.css";
 
@@ -21,6 +21,7 @@ const labelStyle = {
 //need to pass tech as props
 export default function FilteredPod({ podName, podTech, enableeTech }: Props) {
   const [filteredTech, setFilteredTech] = useState<ITechnology[]>([]);
+  const [selectedPod, setSelectedPod] = useState(false);
 
   useEffect(() => {
     const result = enableeTech.filter((etech) => {
@@ -36,8 +37,13 @@ export default function FilteredPod({ podName, podTech, enableeTech }: Props) {
       <div className="filtered-pod-container">
         <Typography sx={labelStyle}>{podName}</Typography>
         <div className="tech-stack-container">
-          <input type="checkbox"></input>
+          <input
+            checked={selectedPod}
+            type="checkbox"
+            onChange={(e) => setSelectedPod(e.target.checked)}
+          ></input>
           <div className="tech-stack-margin">
+            <div className="pod-logo" />
             {filteredTech.map((tech) => (
               <div
                 key={tech.name}
@@ -47,7 +53,7 @@ export default function FilteredPod({ podName, podTech, enableeTech }: Props) {
                   display: "inline-block",
                   background: tech.backgroundColor,
                 }}
-              ></div>
+              />
             ))}
           </div>
         </div>

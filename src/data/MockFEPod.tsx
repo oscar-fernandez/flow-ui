@@ -17,7 +17,7 @@ const mockTech: ITechnology[] = [
   },
   {
     id: 5,
-    name: "React",
+    name: "Ruby",
     backgroundColor: "green",
   },
   {
@@ -29,6 +29,22 @@ const mockTech: ITechnology[] = [
   { id: 15, name: "C++", backgroundColor: "yellow" },
 ];
 
+const mockTech1: ITechnology[] = [
+  {
+    id: 3,
+    name: "React",
+    backgroundColor: "brown",
+  },
+];
+
+const mockTech2: ITechnology[] = [
+  {
+    id: 3,
+    name: "AWS",
+    backgroundColor: "brown",
+  },
+];
+
 const project: IProject = {
   id: 2,
   name: "Flow",
@@ -37,9 +53,25 @@ const project: IProject = {
   repoLink: "",
 };
 
+const project2: IProject = {
+  id: 2,
+  name: "Flow",
+  summary: "",
+  technology: mockTech1,
+  repoLink: "",
+};
+
+const project3: IProject = {
+  id: 2,
+  name: "Flow",
+  summary: "",
+  technology: mockTech2,
+  repoLink: "",
+};
+
 export const mockFePod: IFEPod[] = [
   {
-    id: 3,
+    id: 1,
     podName: "Crew",
     enablee: dummyEnablees,
     enabler: null,
@@ -54,15 +86,15 @@ export const mockFePod: IFEPod[] = [
     enabler: null,
     podStartDate: "2021-02-21",
     podEndDate: "2023-05-21",
-    project: project,
+    project: project2,
   },
   {
-    id: 1,
+    id: 3,
     podName: "Gang",
     enablee: dummyEnablees,
     enabler: null,
     podStartDate: "2021-03-21",
     podEndDate: "2023-06-21",
-    project: project,
+    project: project3,
   },
 ];
