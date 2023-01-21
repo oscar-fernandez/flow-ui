@@ -1,10 +1,12 @@
 import { Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import ITechnology from "../../models/interfaces/ITechnology";
 import "./FilteredPod.css";
 
 interface Props {
   podName: string;
-  technologies: ITechnology[];
+  podTech: ITechnology[];
+  enableeTech: ITechnology[];
 }
 
 const labelStyle = {
@@ -17,7 +19,18 @@ const labelStyle = {
 };
 
 //need to pass tech as props
-export default function FilteredPod({ podName, technologies }: Props) {
+export default function FilteredPod({ podName, podTech, enableeTech }: Props) {
+  const [filteredTech, setFilteredTech] = useState<ITechnology[]>([]);
+
+  useEffect(() => {
+    const result = enableeTech.filter((etech) => {
+      return podTech.find((ptech) => {
+        return etech.name === ptech.name;
+      });
+    });
+    setFilteredTech(result);
+  }, []);
+
   return (
     <>
       <div className="filtered-pod-container">
@@ -25,7 +38,7 @@ export default function FilteredPod({ podName, technologies }: Props) {
         <div className="tech-stack-container">
           <input type="checkbox"></input>
           <div className="tech-stack-margin">
-            {technologies.map((tech) => (
+            {filteredTech.map((tech) => (
               <div
                 key={tech.name}
                 style={{

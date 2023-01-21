@@ -268,7 +268,8 @@ export default function EnableeTemplate() {
                   <FilteredPod
                     key={pod.id}
                     podName={pod.podName}
-                    technologies={pod.project.technology}
+                    podTech={pod.project.technology}
+                    enableeTech={mockTechnology}
                   />
                 );
               })}

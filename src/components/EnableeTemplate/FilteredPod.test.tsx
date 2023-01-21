@@ -5,7 +5,13 @@ import { mockTechnology } from "../../data/MockData";
 
 describe("FilteredPod tests", () => {
   it("should render", () => {
-    render(<FilteredPod podName={"pod"} technologies={[mockTechnology[0]]} />);
+    render(
+      <FilteredPod
+        podName={"pod"}
+        podTech={mockTechnology}
+        enableeTech={mockTechnology}
+      />
+    );
     expect(screen.getByText("pod")).toBeInTheDocument();
   });
 });
