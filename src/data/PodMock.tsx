@@ -1,10 +1,12 @@
 import IPod from "../models/interfaces/IPod";
+import { dummyEnablees } from "./EnableeMock";
 
 export const mockPods: IPod[] = [
   {
     id: 12,
     podName: "Podz",
-    enableeEmployee: [{ id: 9772 }, { id: 977284 }],
+    enableeEmployee: dummyEnablees,
+    enabler: null,
     podStartDate: "2022-01-15",
     podEndDate: "2022-06-21",
     project: {
@@ -24,7 +26,8 @@ export const mockPods: IPod[] = [
   {
     id: 11,
     podName: "Pod3",
-    enableeEmployee: [],
+    enableeEmployee: dummyEnablees,
+    enabler: null,
     podStartDate: "2022-01-15",
     podEndDate: "2022-06-21",
     project: {
