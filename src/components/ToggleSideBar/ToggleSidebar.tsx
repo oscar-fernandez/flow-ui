@@ -223,8 +223,10 @@ const formatString = (
     });
   } else if (data instanceof Date) {
     str = data.toLocaleDateString();
-  } else {
+  } else if (data != null) {
     str = data.toString();
+  } else {
+    return "";
   }
   return str;
 };
