@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -102,6 +102,15 @@ function EnableeSideBarItems() {
     navigate(path);
   };
 
+  const [itemHovered, setItemHovered] = useState(false);
+  const [itemClicked, setItemClicked] = useState(true);
+  const subMenuItems = [
+    { name: "Active", routePath: "/active" },
+    { name: "Pending Start", routePath: "/pendingstart" },
+    { name: "Available", routePath: "/available" },
+    { name: "Completed", routePath: "/completed" },
+  ];
+
   return (
     <div className="side-bar-container">
       <StyledEngineProvider injectFirst>
@@ -115,14 +124,22 @@ function EnableeSideBarItems() {
                 width: drawerWidth,
                 boxSizing: "border-box",
                 bgcolor: "#000048",
+                overflowY: "inherit",
               },
-              overflowX: "hidden",
+              // overflowX: "hidden",
             }}
             variant="permanent"
             anchor="left"
           >
             <List>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
+              <ListItem
+                sx={{
+                  fontSize: 36,
+                  display: "inline-block",
+                  position: "relative",
+                }}
+                disablePadding
+              >
                 <ListItemButton
                   className="side-bar-item"
                   onClick={(e) => {
@@ -152,6 +169,12 @@ function EnableeSideBarItems() {
                       onClick={(e) => {
                         clickNavigateCombined(e, item.url);
                       }}
+                      onMouseOver={() => {
+                        setItemHovered(true);
+                      }}
+                      onMouseLeave={() => {
+                        setItemHovered(false);
+                      }}
                       data-testid={item.testId}
                     >
                       <ListItemText
@@ -169,10 +192,50 @@ function EnableeSideBarItems() {
                     </ListItemButton>
                   </ListItem>
                 ))}
+                {itemClicked ? (
+                  <div>
+                    {subMenuItems.map((item, i) => (
+                      <ListItem
+                        key={i}
+                        disablePadding
+                        sx={{
+                          bgcolor: "#666691",
+                        }}
+                      >
+                        <ListItemButton
+                          className="side-bar-item"
+                          onClick={(e) => {
+                            clickNavigateCombined(e, item.routePath);
+                          }}
+                        >
+                          <ListItemText
+                            disableTypography
+                            sx={{
+                              pl: 5,
+                              whiteSpace: "unset",
+                              color: itemColor,
+                              fontSize: 15,
+                              fontFamily: "Darker Grotesque",
+                              fontWeight: 400,
+                            }}
+                            primary={item.name}
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
+                  </div>
+                ) : null}
               </List>
             </Collapse>
             <List>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
+              <ListItem
+                sx={{
+                  fontSize: 36,
+                  display: "inline-block",
+                  position: "relative",
+                }}
+                disablePadding
+              >
                 <ListItemButton
                   className="side-bar-item"
                   onClick={(e) => {

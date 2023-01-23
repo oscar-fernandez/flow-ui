@@ -8,6 +8,7 @@ interface Props {
 }
 
 const itemColor = "#CCCCDA";
+const subMenuItemColor = "#000048";
 
 export default function SimpleMenuItem({
   menuItemName,
