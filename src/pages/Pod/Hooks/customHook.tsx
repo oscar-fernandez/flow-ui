@@ -25,3 +25,19 @@ export function useAvailablePods() {
 
   return [podList, setPodList];
 }
+
+export function useActivePods() {
+  const [activePods, setActivePods] = useState<IFEPod[]>([]);
+
+  useEffect(() => {
+    mockFePod
+      .filter(
+        (pod) =>
+          Date.parse(pod.podStartDate) <= Date.now() &&
+          Date.parse(pod.podEndDate) >= Date.now()
+      )
+      .map((pod) => setActivePods((activePods) => [...activePods, pod]));
+  }, []);
+
+  return [activePods, setActivePods];
+}
