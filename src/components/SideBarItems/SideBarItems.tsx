@@ -75,7 +75,6 @@ function EnableeSideBarItems() {
                 bgcolor: "#000048",
                 overflowY: "inherit",
               },
-              // overflowX: "hidden",
             }}
             variant="permanent"
             anchor="left"

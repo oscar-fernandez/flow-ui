@@ -5,6 +5,7 @@ interface Props {
   menuItemName: string;
   routePath: string;
   handleOnClick?: (path: string) => void;
+  isMainMenu: boolean;
 }
 
 const itemColor = "#CCCCDA";
@@ -14,29 +15,59 @@ export default function SimpleMenuItem({
   menuItemName,
   routePath,
   handleOnClick,
+  isMainMenu,
 }: Props) {
   const { handleNavigate } = useCustomNavigate(routePath);
 
   return (
-    <List>
-      <ListItem sx={{ fontSize: "20px", lineHeight: "24px" }} disablePadding>
-        <ListItemButton
-          className="side-bar-item"
-          onClick={(e) => {
-            handleOnClick ? handleOnClick(routePath) : handleNavigate();
-          }}
-          data-testid={menuItemName}
-        >
-          <ListItemText
-            disableTypography
-            sx={{
-              color: itemColor,
-              fontFamily: "Darker Grotesque",
-            }}
-            primary={menuItemName}
-          />
-        </ListItemButton>
-      </ListItem>
-    </List>
+    <div>
+      {isMainMenu ? (
+        <List>
+          <ListItem sx={{ fontSize: 36 }} disablePadding>
+            <ListItemButton
+              className="side-bar-item"
+              onClick={(e) => {
+                handleOnClick ? handleOnClick(routePath) : handleNavigate();
+              }}
+              data-testid={menuItemName}
+            >
+              <ListItemText
+                disableTypography
+                sx={{
+                  color: itemColor,
+                  fontSize: 36,
+                  fontFamily: "Darker Grotesque",
+                  fontWeight: 700,
+                }}
+                primary={menuItemName}
+              />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      ) : (
+        <List>
+          <ListItem sx={{ fontSize: 15 }} disablePadding>
+            <ListItemButton
+              className="side-bar-item"
+              onClick={(e) => {
+                handleOnClick ? handleOnClick(routePath) : handleNavigate();
+              }}
+              data-testid={menuItemName}
+            >
+              <ListItemText
+                disableTypography
+                sx={{
+                  color: subMenuItemColor,
+                  fontSize: 15,
+                  fontFamily: "Darker Grotesque",
+                  fontWeight: 400,
+                }}
+                primary={menuItemName}
+              />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      )}
+    </div>
   );
 }

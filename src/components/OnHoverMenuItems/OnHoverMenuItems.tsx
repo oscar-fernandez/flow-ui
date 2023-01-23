@@ -1,7 +1,5 @@
 import "./OnHoverMenuItems.css";
 import SimpleMenuItem from "../SideBarItems/SimpleMenuItem/SimpleMenuItem";
-import { useCustomNavigate } from "../SideBarItems/customHooks";
-import { useState } from "react";
 
 interface SubMenuItem {
   name: string;
@@ -13,14 +11,6 @@ export function OnHoverMenuItems(props: {
   subMenuItems: SubMenuItem[];
   customClick: (path: string) => void;
 }) {
-  // const [itemRoute, setItemRoute] = useState('');
-  // const { handleNavigate } = useCustomNavigate(itemRoute);
-
-  // const itemClicked = (path: string) => {
-  //   setItemRoute(path);
-  //   handleNavigate();
-  // };
-
   return (
     <div className="hovermenuitems-container">
       <ul className="submenu">
@@ -30,6 +20,7 @@ export function OnHoverMenuItems(props: {
               menuItemName={item.name}
               routePath={item.routePath}
               handleOnClick={props.customClick}
+              isMainMenu={false}
             />
           </div>
         ))}

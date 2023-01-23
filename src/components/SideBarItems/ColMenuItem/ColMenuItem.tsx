@@ -59,6 +59,7 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
           menuItemName={menuItemName}
           routePath={subMenuItems[0].routePath}
           handleOnClick={handleClick}
+          isMainMenu={true}
         />
       </div>
       <Popover
@@ -94,6 +95,7 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
               menuItemName={item.name}
               routePath={item.routePath}
               key={idx}
+              isMainMenu={false}
             />
           ))}
         </div>
