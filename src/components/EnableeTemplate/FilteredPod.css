@@ -1,0 +1,21 @@
+.filtered-pod-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 2rem;
+  align-items: center;
+}
+
+.tech-stack-container {
+  display: flex;
+}
+
+.tech-stack-margin {
+  margin-left: 1rem;
+}
+
+.pod-logo {
+  width: 15px;
+  height: 12px;
+  background-color: #000048;
+  display: inline-block;
+}

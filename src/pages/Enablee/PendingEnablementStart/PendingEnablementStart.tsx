@@ -14,7 +14,7 @@ export default function PendingEnablement() {
           inputThree="last name"
           inputFour="tech stack"
         />
-        <GenerateRows />
+        <GenerateRows pageNum={-1} />
       </div>
     </>
   );

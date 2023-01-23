@@ -1,0 +1,19 @@
+.square {
+  width: 36px;
+  height: 34px;
+  margin: auto;
+  background-color: #000048;
+  border: solid;
+}
+
+.row-primary {
+  color: #000048;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.row-secondary {
+  color: #8a8b8a;
+  font-size: 18px;
+  font-weight: 600;
+}
