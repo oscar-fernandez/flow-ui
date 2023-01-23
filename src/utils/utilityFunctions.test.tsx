@@ -64,7 +64,11 @@ describe("utilityTest", () => {
     expect(resultingArray[0].skillName).toEqual(testingMark.skillName);
   });
   it("Enablee is valid to join pod", () => {
-    const result = isEnableeValidForPod(createPod(), createEnablee());
+    const result = isEnableeValidForPod(
+      createPod(),
+      createEnablee().enablementStartDate,
+      createEnablee().enablementEndDate
+    );
     expect(result).toBe(true);
   });
 
@@ -72,14 +76,22 @@ describe("utilityTest", () => {
     const lateEnablee = createEnablee();
     lateEnablee.enablementStartDate = "2021-01-22";
     lateEnablee.enablementEndDate = "2022-06-22";
-    const result = isEnableeValidForPod(createPod(), lateEnablee);
+    const result = isEnableeValidForPod(
+      createPod(),
+      lateEnablee.enablementStartDate,
+      lateEnablee.enablementEndDate
+    );
     expect(result).toBe(false);
   });
 
   it("Invalid enablee, range is longer than pod range ", () => {
     const lateEnablee = createEnablee();
     lateEnablee.enablementEndDate = "2023-01-20";
-    const result = isEnableeValidForPod(createPod(), lateEnablee);
+    const result = isEnableeValidForPod(
+      createPod(),
+      lateEnablee.enablementStartDate,
+      lateEnablee.enablementEndDate
+    );
     expect(result).toBe(false);
   });
 });
