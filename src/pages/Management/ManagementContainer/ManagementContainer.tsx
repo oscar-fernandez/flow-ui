@@ -1,25 +1,35 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import ManagementTabs from "../ManagementTabsComponent/ManagementTabs";
 import FormComponent from "../../../components/FormComponent/FormComponent";
-import { dummyProjects as mockProjects } from "../../../data/MockApiCall";
-import { mockTechnology } from "../../../data/MockData";
 import * as Module from "../mgtUtils";
+import {
+  getTechnologies,
+  getProjects,
+  createTechnology,
+} from "../../../services/ManagementAPI";
+import IProject from "../../../models/interfaces/IProject";
+import ITechnology from "../../../models/interfaces/ITechnology";
 import CustomTableButton from "../../../components/Table/CustomTableButton";
+import "./ManagementContainer.css";
 
 const headerStyle = {
+  fontFamily: "Darker-Grotesque",
   minWidth: 50,
   background: "#E6E8E6",
   fontWeight: 700,
-  fontSize: "24px",
+  fontSize: "15px",
   color: "#000048",
   borderRight: "1px solid #000048",
   "&:last-child": { borderRight: "none" },
 };
 
 const cellStyle = {
-  fontSize: "18px",
+  fontFamily: "Darker Grotesque",
+  fontWeight: 400,
+  letterSpacing: "0.025em",
+  fontSize: "15px",
   border: "none",
   color: "inherit",
 };
@@ -34,15 +44,18 @@ const rowStyle = {
 };
 
 const buttonStyle = {
-  background: "#E6E8E6",
+  background: "#FFFFF",
+  fontFamily: "Darker Grotesque",
   fontWeight: 900,
-  fontSize: "18px",
+  fontSize: "15px",
   color: "#000048",
-  padding: "16px",
   "&:hover": {
     backgroundColor: "#E6E8E6",
     opacity: "1",
   },
+  float: "right",
+  marginTop: "none",
+  padding: "none",
 };
 
 export default function ManagementContainer() {
@@ -50,6 +63,9 @@ export default function ManagementContainer() {
   const [active, setActive] = useState("Table");
   const selectedRow = useRef({});
   const [skill, setSkill] = useState(false);
+  // const [technologies, setTechnologies] = useState(mockTechnology);
+  const [projects, setProjects] = useState<IProject[]>([]);
+  const [technologies, setTechnologies] = useState<ITechnology[]>([]);
 
   const toggleShowForm = () => {
     switch (value) {
@@ -62,6 +78,50 @@ export default function ManagementContainer() {
     }
   };
 
+  useEffect(() => {
+    getListOfProjects();
+    getListOfTechnology();
+  }, []);
+
+  const getListOfProjects = async () => {
+    getProjects()
+      .then((res: any) => {
+        setProjects(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const getListOfTechnology = () => {
+    getTechnologies()
+      .then((res: any) => {
+        setTechnologies(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const handleProjectChange = (project: IProject) => {
+    if (value == "Projects" && active === "Form") {
+      const tempProjects = projects.map((proj) => {
+        return { ...proj };
+      });
+      tempProjects.push(project);
+      setProjects(tempProjects);
+    } else if (value == "Projects" && active === "Edit") {
+      const index = projects.findIndex((item) => item.id == project.id);
+      if (index != -1) {
+        const tempProjects = projects.map((proj) => {
+          return { ...proj };
+        });
+        tempProjects[index] = project;
+        setProjects(tempProjects);
+      }
+    }
+  };
+
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(Module.tabLabels[newValue]);
     setActive("Table");
@@ -71,20 +131,33 @@ export default function ManagementContainer() {
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    selectedRow.current = mockProjects[+event.currentTarget.id]; //shorthand convert str to number
+    selectedRow.current = projects[+event.currentTarget.id]; //shorthand convert str to number
     switch (value) {
       case "Projects":
         setActive("Details");
     }
   };
 
+  const handleTechnology = (tech: string) => {
+    const newTechnology = {
+      id: 0,
+      name: tech,
+      backgroundColor: Module.getRandomColor(),
+    };
+    createTechnology(newTechnology)
+      .then((res) => {
+        setTechnologies([res.data, ...technologies]);
+      })
+      .catch((error) => console.error(error));
+  };
+
   //temporary
   function fn(): string[][] {
     switch (value) {
       case "Projects":
-        return Module.transformProjectRowArray(mockProjects);
+        return Module.transformProjectRowArray(projects);
       case "Technology":
-        return Module.transformTechRowArray(mockTechnology);
+        return Module.transformTechRowArray(technologies);
       default:
         return [["no tab matches value"]];
     }
@@ -93,9 +166,9 @@ export default function ManagementContainer() {
   function headers(): string[] {
     switch (value) {
       case "Projects":
-        return ["project name", "tech stack"];
+        return ["Project Name", "Tech Stack"];
       case "Technology":
-        return ["skill name"];
+        return ["Skill Name"];
       default:
         return ["no tab matches value"];
     }
@@ -103,28 +176,32 @@ export default function ManagementContainer() {
 
   return (
     <>
-      <div>
+      <div className="table-container">
         <PageViewHeader pageTitle="Management" showPlus={false} />
         {/* TODO: include Filter Component */}
         <ManagementTabs handleChange={handleChange} />
         {active === "Table" && (
-          <CustomTableButton
-            value={value}
-            buttonStyle={buttonStyle}
-            customHandleClick={toggleShowForm}
-          />
-        )}
-        {active === "Table" && (
-          <CustomTableContainer
-            headers={headers()}
-            rows={fn()}
-            headerStyle={headerStyle}
-            rowStyle={rowStyle}
-            cellStyle={cellStyle}
-            customHandleSelection={customHandleSelection}
-            skill={skill}
-            value={value}
-          />
+          <div className="page-table">
+            <CustomTableButton
+              value={value}
+              buttonStyle={buttonStyle}
+              customHandleClick={toggleShowForm}
+            />
+            <CustomTableContainer
+              headers={headers()}
+              rows={fn()}
+              headerStyle={headerStyle}
+              rowStyle={rowStyle}
+              cellStyle={cellStyle}
+              customHandleSelection={customHandleSelection}
+              skill={skill}
+              value={value}
+              toggleShowForm={toggleShowForm}
+              buttonStyle={buttonStyle}
+              setTechnology={handleTechnology}
+              setSkill={setSkill}
+            />
+          </div>
         )}
         {active === "Form" && (
           <FormComponent
@@ -132,6 +209,8 @@ export default function ManagementContainer() {
             readonly={false}
             edit={false}
             selectedRow={""}
+            technologies={technologies}
+            handleProjectChange={handleProjectChange}
             handleClick={() => setActive("Table")}
           />
         )}
@@ -141,6 +220,8 @@ export default function ManagementContainer() {
             readonly={true}
             edit={true}
             selectedRow={selectedRow}
+            technologies={technologies}
+            handleProjectChange={handleProjectChange}
             handleClick={() => setActive("Table")}
             handleEdit={() => setActive("Edit")}
           />
@@ -151,6 +232,8 @@ export default function ManagementContainer() {
             readonly={false}
             edit={false}
             selectedRow={selectedRow}
+            technologies={technologies}
+            handleProjectChange={handleProjectChange}
             handleClick={() => setActive("Table")}
           />
         )}
