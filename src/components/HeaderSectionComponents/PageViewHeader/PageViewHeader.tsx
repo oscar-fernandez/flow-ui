@@ -4,12 +4,19 @@ import "./PageViewHeader.css";
 export function PageViewHeader(props: {
   pageTitle: string | undefined;
   showPlus: boolean;
+  handleClick?: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
 }) {
   return (
     <div className="header-section">
       <h1 className="header">
         {props.pageTitle}{" "}
-        {props.showPlus ? <span className="plus">+</span> : null}
+        {props.showPlus ? (
+          <span className="plus" onClick={props.handleClick}>
+            +
+          </span>
+        ) : null}
       </h1>
     </div>
   );
