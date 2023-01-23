@@ -136,6 +136,21 @@ option {
 .tech-wrap {
   display: grid;
   grid-template-columns: 1fr 2fr;
+  max-height: 25%;
+  overflow: hidden;
+}
+.tech-stack::-webkit-scrollbar {
+  display: none;
+}
+
+.tech-stack {
+  overflow-y: scroll;
+}
+.stack-error::-webkit-scrollbar {
+  display: none;
+}
+.stack-error {
+  overflow-y: scroll;
 }
 
 .selected-tag-wrap {
@@ -160,5 +175,4 @@ option {
 .customErrorMessage {
   color: red;
   border-top: 1px solid #ef233c;
-  position: absolute;
 }

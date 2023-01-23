@@ -303,10 +303,6 @@ export default function FormComponent(props: any) {
                         {tech.name}
                       </MenuItem>
                     ))}
-                    <p className="customErrorMessage">
-                      {" "}
-                      * Must Select A Technology{" "}
-                    </p>
                   </div>
                 </>
               ) : (
@@ -342,7 +338,13 @@ export default function FormComponent(props: any) {
                   </div>
                 </div>
               ) : (
-                <p className="tn-label">Current Tech Stack: None</p>
+                <>
+                  <p className="customErrorMessage">
+                    {" "}
+                    * Must Select A Technology{" "}
+                  </p>
+                  <p className="tn-label">Current Tech Stack: None</p>
+                </>
               )}
             </div>
             <div className="buttons">
