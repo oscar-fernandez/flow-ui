@@ -20,7 +20,7 @@ export function OnHoverMenuItems(props: {
               menuItemName={item.name}
               routePath={item.routePath}
               handleOnClick={props.customClick}
-              isMainMenu={false}
+              isMainMenu={"s"}
             />
           </div>
         ))}

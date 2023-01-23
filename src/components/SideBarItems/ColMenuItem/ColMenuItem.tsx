@@ -52,21 +52,26 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
     }
   };
 
+  const handleHoverOnClick = () => {
+    handleClick();
+    handlePopoverClose();
+  };
+
   return (
     <div className="colMenuItem-container">
       <div onMouseEnter={handleOnMouseEnter} onMouseLeave={handleCloseHover}>
         <SimpleMenuItem
           menuItemName={menuItemName}
           routePath={subMenuItems[0].routePath}
-          handleOnClick={handleClick}
-          isMainMenu={true}
+          handleOnClick={handleHoverOnClick}
+          isMainMenu={"m"}
         />
       </div>
       <Popover
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
-        sx={{ pointerEvents: "none" }}
+        sx={{ pointerEvents: "none", transform: "translateX(3px)" }}
         anchorOrigin={{
           vertical: "top",
           horizontal: "right",
@@ -95,7 +100,7 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
               menuItemName={item.name}
               routePath={item.routePath}
               key={idx}
-              isMainMenu={false}
+              isMainMenu={"sm"}
             />
           ))}
         </div>
