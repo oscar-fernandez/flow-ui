@@ -92,7 +92,14 @@ function EnableeSideBarItems() {
             anchor="left"
           >
             <List>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
+              <ListItem
+                sx={{
+                  fontSize: 36,
+                  display: "inline-block",
+                  position: "relative",
+                }}
+                disablePadding
+              >
                 <ListItemButton
                   className="side-bar-item"
                   onClick={(e) => {
@@ -112,6 +119,7 @@ function EnableeSideBarItems() {
                   />
                 </ListItemButton>
               </ListItem>
+              <ColMenuItem></ColMenuItem>
             </List>
             <Collapse in={true} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
