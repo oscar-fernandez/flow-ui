@@ -8,8 +8,8 @@ export function PageViewHeader(props: {
   return (
     <div className="header-section">
       <h1 className="header">
-        {props.pageTitle}{" "}
-        {props.showPlus ? <span className="plus">+</span> : null}
+        <p>{props.pageTitle} </p>
+        <p>{props.showPlus ? <span className="plus">+</span> : null}</p>
       </h1>
     </div>
   );

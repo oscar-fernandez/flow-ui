@@ -1,11 +1,9 @@
-import { Filter } from "../../../components/Filter/Filter";
 import "./EnableeView.css";
-import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumberCarousel";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
-import { GenerateRows } from "../../../components/GenerateRows/GenerateRows";
 import ToggleProvider from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { useEffect, useState } from "react";
 import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
+import { Outlet } from "react-router";
 
 export default function EnableeView() {
   const [pageNum, setPageNum] = useState(1);
@@ -28,20 +26,15 @@ export default function EnableeView() {
     <>
       <div className="page-section">
         <PageViewHeader pageTitle="Enablees" showPlus={true} />
-        <Filter
+        {/* <Filter
           inputOne="employee id"
           inputTwo="first name"
           inputThree="last name"
           inputFour="tech stack"
-        />
+        /> */}
         <ToggleProvider>
-          <GenerateRows pageNum={pageNum} />
+          <Outlet />
         </ToggleProvider>
-        <PageNumberCarousel
-          totalPages={totalPages}
-          currentPageNumber={pageNum}
-          setPage={setPageNum}
-        />
       </div>
     </>
   );
