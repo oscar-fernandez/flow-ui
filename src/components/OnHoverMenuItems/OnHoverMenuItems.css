@@ -1,6 +1,7 @@
 .hovermenuitems-container {
-  display: inline-block;
-  width: 100vw;
+  /* display: inline-block; */
+  /* width: 100vw; */
+  /* position: absolute; */
 }
 
 .submenu {

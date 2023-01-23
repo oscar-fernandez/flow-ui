@@ -11,6 +11,7 @@ import { StyledEngineProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { getSubMenuItems } from "../../utils/utilityFunctions";
 import { OnHoverMenuItems } from "../OnHoverMenuItems/OnHoverMenuItems";
+import { ColMenuItem } from "./ColMenuItem/ColMenuItem";
 
 const drawerWidth = 248;
 const sideBarItems = [
@@ -84,14 +85,22 @@ function EnableeSideBarItems() {
                 width: drawerWidth,
                 boxSizing: "border-box",
                 bgcolor: "#000048",
+                overflowY: "inherit",
               },
-              overflowX: "hidden",
+              // overflowX: "hidden",
             }}
             variant="permanent"
             anchor="left"
           >
             <List>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
+              <ListItem
+                sx={{
+                  fontSize: 36,
+                  display: "inline-block",
+                  position: "relative",
+                }}
+                disablePadding
+              >
                 <ListItemButton
                   className="side-bar-item"
                   onClick={(e) => {
@@ -111,6 +120,7 @@ function EnableeSideBarItems() {
                   />
                 </ListItemButton>
               </ListItem>
+              <ColMenuItem></ColMenuItem>
             </List>
             <Collapse in={true} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
@@ -180,7 +190,14 @@ function EnableeSideBarItems() {
               </List>
             </Collapse>
             <List>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
+              <ListItem
+                sx={{
+                  fontSize: 36,
+                  display: "inline-block",
+                  position: "relative",
+                }}
+                disablePadding
+              >
                 <ListItemButton
                   className="side-bar-item"
                   onClick={(e) => {
@@ -200,6 +217,7 @@ function EnableeSideBarItems() {
                   />
                 </ListItemButton>
               </ListItem>
+              <ColMenuItem></ColMenuItem>
             </List>
           </Drawer>
         </Box>
