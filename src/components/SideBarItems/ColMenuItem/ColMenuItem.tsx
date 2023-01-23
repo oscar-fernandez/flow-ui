@@ -44,14 +44,14 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
     setAnchorEl(null);
   };
 
-  function handleCloseHover() {
+  const handleCloseHover = () => {
     currentlyHovering = false;
     setTimeout(() => {
       if (!currentlyHovering) {
         handlePopoverClose();
       }
     }, 50);
-  }
+  };
 
   const toggleAndNavigate = () => {
     handleClick();
