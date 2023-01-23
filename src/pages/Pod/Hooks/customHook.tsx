@@ -36,7 +36,7 @@ export function useActivePods() {
           Date.parse(pod.podStartDate) <= Date.now() &&
           Date.parse(pod.podEndDate) >= Date.now()
       )
-      .map((pod) => setActivePods((activePods) => [...activePods, pod]));
+      .forEach((pod) => setActivePods((activePods) => [...activePods, pod]));
   }, []);
 
   return [activePods, setActivePods];
