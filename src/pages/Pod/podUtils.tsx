@@ -11,12 +11,13 @@
  * ![image](/uploads/c520a78d68a68d35d322bcf38c5ff604/image.png)
  * [ ] if pod is all filled, it can also be removed from the list of available pods */
 
-import IPod from "../../models/interfaces/IPod";
+import IPod from "../../models/interfaces/IFEPod";
 import { convertTechArToStr } from "../Management/mgtUtils";
 import IEnablee from "../../models/interfaces/IEnablee";
 import * as Fun from "../Enablee/PodAssignment/PodAssignment";
 import { mockPods } from "../../data/PodMock";
 import { dummyEnablees } from "../../data/EnableeMock";
+import IFEPod from "../../models/interfaces/IFEPod";
 
 const listCheckboxes = [
   { name: "Match Tech Stack" },
@@ -24,28 +25,28 @@ const listCheckboxes = [
   { name: "Available Enablees" },
 ];
 
-const podRowFactory = (obj: IPod, totalCapacity: number): string[] => {
+const podRowFactory = (obj: IFEPod, totalCapacity: number): string[] => {
   return [
     obj.project.name,
     obj.podName,
     convertTechArToStr(obj.project.technology),
     obj.podStartDate,
     obj.podEndDate,
-    capasityEmployee(obj.enableeEmployee, totalCapacity),
+    capasityEmployee(obj.enablee, totalCapacity),
   ];
 };
-const transformPodArray = (ar: IPod[], totalCapacity: number): string[][] =>
+const transformPodArray = (ar: IFEPod[], totalCapacity: number): string[][] =>
   ar.map((e) => podRowFactory(e, totalCapacity));
 
-const ARGUMENT = 5;
+const ARGUMENT = 15;
 
 const capasityEmployee = (ar: IEnablee[], totalCapacity: number) =>
-  `${ar.length.toString()} / ${totalCapacity}`;
+  `${ARGUMENT} / ${totalCapacity}`;
 
 const eqSet = (xs, ys) =>
   xs.size === ys.size && [...xs].every((x) => ys.has(x));
 
-const matchAllSkills = (ar: IEnablee[], obj: IPod) =>
+const matchAllSkills = (ar: IEnablee[], obj: IFEPod) =>
   ar.filter((e) => {
     return eqSet(
       new Set(e.technology.map((t) => t.name)),
@@ -55,7 +56,7 @@ const matchAllSkills = (ar: IEnablee[], obj: IPod) =>
 
 const includeSet = (xs, ys) => [...xs].some((x) => ys.has(x));
 
-const matchSomeSkills = (ar: IEnablee[], obj: IPod) =>
+const matchSomeSkills = (ar: IEnablee[], obj: IFEPod) =>
   ar.filter((e) => {
     return includeSet(
       new Set(e.technology.map((t) => t.name)),

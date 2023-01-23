@@ -1,4 +1,11 @@
-import { render, screen, waitFor, renderHook } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitFor,
+  renderHook,
+  fireEvent,
+  getByTestId,
+} from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
 import { usePendingPodEnablees } from "../Hooks/customHook";
@@ -54,11 +61,19 @@ describe("PodAssignment", () => {
     expect(screen.getByRole("button", { name: "submit" })).toBeInTheDocument();
   });
 
-  // it("should handle row selection", async () => {
+  it("should display checkbox ", () => {
+    render(
+      <PodAssignment
+        headers={[]}
+        rows={[]}
+        rowStyle={null}
+        cellStyle={null}
+        index={0}
+        checkboxId={0}
+      />
+    );
+    const checkbox = screen.queryAllByTestId("checkbox");
 
-  //   (usePendingPodEnablees  as jest.Mock).mockResolvedValueOnce(enableesList);
-  //   render(<PodAssignment />);
-  //   await waitFor(() =>
-  //   expect(screen.queryAllByText(enableesList.data[0].firstName)).toHaveValue((enableesList.data[0].firstName)));
-  // })
+    expect(checkbox).not.toBeChecked();
+  });
 });
