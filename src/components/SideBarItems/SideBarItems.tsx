@@ -10,6 +10,7 @@ import Collapse from "@mui/material/Collapse";
 import { StyledEngineProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { getSubMenuItems } from "../../utils/utilityFunctions";
+import { ColMenuItem } from "./ColMenuItem/ColMenuItem";
 
 const drawerWidth = 248;
 const sideBarItems = [
@@ -83,8 +84,9 @@ function EnableeSideBarItems() {
                 width: drawerWidth,
                 boxSizing: "border-box",
                 bgcolor: "#000048",
+                overflowY: "inherit",
               },
-              overflowX: "hidden",
+              // overflowX: "hidden",
             }}
             variant="permanent"
             anchor="left"
@@ -173,7 +175,14 @@ function EnableeSideBarItems() {
               </List>
             </Collapse>
             <List>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
+              <ListItem
+                sx={{
+                  fontSize: 36,
+                  display: "inline-block",
+                  position: "relative",
+                }}
+                disablePadding
+              >
                 <ListItemButton
                   className="side-bar-item"
                   onClick={(e) => {
@@ -193,6 +202,7 @@ function EnableeSideBarItems() {
                   />
                 </ListItemButton>
               </ListItem>
+              <ColMenuItem></ColMenuItem>
             </List>
           </Drawer>
         </Box>
