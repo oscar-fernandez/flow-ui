@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -61,7 +61,7 @@ function EnableeSideBarItems() {
   };
 
   return (
-    <>
+    <div className="side-bar-container">
       <StyledEngineProvider injectFirst>
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
@@ -73,14 +73,22 @@ function EnableeSideBarItems() {
                 width: drawerWidth,
                 boxSizing: "border-box",
                 bgcolor: "#000048",
+                overflowY: "inherit",
               },
-              overflowX: "hidden",
+              // overflowX: "hidden",
             }}
             variant="permanent"
             anchor="left"
           >
             <List>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
+              <ListItem
+                sx={{
+                  fontSize: 36,
+                  display: "inline-block",
+                  position: "relative",
+                }}
+                disablePadding
+              >
                 <ListItemButton
                   className="side-bar-item"
                   onClick={(e) => {
@@ -130,7 +138,14 @@ function EnableeSideBarItems() {
               </List>
             </Collapse>
             <List>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
+              <ListItem
+                sx={{
+                  fontSize: 36,
+                  display: "inline-block",
+                  position: "relative",
+                }}
+                disablePadding
+              >
                 <ListItemButton
                   className="side-bar-item"
                   onClick={(e) => {
@@ -154,7 +169,7 @@ function EnableeSideBarItems() {
           </Drawer>
         </Box>
       </StyledEngineProvider>
-    </>
+    </div>
   );
 }
 
