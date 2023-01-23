@@ -103,7 +103,7 @@ function EnableeSideBarItems() {
   };
 
   return (
-    <>
+    <div className="side-bar-container">
       <StyledEngineProvider injectFirst>
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
@@ -208,7 +208,7 @@ function EnableeSideBarItems() {
           </Drawer>
         </Box>
       </StyledEngineProvider>
-    </>
+    </div>
   );
 }
 

@@ -4,7 +4,7 @@ import { useCustomNavigate } from "../customHooks";
 interface Props {
   menuItemName: string;
   routePath: string;
-  handleOnClick?: () => void;
+  handleOnClick?: (e: any) => void;
 }
 
 const itemColor = "#CCCCDA";
@@ -18,11 +18,11 @@ export default function SimpleMenuItem({
 
   return (
     <List>
-      <ListItem sx={{ fontSize: 36 }} disablePadding>
+      <ListItem sx={{ fontSize: "20px", lineHeight: "24px" }} disablePadding>
         <ListItemButton
           className="side-bar-item"
           onClick={(e) => {
-            handleOnClick ? handleOnClick() : handleNavigate();
+            handleOnClick ? handleOnClick(e) : handleNavigate();
           }}
           data-testid={menuItemName}
         >
@@ -30,9 +30,7 @@ export default function SimpleMenuItem({
             disableTypography
             sx={{
               color: itemColor,
-              fontSize: 36,
               fontFamily: "Darker Grotesque",
-              fontWeight: 700,
             }}
             primary={menuItemName}
           />

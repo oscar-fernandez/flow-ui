@@ -1,12 +1,3 @@
 .colMenuItem-container {
   width: 100%;
 }
-
-.colMenuItem-container:hover .hover-menu {
-  display: block;
-}
-
-.hover-menu {
-  display: none;
-  color: white;
-}
