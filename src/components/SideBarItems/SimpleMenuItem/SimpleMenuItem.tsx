@@ -4,7 +4,7 @@ import { useCustomNavigate } from "../customHooks";
 interface Props {
   menuItemName: string;
   routePath: string;
-  handleOnClick?: (e: any) => void;
+  handleOnClick?: (path: string) => void;
 }
 
 const itemColor = "#CCCCDA";
@@ -23,7 +23,7 @@ export default function SimpleMenuItem({
         <ListItemButton
           className="side-bar-item"
           onClick={(e) => {
-            handleOnClick ? handleOnClick(e) : handleNavigate();
+            handleOnClick ? handleOnClick(routePath) : handleNavigate();
           }}
           data-testid={menuItemName}
         >

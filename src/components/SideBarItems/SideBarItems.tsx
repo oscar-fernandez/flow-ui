@@ -9,48 +9,6 @@ import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import { StyledEngineProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import ColMenuItem from "./ColMenuItem/ColMenuItem";
-
-interface SubMenuItem {
-  name: string;
-  routePath: string;
-  handleOnClick: () => void;
-}
-
-const listOfSubMenuItems1 = [
-  {
-    name: "Sub Test 1",
-    routePath: "",
-    handleOnClick: () => null,
-  },
-  {
-    name: "Sub Test 2",
-    routePath: "",
-    handleOnClick: () => null,
-  },
-  {
-    name: "Sub Test 3",
-    routePath: "/pendingStart",
-    handleOnClick: () => null,
-  },
-];
-const listOfSubMenuItems2 = [
-  {
-    name: "Sub Test 1",
-    routePath: "mgt",
-    handleOnClick: () => null,
-  },
-  {
-    name: "Sub Test 2",
-    routePath: "",
-    handleOnClick: () => null,
-  },
-  {
-    name: "Sub Test 3",
-    routePath: "/pendingStart",
-    handleOnClick: () => null,
-  },
-];
 
 const drawerWidth = 248;
 const sideBarItems = [
@@ -101,15 +59,6 @@ function EnableeSideBarItems() {
     clickHandler(event);
     navigate(path);
   };
-
-  const [itemHovered, setItemHovered] = useState(false);
-  const [itemClicked, setItemClicked] = useState(true);
-  const subMenuItems = [
-    { name: "Active", routePath: "/active" },
-    { name: "Pending Start", routePath: "/pendingstart" },
-    { name: "Available", routePath: "/available" },
-    { name: "Completed", routePath: "/completed" },
-  ];
 
   return (
     <div className="side-bar-container">
@@ -169,12 +118,6 @@ function EnableeSideBarItems() {
                       onClick={(e) => {
                         clickNavigateCombined(e, item.url);
                       }}
-                      onMouseOver={() => {
-                        setItemHovered(true);
-                      }}
-                      onMouseLeave={() => {
-                        setItemHovered(false);
-                      }}
                       data-testid={item.testId}
                     >
                       <ListItemText
@@ -192,39 +135,6 @@ function EnableeSideBarItems() {
                     </ListItemButton>
                   </ListItem>
                 ))}
-                {itemClicked ? (
-                  <div>
-                    {subMenuItems.map((item, i) => (
-                      <ListItem
-                        key={i}
-                        disablePadding
-                        sx={{
-                          bgcolor: "#666691",
-                        }}
-                      >
-                        <ListItemButton
-                          className="side-bar-item"
-                          onClick={(e) => {
-                            clickNavigateCombined(e, item.routePath);
-                          }}
-                        >
-                          <ListItemText
-                            disableTypography
-                            sx={{
-                              pl: 5,
-                              whiteSpace: "unset",
-                              color: itemColor,
-                              fontSize: 15,
-                              fontFamily: "Darker Grotesque",
-                              fontWeight: 400,
-                            }}
-                            primary={item.name}
-                          />
-                        </ListItemButton>
-                      </ListItem>
-                    ))}
-                  </div>
-                ) : null}
               </List>
             </Collapse>
             <List>
@@ -254,18 +164,6 @@ function EnableeSideBarItems() {
                     primary="Management"
                   />
                 </ListItemButton>
-              </ListItem>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
-                <ColMenuItem
-                  menuItemName="Test1"
-                  subMenuItems={listOfSubMenuItems1}
-                />
-              </ListItem>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
-                <ColMenuItem
-                  menuItemName="Test2"
-                  subMenuItems={listOfSubMenuItems2}
-                />
               </ListItem>
             </List>
           </Drawer>

@@ -3,24 +3,15 @@ import { useToggle } from "../customHooks";
 import { Collapse, Box } from "@mui/material";
 import SimpleMenuItem from "../SimpleMenuItem/SimpleMenuItem";
 import { Popover } from "@mui/material";
+import { OnHoverMenuItems } from "../../OnHoverMenuItems/OnHoverMenuItems";
+import SubMenuItem from "../../../models/interfaces/ISubMenuItem";
 import "./ColMenuItem.css";
 import React from "react";
-
-//move to interfaces directory
-interface SubMenuItem {
-  name: string;
-  routePath: string;
-  handleOnClick: () => void;
-}
 
 interface Props {
   menuItemName: string;
   subMenuItems: SubMenuItem[];
 }
-
-const ChildComp: React.FC = () => (
-  <p className="hover-menu">This is a child component</p>
-);
 
 export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
   const { toggle, handleClick } = useToggle(false);
@@ -53,10 +44,11 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
     }, 50);
   };
 
-  const toggleAndNavigate = () => {
-    handleClick();
+  const toggleAndNavigate = (route: string) => {
+    navigate(route);
+    handlePopoverClose();
     if (!toggle) {
-      navigate(subMenuItems[0].routePath);
+      handleClick();
     }
   };
 
@@ -89,7 +81,10 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
           onMouseEnter={handleOnMouseEnterHoverMenu}
           onMouseLeave={handleCloseHover}
         >
-          <ChildComp />
+          <OnHoverMenuItems
+            subMenuItems={subMenuItems}
+            customClick={toggleAndNavigate}
+          />
         </Box>
       </Popover>
       <Collapse in={toggle} timeout={1}>

@@ -3,16 +3,23 @@ import SimpleMenuItem from "../SideBarItems/SimpleMenuItem/SimpleMenuItem";
 import { useCustomNavigate } from "../SideBarItems/customHooks";
 import { useState } from "react";
 
-export function OnHoverMenuItems(props: {
-  subMenuItems: Array<{ name: string; routePath: string }>;
-}) {
-  const [itemRoute, setItemRoute] = useState("");
-  const { handleNavigate } = useCustomNavigate(itemRoute);
+interface SubMenuItem {
+  name: string;
+  routePath: string;
+  handleOnClick: (path: string) => void;
+}
 
-  const itemClicked = (path: string) => {
-    setItemRoute(path);
-    handleNavigate();
-  };
+export function OnHoverMenuItems(props: {
+  subMenuItems: SubMenuItem[];
+  customClick: (path: string) => void;
+}) {
+  // const [itemRoute, setItemRoute] = useState('');
+  // const { handleNavigate } = useCustomNavigate(itemRoute);
+
+  // const itemClicked = (path: string) => {
+  //   setItemRoute(path);
+  //   handleNavigate();
+  // };
 
   return (
     <div className="hovermenuitems-container">
@@ -22,7 +29,7 @@ export function OnHoverMenuItems(props: {
             <SimpleMenuItem
               menuItemName={item.name}
               routePath={item.routePath}
-              handleOnClick={itemClicked}
+              handleOnClick={props.customClick}
             />
           </div>
         ))}
