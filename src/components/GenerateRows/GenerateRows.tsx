@@ -12,11 +12,11 @@ import {
   shortenStringList,
   tooltipString,
 } from "../../utils/utilityFunctions";
-import {
-  useDetails,
-  useToggle,
-} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
-import ToggleSidebar, { Action } from "../ToggleSideBar/ToggleSidebar";
+// import {
+//   useDetails,
+//   useToggle,
+// } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+// import ToggleSidebar, { Action } from "../ToggleSideBar/ToggleSidebar";
 import "./GenerateRows.css";
 import { TagComponent } from "../TagComponent/Tag";
 // Example on how to use toggleSideBarContext
@@ -26,8 +26,8 @@ interface Props {
 }
 
 export function GenerateRows({ pageNum }: Props) {
-  const [toggle, changeToggle] = useToggle();
-  const [details, changeDetails] = useDetails();
+  // const [toggle, changeToggle] = useToggle();
+  // const [details, changeDetails] = useDetails();
   const [enablees, setEnablees] = useState<IEnablee[]>([]);
 
   useEffect(() => {
@@ -120,14 +120,14 @@ export function GenerateRows({ pageNum }: Props) {
           </Row>
         );
       })}
-      <ToggleSidebar
+      {/* <ToggleSidebar
         toggle={toggle}
         setToggle={() => {
           changeToggle();
         }}
         details={details}
         action={Action.VIEW}
-      />
+      /> */}
     </>
   );
 }
