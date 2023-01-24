@@ -52,9 +52,12 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
     }
   };
 
-  const handleHoverOnClick = () => {
-    handleClick();
+  const handleHoverOnClick = (route: string) => {
     handlePopoverClose();
+    handleClick();
+    if (!toggle) {
+      navigate(route);
+    }
   };
 
   return (
@@ -86,6 +89,7 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
           sx={{ pointerEvents: "auto" }}
           onMouseEnter={handleOnMouseEnterHoverMenu}
           onMouseLeave={handleCloseHover}
+          data-testid="hover-menu"
         >
           <OnHoverMenuItems
             subMenuItems={subMenuItems}
