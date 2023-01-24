@@ -1,7 +1,6 @@
 import ITechnology from "./ITechnology";
 
 interface IEnablee {
-  filter(arg0: (e: any) => boolean);
   employeeId: number;
   firstName: string;
   lastName: string;

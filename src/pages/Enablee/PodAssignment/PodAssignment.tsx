@@ -156,6 +156,8 @@ export default function PodAssignment({
       ...checkbox,
       [event.target.name]: event.currentTarget.checked,
     });
+    setName(event.currentTarget.name);
+    fn();
   };
 
   const { matchTechStack, containsTechStack } = checkbox;

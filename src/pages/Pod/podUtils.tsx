@@ -42,7 +42,7 @@ const ARGUMENT = 15;
 const capasityEmployee = (ar: IEnablee[], totalCapacity: number) =>
   `${ARGUMENT} / ${totalCapacity}`;
 
-const eqSet = (xs, ys) =>
+const eqSet = (xs: Set<string>, ys: Set<string>) =>
   xs.size === ys.size && [...xs].every((x) => ys.has(x));
 
 const matchAllSkills = (ar: IEnablee[], obj: IFEPod) =>
@@ -53,7 +53,8 @@ const matchAllSkills = (ar: IEnablee[], obj: IFEPod) =>
     );
   });
 
-const includeSet = (xs, ys) => [...xs].some((x) => ys.has(x));
+const includeSet = (xs: Set<string>, ys: Set<string>) =>
+  [...xs].some((x) => ys.has(x));
 
 const matchSomeSkills = (ar: IEnablee[], obj: IFEPod) =>
   ar.filter((e) => {

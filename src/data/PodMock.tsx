@@ -1,7 +1,8 @@
-import IPod from "../models/interfaces/IPod";
+import IFEPod from "../models/interfaces/IFEPod";
+import IPod from "../models/interfaces/IFEPod";
 import { dummyEnablees } from "./EnableeMock";
 
-export const mockPods: IPod[] = [
+export const mockPods: IFEPod[] = [
   {
     id: 12,
     podName: "Podz",
