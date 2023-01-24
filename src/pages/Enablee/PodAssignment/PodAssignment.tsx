@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef, ChangeEvent } from "react";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
-import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
 import "./PodAssignment.css";
 import * as Module from "../../Management/mgtUtils";
 import * as Unit from "../../Pod/podUtils";
@@ -16,8 +15,6 @@ import {
   SxProps,
   Theme,
 } from "@mui/material";
-import { mockPods } from "../../../data/PodMock";
-import IFEPod from "../../../models/interfaces/IFEPod";
 import { dummyEnablees } from "../../../data/EnableeMock";
 import { usePendingPodEnablees } from "../Hooks/customHook";
 import { mockFePod } from "../../../data/MockFEPod";
@@ -61,14 +58,6 @@ const rowStyle = {
     color: "#000048",
   },
 };
-
-interface Props {
-  customHandleSelection?: () => void;
-  updateSelectedEnablees?: (index: number) => void;
-  index: number;
-  checkboxId: number;
-  label?: string;
-}
 
 export default function PodAssignment() {
   const selectedEnablees = useRef<number[]>([]);

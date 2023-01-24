@@ -1,13 +1,5 @@
-import {
-  render,
-  screen,
-  waitFor,
-  renderHook,
-  fireEvent,
-  getByTestId,
-} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
 import { usePendingPodEnablees } from "../Hooks/customHook";
 import PodAssignment from "./PodAssignment";
 import { vi } from "vitest";
@@ -45,16 +37,7 @@ describe("PodAssignment", () => {
       return { receivedEnablees };
     });
 
-    render(
-      <PodAssignment
-        headers={[]}
-        rows={[]}
-        rowStyle={null}
-        cellStyle={null}
-        index={0}
-        checkboxId={0}
-      />
-    );
+    render(<PodAssignment />);
 
     expect(screen.getByText("John")).toBeInTheDocument(); //verifies mock received enablee is in the document
     expect(screen.getByText("Enablee")).toBeInTheDocument();
