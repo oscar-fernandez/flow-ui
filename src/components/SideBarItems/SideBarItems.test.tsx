@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import EnableeSideBarItems from "./SideBarItems";
+import SideBarItems from "./SideBarItems";
 
 vi.mock("react-router-dom", () => ({
   useNavigate: () => vi.fn(),
@@ -11,14 +11,14 @@ describe("Dummy tests", () => {
     expect(true).toBe(true);
   });
   it("should render MenuSideBar", () => {
-    render(<EnableeSideBarItems />);
+    render(<SideBarItems />);
     expect(screen.getByText("Enablee")).toBeInTheDocument();
   });
 });
 
 describe("Item Selection", () => {
   it("'Enablee' item should change background color when selected", () => {
-    render(<EnableeSideBarItems />);
+    render(<SideBarItems />);
     // Enablee Item Element
     const enableeItem = screen.getByTestId("enablee-item");
 
@@ -35,7 +35,7 @@ describe("Item Selection", () => {
     // expect(screen.getByTestId("side-bar-item").className.includes("selected-item"));
   });
   it("'Pending Assignment' sub item should change background color when selected", () => {
-    render(<EnableeSideBarItems />);
+    render(<SideBarItems />);
 
     const pendingAssignment = screen.getByTestId("pending-assignment");
     !expect(pendingAssignment.className.includes("selected-item"));
@@ -45,7 +45,7 @@ describe("Item Selection", () => {
     expect(pendingAssignment.className.includes("selected-item"));
   });
   it("'Pending Assignment' sub item should change background color when selected", () => {
-    render(<EnableeSideBarItems />);
+    render(<SideBarItems />);
 
     const pendingEnablementStart = screen.getByTestId(
       "pending-enablement-start"
@@ -57,7 +57,7 @@ describe("Item Selection", () => {
     expect(pendingEnablementStart.className.includes("selected-item"));
   });
   it("'Management'  item should change background color when selected", () => {
-    render(<EnableeSideBarItems />);
+    render(<SideBarItems />);
 
     const management = screen.getByTestId("management");
     !expect(management.className.includes("selected-item"));

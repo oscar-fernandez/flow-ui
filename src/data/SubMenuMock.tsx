@@ -1,34 +1,59 @@
-export const listOfSubMenuItems1 = [
+export const MenuItemsList = [
   {
-    name: "Sub Test 1",
-    routePath: "",
+    name: "Flow",
+  },
+  {
+    name: "Enablee",
+  },
+  {
+    name: "Management",
+  },
+  {
+    name: "Pod",
+  },
+];
+export const EnableeSubMenuItems = [
+  {
+    name: "Master List",
+    routePath: "/enablee",
     handleOnClick: () => null,
   },
   {
-    name: "Sub Test 2",
-    routePath: "",
+    name: "Pending Start",
+    routePath: "enablee/pendingStart",
     handleOnClick: () => null,
   },
   {
-    name: "Sub Test 3",
-    routePath: "/pendingStart",
+    name: "Pending Pod Assignment",
+    routePath: "enablee/pendingPodAssignment",
     handleOnClick: () => null,
   },
 ];
-export const listOfSubMenuItems2 = [
+
+export const PodSubMenuItems = [
   {
-    name: "Sub Test 1",
-    routePath: "mgt",
+    name: "Master List",
+    routePath: "/pod",
     handleOnClick: () => null,
   },
   {
-    name: "Sub Test 2",
-    routePath: "",
+    name: "Active Pod",
+    routePath: "/pod/active",
     handleOnClick: () => null,
   },
   {
-    name: "Sub Test 3",
-    routePath: "/pendingStart",
+    name: "Pending Pod",
+    routePath: "/pod/pending",
+    handleOnClick: () => null,
+  },
+  {
+    name: "Available Pod",
+    routePath: "/pod/available",
+    handleOnClick: () => null,
+  },
+  {
+    name: "Completed Pod",
+    routePath: "/pod/completed",
     handleOnClick: () => null,
   },
 ];
