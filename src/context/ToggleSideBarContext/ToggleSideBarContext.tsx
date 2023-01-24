@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import IEnablee from "../../models/interfaces/IEnablee";
 
 interface ToggleBarProps {
   children: JSX.Element;
@@ -11,10 +10,11 @@ export const ToggleContext = React.createContext<[boolean, () => void]>([
     return;
   },
 ]);
-export const DetailsContext = React.createContext<
-  [IEnablee, (view: IEnablee) => void]
+
+export const ToggleArrowContext = React.createContext<
+  [boolean, (arrow: boolean) => void]
 >([
-  {} as IEnablee,
+  false,
   () => {
     return;
   },
@@ -24,28 +24,28 @@ export function useToggle() {
   return useContext(ToggleContext);
 }
 
-export function useDetails() {
-  return useContext(DetailsContext);
+export function useToggleArrow() {
+  return useContext(ToggleArrowContext);
 }
 
 const ToggleProvider = ({ children }: ToggleBarProps) => {
   const [toggle, setToggle] = useState(false);
-  const [details, setDetails] = useState<IEnablee>({} as IEnablee);
+  const [toggleArrow, setToggleArrow] = useState(false);
 
   const changeToggle = () => {
     setToggle((prevToggle) => !prevToggle);
   };
 
-  const changeDetails = (viewDetails: IEnablee) => {
-    setDetails(viewDetails);
+  const changeToggleArrow = (arrow = false) => {
+    setToggleArrow(arrow);
   };
 
   return (
-    <DetailsContext.Provider value={[details, changeDetails]}>
-      <ToggleContext.Provider value={[toggle, changeToggle]}>
+    <ToggleContext.Provider value={[toggle, changeToggle]}>
+      <ToggleArrowContext.Provider value={[toggleArrow, changeToggleArrow]}>
         {children}
-      </ToggleContext.Provider>
-    </DetailsContext.Provider>
+      </ToggleArrowContext.Provider>
+    </ToggleContext.Provider>
   );
 };
 
