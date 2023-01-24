@@ -66,6 +66,8 @@ const matchSomeSkills = (ar: IEnablee[], obj: IFEPod) =>
 
 const validEnablee: IEnablee[] = [];
 const matchData = (ar: IEnablee[], p: IFEPod) => {
+  // console.log("matchData called!");
+
   ar.forEach((element) => {
     if (
       isEnableeValidForPod(
@@ -74,6 +76,7 @@ const matchData = (ar: IEnablee[], p: IFEPod) => {
         element.enablementEndDate
       )
     ) {
+      // console.log(element);
       validEnablee.push(element);
     }
   });

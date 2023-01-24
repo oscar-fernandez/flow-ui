@@ -1,4 +1,10 @@
-import { useEffect, useState, useRef, ChangeEvent } from "react";
+import {
+  useEffect,
+  useState,
+  useRef,
+  ChangeEvent,
+  SetStateAction,
+} from "react";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import "./PodAssignment.css";
@@ -18,6 +24,7 @@ import {
 import { dummyEnablees } from "../../../data/EnableeMock";
 import { usePendingPodEnablees } from "../Hooks/customHook";
 import { mockFePod } from "../../../data/MockFEPod";
+import IFEPod from "../../../models/interfaces/IFEPod";
 
 const headersEnablee = [
   "Employee Id",
@@ -60,8 +67,9 @@ const rowStyle = {
 };
 
 export default function PodAssignment() {
-  const selectedEnablees = useRef<number[]>([]);
-  const selectedRow = useRef({});
+  const selectedEnablees = useRef<IEnablee[]>([]);
+  // const selectedRow = useRef({});
+  const [selectedRow, setSelectedRow] = useState<IFEPod>();
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
   const [name, setName] = useState("");
   const [checkbox, setCheckbox] = useState({
@@ -73,30 +81,56 @@ export default function PodAssignment() {
   const [toggle, setToggle] = useState(false);
   const [count, setCount] = useState(0);
 
-  function fn(): IEnablee[] {
-    switch (name) {
-      case "matchTechStack":
-        return Unit.matchAllSkills(dummyEnablees, mockFePod[0]);
-      case "containsTechStack":
-        return Unit.matchSomeSkills(dummyEnablees, mockFePod[0]);
-      case "availableEnablees":
-        return Unit.matchData(dummyEnablees, mockFePod[0]);
-      default:
-        return receivedEnablees;
+  function fn(): string[][] {
+    if (receivedEnablees) {
+      switch (name) {
+        case "matchTechStack":
+          return Module.transformEnableeArray(
+            Unit.matchAllSkills(receivedEnablees, mockFePod[0])
+          );
+        case "containsTechStack":
+          return Module.transformEnableeArray(
+            Unit.matchSomeSkills(receivedEnablees, mockFePod[0])
+          );
+        case "availableEnablees":
+          return Module.transformEnableeArray(
+            Unit.matchData(receivedEnablees, mockFePod[0])
+          );
+        default:
+          return Module.transformEnableeArray(receivedEnablees);
+      }
     }
+    return [];
   }
 
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    selectedRow.current = mockFePod[+event.currentTarget.id];
+    //selectedRow.current = mockFePod[+event.currentTarget.id];
+
+    setSelectedRow(mockFePod[+event.currentTarget.id]);
     setToggle(!toggle);
     setDisabled(!disabled);
+
+    const filteredEnablees =
+      selectedRow &&
+      receivedEnablees &&
+      Unit.matchData(receivedEnablees, selectedRow);
+    setReceivedEnablees(filteredEnablees);
+
+    // console.log(filteredEnablees);
+
     // if (disabled) {
     //   setReceivedEnablees;
     // }
     setDisabled(!disabled);
   };
+
+  // useEffect(() => {
+  // }, [selectedRow]);
+
+  // useEffect(() => {
+  // }, [receivedEnablees]);
 
   function increment() {
     setCount(function (prevCount) {
@@ -116,14 +150,16 @@ export default function PodAssignment() {
 
   //temp location
   const updateSelectedEnablees = (index: number) => {
-    const e = receivedEnablees[index];
+    const e = receivedEnablees?.[index];
     const ar = selectedEnablees.current;
-    if (!ar.includes(e)) {
-      ar.push(e);
-      increment();
-    } else {
-      ar.splice(ar.indexOf(e), 1);
-      decrement();
+    if (e) {
+      if (!ar.includes(e)) {
+        ar.push(e);
+        // increment();
+      } else {
+        ar.splice(ar.indexOf(e), 1);
+        // decrement();
+      }
     }
   };
 
@@ -133,7 +169,7 @@ export default function PodAssignment() {
       [event.target.name]: event.currentTarget.checked,
     });
     setName(event.currentTarget.name);
-    fn();
+    // fn();
   };
 
   const { matchTechStack, containsTechStack } = checkbox;
@@ -160,7 +196,7 @@ export default function PodAssignment() {
             control={
               <Checkbox
                 checked={matchTechStack}
-                disabled={disabled}
+                // disabled={disabled}
                 onChange={handleChange}
                 name="matchTechStack"
               />
@@ -171,7 +207,7 @@ export default function PodAssignment() {
             control={
               <Checkbox
                 checked={containsTechStack}
-                disabled={disabled}
+                // disabled={disabled}
                 onChange={handleChange}
                 name="containsTechStack"
               />
@@ -191,7 +227,7 @@ export default function PodAssignment() {
       <CustomTableContainer
         headers={headersEnablee}
         headerStyle={headerStyle}
-        rows={Module.transformEnableeArray(fn())}
+        rows={fn()}
         cellStyle={cellStyle}
         rowStyle={rowStyle}
         //  toggle={toggle}
