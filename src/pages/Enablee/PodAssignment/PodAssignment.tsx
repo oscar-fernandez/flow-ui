@@ -63,27 +63,14 @@ const rowStyle = {
 };
 
 interface Props {
-  headers: string[];
-  headerStyle?: SxProps<Theme>;
-  rows: string[][];
-  rowStyle: SxProps<Theme>;
-  cellStyle: SxProps<Theme>;
   customHandleSelection?: () => void;
   updateSelectedEnablees?: (index: number) => void;
-  // updateSelectedPod?: (index: number) => void;
   index: number;
   checkboxId: number;
   label?: string;
 }
 
-export default function PodAssignment({
-  rows,
-  rowStyle,
-  cellStyle,
-  index,
-  checkboxId,
-  label,
-}: Props) {
+export default function PodAssignment() {
   const selectedEnablees = useRef<number[]>([]);
   const selectedRow = useRef({});
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
