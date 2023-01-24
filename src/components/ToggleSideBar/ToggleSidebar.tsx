@@ -1,73 +1,29 @@
-import { Button, Drawer, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
-import IEnablee from "../../models/interfaces/IEnablee";
-import ITechnology from "../../models/interfaces/ITechnology";
+import { Drawer } from "@mui/material";
+import React, { useEffect } from "react";
+import {
+  useToggle,
+  useToggleArrow,
+} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import "./ToggleSideBar.css";
 
-//Props interface for sidebar comment.
 interface ToggleSBProps {
-  toggle: boolean;
-  setToggle: (toggle: boolean) => void;
-  details: IEnablee;
-  action: Action;
+  template: React.ReactNode;
 }
 
-//Enum to indicate if the page Adds/Edit/View
-export enum Action {
-  ADD = "Add",
-  EDIT = "Edit",
-  VIEW = "View",
-}
+const ToggleSideBar = ({ template }: ToggleSBProps) => {
+  const [toggle, setToggle] = useToggle();
+  const [showArrow, setShowArrow] = useToggleArrow();
 
-const ToggleSidebar = ({
-  toggle,
-  setToggle,
-  details,
-  action,
-}: ToggleSBProps) => {
-  //Hard coded array for enablee labels, more should be made for pods and enablers.
-  const enablee_labels = [
-    "podId",
-    "fName",
-    "lName",
-    "joinDate",
-    "startDate",
-    "endDate",
-    "assetTag",
-    "isEmployed",
-    "techStack",
-    "countryCode",
-    "gradeID",
-    "comId",
-    "employType",
-    "podId",
-    "commentId(s)",
-  ];
-
-  const [title, setTitle] = useState("");
-
-  //Whenever the details propped is updated, the title is set to match properly.
   useEffect(() => {
-    let str = "";
-    //Checks for isEmployed because the isEmployed property is unique to the Enablee interface and not in the Enabler/Pod
-    if (action === Action.VIEW && "isEmployed" in details) {
-      str = details.firstName + " " + details.lastName;
-    } else {
-      str += " enablee";
-      if (action === Action.EDIT) str = "Edit" + str;
-      else {
-        str = "Add" + str;
-      }
-    }
-    setTitle(str);
-  }, [action, details]);
+    setShowArrow(false);
+  }, [toggle]);
 
   return (
     <>
       <Drawer
         anchor={"right"}
         open={toggle}
-        onClose={() => setToggle(false)}
+        onClose={() => setToggle()}
         data-testid={"drawer"}
         PaperProps={{
           // This is all class names to style children components of the drawer.
@@ -124,111 +80,68 @@ const ToggleSidebar = ({
             "& .sidebar-x-button-svg": {
               cursor: "pointer",
             },
+            // Close button
+            "& .sidebar-back-button": {
+              marginRight: "auto",
+              marginLeft: "10%",
+              marginTop: "10%",
+            },
+            "& .sidebar-back-button-svg": {
+              cursor: "pointer",
+            },
+            "& .sidebar-button-container": {
+              display: "flex",
+            },
           },
         }}
       >
-        <div className="sidebar-x-button">
-          <svg
-            className="sidebar-x-button-svg"
-            data-testid={"close-btn"}
-            onClick={() => {
-              setToggle(false);
-            }}
-            width="26"
-            height="27"
-            viewBox="0 0 26 27"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M18.0156 13.5L25.0469 6.46875C25.9609 5.625 25.9609 4.21875 25.0469 3.375L23.5 1.82812C22.6562 0.914062 21.25 0.914062 20.4062 1.82812L13.375 8.85938L6.27344 1.82812C5.42969 0.914062 4.02344 0.914062 3.17969 1.82812L1.63281 3.375C0.71875 4.21875 0.71875 5.625 1.63281 6.46875L8.66406 13.5L1.63281 20.6016C0.71875 21.4453 0.71875 22.8516 1.63281 23.6953L3.17969 25.2422C4.02344 26.1562 5.42969 26.1562 6.27344 25.2422L13.375 18.2109L20.4062 25.2422C21.25 26.1562 22.6562 26.1562 23.5 25.2422L25.0469 23.6953C25.9609 22.8516 25.9609 21.4453 25.0469 20.6016L18.0156 13.5Z"
-              fill="#DC8D0B"
-            />
-          </svg>
-        </div>
-
-        <div className="sidebar">
-          <div className="sidebar-title">
-            <h3>{title}</h3>
-          </div>
-          <div className="sidebar-content">
-            {/* Iterates through the keys of an object, and creates a respective label/textField for each object. */}
-            {Object.keys(details).map((keyName, index) => {
-              const display: string = formatString(
-                details[keyName as keyof IEnablee]
-              );
-              return (
-                <div key={index} className="textFieldContainer">
-                  {/* Label for each text field to give context to the information being displayed */}
-                  <label className="labelField">
-                    {enablee_labels[index]}:{" "}
-                  </label>
-                  {/* The Text field is used to display the information inside Ienablee future work will have it display Pod and Enableers 
-                  information as well. */}
-                  <TextField
-                    disabled
-                    className="sidebar-input-pill"
-                    defaultValue={display}
-                    variant="filled"
-                    key={index}
-                    placeholder={keyName}
-                    // Styling for each text field
-                    InputProps={{
-                      sx: {
-                        height: 30,
-                        borderRadius: "10px",
-                        textAlign: "center",
-                        width: "12vw",
-                        display: "flex",
-                        paddingBottom: "1rem",
-                        alignItems: "center",
-                      },
-                      disableUnderline: true,
-                    }}
-                  >
-                    details[keyName]
-                  </TextField>
-                </div>
-              );
-            })}
+        <div className="sidebar-button-container">
+          {showArrow && (
+            <div className="sidebar-back-button">
+              <svg
+                className="sidebar-back-button-svg"
+                data-testid={"back-btn"}
+                onClick={() => {
+                  // Change view here when back button is clicked
+                  setShowArrow(false);
+                }}
+                width="35"
+                height="35"
+                viewBox="0 0 26 27"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M13.0469 19.9062C13.5156 19.4375 13.4688 18.7344 13.0469 18.2656L7.375 12.875H20.875C21.4844 12.875 22 12.4062 22 11.75V10.25C22 9.64062 21.4844 9.125 20.875 9.125H7.375L13.0469 3.78125C13.4688 3.3125 13.5156 2.60938 13.0469 2.14062L12.0156 1.10938C11.5938 0.6875 10.8438 0.6875 10.4219 1.10938L1.32812 10.25C0.859375 10.6719 0.859375 11.375 1.32812 11.7969L10.4219 20.9375C10.8438 21.3594 11.5469 21.3594 12.0156 20.9375L13.0469 19.9062Z"
+                  fill="#DC8D0B"
+                />
+              </svg>
+            </div>
+          )}
+          <div className="sidebar-x-button">
+            <svg
+              className="sidebar-x-button-svg"
+              data-testid={"close-btn"}
+              onClick={() => {
+                setToggle();
+              }}
+              width="26"
+              height="27"
+              viewBox="0 0 26 27"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18.0156 13.5L25.0469 6.46875C25.9609 5.625 25.9609 4.21875 25.0469 3.375L23.5 1.82812C22.6562 0.914062 21.25 0.914062 20.4062 1.82812L13.375 8.85938L6.27344 1.82812C5.42969 0.914062 4.02344 0.914062 3.17969 1.82812L1.63281 3.375C0.71875 4.21875 0.71875 5.625 1.63281 6.46875L8.66406 13.5L1.63281 20.6016C0.71875 21.4453 0.71875 22.8516 1.63281 23.6953L3.17969 25.2422C4.02344 26.1562 5.42969 26.1562 6.27344 25.2422L13.375 18.2109L20.4062 25.2422C21.25 26.1562 22.6562 26.1562 23.5 25.2422L25.0469 23.6953C25.9609 22.8516 25.9609 21.4453 25.0469 20.6016L18.0156 13.5Z"
+                fill="#DC8D0B"
+              />
+            </svg>
           </div>
         </div>
-        {/* a MUI button that will be used to view comments more work will be done to make it dynamic so it can be 
-        used in other parts of the program */}
-        <div className="sidebar-button-div">
-          <Button variant="contained" className="sidebar-button">
-            View Comments{" "}
-          </Button>
-        </div>
+        {template}
       </Drawer>
     </>
   );
 };
-//formatString takes in argument called data which could be any of the data types below and returns a formatted string
-//to be displayed in the text field
-const formatString = (
-  data: number | string | boolean | number[] | Date | ITechnology[]
-): string => {
-  let str = "";
-  //Checks to see if data is both an Array and contains attributes unqiue to ITechnology
-  if (
-    Array.isArray(data) &&
-    data[0] &&
-    typeof data[0] !== "number" &&
-    "id" in data[0] &&
-    "name" in data[0]
-  ) {
-    (data as ITechnology[]).forEach((item, i) => {
-      str += i === data.length - 1 ? item?.name : item?.name + ", ";
-    });
-  } else if (data instanceof Date) {
-    str = data.toLocaleDateString();
-  } else if (data != null) {
-    str = data.toString();
-  } else {
-    return "";
-  }
-  return str;
-};
 
-export default ToggleSidebar;
+export default ToggleSideBar;
