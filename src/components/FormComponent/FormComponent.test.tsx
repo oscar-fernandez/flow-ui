@@ -85,10 +85,110 @@ describe("FormComponent", () => {
     expect(summary.value).toBe("test");
   });
 
-  // it("should create tech stack string array", () => {
-  //   render(<FormComponent />);
-  //   const select = screen.getByTestId("select") as HTMLSelectElement;
-  //   fireEvent.change(select, { target: { value: "Java" } });
-  //   expect(select.value).toBe("Java");
-  // });
+  it("should render edit form component", () => {
+    const project = {
+      id: 100,
+      name: "projectTest",
+      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      summary: "project test ",
+      technologies: {},
+    };
+
+    render(<FormComponent project={project} technologies={ts} edit={true} />);
+    expect(screen.getByTestId("title")).toBeInTheDocument();
+  });
+
+  it("should render edit form component with project data", () => {
+    const project = {
+      id: 100,
+      name: "projectTest",
+      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      summary: "project test ",
+      technologies: {},
+    };
+
+    render(<FormComponent project={project} technologies={ts} edit={true} />);
+    expect(screen.getByTestId("title")).toBeInTheDocument();
+  });
+
+  it("should update project on submit click", () => {
+    const project = {
+      id: 100,
+      name: "projectTest",
+      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      summary: "project test ",
+      technologies: {},
+    };
+
+    render(<FormComponent project={project} technologies={ts} edit={true} />);
+    const projectName = screen.getByTestId("pName") as HTMLInputElement;
+    const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
+    const summary = screen.getByTestId("pDesc") as HTMLInputElement;
+    const editBtn = screen.getByTestId("editBtn") as HTMLButtonElement;
+    projectName.value = "projectTest";
+    repoLink.value =
+      "https://git.work.cognizant.studio/enablement/team-projects/a";
+    summary.value = "project test ";
+
+    const project1 = {
+      id: 100,
+      name: "projectTest",
+      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      summary: "project test ",
+      technologies: {},
+    };
+
+    (createProject as jest.Mock).mockResolvedValueOnce(project1);
+
+    editBtn.click();
+
+    expect(projectName.value).toBe("projectTest");
+    expect(repoLink.value).toBe(
+      "https://git.work.cognizant.studio/enablement/team-projects/a"
+    );
+    expect(summary.value).toBe("project test ");
+  });
+
+  it("should reset input fields on reset click", () => {
+    const project = {
+      id: 100,
+      name: "projectTest",
+      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      summary: "project test ",
+      technologies: {},
+    };
+
+    render(<FormComponent project={project} technologies={ts} edit={} />);
+    const projectName = screen.getByTestId("pName") as HTMLInputElement;
+    const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
+    const summary = screen.getByTestId("pDesc") as HTMLInputElement;
+    const editBtn = screen.getByTestId("editBtn") as HTMLButtonElement;
+    projectName.value = "projectTest";
+    repoLink.value =
+      "https://git.work.cognizant.studio/enablement/team-projects/a";
+    summary.value = "project test ";
+
+    const project1 = {
+      id: 100,
+      name: "projectTest",
+      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      summary: "project test ",
+      technologies: {},
+    };
+
+    (createProject as jest.Mock).mockResolvedValueOnce(project1);
+
+    editBtn.click();
+
+    //chacge the value of project1.name to 'othertest'
+
+    const resetBtn = screen.getByTestId("resetButton") as HTMLButtonElement;
+    resetBtn.click();
+
+    expect(projectName.value).toBe("projectTest");
+    expect(repoLink.value).toBe(
+      "https://git.work.cognizant.studio/enablement/team-projects/a"
+    );
+    expect(summary.value).toBe("project test ");
+  });
 });

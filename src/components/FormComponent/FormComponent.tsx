@@ -291,10 +291,11 @@ export default function FormComponent(props: any) {
               {selectedStack.length === 0 ? (
                 <>
                   <div className="stack-error">
-                    {techStack.map((tech: ITechnology) => (
+                    {techStack?.map((tech: ITechnology) => (
                       <MenuItem
                         key={tech.id}
                         className="tech-item"
+                        data-testid={tech.name}
                         disabled={props.edit}
                         onClick={() => {
                           handleTechStack(tech);
@@ -306,8 +307,8 @@ export default function FormComponent(props: any) {
                   </div>
                 </>
               ) : (
-                <div className="tech-stack">
-                  {techStack.map((tech: ITechnology) => (
+                <div className="tech-stack" data-testid="techs">
+                  {techStack?.map((tech: ITechnology) => (
                     <MenuItem
                       key={tech.id}
                       className="tech-item"
@@ -374,7 +375,11 @@ export default function FormComponent(props: any) {
                   <button className="blue-button" onClick={props.handleClick}>
                     Back to Projects...
                   </button>
-                  <button className="orange-button" onClick={props.handleEdit}>
+                  <button
+                    className="orange-button"
+                    data-testid="editBtn"
+                    onClick={props.handleEdit}
+                  >
                     Edit Project
                   </button>
                 </>
