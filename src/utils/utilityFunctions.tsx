@@ -101,11 +101,15 @@ export const updatedTechnology = (receivedTechnologies: ITechnology[]) => {
   return holdingpattern;
 };
 
-export const isEnableeValidForPod = (fepod: IFEPod, enablee: IEnablee) => {
+export const isEnableeValidForPod = (
+  fepod: IFEPod,
+  startDate: string,
+  endDate: string
+) => {
   const startDateFePod = new Date(fepod.podStartDate);
   const endDateFePod = new Date(fepod.podEndDate);
-  const startDateEnablee = new Date(enablee.enablementStartDate);
-  const endDateEnablee = new Date(enablee.enablementEndDate);
+  const startDateEnablee = new Date(startDate);
+  const endDateEnablee = new Date(endDate);
   const isDateRangeValid =
     endDateFePod.getTime() - startDateFePod.getTime() >=
     endDateEnablee.getTime() - startDateEnablee.getTime();
