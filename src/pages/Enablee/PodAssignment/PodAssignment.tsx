@@ -6,7 +6,16 @@ import "./PodAssignment.css";
 import * as Module from "../../Management/mgtUtils";
 import * as Unit from "../../Pod/podUtils";
 import IEnablee from "../../../models/interfaces/IEnablee";
-import { Box, Checkbox, FormControlLabel, SxProps, Theme } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormHelperText,
+  SxProps,
+  Theme,
+} from "@mui/material";
 import { mockPods } from "../../../data/PodMock";
 import IFEPod from "../../../models/interfaces/IFEPod";
 import { dummyEnablees } from "../../../data/EnableeMock";
@@ -78,21 +87,24 @@ export default function PodAssignment({
   const selectedEnablees = useRef<number[]>([]);
   const selectedRow = useRef({});
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
-  const [receivedPods, setReceivedPods] = useState<IFEPod[]>([]);
   const [name, setName] = useState("");
-  const [checked1, setChecked1] = useState(false);
-  const [checked2, setChecked2] = useState(false);
+  const [checkbox, setCheckbox] = useState({
+    matchTechStack: false,
+    containsTechStack: false,
+  });
+  // const [checked1, setChecked1] = useState(false);
+  // const [checked2, setChecked2] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [toggle, setToggle] = useState(false);
   const [count, setCount] = useState(0);
 
   function fn(): IEnablee[] {
     switch (name) {
-      case "Match Tech Stack":
+      case "matchTechStack":
         return Unit.matchAllSkills(dummyEnablees, mockFePod[0]);
-      case "Contains Tech Stack":
+      case "containsTechStack":
         return Unit.matchSomeSkills(dummyEnablees, mockFePod[0]);
-      case "Available Enablees":
+      case "availableEnablees":
         return dummyEnablees;
       default:
         return receivedEnablees;
@@ -102,11 +114,12 @@ export default function PodAssignment({
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
+    selectedRow.current = mockFePod[+event.currentTarget.id];
     setToggle(!toggle);
-    selectedRow.current = mockFePod[+event.currentTarget.id]; //shorthand convert str to number
-    if (disabled) {
-      setReceivedEnablees;
-    }
+    setDisabled(!disabled);
+    // if (disabled) {
+    //   setReceivedEnablees;
+    // }
     setDisabled(!disabled);
   };
 
@@ -139,52 +152,107 @@ export default function PodAssignment({
     }
   };
 
-  const handleChange1 = (event: ChangeEvent<HTMLInputElement>) => {
-    setChecked1(event.target.checked);
-    if (!checked1) {
-      setName(Unit.listCheckboxes[0].name);
-    } else {
-      setName(Unit.listCheckboxes[2].name);
-    }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckbox({
+      ...checkbox,
+      [event.target.name]: event.currentTarget.checked,
+    });
   };
 
-  const handleChange2 = (event: ChangeEvent<HTMLInputElement>) => {
-    setChecked2(event.target.checked);
-    if (!checked2) {
-      setName(Unit.listCheckboxes[1].name);
-    } else {
-      setName(Unit.listCheckboxes[2].name);
-    }
-  };
+  const { matchTechStack, containsTechStack } = checkbox;
+  const error = [matchTechStack, containsTechStack].filter((v) => v).length > 1;
 
   const checkboxes = (
-    <Box
-      sx={{ display: "flex", flexDirection: "row", ml: 3, color: "#dc8d0b" }}
-    >
-      <FormControlLabel
-        label={Unit.listCheckboxes[0].name}
-        control={
-          <Checkbox
-            data-testid="checkbox"
-            checked={checked1}
-            disabled={disabled}
-            onChange={handleChange1}
+    <Box sx={{ display: "flex" }}>
+      <FormControl
+        required
+        error={error}
+        sx={{ m: 3 }}
+        component="fieldset"
+        variant="standard"
+      >
+        <FormGroup
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            ml: 3,
+            color: "#dc8d0b",
+          }}
+        >
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={matchTechStack}
+                disabled={disabled}
+                onChange={handleChange}
+                name="matchTechStack"
+              />
+            }
+            label="Match Tech Stack"
           />
-        }
-      />
-      <FormControlLabel
-        label={Unit.listCheckboxes[1].name}
-        control={
-          <Checkbox
-            data-testid="checkbox"
-            checked={checked2}
-            disabled={disabled}
-            onChange={handleChange2}
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={containsTechStack}
+                disabled={disabled}
+                onChange={handleChange}
+                name="containsTechStack"
+              />
+            }
+            label="Contains TechS tack"
           />
-        }
-      />
+        </FormGroup>
+        <FormHelperText>Be careful, you can mark just one</FormHelperText>
+      </FormControl>
     </Box>
   );
+
+  // const handleChange1 = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setChecked1(event.currentTarget.checked);
+  //   if (!checked1) {
+  //     setName(Unit.listCheckboxes[0].name);
+  //   } else {
+  //     setName(Unit.listCheckboxes[2].name);
+  //   }
+  // };
+
+  // const handleChange2 = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setChecked2(event.target.checked);
+  //   if (!checked2) {
+  //     setName(Unit.listCheckboxes[1].name);
+  //   } else {
+  //     setName(Unit.listCheckboxes[2].name);
+  //   }
+  // };
+
+  // const checkboxes = (
+  //   <Box
+  //     sx={{ display: "flex", flexDirection: "row", ml: 3, color: "#dc8d0b" }}
+  //   >
+  //     <FormControlLabel
+  //       label={Unit.listCheckboxes[0].name}
+  //       control={
+  //         <Checkbox
+  //           data-testid="checkbox"
+  //           checked={checked1}
+  //           disabled={disabled}
+  //           onChange={handleChange1}
+  //         />
+  //       }
+  //     />
+  //     <FormControlLabel
+  //       label={Unit.listCheckboxes[1].name}
+  //       control={
+  //         <Checkbox
+  //           data-testid="checkbox"
+  //           checked={checked2}
+  //           disabled={disabled}
+  //           onChange={handleChange2}
+  //         />
+  //       }
+  //     />
+  //   </Box>
+  // );
 
   return (
     <div className="container">
@@ -196,6 +264,7 @@ export default function PodAssignment({
         rows={Module.transformEnableeArray(fn())}
         cellStyle={cellStyle}
         rowStyle={rowStyle}
+        //  toggle={toggle}
         updateSelectedEnablees={updateSelectedEnablees}
         skill={false}
         value={""}

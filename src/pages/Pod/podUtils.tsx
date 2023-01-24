@@ -11,13 +11,12 @@
  * ![image](/uploads/c520a78d68a68d35d322bcf38c5ff604/image.png)
  * [ ] if pod is all filled, it can also be removed from the list of available pods */
 
-import IPod from "../../models/interfaces/IFEPod";
 import { convertTechArToStr } from "../Management/mgtUtils";
 import IEnablee from "../../models/interfaces/IEnablee";
-import * as Fun from "../Enablee/PodAssignment/PodAssignment";
-import { mockPods } from "../../data/PodMock";
-import { dummyEnablees } from "../../data/EnableeMock";
 import IFEPod from "../../models/interfaces/IFEPod";
+import { isEnableeValidForPod } from "../../utils/utilityFunctions";
+import { dummyEnablees } from "../../data/EnableeMock";
+import { mockFePod } from "../../data/MockFEPod";
 
 const listCheckboxes = [
   { name: "Match Tech Stack" },
@@ -63,6 +62,19 @@ const matchSomeSkills = (ar: IEnablee[], obj: IFEPod) =>
       new Set(obj.project.technology.map((t) => t.name))
     );
   });
+
+// const validEnablee: IEnablee[] = [];
+// function matchData ( ar: IEnablee[], p: IFEPod ) {
+//    for (let i = 0; i <= ar.length; i++ ) {
+//       if(isEnableeValidForPod(p, ar[i].enablementStartDate, ar[i].enablementEndDate )) {
+//         validEnablee.push(ar[i]);
+//       }
+//    }
+//   return validEnablee;
+
+// }
+
+//   console.log(matchData(dummyEnablees, mockFePod[0]));
 
 export {
   transformPodArray,
