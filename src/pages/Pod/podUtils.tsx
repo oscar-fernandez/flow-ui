@@ -63,20 +63,26 @@ const matchSomeSkills = (ar: IEnablee[], obj: IFEPod) =>
     );
   });
 
-// const validEnablee: IEnablee[] = [];
-// function matchData ( ar: IEnablee[], p: IFEPod ) {
-//    for (let i = 0; i <= ar.length; i++ ) {
-//       if(isEnableeValidForPod(p, ar[i].enablementStartDate, ar[i].enablementEndDate )) {
-//         validEnablee.push(ar[i]);
-//       }
-//    }
-//   return validEnablee;
+const validEnablee: IEnablee[] = [];
+const matchData = (ar: IEnablee[], p: IFEPod) => {
+  ar.forEach((element) => {
+    if (
+      isEnableeValidForPod(
+        p,
+        element.enablementStartDate,
+        element.enablementEndDate
+      )
+    ) {
+      validEnablee.push(element);
+    }
+  });
+  return validEnablee;
+};
 
-// }
-
-//   console.log(matchData(dummyEnablees, mockFePod[0]));
+// console.log(matchData( dummyEnablees, mockFePod[0]));
 
 export {
+  matchData,
   transformPodArray,
   matchAllSkills,
   matchSomeSkills,

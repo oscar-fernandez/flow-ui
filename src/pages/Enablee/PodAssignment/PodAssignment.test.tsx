@@ -61,19 +61,19 @@ describe("PodAssignment", () => {
     expect(screen.getByRole("button", { name: "submit" })).toBeInTheDocument();
   });
 
-  it("should display checkbox ", () => {
-    render(
-      <PodAssignment
-        headers={[]}
-        rows={[]}
-        rowStyle={null}
-        cellStyle={null}
-        index={0}
-        checkboxId={0}
-      />
-    );
-    const checkbox = screen.queryAllByTestId("checkbox");
+  // it("should display checkbox ", () => {
+  //   render(
+  //     <PodAssignment
+  //       headers={[]}
+  //       rows={[]}
+  //       rowStyle={null}
+  //       cellStyle={null}
+  //       index={0}
+  //       checkboxId={0}
+  //     />
+  //   );
+  //   const checkbox = screen.queryAllByTestId("checkbox");
 
-    expect(checkbox).not.toBeChecked();
-  });
+  //   expect(checkbox).not.toBeChecked();
+  //});
 });

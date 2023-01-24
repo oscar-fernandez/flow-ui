@@ -92,8 +92,7 @@ export default function PodAssignment({
     matchTechStack: false,
     containsTechStack: false,
   });
-  // const [checked1, setChecked1] = useState(false);
-  // const [checked2, setChecked2] = useState(false);
+
   const [disabled, setDisabled] = useState(true);
   const [toggle, setToggle] = useState(false);
   const [count, setCount] = useState(0);
@@ -105,7 +104,7 @@ export default function PodAssignment({
       case "containsTechStack":
         return Unit.matchSomeSkills(dummyEnablees, mockFePod[0]);
       case "availableEnablees":
-        return dummyEnablees;
+        return Unit.matchData(dummyEnablees, mockFePod[0]);
       default:
         return receivedEnablees;
     }
@@ -206,53 +205,6 @@ export default function PodAssignment({
       </FormControl>
     </Box>
   );
-
-  // const handleChange1 = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setChecked1(event.currentTarget.checked);
-  //   if (!checked1) {
-  //     setName(Unit.listCheckboxes[0].name);
-  //   } else {
-  //     setName(Unit.listCheckboxes[2].name);
-  //   }
-  // };
-
-  // const handleChange2 = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setChecked2(event.target.checked);
-  //   if (!checked2) {
-  //     setName(Unit.listCheckboxes[1].name);
-  //   } else {
-  //     setName(Unit.listCheckboxes[2].name);
-  //   }
-  // };
-
-  // const checkboxes = (
-  //   <Box
-  //     sx={{ display: "flex", flexDirection: "row", ml: 3, color: "#dc8d0b" }}
-  //   >
-  //     <FormControlLabel
-  //       label={Unit.listCheckboxes[0].name}
-  //       control={
-  //         <Checkbox
-  //           data-testid="checkbox"
-  //           checked={checked1}
-  //           disabled={disabled}
-  //           onChange={handleChange1}
-  //         />
-  //       }
-  //     />
-  //     <FormControlLabel
-  //       label={Unit.listCheckboxes[1].name}
-  //       control={
-  //         <Checkbox
-  //           data-testid="checkbox"
-  //           checked={checked2}
-  //           disabled={disabled}
-  //           onChange={handleChange2}
-  //         />
-  //       }
-  //     />
-  //   </Box>
-  // );
 
   return (
     <div className="container">

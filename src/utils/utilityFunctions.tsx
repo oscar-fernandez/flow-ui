@@ -102,7 +102,6 @@ export const updatedTechnology = (receivedTechnologies: ITechnology[]) => {
 
 export const isEnableeValidForPod = (
   fepod: IFEPod,
-  //enablee: IEnablee
   startDate: string,
   endDate: string
 ) => {

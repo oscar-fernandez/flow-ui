@@ -10,6 +10,7 @@ describe("utility", () => {
       dummyEnablees[0],
       dummyEnablees[1],
       dummyEnablees[2],
+      dummyEnablees[3],
       dummyEnablees[4],
     ]);
   });
@@ -17,5 +18,16 @@ describe("utility", () => {
   it("should filtered value  by techstack", () => {
     const result = Utility.matchAllSkills(dummyEnablees, mockFePod[0]);
     expect(result).toEqual([]);
+  });
+
+  it("should filtered value by startDate and ednDate", () => {
+    const result = Utility.matchData(dummyEnablees, mockFePod[0]);
+    expect(result).toEqual([
+      dummyEnablees[0],
+      dummyEnablees[1],
+      dummyEnablees[2],
+      dummyEnablees[3],
+      dummyEnablees[4],
+    ]);
   });
 });
