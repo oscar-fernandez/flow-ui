@@ -9,6 +9,11 @@ import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import { StyledEngineProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import ColMenuItem from "./ColMenuItem/ColMenuItem";
+import {
+  listOfSubMenuItems1,
+  listOfSubMenuItems2,
+} from "../../data/SubMenuMock";
 
 const drawerWidth = 248;
 const sideBarItems = [
@@ -75,7 +80,6 @@ function EnableeSideBarItems() {
                 bgcolor: "#000048",
                 overflowY: "inherit",
               },
-              // overflowX: "hidden",
             }}
             variant="permanent"
             anchor="left"
@@ -164,6 +168,12 @@ function EnableeSideBarItems() {
                     primary="Management"
                   />
                 </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ColMenuItem
+                  menuItemName="Test 1"
+                  subMenuItems={listOfSubMenuItems1}
+                />
               </ListItem>
             </List>
           </Drawer>
