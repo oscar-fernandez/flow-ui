@@ -36,6 +36,13 @@ const subItems = [
   },
 ];
 
+const podSubItems = [
+  { name: "Active", testID: "pod-active", url: "/active" },
+  { name: "Pending Start", testId: "pending-start", url: "/pendingStart" },
+  { name: "Available", testId: "pod-available", url: "/available" },
+  { name: "Completed", testId: "pod-completed", url: "/completed" },
+];
+
 export function clickHandler(e: React.MouseEvent) {
   if (!e.currentTarget.classList.contains("selected-item")) {
     const sideBarItems: HTMLCollectionOf<Element> =

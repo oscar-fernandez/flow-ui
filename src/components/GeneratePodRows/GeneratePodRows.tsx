@@ -1,0 +1,130 @@
+import { useEffect, useState } from "react";
+import IFEPod from "../../models/interfaces/IFEPod";
+import ITechnology from "../../models/interfaces/ITechnology";
+import Row from "../RowComponent/Row";
+import { Tooltip } from "@mui/material";
+import {
+  convertToStringArr,
+  shortenStringList,
+  tooltipString,
+} from "../../utils/utilityFunctions";
+import "./GeneratePodRows.css";
+import { TagComponent } from "../TagComponent/Tag";
+import IDisplayTag from "../../models/interfaces/IDisplayTag";
+// Example on how to use toggleSideBarContext
+
+/* interface Props {
+  pageNum: number;
+  pods: IFEPod[];
+  displayTag: ((pod: IFEPod) => IDisplayTag) | null;
+}  */
+
+interface Props {
+  pageNum: number;
+  pods: IFEPod[];
+  displayTag: (pod: IFEPod) => IDisplayTag;
+}
+
+export function GeneratePodRows({ pageNum, pods, displayTag }: Props) {
+  // const [toggle, changeToggle] = useToggle();
+  // const [details, changeDetails] = useDetails();
+  const [Pods, setPods] = useState<IFEPod[]>([]);
+
+  /* useEffect(() => {
+    if (pageNum !== -1) getEnablees(pageNum - 1);
+    else {
+      getPendingStartEnablees();
+    }
+  }, [pageNum]);
+*/
+
+  return (
+    <>
+      {pods.map((pod, i) => {
+        const tooltip = [...convertToStringArr(pod.project.technology)];
+        const techDisplay = shortenStringList(tooltip);
+        const startDate = new Date(pod.podStartDate);
+        const endDate = new Date(pod.podEndDate);
+        const tag = displayTag(pod);
+        let enablerNames = "";
+
+        if (pod.enabler !== null && pod.enabler.length == 1) {
+          enablerNames = pod.enabler[0].firstName;
+        } else if (pod.enabler !== null) {
+          enablerNames =
+            pod.enabler[0].firstName + ", " + pod.enabler[1].firstName;
+        }
+
+        return (
+          <Row
+            key={i}
+            onClick={() => {
+              return "";
+            }}
+          >
+            <div className="row-sm-child">
+              <div className="square"></div>
+            </div>
+
+            <div className="row-child row-name">
+              <p className="row-primary">{`${pod.podName}`}</p>
+              <p className="row-secondary">{`Enabler(s): ${enablerNames}`}</p>
+            </div>
+
+            <Tooltip
+              className="row-sm-child tags-container"
+              title={tooltipString(tooltip)}
+              placement="bottom"
+            >
+              <div>
+                {pod.project.technology
+                  .slice(0, 2)
+                  .map((tech: ITechnology, i: number) => (
+                    <TagComponent
+                      data-testid="tech-stack"
+                      name={tech.name}
+                      color={tech.backgroundColor}
+                      key={i}
+                    />
+                  ))}
+              </div>
+            </Tooltip>
+
+            <div className="row-lg-child date-container">
+              <p className="row-primary">Enablement Dates</p>
+              {pod.podStartDate ? (
+                <p className="row-secondary">{`${startDate.toLocaleString(
+                  "en-US",
+                  { month: "long", day: "numeric", year: "numeric" }
+                )} - ${endDate.toLocaleString("en-us", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}`}</p>
+              ) : (
+                <p className="row-secondary">Empty</p>
+              )}
+            </div>
+
+            <div className="row-lg-child">
+              <p className="row-secondary">{`Total Enablees: ${pod.enablee.length} of 15`}</p>
+              <TagComponent
+                data-testid="podTagStatus"
+                name={tag.name}
+                color={tag.color}
+              />
+            </div>
+          </Row>
+        );
+      })}
+      {/*<ToggleSidebar
+        toggle={toggle}
+        setToggle={() => {
+          changeToggle();
+        }}
+        details={details}
+        action={Action.VIEW}
+      />   */}
+    </>
+  );
+}

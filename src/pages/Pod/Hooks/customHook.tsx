@@ -1,27 +1,33 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { mockFePod } from "../../../data/MockFEPod";
 import IFEPod from "../../../models/interfaces/IFEPod";
 //import {getCompletedPods} from "../../../services/PodAPI"
 
-export const useCompletedPods = () => {
-  const [completedPods, setCompletedPods] = useState<IFEPod[]>([]);
+export function useCompletedPods(): {
+  podList: IFEPod[];
+  setPodList: Dispatch<SetStateAction<IFEPod[]>>;
+} {
+  const [podList, setPodList] = useState<IFEPod[]>([]);
 
   useEffect(() => {
     /* getCompletedPods().then((pods) => {
             setCompletedPods(pods.data);
         });  */
-    setCompletedPods(mockFePod);
+    setPodList(mockFePod);
   }, []);
 
-  return { completedPods };
-};
+  return { podList, setPodList };
+}
 
-export function useAvailablePods() {
+export function useAvailablePods(): {
+  podList: IFEPod[];
+  setPodList: Dispatch<SetStateAction<IFEPod[]>>;
+} {
   const [podList, setPodList] = useState<IFEPod[]>([]);
 
   useEffect(() => {
     setPodList(mockFePod);
   }, []);
 
-  return [podList, setPodList];
+  return { podList, setPodList };
 }
