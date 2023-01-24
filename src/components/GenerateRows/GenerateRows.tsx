@@ -63,10 +63,11 @@ export function GenerateRows({ pageNum }: Props) {
         return (
           <Row
             key={i}
-            onClick={() => {
-              changeToggle();
-              changeDetails(enablee);
-            }}
+            onClick={() => 1}
+            // onClick={() => {
+            //   changeToggle();
+            //   changeDetails(enablee);
+            // }}
           >
             <div className="row-sm-child">
               <div className="square"></div>

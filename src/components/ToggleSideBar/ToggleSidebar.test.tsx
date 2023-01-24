@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
-import ToggleSideBar from "./ToggleSideBar";
+import ToggleSideBar from "./ToggleSidebar";
 import { ToggleContext } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 
 const ChildComp: React.FC = () => <h2>This is a child component</h2>;
