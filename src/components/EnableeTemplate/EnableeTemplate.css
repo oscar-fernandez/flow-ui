@@ -4,14 +4,6 @@
   box-sizing: border-box;
 }
 
-.text {
-  font-weight: 600;
-  font-size: 15px;
-  letter-spacing: 0.025em;
-  max-width: 6rem;
-  color: "#8A8B8A";
-}
-
 .grid-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -21,6 +13,7 @@
 
 .button-center {
   text-align: center;
+  margin-top: 2rem;
 }
 
 .enablee-container {

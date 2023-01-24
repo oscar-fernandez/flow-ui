@@ -5,6 +5,10 @@ import "./EnableeTemplate.css";
 import { mockTechnology } from "../../data/MockData";
 import { TagComponent } from "../TagComponent/Tag";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
+import FilteredPod from "./FilteredPod";
+import { mockFePod } from "../../data/MockFEPod";
+import { isEnableeValidForPod } from "../../utils/utilityFunctions";
+import IFEPod from "../../models/interfaces/IFEPod";
 
 const InputProps = {
   disableUnderline: true,
@@ -64,40 +68,62 @@ const buttonStyle = {
 };
 
 const labelStyle = {
+  fontFamily: "Darker Grotesque",
+  fontWeight: 600,
   color: "#8A8B8A",
   fontSize: "15px",
   letterSpacing: "0.025em",
-  fontFamily: "Darker Grotesque",
-  fontWeight: 600,
   width: "90px",
 };
 
+const current = new Date().toLocaleDateString("en-us", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
 export default function EnableeTemplate() {
-  const current = new Date().toLocaleDateString("en-us", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
   const [name, setName] = useState("");
-  //  const [enablementDates, setEnablementDates] = useState(""); // string?
-  const [employeeId, setEmployeeId] = useState(""); // string or num ?
-  // const [dateOfJoin, setDateOfJoin] = useState(current.getDate); // string?
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [employeeId, setEmployeeId] = useState("");
+  const [dateOfJoin, setDateOfJoin] = useState(current);
   const [assetTag, setAssetTag] = useState("");
-  const [country, setCountry] = useState(""); // num?
-  const [community, setCommunity] = useState(""); // num?
-  const [employmentType, setEmploymentType] = useState(""); // num?
+  const [country, setCountry] = useState("");
+  const [community, setCommunity] = useState("");
+  const [employmentType, setEmploymentType] = useState("");
   const [isEmployed, setIsEmployed] = useState(true);
-  const [grade, setGrade] = useState(""); // num?
+  const [grade, setGrade] = useState("");
   const [disableSubmit, setDisableSubmit] = useState(true);
+  const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
 
   //check if all fields are entered
   useEffect(() => {
-    if (name.trim() === "" || employeeId.trim() === "") {
+    if (
+      name.trim() === "" ||
+      employeeId.trim() === "" ||
+      startDate === null ||
+      endDate === null
+    ) {
       setDisableSubmit(true);
     } else {
+      filterPods();
       setDisableSubmit(false);
     }
-  });
+  }, [name, employeeId, startDate, endDate]);
+
+  const filterPods = () => {
+    if (startDate && endDate) {
+      const filtered = mockFePod.filter((pod) =>
+        isEnableeValidForPod(
+          pod,
+          startDate.toDateString(),
+          endDate.toDateString()
+        )
+      );
+      setFilteredPods(filtered);
+    }
+  };
 
   return (
     <>
@@ -136,7 +162,12 @@ export default function EnableeTemplate() {
           />
           <div className="grid-container">
             <Typography sx={labelStyle}>Enablement Dates</Typography>
-            <DatepickerComponent />
+            <DatepickerComponent
+              startDate={startDate}
+              endDate={endDate}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+            />
             <Typography sx={labelStyle}>Employee Id</Typography>
             <TextField
               value={employeeId}
@@ -153,7 +184,7 @@ export default function EnableeTemplate() {
               inputProps={{ "data-testid": "employeeId" }}
             />
             <Typography sx={labelStyle}>Date of Join</Typography>
-            <Typography sx={dateStyle}>{current}</Typography>
+            <Typography sx={dateStyle}>{dateOfJoin}</Typography>
             <Typography sx={labelStyle}>Asset Tag</Typography>
             <TextField
               value={assetTag}
@@ -220,19 +251,50 @@ export default function EnableeTemplate() {
             />
             <Typography sx={labelStyle}>Tech Stack</Typography>
             <div>
-              <div className="test">
-                {mockTechnology.map((tech) => (
-                  <TagComponent
-                    name={tech.name}
-                    color={tech.backgroundColor}
-                    key={tech.name}
-                  />
-                ))}
-              </div>
+              {mockTechnology.map((tech) => (
+                <TagComponent
+                  name={tech.name}
+                  color={tech.backgroundColor}
+                  key={tech.name}
+                />
+              ))}
             </div>
           </div>
           <PageViewHeader pageTitle={"Pod"} showPlus={true} />
+          {filteredPods.length > 0 ? (
+            <>
+              {filteredPods.map((pod) => {
+                return (
+                  <FilteredPod
+                    key={pod.id}
+                    podName={pod.podName}
+                    podTech={pod.project.technology}
+                    enableeTech={mockTechnology}
+                  />
+                );
+              })}
+            </>
+          ) : (
+            <Typography
+              sx={{
+                ...labelStyle,
+                width: "none",
+                color: "rgba(138, 139, 138, 0.4)",
+              }}
+            >
+              No Pods Match Enablement Dates
+            </Typography>
+          )}
           <PageViewHeader pageTitle={"Comments"} showPlus={true} />
+          <Typography
+            sx={{
+              ...labelStyle,
+              width: "none",
+              color: "rgba(138, 139, 138, 0.4)",
+            }}
+          >
+            No Comments
+          </Typography>
           <div className="button-center">
             <Button
               disabled={disableSubmit}
