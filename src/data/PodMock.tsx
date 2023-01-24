@@ -1,12 +1,11 @@
 import IFEPod from "../models/interfaces/IFEPod";
-import IPod from "../models/interfaces/IFEPod";
 import { dummyEnablees } from "./EnableeMock";
 
 export const mockPods: IFEPod[] = [
   {
     id: 12,
     podName: "Podz",
-    enableeEmployee: dummyEnablees,
+    enablee: dummyEnablees,
     enabler: null,
     podStartDate: "2022-01-15",
     podEndDate: "2022-06-21",
@@ -27,7 +26,7 @@ export const mockPods: IFEPod[] = [
   {
     id: 11,
     podName: "Pod3",
-    enableeEmployee: dummyEnablees,
+    enablee: dummyEnablees,
     enabler: null,
     podStartDate: "2022-01-15",
     podEndDate: "2022-06-21",
