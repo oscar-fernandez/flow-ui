@@ -66,6 +66,7 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
         <Box
           sx={{
             background: toggle ? "#666691" : "#000048",
+            fontWeight: toggle ? "700" : "400",
           }}
         >
           <SimpleMenuItem

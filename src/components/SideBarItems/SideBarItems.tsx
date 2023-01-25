@@ -57,7 +57,7 @@ function SideBarItems() {
             variant="permanent"
             anchor="left"
           >
-            <List>
+            <List sx={{ padding: "0" }}>
               <ListItem disablePadding>
                 <ListItemButton
                   className="side-bar-item"
@@ -80,7 +80,7 @@ function SideBarItems() {
                   />
                 </ListItemButton>
               </ListItem>
-              <ListItem disablePadding>
+              <ListItem data-testid="enablee-item" disablePadding>
                 <ColMenuItem
                   menuItemName={MenuItemsList[1].name}
                   subMenuItems={EnableeSubMenuItems}
