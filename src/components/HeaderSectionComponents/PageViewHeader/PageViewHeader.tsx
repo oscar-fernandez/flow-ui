@@ -19,20 +19,16 @@ export function PageViewHeader(props: {
       <h1 className="header">
         <p>{props.pageTitle} </p>
         {props.showPlus ? (
-          <p
+          <span
             className="plus"
             onClick={() => {
               changeToggle();
-              // changeToggleArrow(true);
             }}
           >
             +
-          </p>
+          </span>
         ) : null}
       </h1>
     </div>
   );
-}
-function useEffect(arg0: () => void, arg1: never[]) {
-  throw new Error("Function not implemented.");
 }

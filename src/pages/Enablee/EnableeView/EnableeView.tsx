@@ -4,6 +4,8 @@ import ToggleProvider from "../../../context/ToggleSideBarContext/ToggleSideBarC
 import { useEffect, useState } from "react";
 import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
 import { Outlet } from "react-router";
+import ToggleSidebar from "../../../components/ToggleSideBar/ToggleSidebar";
+import EnableeTemplate from "../../../components/EnableeTemplate/EnableeTemplate";
 
 export default function EnableeView() {
   const [pageNum, setPageNum] = useState(1);
@@ -32,10 +34,9 @@ export default function EnableeView() {
           inputThree="last name"
           inputFour="tech stack"
         /> */}
-        <ToggleProvider>
-          <Outlet />
-        </ToggleProvider>
+        <Outlet />
       </div>
+      <ToggleSidebar template={<EnableeTemplate></EnableeTemplate>} />
     </>
   );
 }

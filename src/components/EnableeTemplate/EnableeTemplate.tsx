@@ -128,23 +128,6 @@ export default function EnableeTemplate() {
   return (
     <>
       <div className="enablee-container">
-        <div className="close-end">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="4"
-            stroke="#DC8D0B"
-            height={32}
-            width={32}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </div>
         <form>
           <TextField
             value={name}
