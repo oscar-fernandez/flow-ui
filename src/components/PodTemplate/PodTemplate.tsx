@@ -1,6 +1,8 @@
 import { ChangeEvent, useState } from "react";
 import "./PodTemplate.css";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
+import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
+import { MockRows, thing } from "../../data/MockData";
 
 /**
  * Functional component that is a side modal to help the user manage
@@ -19,8 +21,14 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
 
   // The 3 states below keep track of whether the user has selected them
   const [emptyPodName, setEmptyPodName] = useState(true);
-  const [emptyDates, setEmptyDates] = useState(true);
-  const [emptyProjectName, setEmptyProjectName] = useState(true);
+
+  // States used for datePicker component
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
+  // State used to see for poject
+  const [projectClicked, setProjectClicked] = useState(false);
+  const [projectSelected, setProjectSelected] = useState("Empty");
 
   // Open/Closes the PodTemplate component
   const closeModal = () => {
@@ -36,15 +44,17 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
     }
   };
 
-  // THIS WILL NEED TO BE MODIFIED ONCE THE DATE PICKER COMPONENT GETS PUT IN.
-  const checkDate = () => {
-    setEmptyDates(true);
-  };
+  function showProjects() {
+    setProjectClicked(!projectClicked);
+    MockRows.forEach((element) => {
+      // eslint-disable-next-line no-console
+      console.log(element.projectName);
+    });
+  }
 
-  // THIS WILL NEED TO BE MODIFIED
-  const checkProjectName = () => {
-    setEmptyProjectName(true);
-  };
+  function projectSelectedClicked(item: thing) {
+    setProjectSelected(item.projectName);
+  }
 
   return (
     <>
@@ -98,10 +108,26 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                 <p className="label">Dates</p>
               </div>
               <div className="div4">
-                <p className="empty null" onChange={checkDate}>
-                  Empty
-                </p>
-                <div className="errormsg">* Pod Dates required</div>
+                <div>
+                  {startDate === null && endDate === null ? (
+                    <div className="empty null">
+                      <DatepickerComponent
+                        startDate={startDate}
+                        endDate={endDate}
+                        setStartDate={setStartDate}
+                        setEndDate={setEndDate}
+                      />
+                      <div className="errormsg dates">* Pod Dates required</div>
+                    </div>
+                  ) : (
+                    <DatepickerComponent
+                      startDate={startDate}
+                      endDate={endDate}
+                      setStartDate={setStartDate}
+                      setEndDate={setEndDate}
+                    />
+                  )}
+                </div>
               </div>
 
               <div className="div5">
@@ -112,13 +138,44 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
               </div>
 
               <div className="div7">
-                <p className="label" onChange={checkProjectName}>
-                  Project name
-                </p>
+                <p className="label">Project name</p>
               </div>
               <div className="div8">
-                <p className="empty null">Empty</p>
-                <div className="errormsg">* Project Name required</div>
+                {projectClicked ? (
+                  <div onClick={showProjects}>
+                    <ul className="projects">
+                      {MockRows.map((item, index) => (
+                        <li
+                          className="project-item"
+                          onClick={() => projectSelectedClicked(item)}
+                          key={index}
+                        >
+                          {item.projectName}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <>
+                    {projectSelected === "Empty" ? (
+                      <>
+                        <p
+                          className="empty null project"
+                          onClick={showProjects}
+                        >
+                          {projectSelected}
+                        </p>
+                        <div className="errormsg">* Project Name required</div>
+                      </>
+                    ) : (
+                      <>
+                        <p className="project-selected" onClick={showProjects}>
+                          {projectSelected}
+                        </p>
+                      </>
+                    )}
+                  </>
+                )}
               </div>
               <div className="div9">
                 <p className="label">Tech Stack</p>
@@ -137,7 +194,10 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
             />
             <p className="empty project">Select Project</p>
             <div className="btn-container">
-              {emptyPodName || emptyDates || emptyProjectName ? (
+              {emptyPodName ||
+              startDate === null ||
+              endDate === null ||
+              projectSelected === "Empty" ? (
                 <button className="disabled btn-submit" disabled>
                   Submit
                 </button>

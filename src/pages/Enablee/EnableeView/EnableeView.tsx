@@ -6,6 +6,7 @@ import { GenerateRows } from "../../../components/GenerateRows/GenerateRows";
 import ToggleProvider from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { useEffect, useState } from "react";
 import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
+import PodTemplate from "../../../components/PodTemplate/PodTemplate";
 
 export default function EnableeView() {
   const [pageNum, setPageNum] = useState(1);
@@ -48,6 +49,7 @@ export default function EnableeView() {
           setPage={setPageNum}
         />
       </div>
+      <PodTemplate showPodTemplate={true} />
     </>
   );
 }

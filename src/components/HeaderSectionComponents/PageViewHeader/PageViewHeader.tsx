@@ -15,11 +15,13 @@ import "./PageViewHeader.css";
 export function PageViewHeader(props: {
   pageTitle: string | undefined;
   showPlus: boolean;
+  isHeader: boolean;
+  plusClicked: boolean;
   handleClick?: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
 }) {
-  const [plus, setPlusClicked] = useState(props.showPlus);
+  const [plus, setPlusClicked] = useState(props.plusClicked);
 
   // State used to keep track of hover effect
   const [hover, setHover] = useState(false);
@@ -76,14 +78,35 @@ export function PageViewHeader(props: {
 
   return (
     <div className="header-section">
-      <h1 className="header">
-        {props.pageTitle}{" "}
-        {props.showPlus ? (
-          <span className="plus" onClick={props.handleClick}>
-            +
-          </span>
-        ) : null}
-      </h1>
+      {props.isHeader ? (
+        <h1 style={headerStyling}>
+          {props.pageTitle}{" "}
+          {props.showPlus ? (
+            <span
+              onClick={plusClicked}
+              onMouseEnter={plusHovered}
+              onMouseLeave={plusMouseLeft}
+              style={headerPlusStyling}
+            >
+              +
+            </span>
+          ) : null}
+        </h1>
+      ) : (
+        <h1 style={nonHeaderStyling}>
+          {props.pageTitle}{" "}
+          {props.showPlus ? (
+            <span
+              onClick={plusClicked}
+              onMouseEnter={plusHovered}
+              onMouseLeave={plusMouseLeft}
+              style={nonHeaderPlusStyling}
+            >
+              +
+            </span>
+          ) : null}
+        </h1>
+      )}
     </div>
   );
 }

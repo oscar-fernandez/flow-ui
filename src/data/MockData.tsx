@@ -24,7 +24,7 @@ export const mockTechnology: ITechnology[] = [
   },
 ];
 
-interface thing {
+export interface thing {
   [key: string]: any;
   id: number;
   projectName: string;
@@ -37,53 +37,74 @@ export const MockData: IColumns = {
 export const MockRows: thing[] = [
   {
     id: 1,
-    projectName: "what",
+    projectName: "Pixelgram",
     techStack: [
       {
         id: 3,
-        name: "coffee",
-        backgroundColor: "brown",
+        name: "Java",
+        backgroundColor: "yellow",
       },
       {
         id: 4,
-        name: "soda",
-        backgroundColor: "black",
-      },
-      {
-        id: 5,
-        name: "juice",
+        name: "Angular",
         backgroundColor: "green",
       },
       {
-        id: 3,
-        name: "milk",
-        backgroundColor: "white",
+        id: 5,
+        name: "SpringBoot",
+        backgroundColor: "blue",
       },
     ],
   },
   {
     id: 2,
-    projectName: "when",
+    projectName: "Flow",
     techStack: [
       {
-        id: 3,
-        name: "coffee",
-        backgroundColor: "brown",
+        id: 1,
+        name: "TypeScript",
+        backgroundColor: "red",
       },
       {
-        id: 4,
-        name: "soda",
-        backgroundColor: "black",
-      },
-      {
-        id: 5,
-        name: "juice",
-        backgroundColor: "green",
+        id: 2,
+        name: "React",
+        backgroundColor: "orange",
       },
       {
         id: 3,
-        name: "milk",
-        backgroundColor: "white",
+        name: "Java",
+        backgroundColor: "yellow",
+      },
+      {
+        id: 6,
+        name: "MaterialUI",
+        backgroundColor: "purple",
+      },
+    ],
+  },
+  {
+    id: 3,
+    projectName: "Quiz Monster",
+    techStack: [
+      {
+        id: 7,
+        name: "JavaScript",
+        backgroundColor: "orangered",
+      },
+      {
+        id: 2,
+        name: "React",
+        backgroundColor: "orange",
+      },
+      {
+        id: 3,
+        name: "Java",
+        backgroundColor: "yellow",
+      },
+      {
+        id: 8,
+        name: "Bootstrap",
+        backgroundColor: "aqua",
       },
     ],
   },
