@@ -95,6 +95,7 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
           sx={{ pointerEvents: "auto" }}
           onMouseEnter={handleOnMouseEnterHoverMenu}
           onMouseLeave={handleCloseHover}
+          data-testid="hover-menu"
         >
           <OnHoverMenuItems
             subMenuItems={subMenuItems}
