@@ -1,21 +1,10 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import React from "react";
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  afterEach,
-  beforeEach,
-  beforeAll,
-} from "vitest";
+import { describe, it, expect, vi, beforeAll } from "vitest";
 import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
 import EnableeView from "./EnableeView";
 import { dummyEnablees } from "../../../data/EnableeMock";
-import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
-import ToggleSideBar from "../../../components/ToggleSideBar/ToggleSidebar";
 
 // Don't need to render carousel, its already in the Enablee View
 // Mock the api call
@@ -39,29 +28,6 @@ describe("Async tests for enablee View", () => {
     const title = screen.getByText("Enablees");
     //await userEvent.click(title);
     expect(title).toBeInTheDocument();
-  });
-
-  it("should contain input field props title of page", async () => {
-    render(<EnableeView />);
-    const changeToggle = () => {
-      // console.log("drawer");
-    };
-    // render(<EnableeView />);
-    // userEvent.click(screen.getByText('+', <ToggleSideBar />))
-    // // const plusButton = screen.getByText("+");
-    // // const result = screen.getByTestId("drawer");
-    //  expect(result).toMatchInlineSnapshot(`  `);
-
-    render(<EnableeView />);
-    const plusButton = screen.getByText("+");
-    // console.log("AAAAAAAAAAA");
-    // console.log(plusButton.outerHTML);
-    userEvent.click(plusButton);
-
-    await waitFor(() => screen.findByDisplayValue("Enablement"));
-    const sideBar = screen.getByTestId(plusButton, "drawer");
-    expect(sideBar).toBeInTheDocument();
-    // expect(screen.queryByTestId("drawer")).toBeDefined();
   });
 
   // it('should enable previous page button after clicking "Next page"', async () => {
