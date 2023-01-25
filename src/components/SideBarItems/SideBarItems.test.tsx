@@ -28,7 +28,6 @@ describe("Item Selection", () => {
     // <h1 class="item selected-item">Hello World</h1>
     // Pass item into function. Function adds "selected-item" class to enableeItem's class list
     enableeItem.click();
-
     // Check Enablee Item's element for "selected-item" class
     expect(enableeItem.className.includes("selected-item"));
   });
