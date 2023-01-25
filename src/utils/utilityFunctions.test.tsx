@@ -8,6 +8,7 @@ import {
   updatedTechnology,
   getAvailablePodTag,
   getActivePendingPodTag,
+  getName,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
 import IProjectTable from "../models/interfaces/IProjectTable";
@@ -136,6 +137,16 @@ describe("utilityTest", () => {
 
     const result = getActivePendingPodTag(pendingPod);
     expect(result.name).toEqual("Pending");
+  });
+  it("should return proper names using getName", () => {
+    expect(getName("id")).toEqual("employee ID");
+    expect(getName("firstName")).toEqual("first name");
+    expect(getName("lastName")).toEqual("last name");
+    expect(getName("techStack")).toEqual("Tech Stack");
+    expect(getName("enablementStartDate")).toEqual("enablement start date");
+    expect(getName("enablementEndDate")).toEqual("enablement end date");
+    expect(getName("skillName")).toEqual("Skill Name");
+    expect(getName("projectName")).toEqual("Project Name");
   });
 });
 
