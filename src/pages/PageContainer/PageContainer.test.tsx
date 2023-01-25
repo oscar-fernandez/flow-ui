@@ -5,5 +5,6 @@ import PageContainer from "./PageContainer";
 describe("PageContainer", () => {
   it("should contain 'page-container' class", () => {
     render(<PageContainer />);
+    expect(screen.getByText("Andrew")).toBeInTheDocument();
   });
 });
