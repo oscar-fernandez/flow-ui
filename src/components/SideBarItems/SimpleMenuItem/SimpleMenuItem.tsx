@@ -20,6 +20,10 @@ export default function SimpleMenuItem({
 }: Props) {
   const { handleNavigate } = useCustomNavigate(routePath);
 
+  const handleClickAndNavigate = (e: React.MouseEvent) => (
+    clickHandler(e), handleOnClick ? handleOnClick(routePath) : handleNavigate()
+  );
+
   return (
     <div>
       {isMainMenu === "m" ? (
@@ -28,9 +32,7 @@ export default function SimpleMenuItem({
             <ListItemButton
               className="side-bar-item"
               onClick={(e) => {
-                handleOnClick
-                  ? (clickHandler(e), handleOnClick(routePath))
-                  : (clickHandler(e), handleNavigate());
+                handleClickAndNavigate(e);
               }}
               data-testid={menuItemName}
             >
@@ -52,9 +54,7 @@ export default function SimpleMenuItem({
             <ListItemButton
               className="side-bar-item"
               onClick={(e) => {
-                handleOnClick
-                  ? (clickHandler(e), handleOnClick(routePath))
-                  : (clickHandler(e), handleNavigate());
+                handleClickAndNavigate(e);
               }}
               data-testid={menuItemName}
             >
@@ -76,9 +76,7 @@ export default function SimpleMenuItem({
             <ListItemButton
               className="side-bar-item"
               onClick={(e) => {
-                handleOnClick
-                  ? (clickHandler(e), handleOnClick(routePath))
-                  : (clickHandler(e), handleNavigate());
+                handleClickAndNavigate(e);
               }}
               data-testid={menuItemName}
             >
