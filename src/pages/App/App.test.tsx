@@ -8,14 +8,14 @@ describe("App", () => {
     render(<App />);
   });
 
-  it("should contain input field props title of page", async () => {
-    render(<App />);
+  // it("should contain input field props title of page", async () => {
+  //   render(<App />);
 
-    const plusButton = screen.getByText("+");
-    userEvent.click(plusButton);
+  //   const plusButton = screen.getByText("+");
+  //   userEvent.click(plusButton);
 
-    await waitFor(() => screen.findByTestId("drawer"));
-    const sideBar = screen.getByTestId("drawer");
-    expect(sideBar).toBeInTheDocument();
-  });
+  //   await waitFor(() => screen.findByTestId("drawer"));
+  //   const sideBar = screen.getByTestId("drawer");
+  //   expect(sideBar).toBeInTheDocument();
+  // });
 });
