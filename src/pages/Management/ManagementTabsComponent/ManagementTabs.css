@@ -1,3 +1,11 @@
-.margin {
-  margin-left: 20px;
+/* .margin {
+  width: 60%;
+} */
+
+.focus {
+  background-color: #abc123;
+}
+
+.project-tab-bg-width {
+  padding: 0 8px;
 }

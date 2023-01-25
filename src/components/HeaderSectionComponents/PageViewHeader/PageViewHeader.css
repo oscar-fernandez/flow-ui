@@ -1,3 +1,20 @@
+.header {
+  color: #dc8d0b;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  line-height: 100%;
+}
+
+.plus {
+  color: #000048;
+  font-size: 50px;
+}
+
+.plus:hover {
+  cursor: pointer;
+}
+
 .header-section {
   margin-bottom: 1rem;
 }

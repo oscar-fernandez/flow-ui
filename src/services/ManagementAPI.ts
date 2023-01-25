@@ -1,31 +1,31 @@
-import axios from "axios";
 import ITechnology from "../models/interfaces/ITechnology";
 import IProject from "../models/interfaces/IProject";
+import { get, post, put } from "./API";
 
-const baseUrl: string = `${import.meta.env.VITE_ENABLEMENT_FEMS}/mgt` || "";
+const baseUrl: string = `${process.env.VITE_ENABLEMENT_FEMS}/mgt` || "";
 
 function getTechnologies() {
-  return axios.get(`${baseUrl}/technologies`);
+  return get(baseUrl + "/technologies");
 }
 
 function updateTechnology(technology: ITechnology) {
-  return axios.put(`${baseUrl}/technology`, technology);
+  return put(baseUrl + "/technology", technology);
 }
 
 function createTechnology(technology: ITechnology) {
-  return axios.post(`${baseUrl}/technology`, technology);
+  return post(baseUrl + "/technology", technology);
 }
 
 function getProjects() {
-  return axios.get(`${baseUrl}/projects`);
+  return get(baseUrl + "/projects");
 }
 
 function createProject(project: IProject) {
-  return axios.post(`${baseUrl}/project`, project);
+  return post(baseUrl + "/project", project);
 }
 
 function updateProject(project: IProject) {
-  return axios.put(`${baseUrl}/project`, project);
+  return put(baseUrl + "/project", project);
 }
 
 export {
