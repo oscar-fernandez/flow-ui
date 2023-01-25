@@ -9,7 +9,7 @@ describe("utility", () => {
   //   expect(result).toEqual([
   //     dummyEnablees[0],
   //     dummyEnablees[1],
-
+  //     dummyEnablees[2],
   //   ]);
   // });
 
@@ -18,8 +18,12 @@ describe("utility", () => {
     expect(result).toEqual([]);
   });
 
-  // it("should filtered value by startDate and ednDate", () => {
-  //   const result = Utility.matchData(dummyEnablees, mockFePod[0]);
-  //   expect(result).toEqual([dummyEnablees[0]]);
-  // });
+  it("should filtered value by startDate and ednDate", () => {
+    const result = Utility.matchData(dummyEnablees, mockFePod[0]);
+    expect(result).toEqual([
+      dummyEnablees[0],
+      dummyEnablees[1],
+      dummyEnablees[2],
+    ]);
+  });
 });

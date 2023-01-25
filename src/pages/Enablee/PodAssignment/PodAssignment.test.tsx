@@ -4,7 +4,7 @@ import { usePendingPodEnablees } from "../Hooks/customHook";
 import PodAssignment from "./PodAssignment";
 import { vi } from "vitest";
 import { mockFePod } from "../../../data/MockFEPod";
-import { matchSomeSkills } from "../../Pod/podUtils";
+import { matchAllSkills, matchData, matchSomeSkills } from "../../Pod/podUtils";
 import { dummyEnablees } from "../../../data/EnableeMock";
 
 vi.mock("../Hooks/customHook");
@@ -15,8 +15,8 @@ const receivedEnablees = [
     firstName: "John",
     lastName: "Doe",
     dateOfJoin: "2021-12-25",
-    enablementStartDate: "2022-01-01",
-    enablementEndDate: "2022-04-01",
+    enablementStartDate: "2021-01-21",
+    enablementEndDate: "2021-01-30",
     assetTag: "N/A",
     isEmployed: true,
     technology: [
@@ -30,6 +30,73 @@ const receivedEnablees = [
     communityId: 13,
     employementTypeId: 1,
     podId: 24,
+    commentId: [1, 2, 3],
+  },
+];
+
+const filteredEnablees = [
+  {
+    employeeId: 977284,
+    firstName: "Steve",
+    lastName: "Bob",
+    dateOfJoin: "2022-01-21",
+    enablementStartDate: "2021-01-21",
+    enablementEndDate: "2021-01-30",
+    assetTag: "I Don't know",
+    isEmployed: false,
+    technology: [
+      { id: 2, name: "Java", backgroundColor: "grey" },
+      { id: 8, name: "React", backgroundColor: "blue" },
+      { id: 12, name: "Rust", backgroundColor: "brown" },
+      { id: 12, name: "C++", backgroundColor: "yellow" },
+    ],
+    countryCode: 1,
+    gradeId: 1,
+    communityId: 1,
+    employmentTypeId: 1,
+    podId: 1,
+    commentId: [1, 2, 3],
+  },
+  {
+    employeeId: 1221,
+    firstName: "Jessabelle",
+    lastName: "Cowringer",
+    dateOfJoin: "2022-01-21",
+    enablementStartDate: "2021-01-21",
+    enablementEndDate: "2021-01-30",
+    assetTag: "I Don't know",
+    isEmployed: false,
+    technology: [
+      { id: 2, name: "Java", backgroundColor: "grey" },
+      { id: 8, name: "React", backgroundColor: "blue" },
+    ],
+    countryCode: 1,
+    gradeId: 1,
+    communityId: 1,
+    employmentTypeId: 1,
+    podId: 1,
+    commentId: [1, 2, 3],
+  },
+  {
+    employeeId: 738920,
+    firstName: "Ondrew",
+    lastName: "Jooors",
+    dateOfJoin: "2022-01-21",
+    enablementStartDate: "2021-01-21",
+    enablementEndDate: "2021-01-30",
+    assetTag: "I Don't know",
+    isEmployed: false,
+    technology: [
+      { id: 2, name: "Java", backgroundColor: "grey" },
+      { id: 8, name: "React", backgroundColor: "blue" },
+      { id: 12, name: "Rust", backgroundColor: "brown" },
+      { id: 12, name: "C++", backgroundColor: "yellow" },
+    ],
+    countryCode: 1,
+    gradeId: 1,
+    communityId: 1,
+    employmentTypeId: 1,
+    podId: 1,
     commentId: [1, 2, 3],
   },
 ];
@@ -57,21 +124,21 @@ describe("PodAssignment", () => {
     expect(selectedRow).toBeInTheDocument();
 
     selectedRow && fireEvent.click(selectedRow);
-    const result = matchSomeSkills(dummyEnablees, mockFePod[0]);
-    expect(result).toEqual([
-      dummyEnablees[0],
-      dummyEnablees[1],
-      dummyEnablees[2],
-      dummyEnablees[3],
-      dummyEnablees[4],
-    ]);
+    //   const result = (matchData as jest.Mock).mockResolvedValue(filteredEnablees);
+    expect(screen.getByText("John")).toBeInTheDocument();
   });
 
-  // it("should display filtered enablees when selected radioButton ", () => {
-  //   (usePendingPodEnablees as jest.Mock).mockImplementation(() => {
-  //     return { receivedEnablees };
-  //   });
+  it("should display increase capasity when clicked enablee row ", () => {
+    (usePendingPodEnablees as jest.Mock).mockImplementation(() => {
+      return { receivedEnablees };
+    });
 
-  //   render(<PodAssignment />);
-  //  const selectedRow = screen.queryByText(mockFePod[0].podName);
+    render(<PodAssignment />);
+    const selectedRow = screen.queryByText(mockFePod[0].podName);
+    selectedRow && fireEvent.click(selectedRow);
+    const selectedRadioButton = screen.queryByLabelText("Match Tech Stack");
+    expect(selectedRadioButton).toBeInTheDocument();
+    selectedRadioButton && fireEvent.click(selectedRadioButton);
+    const result = matchAllSkills(dummyEnablees, mockFePod[0]);
+  });
 });

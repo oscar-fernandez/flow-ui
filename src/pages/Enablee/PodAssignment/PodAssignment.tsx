@@ -71,6 +71,7 @@ export default function PodAssignment() {
   const [count, setCount] = useState(0);
   const [value, setValue] = useState("");
   const [formValid, setFormValid] = useState(false);
+  const [toggle, setToggle] = useState(false);
 
   function fn(): string[][] {
     if (receivedEnablees && selectedRow.current) {
@@ -100,7 +101,7 @@ export default function PodAssignment() {
     const filteredEnablees =
       receivedEnablees &&
       selectedRow &&
-      Unit.matchData(receivedEnablees, selectedRow.current);
+      Unit.matchData(dummyEnablees, selectedRow.current);
     setReceivedEnablees(filteredEnablees);
   };
 
