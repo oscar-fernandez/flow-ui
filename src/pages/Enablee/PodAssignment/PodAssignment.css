@@ -11,8 +11,21 @@
   margin-left: auto;
 }
 
-.button-container {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: flex-end;
+button.button-orange {
+  background-color: #dc8d0b;
+  color: #f8e8ce;
+  margin-left: 1.5rem;
+  font-size: 24px;
+  letter-spacing: 0.025em;
+  float: right;
+}
+
+button.button-orange:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+button.button-orange:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }

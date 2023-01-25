@@ -12,14 +12,10 @@ import * as Module from "../../Management/mgtUtils";
 import * as Unit from "../../Pod/podUtils";
 import IEnablee from "../../../models/interfaces/IEnablee";
 import {
-  Box,
-  Checkbox,
   FormControl,
   FormControlLabel,
-  FormGroup,
-  FormHelperText,
-  SxProps,
-  Theme,
+  Radio,
+  RadioGroup,
 } from "@mui/material";
 import { dummyEnablees } from "../../../data/EnableeMock";
 import { usePendingPodEnablees } from "../Hooks/customHook";
@@ -72,14 +68,9 @@ export default function PodAssignment() {
   //const [selectedRow, setSelectedRow] = useState<IFEPod>();
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
   const [name, setName] = useState("");
-  const [checkbox, setCheckbox] = useState({
-    matchTechStack: false,
-    containsTechStack: false,
-  });
-
-  const [disabled, setDisabled] = useState(true);
-  const [toggle, setToggle] = useState(false);
   const [count, setCount] = useState(0);
+  const [value, setValue] = useState("");
+  const [formValid, setFormValid] = useState(false);
 
   function fn(): string[][] {
     if (receivedEnablees && selectedRow.current) {
@@ -106,21 +97,11 @@ export default function PodAssignment() {
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
     selectedRow.current = mockFePod[+event.currentTarget.id];
-
-    setToggle(!toggle);
-    setDisabled(!disabled);
-
     const filteredEnablees =
       receivedEnablees &&
       selectedRow &&
       Unit.matchData(receivedEnablees, selectedRow.current);
-
     setReceivedEnablees(filteredEnablees);
-
-    // if (disabled) {
-    //   setReceivedEnablees;
-    // }
-    setDisabled(!disabled);
   };
 
   function increment() {
@@ -141,112 +122,109 @@ export default function PodAssignment() {
 
   //temp location
   const updateSelectedEnablees = (index: number) => {
-    const e = receivedEnablees?.[index];
-    const ar = selectedEnablees.current;
-    if (e) {
-      if (!ar.includes(e)) {
-        ar.push(e);
-        // increment();
-      } else {
-        ar.splice(ar.indexOf(e), 1);
-        // decrement();
+    if (receivedEnablees && selectedRow.current) {
+      const e = receivedEnablees?.[index];
+      const ar = selectedEnablees.current;
+      if (e) {
+        if (!ar.includes(e)) {
+          ar.push(e);
+          increment();
+        } else {
+          ar.splice(ar.indexOf(e), 1);
+          decrement();
+        }
       }
     }
+    if (receivedEnablees) return Module.transformEnableeArray(receivedEnablees);
+    return [];
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckbox({
-      ...checkbox,
-      [event.target.name]: event.currentTarget.checked,
-    });
+    setValue((event.target as HTMLInputElement).value);
     setName(event.currentTarget.name);
     selectedRow.current && fn();
   };
+  // const error = "* Max Capacity Selected";
+  const error = "";
 
-  const { matchTechStack, containsTechStack } = checkbox;
-  const error = [matchTechStack, containsTechStack].filter((v) => v).length > 1;
-
-  const checkboxes = (
-    <Box sx={{ display: "flex" }}>
-      <FormControl
-        required
-        error={error}
-        sx={{ m: 3 }}
-        component="fieldset"
-        variant="standard"
+  const radioCheck = (
+    <FormControl sx={{ display: "flex" }}>
+      <RadioGroup
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          ml: 3,
+          color: "#dc8d0b",
+        }}
+        aria-labelledby="demo-controlled-radio-buttons-group"
+        name="controlled-radio-buttons-group"
+        value={value}
+        onChange={handleChange}
       >
-        <FormGroup
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            ml: 3,
-            color: "#dc8d0b",
-          }}
-        >
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={matchTechStack}
-                // disabled={disabled}
-                onChange={handleChange}
-                name="matchTechStack"
-              />
-            }
-            label="Match Tech Stack"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={containsTechStack}
-                // disabled={disabled}
-                onChange={handleChange}
-                name="containsTechStack"
-              />
-            }
-            label="Contains TechS tack"
-          />
-        </FormGroup>
-        <FormHelperText>Be careful, you can mark just one</FormHelperText>
-      </FormControl>
-    </Box>
+        <FormControlLabel
+          value="matchTechStack"
+          name="matchTechStack"
+          control={<Radio />}
+          label="Match Tech Stack"
+        />
+        <FormControlLabel
+          value="containsTechStack"
+          name="containsTechStack"
+          control={<Radio />}
+          label="Contains Tech Stack"
+        />
+      </RadioGroup>
+    </FormControl>
   );
 
   return (
-    <div className="container">
-      <PageViewHeader pageTitle="Enablee" showPlus={true} />
-      {checkboxes}
-      <CustomTableContainer
-        headers={headersEnablee}
-        headerStyle={headerStyle}
-        rows={fn()}
-        cellStyle={cellStyle}
-        rowStyle={rowStyle}
-        //  toggle={toggle}
-        updateSelectedEnablees={updateSelectedEnablees}
-        skill={false}
-        value={""}
-        toggleShowForm={() => {
-          return null;
-        }}
-      />
+    <div>
+      <form action="">
+        <div>
+          {error !== "" ? <div className="error">{error}</div> : ""}
+          <div className="container">
+            <PageViewHeader pageTitle="Enablee" showPlus={true} />
+            {radioCheck}
+            <CustomTableContainer
+              headers={headersEnablee}
+              headerStyle={headerStyle}
+              rows={fn()}
+              cellStyle={cellStyle}
+              rowStyle={rowStyle}
+              //  toggle={toggle}
+              updateSelectedEnablees={updateSelectedEnablees}
+              skill={false}
+              value={""}
+              toggleShowForm={() => {
+                return null;
+              }}
+            />
 
-      <div className="container"></div>
-      <CustomTableContainer
-        headers={headersPods}
-        headerStyle={headerStyle}
-        rows={Unit.transformPodArray(mockFePod, count)}
-        cellStyle={cellStyle}
-        rowStyle={rowStyle}
-        customHandleSelection={customHandleSelection}
-        skill={false}
-        value={""}
-        toggleShowForm={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
-      <div className="button-container">
-        <button className="button button-orange">submit</button>
-      </div>
+            <div className="container">
+              <CustomTableContainer
+                headers={headersPods}
+                headerStyle={headerStyle}
+                rows={Unit.transformPodArray(mockFePod, count)}
+                cellStyle={cellStyle}
+                rowStyle={rowStyle}
+                customHandleSelection={customHandleSelection}
+                skill={false}
+                value={""}
+                toggleShowForm={function (): void {
+                  throw new Error("Function not implemented.");
+                }}
+              />
+            </div>
+            <button
+              className="button button-orange"
+              disabled={true}
+              type="submit"
+            >
+              submit
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   );
 }

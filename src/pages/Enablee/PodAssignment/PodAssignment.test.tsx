@@ -1,8 +1,11 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { usePendingPodEnablees } from "../Hooks/customHook";
 import PodAssignment from "./PodAssignment";
 import { vi } from "vitest";
+import { mockFePod } from "../../../data/MockFEPod";
+import { matchSomeSkills } from "../../Pod/podUtils";
+import { dummyEnablees } from "../../../data/EnableeMock";
 
 vi.mock("../Hooks/customHook");
 
@@ -44,19 +47,31 @@ describe("PodAssignment", () => {
     expect(screen.getByRole("button", { name: "submit" })).toBeInTheDocument();
   });
 
-  // it("should display checkbox ", () => {
-  //   render(
-  //     <PodAssignment
-  //       headers={[]}
-  //       rows={[]}
-  //       rowStyle={null}
-  //       cellStyle={null}
-  //       index={0}
-  //       checkboxId={0}
-  //     />
-  //   );
-  //   const checkbox = screen.queryAllByTestId("checkbox");
+  it("should display filtered enablees when selected pod ", () => {
+    (usePendingPodEnablees as jest.Mock).mockImplementation(() => {
+      return { receivedEnablees };
+    });
 
-  //   expect(checkbox).not.toBeChecked();
-  //});
+    render(<PodAssignment />);
+    const selectedRow = screen.queryByText(mockFePod[0].podName);
+    expect(selectedRow).toBeInTheDocument();
+
+    selectedRow && fireEvent.click(selectedRow);
+    const result = matchSomeSkills(dummyEnablees, mockFePod[0]);
+    expect(result).toEqual([
+      dummyEnablees[0],
+      dummyEnablees[1],
+      dummyEnablees[2],
+      dummyEnablees[3],
+      dummyEnablees[4],
+    ]);
+  });
+
+  // it("should display filtered enablees when selected radioButton ", () => {
+  //   (usePendingPodEnablees as jest.Mock).mockImplementation(() => {
+  //     return { receivedEnablees };
+  //   });
+
+  //   render(<PodAssignment />);
+  //  const selectedRow = screen.queryByText(mockFePod[0].podName);
 });
