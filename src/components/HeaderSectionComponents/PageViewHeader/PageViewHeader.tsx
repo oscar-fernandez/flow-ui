@@ -10,7 +10,7 @@ export function PageViewHeader(props: {
 }) {
   return (
     <div className="header-section">
-      <h1 className="header">
+      <h1 data-testid="pageHeaderTitleId" className="header">
         {props.pageTitle}{" "}
         {props.showPlus ? (
           <span className="plus" onClick={props.handleClick}>

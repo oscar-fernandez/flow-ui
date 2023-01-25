@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,6 +9,11 @@ import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import { StyledEngineProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import ColMenuItem from "./ColMenuItem/ColMenuItem";
+import {
+  listOfSubMenuItems1,
+  listOfSubMenuItems2,
+} from "../../data/SubMenuMock";
 
 const drawerWidth = 248;
 const sideBarItems = [
@@ -36,6 +41,13 @@ const subItems = [
   },
 ];
 
+const podSubItems = [
+  { name: "Active", testID: "pod-active", url: "/active" },
+  { name: "Pending Start", testId: "pending-start", url: "/pendingStart" },
+  { name: "Available", testId: "pod-available", url: "/available" },
+  { name: "Completed", testId: "pod-completed", url: "/completed" },
+];
+
 export function clickHandler(e: React.MouseEvent) {
   if (!e.currentTarget.classList.contains("selected-item")) {
     const sideBarItems: HTMLCollectionOf<Element> =
@@ -61,7 +73,7 @@ function EnableeSideBarItems() {
   };
 
   return (
-    <>
+    <div className="side-bar-container">
       <StyledEngineProvider injectFirst>
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
@@ -73,14 +85,21 @@ function EnableeSideBarItems() {
                 width: drawerWidth,
                 boxSizing: "border-box",
                 bgcolor: "#000048",
+                overflowY: "inherit",
               },
-              overflowX: "hidden",
             }}
             variant="permanent"
             anchor="left"
           >
             <List>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
+              <ListItem
+                sx={{
+                  fontSize: 36,
+                  display: "inline-block",
+                  position: "relative",
+                }}
+                disablePadding
+              >
                 <ListItemButton
                   className="side-bar-item"
                   onClick={(e) => {
@@ -130,7 +149,14 @@ function EnableeSideBarItems() {
               </List>
             </Collapse>
             <List>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
+              <ListItem
+                sx={{
+                  fontSize: 36,
+                  display: "inline-block",
+                  position: "relative",
+                }}
+                disablePadding
+              >
                 <ListItemButton
                   className="side-bar-item"
                   onClick={(e) => {
@@ -150,11 +176,17 @@ function EnableeSideBarItems() {
                   />
                 </ListItemButton>
               </ListItem>
+              <ListItem disablePadding>
+                <ColMenuItem
+                  menuItemName="Test 1"
+                  subMenuItems={listOfSubMenuItems1}
+                />
+              </ListItem>
             </List>
           </Drawer>
         </Box>
       </StyledEngineProvider>
-    </>
+    </div>
   );
 }
 
