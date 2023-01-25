@@ -6,8 +6,8 @@ export const dummyEnablees: IEnablee[] = [
     firstName: "Steve",
     lastName: "Bob",
     dateOfJoin: "2022-01-21",
-    enablementStartDate: "2022-01-21",
-    enablementEndDate: "2022-01-21",
+    enablementStartDate: "2021-01-21",
+    enablementEndDate: "2021-01-30",
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
@@ -29,7 +29,7 @@ export const dummyEnablees: IEnablee[] = [
     lastName: "Cowringer",
     dateOfJoin: "2022-01-21",
     enablementStartDate: "2022-01-21",
-    enablementEndDate: "2022-01-21",
+    enablementEndDate: "2025-01-21",
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [

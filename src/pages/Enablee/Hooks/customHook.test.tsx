@@ -2,6 +2,7 @@ import { renderHook, act } from "@testing-library/react";
 import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
 import { usePendingPodEnablees } from "./customHook";
 import { vi, describe, it, expect } from "vitest";
+import { dummyEnablees } from "../../../data/EnableeMock";
 
 vi.mock("../../../services/EnableeAPI");
 
@@ -38,6 +39,10 @@ describe("usePendingPodEnablees hook tests", async () => {
 
     await act(() => mock);
 
-    expect(result.current.receivedEnablees).toEqual(enableesList.data);
+    expect(result.current.receivedEnablees).toEqual([
+      ...enableesList.data,
+      dummyEnablees[0], //temp
+      dummyEnablees[1], //temp
+    ]);
   });
 });

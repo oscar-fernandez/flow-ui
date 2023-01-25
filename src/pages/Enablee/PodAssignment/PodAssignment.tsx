@@ -68,8 +68,8 @@ const rowStyle = {
 
 export default function PodAssignment() {
   const selectedEnablees = useRef<IEnablee[]>([]);
-  // const selectedRow = useRef({});
-  const [selectedRow, setSelectedRow] = useState<IFEPod>();
+  const selectedRow = useRef<IFEPod>();
+  //const [selectedRow, setSelectedRow] = useState<IFEPod>();
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
   const [name, setName] = useState("");
   const [checkbox, setCheckbox] = useState({
@@ -82,55 +82,46 @@ export default function PodAssignment() {
   const [count, setCount] = useState(0);
 
   function fn(): string[][] {
-    if (receivedEnablees) {
+    if (receivedEnablees && selectedRow.current) {
       switch (name) {
         case "matchTechStack":
           return Module.transformEnableeArray(
-            Unit.matchAllSkills(receivedEnablees, mockFePod[0])
+            Unit.matchAllSkills(receivedEnablees, selectedRow.current)
           );
         case "containsTechStack":
           return Module.transformEnableeArray(
-            Unit.matchSomeSkills(receivedEnablees, mockFePod[0])
+            Unit.matchSomeSkills(receivedEnablees, selectedRow.current)
           );
         case "availableEnablees":
           return Module.transformEnableeArray(
-            Unit.matchData(receivedEnablees, mockFePod[0])
+            Unit.matchData(receivedEnablees, selectedRow.current)
           );
-        default:
-          return Module.transformEnableeArray(receivedEnablees);
       }
     }
+    if (receivedEnablees) return Module.transformEnableeArray(receivedEnablees);
     return [];
   }
 
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    //selectedRow.current = mockFePod[+event.currentTarget.id];
+    selectedRow.current = mockFePod[+event.currentTarget.id];
 
-    setSelectedRow(mockFePod[+event.currentTarget.id]);
     setToggle(!toggle);
     setDisabled(!disabled);
 
     const filteredEnablees =
-      selectedRow &&
       receivedEnablees &&
-      Unit.matchData(receivedEnablees, selectedRow);
-    setReceivedEnablees(filteredEnablees);
+      selectedRow &&
+      Unit.matchData(receivedEnablees, selectedRow.current);
 
-    // console.log(filteredEnablees);
+    setReceivedEnablees(filteredEnablees);
 
     // if (disabled) {
     //   setReceivedEnablees;
     // }
     setDisabled(!disabled);
   };
-
-  // useEffect(() => {
-  // }, [selectedRow]);
-
-  // useEffect(() => {
-  // }, [receivedEnablees]);
 
   function increment() {
     setCount(function (prevCount) {
@@ -169,7 +160,7 @@ export default function PodAssignment() {
       [event.target.name]: event.currentTarget.checked,
     });
     setName(event.currentTarget.name);
-    // fn();
+    selectedRow.current && fn();
   };
 
   const { matchTechStack, containsTechStack } = checkbox;
