@@ -16,7 +16,7 @@ export function PageViewHeader(props: {
   const [toggleArrow, changeToggleArrow] = useToggleArrow();
   return (
     <div className="header-section">
-      <h1 className="header">
+      <h1 data-testid="pageHeaderTitleId" className="header">
         <p>{props.pageTitle} </p>
         {props.showPlus ? (
           <span

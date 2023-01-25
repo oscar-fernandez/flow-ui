@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import Toggle from "../../models/interfaces/Toggle";
 export const useCustomNavigate = (routePath: string) => {

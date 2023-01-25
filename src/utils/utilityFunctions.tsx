@@ -1,3 +1,4 @@
+import IDisplayTag from "../models/interfaces/IDisplayTag";
 import IEnablee from "../models/interfaces/IEnablee";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
 import IFEPod from "../models/interfaces/IFEPod";
@@ -42,9 +43,12 @@ export const shortenStringList = (list: string[]): string => {
 
 export const convertToStringArr = (list: ITechnology[]): string[] => {
   const stringArr: string[] = [];
-  list.forEach((tech) => {
-    stringArr.push(tech.name);
-  });
+
+  if (list !== null) {
+    list.forEach((tech) => {
+      stringArr.push(tech.name);
+    });
+  }
   return stringArr;
 };
 
@@ -117,4 +121,32 @@ export const isEnableeValidForPod = (
       startDateFePod.getTime() >= startDateEnablee.getTime()) ||
     endDateFePod.getTime() >= endDateEnablee.getTime()
   );
+};
+
+export const getAvailablePodTag = (pod: IFEPod) => {
+  const POD_SIZE = 15;
+  const podTag: IDisplayTag = { name: "", color: "" };
+
+  if (pod.enablee.length < POD_SIZE) {
+    (podTag.name = "Available"), (podTag.color = "#3F88C5");
+  }
+  return podTag;
+};
+
+export const getActivePendingPodTag = (pod: IFEPod) => {
+  const startDatePod = new Date(pod.podStartDate);
+  const endDatePod = new Date(pod.podEndDate);
+  const currentDate = new Date();
+
+  const podTag: IDisplayTag = { name: "", color: "" };
+
+  if (currentDate >= startDatePod) {
+    podTag.name = "Active";
+    podTag.color = "#E63946";
+  } else {
+    podTag.name = "Pending";
+    podTag.color = "#344E41";
+  }
+
+  return podTag;
 };
