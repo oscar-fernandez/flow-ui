@@ -14,7 +14,7 @@ import {
   EnableeSubMenuItems,
   PodSubMenuItems,
 } from "../../data/SubMenuMock";
-import { useCustomNavigate } from "./customHooks";
+import { useNavigate } from "react-router";
 
 const drawerWidth = 248;
 
@@ -33,6 +33,11 @@ export function clickHandler(e: React.MouseEvent) {
 }
 
 function SideBarItems() {
+  const navigate = useNavigate();
+  const handleNavigate = (path: string) => {
+    navigate(path);
+  };
+
   return (
     <div className="side-bar-container">
       <StyledEngineProvider injectFirst>
@@ -84,7 +89,7 @@ function SideBarItems() {
               <SimpleMenuItem
                 menuItemName={MenuItemsList[2].name}
                 routePath={"/mgt"}
-                handleOnClick={useCustomNavigate}
+                handleOnClick={handleNavigate}
                 isMainMenu={"m"}
               />
               <ListItem disablePadding>
