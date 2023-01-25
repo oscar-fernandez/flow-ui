@@ -7,7 +7,11 @@ import EnableeView from "../Enablee/EnableeView/EnableeView";
 import { LoginComponent } from "../../components/HeaderSectionComponents/LoginComponent/LoginComponent";
 import ManagementContainer from "../Management/ManagementContainer/ManagementContainer";
 import PodPageContainer from "../Pod/PodPageContainer";
-import { useCompletedPods, useAvailablePods } from "../Pod/Hooks/customHook";
+import {
+  useCompletedPods,
+  useAvailablePods,
+  useActivePods,
+} from "../Pod/Hooks/customHook";
 import {
   getActivePendingPodTag,
   getAvailablePodTag,
@@ -47,6 +51,17 @@ function PageContainer() {
                   displayPageCarousel={false}
                   title={"Pod"}
                   displayTag={getActivePendingPodTag}
+                />
+              }
+            />
+            <Route
+              path="/pod/active"
+              element={
+                <PodPageContainer
+                  hook={useActivePods}
+                  displayPageCarousel={false}
+                  title={"Pod"}
+                  displayTag={getAvailablePodTag}
                 />
               }
             />

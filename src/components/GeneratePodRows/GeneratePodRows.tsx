@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import IFEPod from "../../models/interfaces/IFEPod";
 import ITechnology from "../../models/interfaces/ITechnology";
 import Row from "../RowComponent/Row";
@@ -13,12 +12,6 @@ import { TagComponent } from "../TagComponent/Tag";
 import IDisplayTag from "../../models/interfaces/IDisplayTag";
 // Example on how to use toggleSideBarContext
 
-/* interface Props {
-  pageNum: number;
-  pods: IFEPod[];
-  displayTag: ((pod: IFEPod) => IDisplayTag) | null;
-}  */
-
 interface Props {
   pageNum: number;
   pods: IFEPod[];
@@ -26,18 +19,6 @@ interface Props {
 }
 
 export function GeneratePodRows({ pageNum, pods, displayTag }: Props) {
-  // const [toggle, changeToggle] = useToggle();
-  // const [details, changeDetails] = useDetails();
-  const [Pods, setPods] = useState<IFEPod[]>([]);
-
-  /* useEffect(() => {
-    if (pageNum !== -1) getEnablees(pageNum - 1);
-    else {
-      getPendingStartEnablees();
-    }
-  }, [pageNum]);
-*/
-
   return (
     <>
       {pods.map((pod, i) => {
@@ -77,54 +58,53 @@ export function GeneratePodRows({ pageNum, pods, displayTag }: Props) {
               placement="bottom"
             >
               <div>
-                {pod.project.technology
-                  .slice(0, 2)
-                  .map((tech: ITechnology, i: number) => (
-                    <TagComponent
-                      data-testid="tech-stack"
-                      name={tech.name}
-                      color={tech.backgroundColor}
-                      key={i}
-                    />
-                  ))}
+                {pod.project.technology !== null ? (
+                  pod.project.technology
+                    .slice(0, 2)
+                    .map((tech: ITechnology, i: number) => (
+                      <TagComponent
+                        data-testid="tech-stack"
+                        name={tech.name}
+                        color={tech.backgroundColor}
+                        key={tech.id}
+                      />
+                    ))
+                ) : (
+                  <TagComponent
+                    data-testid="tech-stack"
+                    name={""}
+                    color={""}
+                    key={i}
+                  />
+                )}
               </div>
             </Tooltip>
 
             <div className="row-lg-child date-container">
-              <p className="row-primary">Enablement Dates</p>
               {pod.podStartDate ? (
                 <p className="row-secondary">{`${startDate.toLocaleString(
                   "en-US",
                   { month: "long", day: "numeric", year: "numeric" }
-                )} - ${endDate.toLocaleString("en-us", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}`}</p>
+                )} - `}</p>
               ) : (
                 <p className="row-secondary">Empty</p>
               )}
+              <p className="row-secondary">{`${endDate.toLocaleString("en-us", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}`}</p>
             </div>
 
             <div className="row-lg-child">
-              <p className="row-secondary">{`Total Enablees: ${pod.enablee.length} of 15`}</p>
-              <TagComponent
-                data-testid="podTagStatus"
-                name={tag.name}
-                color={tag.color}
-              />
+              <p className="row-secondary">{`Total Enablees: ${
+                pod.enablee !== null ? pod.enablee.length : 0
+              } of 15`}</p>
+              <TagComponent name={tag.name} color={tag.color} />
             </div>
           </Row>
         );
       })}
-      {/*<ToggleSidebar
-        toggle={toggle}
-        setToggle={() => {
-          changeToggle();
-        }}
-        details={details}
-        action={Action.VIEW}
-      />   */}
     </>
   );
 }

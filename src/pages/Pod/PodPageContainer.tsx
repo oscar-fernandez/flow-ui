@@ -14,7 +14,7 @@ interface Props {
   };
   title: string;
   displayPageCarousel: boolean;
-  displayTag: ((pod: IFEPod) => IDisplayTag) | null;
+  displayTag: (pod: IFEPod) => IDisplayTag;
 }
 export default function PodPageContainer({
   hook,
@@ -22,34 +22,16 @@ export default function PodPageContainer({
   displayPageCarousel,
   displayTag,
 }: Props) {
-  // const [pageNum, setPageNum] = useState(1);
-  // const [totalPages, setTotalPages] = useState(0);
-
-  /* useEffect(() => {
-    getTotalPages();
-  }, []);
-
-  const getTotalPages = async () => {
-    GetPaginatedEnablees(0)
-      .then((res) => {
-       
-        setTotalPages(Math.ceil(res.data.totalElements / 25));
-      })
-      .catch((e) => console.error(e));
-  };  */
-
   const { podList, setPodList } = hook();
-
-  /*const GetPods = async () => {
-    const pods = await hook();
-    console.log("IN get Pods " + JSON.stringify(pods));
-    return pods;
-  };  */
 
   return (
     <>
-      <div className="page-section">
-        <PageViewHeader pageTitle={title} showPlus={true} />
+      <div data-testid="pageSectionTestId" className="page-section">
+        <PageViewHeader
+          data-testid={"podPageViewHeader"}
+          pageTitle={title}
+          showPlus={true}
+        />
         {<GeneratePodRows pageNum={0} pods={podList} displayTag={displayTag} />}
       </div>
     </>

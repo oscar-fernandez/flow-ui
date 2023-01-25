@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 import {
   useAvailablePods,
@@ -7,20 +7,28 @@ import {
   useActivePods,
 } from "./customHook";
 import { mockFePod } from "../../../data/MockFEPod";
+import { getCompletedPods } from "../../../services/PodAPI";
+
+vi.mock("../../../services/PodAPI");
 
 describe("useCustomHook Pods tests", async () => {
   it("should get available pods on mount", async () => {
     const mockFePodData = mockFePod;
     const { result } = renderHook(() => useAvailablePods());
 
-    expect(result.current[0]).toEqual(mockFePodData);
+    expect(result.current.podList).toEqual(mockFePodData);
   });
 
   it("should get completed pods on mount", async () => {
-    const mockFePodData = mockFePod;
-    const { result } = renderHook(() => useCompletedPods());
+    const podList = {
+      data: [...mockFePod],
+    };
 
-    expect(result.current.completedPods).toEqual(mockFePodData);
+    const mock = getCompletedPods as jest.Mock;
+    mock.mockResolvedValue(podList);
+    const { result } = renderHook(() => useCompletedPods());
+    await act(() => mock);
+    expect(result.current.podList).toEqual(podList.data);
   });
 
   it("should get active pods on mount", async () => {
@@ -31,6 +39,6 @@ describe("useCustomHook Pods tests", async () => {
     );
     const { result } = renderHook(() => useActivePods());
 
-    expect(result.current[0]).toEqual(mockFePodData);
+    expect(result.current.podList).toEqual(mockFePodData);
   });
 });

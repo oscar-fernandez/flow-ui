@@ -1,95 +1,86 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen } from "@testing-library/react";
 
 import React from "react";
+import { describe, it, expect, vi } from "vitest";
+import { getPendingPods } from "../../services/PodAPI";
+import PodPageContainer from "./PodPageContainer";
+import { mockFePod } from "../../data/MockFEPod";
+import { useAvailablePods, useCompletedPods } from "./Hooks/customHook";
 import {
-  describe,
-  it,
-  expect,
-  vi,
-  afterEach,
-  beforeEach,
-  beforeAll,
-} from "vitest";
-import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
-import EnableeView from "./EnableeView";
-import { dummyEnablees } from "../../../data/EnableeMock";
+  convertToStringArr,
+  getActivePendingPodTag,
+  getAvailablePodTag,
+} from "../../utils/utilityFunctions";
 
-// Don't need to render carousel, its already in the Enablee View
-// Mock the api call
-// Call the buttons in carousel to test the set, and make sure buttons change active number displayed in carousel, and form input displayed in carousel
-// Makes sure it maps enablees? or maybe test this in Enablee View.
-vi.mock("../../../services/EnableeAPI");
-describe("Async tests for enablee View", () => {
-  beforeAll(() => {
-    const pageOfItem = {
-      data: {
-        items: [dummyEnablees[0]],
-        hasNext: false,
-        totalElements: 150,
+vi.mock("./Hooks/customHook");
+vi.mock("../../utils/utilityFunctions");
+
+const mockUseAvailablePods = useAvailablePods as jest.MockedFunction<
+  typeof useAvailablePods
+>;
+const mockGetActivePendingPodTag =
+  getActivePendingPodTag as jest.MockedFunction<typeof getActivePendingPodTag>;
+const mockConvertToStringArr = convertToStringArr as jest.MockedFunction<
+  typeof convertToStringArr
+>;
+const techList = ["Java", ".Net", "React", "JavaScript"];
+
+describe("Testing pod page container", () => {
+  it("display the pod header", () => {
+    const mockHook = {
+      podList: mockFePod,
+      setPodList: () => {
+        return null;
       },
     };
-    (GetPaginatedEnablees as jest.Mock).mockResolvedValue(pageOfItem);
+    mockUseAvailablePods.mockReturnValue(mockHook);
+    mockGetActivePendingPodTag.mockReturnValue({
+      name: "Active",
+      color: "#E63946",
+    });
+    mockConvertToStringArr.mockReturnValue(techList);
+
+    render(
+      <PodPageContainer
+        hook={mockUseAvailablePods}
+        title="Pod"
+        displayPageCarousel={false}
+        displayTag={mockGetActivePendingPodTag}
+      />
+    );
+
+    const headerElm = screen.getByTestId("pageHeaderTitleId");
+    expect(headerElm).toBeInTheDocument();
   });
 
-  it('should enable previous page button after clicking "Next page"', async () => {
-    render(<EnableeView />);
-    const previousPageButton = screen.getByRole("button", {
-      name: "Previous page",
+  it("display available pod to check if active tag is been display", () => {
+    const mockHook = {
+      podList: mockFePod,
+      setPodList: () => {
+        return null;
+      },
+    };
+    mockUseAvailablePods.mockReturnValue(mockHook);
+    mockGetActivePendingPodTag.mockReturnValue({
+      name: "Active",
+      color: "#E63946",
     });
-    const nextPageButton = screen.getByRole("button", {
-      name: "Next page",
-    });
-    await userEvent.click(nextPageButton);
-    expect(previousPageButton).toBeEnabled();
-  });
+    mockConvertToStringArr.mockReturnValue(techList);
 
-  it('should enable previous page button after clicking "Next page"', async () => {
-    render(<EnableeView />);
-    const nextPageButton = screen.getByRole("button", {
-      name: "Next page",
-    });
+    render(
+      <PodPageContainer
+        hook={mockUseAvailablePods}
+        title="Pod"
+        displayPageCarousel={false}
+        displayTag={mockGetActivePendingPodTag}
+      />
+    );
 
-    for (let i = 0; i < 5; i++) {
-      userEvent.click(nextPageButton);
-    }
+    expect(screen.queryByText(mockFePod[0].podName)).toHaveTextContent(
+      mockFePod[0].podName
+    );
+    const podRowElm = screen.getByTestId("pageSectionTestId");
 
-    await waitFor(() => {
-      expect(nextPageButton).toBeDisabled();
-    });
-  });
-
-  it("goes to the page that is submitted by the user", async () => {
-    render(<EnableeView />);
-
-    const input = screen.getByTestId("CarouselInput");
-    const goButton = screen.getByRole("button", { name: "Go" });
-    await userEvent.type(input, "3");
-    await userEvent.click(goButton);
-    const nextPageButton = screen.getByRole("button", {
-      name: "Next page",
-    });
-    const previousPageButton = screen.getByRole("button", {
-      name: "Previous page",
-    });
-    await waitFor(() => {
-      expect(previousPageButton).toBeEnabled();
-    });
-    await waitFor(() => {
-      expect(nextPageButton).toBeEnabled();
-    });
-  });
-
-  it("Try to go to page that is above max page, should give error message", async () => {
-    render(<EnableeView />);
-
-    const input = screen.getByTestId("CarouselInput");
-    const goButton = screen.getByRole("button", { name: "Go" });
-    await userEvent.type(input, "100");
-    await userEvent.click(goButton);
-    const errorMessage = screen.getByText("* Invalid Page Number");
-    await waitFor(() => {
-      expect(errorMessage).toBeInTheDocument();
-    });
+    expect(podRowElm?.textContent).toContain("Active");
   });
 });

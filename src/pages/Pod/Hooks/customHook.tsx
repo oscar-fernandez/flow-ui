@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { mockFePod } from "../../../data/MockFEPod";
 import IFEPod from "../../../models/interfaces/IFEPod";
-//import {getCompletedPods} from "../../../services/PodAPI"
+import { getCompletedPods, getPendingPods } from "../../../services/PodAPI";
 
 export function useCompletedPods(): {
   podList: IFEPod[];
@@ -10,12 +10,10 @@ export function useCompletedPods(): {
   const [podList, setPodList] = useState<IFEPod[]>([]);
 
   useEffect(() => {
-    /* getCompletedPods().then((pods) => {
-            setCompletedPods(pods.data);
-        });  */
-    setPodList(mockFePod);
+    getCompletedPods().then((pods) => {
+      setPodList(pods.data);
+    });
   }, []);
-
   return { podList, setPodList };
 }
 
@@ -32,8 +30,11 @@ export function useAvailablePods(): {
   return { podList, setPodList };
 }
 
-export function useActivePods() {
-  const [activePods, setActivePods] = useState<IFEPod[]>([]);
+export function useActivePods(): {
+  podList: IFEPod[];
+  setPodList: Dispatch<SetStateAction<IFEPod[]>>;
+} {
+  const [podList, setPodList] = useState<IFEPod[]>([]);
 
   useEffect(() => {
     mockFePod
@@ -42,8 +43,8 @@ export function useActivePods() {
           Date.parse(pod.podStartDate) <= Date.now() &&
           Date.parse(pod.podEndDate) >= Date.now()
       )
-      .forEach((pod) => setActivePods((activePods) => [...activePods, pod]));
+      .forEach((pod) => setPodList((podList) => [...podList, pod]));
   }, []);
 
-  return [activePods, setActivePods];
+  return { podList, setPodList };
 }

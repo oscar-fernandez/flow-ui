@@ -43,9 +43,12 @@ export const shortenStringList = (list: string[]): string => {
 
 export const convertToStringArr = (list: ITechnology[]): string[] => {
   const stringArr: string[] = [];
-  list.forEach((tech) => {
-    stringArr.push(tech.name);
-  });
+
+  if (list !== null) {
+    list.forEach((tech) => {
+      stringArr.push(tech.name);
+    });
+  }
   return stringArr;
 };
 
