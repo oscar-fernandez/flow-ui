@@ -24,7 +24,6 @@ export default defineConfig(({ command, mode }) => {
           "src/utils/testSetup.js",
           "src/main.tsx",
           "src/components/DatepickerComponent/**",
-          "src/components/SideBarItems/ColMenuItem/**", //temp, need to add tests but dif issue
           "./src/components/SideBarItems/customHooks.ts",
         ],
         reporter: ["text", "lcov"],
