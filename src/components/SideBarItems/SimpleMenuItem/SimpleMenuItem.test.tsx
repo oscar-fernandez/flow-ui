@@ -12,7 +12,11 @@ describe("Rendering", () => {
     const menuItemName = "Management";
     const routePath = "/management";
     render(
-      <SimpleMenuItem menuItemName={menuItemName} routePath={routePath} />
+      <SimpleMenuItem
+        menuItemName={menuItemName}
+        routePath={routePath}
+        isMainMenu="m"
+      />
     );
     expect(screen.getByText(menuItemName)).toBeInTheDocument();
   });
