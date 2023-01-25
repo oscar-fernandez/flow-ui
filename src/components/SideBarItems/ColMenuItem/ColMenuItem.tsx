@@ -63,12 +63,19 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
   return (
     <div className="colMenuItem-container">
       <div onMouseEnter={handleOnMouseEnter} onMouseLeave={handleCloseHover}>
-        <SimpleMenuItem
-          menuItemName={menuItemName}
-          routePath={subMenuItems[0].routePath}
-          handleOnClick={handleHoverOnClick}
-          isMainMenu={"m"}
-        />
+        <Box
+          sx={{
+            background: toggle ? "#666691" : "#000048",
+            fontWeight: toggle ? "700" : "400",
+          }}
+        >
+          <SimpleMenuItem
+            menuItemName={menuItemName}
+            routePath={subMenuItems[0].routePath}
+            handleOnClick={handleHoverOnClick}
+            isMainMenu={"m"}
+          />
+        </Box>
       </div>
       <Popover
         id="basic-menu"
@@ -97,7 +104,13 @@ export default function ColMenuItem({ menuItemName, subMenuItems }: Props) {
           />
         </Box>
       </Popover>
-      <Collapse in={toggle} timeout={1}>
+      <Collapse
+        in={toggle}
+        timeout={1}
+        sx={{
+          background: toggle ? "#666691" : "#000048",
+        }}
+      >
         <div>
           {subMenuItems.map((item, idx) => (
             <SimpleMenuItem

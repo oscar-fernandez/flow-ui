@@ -26,10 +26,21 @@ function PageContainer() {
         <div className="view-container">
           <LoginComponent name="Andrew" />
           <Routes>
-            <Route path="/" element={<EnableeView />} />
-            <Route path="/pendingStart" element={<PendingEnablementStart />} />
-            <Route path="/pendingPodAssignment" element={<PodAssignment />} />
+            <Route path="/enablee" element={<EnableeView />} />
+            <Route
+              path="/enablee/pendingStart"
+              element={<PendingEnablementStart />}
+            />
+            <Route
+              path="/enablee/pendingPodAssignment"
+              element={<PodAssignment />}
+            />
             <Route path="/mgt" element={<ManagementContainer />} />
+            <Route path="/pod" element={<div> Pod Master List </div>} />
+            <Route
+              path="/pod/pending"
+              element={<div> Pod Pending List </div>}
+            />
             <Route
               path="/pod/completed"
               element={
