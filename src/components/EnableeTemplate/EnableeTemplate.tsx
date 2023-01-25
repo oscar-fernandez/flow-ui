@@ -101,21 +101,22 @@ export default function EnableeTemplate() {
 
   useEffect(() => {
     if (enablee) {
-      setName(`${enablee.firstName} ${enablee.lastName}`)
-      setStartDate(new Date(enablee.enablementStartDate))
-      setEndDate(new Date(enablee.enablementEndDate))
-      setEmployeeId(enablee.employeeId.toString())
-      setDateOfJoin(enablee.dateOfJoin)
-      const tags = enablee.assetTag ? enablee.assetTag.toString() : ''
-      setAssetTag(tags)
-      setCountry(enablee.countryCode.toString())
-      setCommunity(enablee.communityId.toString())
-      const employmentType = enablee.employmentTypeId ? enablee.employmentTypeId.toString() : ''
-      setEmploymentType(employmentType)
-      setGrade(enablee.gradeId.toString())
+      setName(`${enablee.firstName} ${enablee.lastName}`);
+      setStartDate(new Date(enablee.enablementStartDate));
+      setEndDate(new Date(enablee.enablementEndDate));
+      setEmployeeId(enablee.employeeId.toString());
+      setDateOfJoin(enablee.dateOfJoin);
+      const tags = enablee.assetTag ? enablee.assetTag.toString() : "";
+      setAssetTag(tags);
+      setCountry(enablee.countryCode.toString());
+      setCommunity(enablee.communityId.toString());
+      const employmentType = enablee.employmentTypeId
+        ? enablee.employmentTypeId.toString()
+        : "";
+      setEmploymentType(employmentType);
+      setGrade(enablee.gradeId.toString());
     }
-  }, [])
-
+  }, []);
 
   //check if all fields are entered
   useEffect(() => {

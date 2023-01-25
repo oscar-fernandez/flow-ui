@@ -21,7 +21,9 @@ export const ToggleArrowContext = React.createContext<
   },
 ]);
 
-export const ToggleDetailsContext = React.createContext < [IEnablee | null, (item: IEnablee | null) => void]>([
+export const ToggleDetailsContext = React.createContext<
+  [IEnablee | null, (item: IEnablee | null) => void]
+>([
   null,
   () => {
     return;
@@ -40,7 +42,6 @@ export function useToggleDetails() {
   return useContext(ToggleDetailsContext);
 }
 
-
 const ToggleProvider = ({ children }: ToggleBarProps) => {
   const [toggle, setToggle] = useState(false);
   const [toggleArrow, setToggleArrow] = useState(false);
@@ -55,18 +56,15 @@ const ToggleProvider = ({ children }: ToggleBarProps) => {
   };
 
   const setSideBarInfo = (item: IEnablee | null) => {
-    // console.log(item)
-    setDetails(item)
+    setDetails(item);
   };
-
-  
 
   return (
     <ToggleContext.Provider value={[toggle, changeToggle]}>
       <ToggleArrowContext.Provider value={[toggleArrow, changeToggleArrow]}>
-          <ToggleDetailsContext.Provider value={[details, setSideBarInfo]}>
+        <ToggleDetailsContext.Provider value={[details, setSideBarInfo]}>
           {children}
-          </ToggleDetailsContext.Provider>
+        </ToggleDetailsContext.Provider>
       </ToggleArrowContext.Provider>
     </ToggleContext.Provider>
   );

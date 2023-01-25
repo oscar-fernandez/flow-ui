@@ -43,7 +43,9 @@ export default function EnableeView() {
           setPage={setPageNum}
         />
       </div>
-      <ToggleSideBar template={<EnableeTemplate></EnableeTemplate>}></ToggleSideBar>
+      <ToggleSideBar
+        template={<EnableeTemplate></EnableeTemplate>}
+      ></ToggleSideBar>
     </>
   );
 }

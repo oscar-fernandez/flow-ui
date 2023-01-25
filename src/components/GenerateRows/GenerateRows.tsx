@@ -63,7 +63,6 @@ export function GenerateRows({ pageNum }: Props) {
         return (
           <Row
             key={i}
-            // onClick={() => 1}
             onClick={() => {
               changeToggle();
               setItem(enablee);
