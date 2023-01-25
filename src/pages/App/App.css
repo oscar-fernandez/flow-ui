@@ -1,9 +1,10 @@
 .selected-item {
-  background-color: #ffffff66;
+  background-color: #585887;
+  font-weight: 700;
 }
 
 .side-bar-item:hover {
-  background-color: #ffffff66;
+  background-color: #585887;
 }
 
 * {

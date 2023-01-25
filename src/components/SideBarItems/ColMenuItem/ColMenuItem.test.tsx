@@ -6,7 +6,7 @@ import {
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import ColMenuItem from "./ColMenuItem";
-import { listOfSubMenuItems1 as list } from "../../../data/SubMenuMock";
+import { EnableeSubMenuItems as list } from "../../../data/SubMenuMock";
 
 vi.mock("react-router", () => ({
   useNavigate: () => vi.fn(),
@@ -17,15 +17,15 @@ describe("ColMenuItem", () => {
     render(<ColMenuItem menuItemName={"Main Menu"} subMenuItems={list} />);
     const mainMenuBtn = screen.getByText("Main Menu");
     fireEvent.click(mainMenuBtn);
-    expect(screen.getByText("Sub Test 1")).toBeInTheDocument();
+    expect(screen.getByText(list[0].name)).toBeInTheDocument();
   });
 
   it("displays the hover menu", async () => {
     render(<ColMenuItem menuItemName={"Main Menu"} subMenuItems={list} />);
     const mainMenuBtn = screen.getByText("Main Menu");
     fireEvent.mouseOver(mainMenuBtn);
-    const subMenuList = await screen.findAllByText("Sub Test 1");
-    expect(subMenuList[1]).toBeInTheDocument();
+    const subMenuList = await screen.findAllByText(list[0].name);
+    expect(subMenuList[0]).toBeInTheDocument();
   });
 
   it("displays and removes hover menu", async () => {
