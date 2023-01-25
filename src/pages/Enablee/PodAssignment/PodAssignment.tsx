@@ -205,7 +205,7 @@ export default function PodAssignment() {
               <CustomTableContainer
                 headers={headersPods}
                 headerStyle={headerStyle}
-                rows={Unit.transformPodArray(mockFePod, count)}
+                rows={Unit.transformPodArray(mockFePod, selectedRow.current?.id, count)}
                 cellStyle={cellStyle}
                 rowStyle={rowStyle}
                 customHandleSelection={customHandleSelection}
