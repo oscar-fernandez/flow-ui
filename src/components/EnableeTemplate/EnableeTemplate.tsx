@@ -9,6 +9,7 @@ import FilteredPod from "./FilteredPod";
 import { mockFePod } from "../../data/MockFEPod";
 import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
+import { useToggleDetails } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 
 const InputProps = {
   disableUnderline: true,
@@ -96,6 +97,25 @@ export default function EnableeTemplate() {
   const [grade, setGrade] = useState("");
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
+  const [enablee, setEnablee] = useToggleDetails();
+
+  useEffect(() => {
+    if (enablee) {
+      setName(`${enablee.firstName} ${enablee.lastName}`)
+      setStartDate(new Date(enablee.enablementStartDate))
+      setEndDate(new Date(enablee.enablementEndDate))
+      setEmployeeId(enablee.employeeId.toString())
+      setDateOfJoin(enablee.dateOfJoin)
+      const tags = enablee.assetTag ? enablee.assetTag.toString() : ''
+      setAssetTag(tags)
+      setCountry(enablee.countryCode.toString())
+      setCommunity(enablee.communityId.toString())
+      const employmentType = enablee.employmentTypeId ? enablee.employmentTypeId.toString() : ''
+      setEmploymentType(employmentType)
+      setGrade(enablee.gradeId.toString())
+    }
+  }, [])
+
 
   //check if all fields are entered
   useEffect(() => {

@@ -6,6 +6,8 @@ import { GenerateRows } from "../../../components/GenerateRows/GenerateRows";
 import ToggleProvider from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { useEffect, useState } from "react";
 import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
+import ToggleSideBar from "../../../components/ToggleSideBar/ToggleSidebar";
+import EnableeTemplate from "../../../components/EnableeTemplate/EnableeTemplate";
 
 export default function EnableeView() {
   const [pageNum, setPageNum] = useState(1);
@@ -34,15 +36,14 @@ export default function EnableeView() {
           inputThree="last name"
           inputFour="tech stack"
         />
-        <ToggleProvider>
-          <GenerateRows pageNum={pageNum} />
-        </ToggleProvider>
+        <GenerateRows pageNum={pageNum} />
         <PageNumberCarousel
           totalPages={totalPages}
           currentPageNumber={pageNum}
           setPage={setPageNum}
         />
       </div>
+      <ToggleSideBar template={<EnableeTemplate></EnableeTemplate>}></ToggleSideBar>
     </>
   );
 }
