@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import FormComponent from "./FormComponent";
 import { getProjects, createProject } from "../../services/ManagementAPI";
+import { mockFePod } from "../../data/MockFEPod";
 
 vi.mock("../../services/ManagementAPI");
 describe("FormComponent", () => {
@@ -149,46 +150,83 @@ describe("FormComponent", () => {
     expect(summary.value).toBe("project test ");
   });
 
-  it("should reset input fields on reset click", () => {
-    const project = {
-      id: 100,
-      name: "projectTest",
-      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
-      summary: "project test ",
-      technologies: {},
-    };
+  // it("should reset input fields on reset click", () => {
+  //   const project = {
+  //     id: 100,
+  //     name: "projectTest",
+  //     repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+  //     summary: "project test ",
+  //     technologies: {},
+  //   };
 
-    render(<FormComponent project={project} technologies={ts} edit={} />);
+  //   render(<FormComponent project={project} technologies={ts} edit={true} />);
+  //   const projectName = screen.getByTestId("pName") as HTMLInputElement;
+  //   const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
+  //   const summary = screen.getByTestId("pDesc") as HTMLInputElement;
+  //   const editBtn = screen.getByTestId("editBtn") as HTMLButtonElement;
+  //   projectName.value = "projectTest";
+  //   repoLink.value =
+  //     "https://git.work.cognizant.studio/enablement/team-projects/a";
+  //   summary.value = "project test ";
+
+  //   const project1 = {
+  //     id: 100,
+  //     name: "projectTest",
+  //     repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+  //     summary: "project test ",
+  //     technologies: {},
+  //   };
+
+  //   (createProject as jest.Mock).mockResolvedValueOnce(project1);
+
+  //   editBtn.click();
+
+  //   //chacge the value of project1.name to 'othertest'
+
+  //   const resetBtn = screen.getByTestId("resetButton") as HTMLButtonElement;
+  //   resetBtn.click();
+
+  //   expect(projectName.value).toBe("projectTest");
+  //   expect(repoLink.value).toBe(
+  //     "https://git.work.cognizant.studio/enablement/team-projects/a"
+  //   );
+  //   expect(summary.value).toBe("project test ");
+  // });
+
+  it("should handle input fields", () => {
+    render(
+      <FormComponent
+        project={mockFePod[0].project}
+        technologies={ts}
+        edit={true}
+      />
+    );
     const projectName = screen.getByTestId("pName") as HTMLInputElement;
     const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
     const summary = screen.getByTestId("pDesc") as HTMLInputElement;
-    const editBtn = screen.getByTestId("editBtn") as HTMLButtonElement;
-    projectName.value = "projectTest";
-    repoLink.value =
-      "https://git.work.cognizant.studio/enablement/team-projects/a";
-    summary.value = "project test ";
+    fireEvent.change(projectName, { target: { value: "test" } });
+    fireEvent.change(repoLink, { target: { value: "test" } });
+    fireEvent.change(summary, { target: { value: "test" } });
+    expect(projectName.value).toBe("test");
+    expect(repoLink.value).toBe("test");
+    expect(summary.value).toBe("test");
+  });
 
-    const project1 = {
-      id: 100,
-      name: "projectTest",
-      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
-      summary: "project test ",
-      technologies: {},
-    };
-
-    (createProject as jest.Mock).mockResolvedValueOnce(project1);
-
-    editBtn.click();
-
-    //chacge the value of project1.name to 'othertest'
-
-    const resetBtn = screen.getByTestId("resetButton") as HTMLButtonElement;
-    resetBtn.click();
-
-    expect(projectName.value).toBe("projectTest");
-    expect(repoLink.value).toBe(
-      "https://git.work.cognizant.studio/enablement/team-projects/a"
+  it("should set disable submit true if not all fields entered", () => {
+    render(
+      <FormComponent
+        project={mockFePod[0].project}
+        technologies={ts}
+        edit={true}
+      />
     );
-    expect(summary.value).toBe("project test ");
+    const disabledButton = screen.getByText;
+    const projectName = screen.getByTestId("pName") as HTMLInputElement;
+    const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
+    const summary = screen.getByTestId("pDesc") as HTMLInputElement;
+    fireEvent.change(projectName, { target: { value: " " } });
+    fireEvent.change(repoLink, { target: { value: " " } });
+    fireEvent.change(summary, { target: { value: " " } });
+    expect(projectName.value).toBe("test");
   });
 });

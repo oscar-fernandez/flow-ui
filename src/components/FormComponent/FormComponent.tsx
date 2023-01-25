@@ -15,36 +15,6 @@ import { TagComponent } from "../TagComponent/Tag";
 
 import "./FormComponent.css";
 
-const inputStyle = () => ({
-  marginLeft: "auto",
-  marginRight: "auto",
-  backgroundColor: "#d9d9d9",
-  borderRadius: "10px",
-  width: "23.5rem",
-  padding: "1rem",
-  marginTop: "1rem",
-  marginBottom: "2.875rem",
-  input: {
-    "&::placeholder": {
-      fontWeight: "700",
-      fontSize: "16px",
-      color: "black",
-      letterSpacing: "0.025em",
-    },
-    "&:invalid": {
-      color: "red",
-      caretColor: "black",
-    },
-  },
-  textarea: {
-    "&::placeholder": {
-      fontWeight: "700",
-      fontSize: "16px",
-      letterSpacing: "0.025em",
-    },
-  },
-});
-
 const InputProps = {
   disableUnderline: true,
 };
@@ -177,15 +147,15 @@ export default function FormComponent(props: any) {
   };
 
   //input field value
-  let name,
-    link,
-    summ = "";
+  // let name,
+  //   link,
+  //   summ = "";
 
-  if (props.selectedRow != "") {
-    name = props.selectedRow?.current?.name;
-    link = props.selectedRow?.current?.repoLink;
-    summ = props.selectedRow?.current?.summary;
-  }
+  // if (props.selectedRow != "") {
+  //   name = props.selectedRow?.current?.name;
+  //   link = props.selectedRow?.current?.repoLink;
+  //   summ = props.selectedRow?.current?.summary;
+  // }
 
   return (
     <div className="form-component">
@@ -200,13 +170,14 @@ export default function FormComponent(props: any) {
               <TextField
                 className="form-field"
                 value={projectName || ""}
-                data-testid="pName"
+                // data-testid="pName"
                 id="projectName"
                 name="projectName"
                 inputProps={{
                   ...inputProps,
                   maxLength: 255,
                   pattern: "^[a-zA-Z0-9_-]*$",
+                  "data-testid": "pName",
                 }}
                 InputProps={InputProps}
                 placeholder="Empty"
@@ -228,13 +199,14 @@ export default function FormComponent(props: any) {
               </label>
               <TextField
                 className="form-field"
-                data-testid="pLink"
+                // data-testid="pLink"
                 id="link"
                 name="link"
                 inputProps={{
                   ...inputProps,
                   pattern:
                     "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)",
+                  "data-testid": "pLink",
                 }}
                 InputProps={InputProps}
                 placeholder="Empty"
@@ -260,12 +232,12 @@ export default function FormComponent(props: any) {
               <label className="p-label">Project Summary</label>
               <TextField
                 className="form-field"
-                data-testid="pDesc"
+                // data-testid="pDesc"
                 id="summary"
                 name="summary"
                 multiline
                 rows={4}
-                inputProps={inputProps}
+                inputProps={{ ...inputProps, "data-testid": "pDesc" }}
                 InputProps={InputProps}
                 placeholder="Empty"
                 variant="standard"
