@@ -12,7 +12,7 @@ export const usePendingPodEnablees = () => {
       setList(items.data);
     });
   }, []);
-  return { list, setList };
+  return [list, setList];
 };
 
 export const usePendingStartEnablees = () => {
@@ -22,5 +22,5 @@ export const usePendingStartEnablees = () => {
       setList(enablees.data);
     });
   }, []);
-  return { list, setList };
+  return [list, setList];
 };

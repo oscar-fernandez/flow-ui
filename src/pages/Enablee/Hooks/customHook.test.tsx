@@ -38,6 +38,6 @@ describe("usePendingPodEnablees hook tests", async () => {
 
     await act(() => mock);
 
-    expect(result.current.list).toEqual(enableesList.data);
+    expect(result.current[0]).toEqual(enableesList.data);
   });
 });

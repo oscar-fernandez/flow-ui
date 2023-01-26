@@ -22,6 +22,6 @@ describe("useAllEnablees hook", () => {
     getPaginatedEnableesMock.mockResolvedValue(enableePage);
     const { result } = renderHook(() => useAllEnablees());
     await act(() => getPaginatedEnableesMock);
-    expect(result.current.enablees).toEqual(enableePage.data);
+    expect(result.current[0]).toEqual(enableePage.data);
   });
 });
