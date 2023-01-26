@@ -6,6 +6,9 @@ import {
   updatedEnablees,
   updatedProjects,
   updatedTechnology,
+  getAvailablePodTag,
+  getActivePendingPodTag,
+  getName,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
 import IProjectTable from "../models/interfaces/IProjectTable";
@@ -93,6 +96,57 @@ describe("utilityTest", () => {
       lateEnablee.enablementEndDate
     );
     expect(result).toBe(false);
+  });
+  it("Available pod, less than 15 enablee enrolled ", () => {
+    const pod = createPod();
+    pod.enablee[0] = createEnablee();
+    const result = getAvailablePodTag(pod);
+    expect(result.name).toEqual("Available");
+  });
+  it("pod is full, 15 enablee enrolled ", () => {
+    const enablee = createEnablee();
+    const pod = createPod();
+    pod.enablee[0] = enablee;
+    pod.enablee[1] = enablee;
+    pod.enablee[2] = enablee;
+    pod.enablee[3] = enablee;
+    pod.enablee[4] = enablee;
+    pod.enablee[5] = enablee;
+    pod.enablee[6] = enablee;
+    pod.enablee[7] = enablee;
+    pod.enablee[8] = enablee;
+    pod.enablee[9] = enablee;
+    pod.enablee[10] = enablee;
+    pod.enablee[11] = enablee;
+    pod.enablee[12] = enablee;
+    pod.enablee[13] = enablee;
+    pod.enablee[14] = enablee;
+    const result = getAvailablePodTag(pod);
+    expect(result.name).toEqual("");
+  });
+
+  it("Active pod, start date is after current date", () => {
+    const activePod = createPod();
+    const result = getActivePendingPodTag(activePod);
+    expect(result.name).toEqual("Active");
+  });
+
+  it("Pending Pod, start date is before current date", () => {
+    const pendingPod = createPod();
+    pendingPod.podStartDate = "2024-01-22";
+
+    const result = getActivePendingPodTag(pendingPod);
+    expect(result.name).toEqual("Pending");
+  });
+  it("should return proper names using getName", () => {
+    expect(getName("id")).toEqual("employee ID");
+    expect(getName("firstName")).toEqual("first name");
+    expect(getName("lastName")).toEqual("last name");
+    expect(getName("techStack")).toEqual("Tech Stack");
+    expect(getName("enablementStartDate")).toEqual("enablement start date");
+    expect(getName("enablementEndDate")).toEqual("enablement end date");
+    expect(getName("skillName")).toEqual("Skill Name");
+    expect(getName("projectName")).toEqual("Project Name");
   });
 });
 
