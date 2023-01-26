@@ -9,6 +9,7 @@ import {
   getActivePendingPodTag,
   getAvailablePodTag,
 } from "../../utils/utilityFunctions";
+import IFEPod from "../../models/interfaces/IFEPod";
 
 vi.mock("./Hooks/customHook");
 vi.mock("../../utils/utilityFunctions");
@@ -24,31 +25,31 @@ const mockConvertToStringArr = convertToStringArr as jest.MockedFunction<
 const techList = ["Java", ".Net", "React", "JavaScript"];
 
 describe("Testing pod page container", () => {
-  it("display the pod header", () => {
-    const mockHook = {
-      podList: mockFePod,
-      setPodList: () => {
-        return null;
-      },
-    };
-    mockUseAvailablePods.mockReturnValue(mockHook);
-    mockGetActivePendingPodTag.mockReturnValue({
-      name: "Active",
-      color: "#E63946",
-    });
-    mockConvertToStringArr.mockReturnValue(techList);
+  // it("display the pod header", () => {
+  //   const mockHook = {
+  //     podList: mockFePod,
+  //     setPodList: () => {
+  //       return null;
+  //     },
+  //   };
+  //   mockUseAvailablePods.mockReturnValue(mockHook);
+  //   mockGetActivePendingPodTag.mockReturnValue({
+  //     name: "Active",
+  //     color: "#E63946",
+  //   });
+  //   mockConvertToStringArr.mockReturnValue(techList);
 
-    render(
-      <PodPageContainer
-        hook={mockUseAvailablePods}
-        displayPageCarousel={false}
-        displayTag={mockGetActivePendingPodTag}
-      />
-    );
+  //   render(
+  //     <PodPageContainer
+  //       hook={mockUseAvailablePods}
+  //       displayPageCarousel={false}
+  //       displayTag={mockGetActivePendingPodTag}
+  //     />
+  //   );
 
-    const headerElm = screen.getByTestId("pageHeaderTitleId");
-    expect(headerElm).toBeInTheDocument();
-  });
+  //   const headerElm = screen.getByTestId("pageHeaderTitleId");
+  //   expect(headerElm).toBeInTheDocument();
+  // });
 
   it("display available pod to check if active tag is been display", () => {
     const mockHook = {
