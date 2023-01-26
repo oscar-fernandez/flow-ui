@@ -1,16 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-
-import React from "react";
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  afterEach,
-  beforeEach,
-  beforeAll,
-} from "vitest";
+import { describe, it, expect, vi, beforeAll } from "vitest";
 import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
 import EnableeView from "./EnableeView";
 import { dummyEnablees } from "../../../data/EnableeMock";

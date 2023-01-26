@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import IEnablee from "../../../models/interfaces/IEnablee";
 import {
   GetEnableesPendingPodAssignment,
   GetEnableesWithNoStartDate,
 } from "../../../services/EnableeAPI";
 
 export const usePendingPodEnablees = () => {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<IEnablee[]>([]);
 
   useEffect(() => {
     GetEnableesPendingPodAssignment().then((items) => {
@@ -16,7 +17,7 @@ export const usePendingPodEnablees = () => {
 };
 
 export const usePendingStartEnablees = () => {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<IEnablee[]>([]);
   useEffect(() => {
     GetEnableesWithNoStartDate().then((enablees) => {
       setList(enablees.data);

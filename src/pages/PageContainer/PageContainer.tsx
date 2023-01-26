@@ -17,9 +17,6 @@ import {
   getAvailablePodTag,
 } from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
-import { EnableePageContainer } from "../Enablee/EnableePageContainer/EnableePageContainer";
-import { useAllEnablees } from "../Enablee/Hooks/useAllEnablees";
-import { usePendingPodEnablees } from "../Enablee/Hooks/customHook";
 
 function PageContainer() {
   return (
@@ -29,16 +26,7 @@ function PageContainer() {
         <div className="view-container">
           <LoginComponent name="Andrew" />
           <Routes>
-            {/* <Route path="/enablee" element={<EnableeView />} /> */}
-            <Route
-              path="/enablee"
-              element={
-                <EnableePageContainer
-                  hook={useAllEnablees}
-                  displayPageCarousel={false}
-                />
-              }
-            />
+            <Route path="/enablee" element={<EnableeView />} />
             <Route
               path="/enablee/pendingStart"
               element={<PendingEnablementStart />}

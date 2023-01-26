@@ -88,8 +88,8 @@ export const dummyEnablees: IEnablee[] = [
     firstName: "Super",
     lastName: "Sonic",
     dateOfJoin: "2022-01-21",
-    enablementStartDate: "2022-01-21",
-    enablementEndDate: "2022-01-21",
+    enablementStartDate: "",
+    enablementEndDate: "",
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [

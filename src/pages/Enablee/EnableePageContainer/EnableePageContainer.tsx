@@ -4,7 +4,6 @@ import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumbe
 import Row from "../../../components/RowComponent/Row";
 import { TagComponent } from "../../../components/TagComponent/Tag";
 import IEnablee from "../../../models/interfaces/IEnablee";
-import IPageOfItems from "../../../models/interfaces/IPageOfItems";
 import ITechnology from "../../../models/interfaces/ITechnology";
 import {
   convertToStringArr,
@@ -22,14 +21,11 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
   const [page, setPage] = useState(1);
 
   const getTotalPages = () => {
-    if (enablees !== null) {
-      return Math.ceil(enablees.totalElements / 25);
-    } else {
-      return 0;
-    }
+    return Math.ceil(enablees.totalElements / 25);
   };
 
   const getList = (): IEnablee[] => {
+    /* conditional checks if enablees is a PageOfItems<IEnablee> instead of IEnablee[] */
     if (enablees?.items) {
       return enablees.items;
     } else {
@@ -38,12 +34,15 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
   };
 
   useEffect(() => {
-    getEnablees(page);
+    if (enablees?.items) {
+      getEnablees(page - 1);
+    }
   }, [page]);
 
   return (
     <>
-      {getList().map((enablee, i) => {
+      {/* conditional checks if enablees exists before mapping */}
+      {getList()?.map((enablee, i) => {
         const tooltip = [...convertToStringArr(enablee.technology)];
         const startDate = new Date(enablee.enablementStartDate);
         const endDate = new Date(enablee.enablementEndDate);
@@ -110,7 +109,7 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
       })}
       {displayPageCarousel ? (
         <PageNumberCarousel
-          totalPages={getTotalPages()}
+          totalPages={enablees?.totalElements ? getTotalPages() : 0}
           currentPageNumber={page}
           setPage={setPage}
         />
