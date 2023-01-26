@@ -4,10 +4,14 @@
   font-weight: 700;
   letter-spacing: 0.025em;
   line-height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .plus {
   color: #000048;
+  margin-bottom: 6px;
   font-size: 50px;
 }
 

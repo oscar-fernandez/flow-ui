@@ -1,6 +1,7 @@
 import { describe, it } from "vitest";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { PageViewHeader } from "./PageViewHeader";
+import userEvent from "@testing-library/user-event";
 
 describe("PageViewHeader Component", () => {
   it("should contain input field props title of page", () => {

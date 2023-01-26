@@ -1,22 +1,22 @@
 import { describe, vi, beforeAll, it, expect } from "vitest";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { EnableePageContainer } from "./EnableePageContainer";
 import { useAllEnablees } from "../Hooks/useAllEnablees";
 import {
   convertToStringArr,
   generateTags,
-  tooltipString,
 } from "../../../utils/utilityFunctions";
 import { dummyEnablees } from "../../../data/EnableeMock";
-import { usePendingPodEnablees } from "../Hooks/customHook";
+import { usePendingStartEnablees } from "../Hooks/customHook";
 
 vi.mock("../Hooks/useAllEnablees");
 vi.mock("../Hooks/customHook");
 vi.mock("../../../utils/utilityFunctions");
 
-const mockUsePendingPodEnablees = usePendingPodEnablees as jest.MockedFunction<
-  typeof usePendingPodEnablees
->;
+const mockUsePendingStartEnablees =
+  usePendingStartEnablees as jest.MockedFunction<
+    typeof usePendingStartEnablees
+  >;
 
 const mockUseAllEnablees = useAllEnablees as jest.MockedFunction<
   typeof useAllEnablees
@@ -61,10 +61,10 @@ describe("EnableePageContainer", () => {
 
   it("renders page with hook that returns IEnablee[]", () => {
     const arrOfItems = [dummyEnablees, vi.fn(() => null)];
-    mockUsePendingPodEnablees.mockReturnValue(arrOfItems);
+    mockUsePendingStartEnablees.mockReturnValue(arrOfItems);
     render(
       <EnableePageContainer
-        hook={usePendingPodEnablees}
+        hook={usePendingStartEnablees}
         displayPageCarousel={false}
       />
     );

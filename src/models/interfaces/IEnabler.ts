@@ -11,7 +11,7 @@ interface IEnabler {
   countryCode: number;
   communityId: number;
   employmentTypeId: number;
-  podId: IFEPod[];
+  podId: IFEPod[] | null;
 }
 
 export default IEnabler;
