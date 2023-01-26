@@ -101,7 +101,7 @@ export default function PodAssignment() {
     const filteredEnablees =
       receivedEnablees &&
       selectedRow &&
-      Unit.matchData(dummyEnablees, selectedRow.current);
+      Unit.matchData(receivedEnablees, selectedRow.current);
     setReceivedEnablees(filteredEnablees);
   };
 
@@ -183,44 +183,51 @@ export default function PodAssignment() {
       <form action="">
         <div>
           {error !== "" ? <div className="error">{error}</div> : ""}
-          {radioCheck}
-          <CustomTableContainer
-            headers={headersEnablee}
-            headerStyle={headerStyle}
-            rows={fn()}
-            cellStyle={cellStyle}
-            rowStyle={rowStyle}
-            //  toggle={toggle}
-            updateSelectedEnablees={updateSelectedEnablees}
-            skill={false}
-            value={""}
-            toggleShowForm={() => {
-              return null;
-            }}
-          />
-
           <div className="container">
+            {/* <PageViewHeader pageTitle="Enablee" showPlus={true} /> */}
+            {radioCheck}
             <CustomTableContainer
-              headers={headersPods}
+              headers={headersEnablee}
               headerStyle={headerStyle}
-              rows={Unit.transformPodArray(mockFePod, count)}
+              rows={fn()}
               cellStyle={cellStyle}
               rowStyle={rowStyle}
-              customHandleSelection={customHandleSelection}
+              //  toggle={toggle}
+              updateSelectedEnablees={updateSelectedEnablees}
               skill={false}
               value={""}
-              toggleShowForm={function (): void {
-                throw new Error("Function not implemented.");
+              toggleShowForm={() => {
+                return null;
               }}
             />
+
+            <div className="container">
+              <CustomTableContainer
+                headers={headersPods}
+                headerStyle={headerStyle}
+                rows={Unit.transformPodArray(
+                  mockFePod,
+                  selectedRow.current?.id,
+                  count
+                )}
+                cellStyle={cellStyle}
+                rowStyle={rowStyle}
+                customHandleSelection={customHandleSelection}
+                skill={false}
+                value={""}
+                toggleShowForm={function (): void {
+                  throw new Error("Function not implemented.");
+                }}
+              />
+            </div>
+            <button
+              className="button button-orange"
+              disabled={true}
+              type="submit"
+            >
+              submit
+            </button>
           </div>
-          <button
-            className="button button-orange"
-            disabled={true}
-            type="submit"
-          >
-            submit
-          </button>
         </div>
       </form>
     </div>
