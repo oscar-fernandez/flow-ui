@@ -11,10 +11,14 @@ const listCheckboxes = [
   { name: "Available Enablees" },
 ];
 
-const podRowFactory = (obj: IFEPod, selectedRowId: number, selectedCapacity: number): string[] => {
+const podRowFactory = (
+  obj: IFEPod,
+  selectedRowId: number | undefined,
+  selectedCapacity: number
+): string[] => {
   if (obj.id != selectedRowId) {
     selectedCapacity = 0;
-  } 
+  }
   return [
     obj.project.name,
     obj.podName,
@@ -24,7 +28,11 @@ const podRowFactory = (obj: IFEPod, selectedRowId: number, selectedCapacity: num
     capasityEmployee(obj.enablee, selectedCapacity),
   ];
 };
-const transformPodArray = (ar: IFEPod[], selectedRowId: number, selectedCapacity: number): string[][] =>
+const transformPodArray = (
+  ar: IFEPod[],
+  selectedRowId: number | undefined,
+  selectedCapacity: number
+): string[][] =>
   ar.map((e) => podRowFactory(e, selectedRowId, selectedCapacity));
 
 const PLACEHOLDER = 15;
