@@ -1,6 +1,4 @@
 import { render, screen } from "@testing-library/react";
-
-import React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { getPendingPods } from "../../services/PodAPI";
 import PodPageContainer from "./PodPageContainer";
@@ -43,7 +41,6 @@ describe("Testing pod page container", () => {
     render(
       <PodPageContainer
         hook={mockUseAvailablePods}
-        title="Pod"
         displayPageCarousel={false}
         displayTag={mockGetActivePendingPodTag}
       />
@@ -70,7 +67,6 @@ describe("Testing pod page container", () => {
     render(
       <PodPageContainer
         hook={mockUseAvailablePods}
-        title="Pod"
         displayPageCarousel={false}
         displayTag={mockGetActivePendingPodTag}
       />
