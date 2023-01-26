@@ -85,7 +85,8 @@ export default function FormComponent(props: any) {
   });
 
   //function to reset form values to origonal values
-  const resetForm = () => {
+  const resetForm = (e: any) => {
+    e.preventDefault();
     setProjectName(props.selectedRow?.current?.name);
     setProjectLink(props.selectedRow?.current?.repoLink);
     setProjectDescription(props.selectedRow?.current?.description);
