@@ -101,7 +101,7 @@ export default function PodAssignment() {
     const filteredEnablees =
       receivedEnablees &&
       selectedRow &&
-      Unit.matchData(dummyEnablees, selectedRow.current);
+      Unit.matchData(receivedEnablees, selectedRow.current);
     setReceivedEnablees(filteredEnablees);
   };
 
@@ -205,7 +205,11 @@ export default function PodAssignment() {
               <CustomTableContainer
                 headers={headersPods}
                 headerStyle={headerStyle}
-                rows={Unit.transformPodArray(mockFePod, selectedRow.current?.id, count)}
+                rows={Unit.transformPodArray(
+                  mockFePod,
+                  selectedRow.current?.id,
+                  count
+                )}
                 cellStyle={cellStyle}
                 rowStyle={rowStyle}
                 customHandleSelection={customHandleSelection}
