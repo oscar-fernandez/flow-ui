@@ -8,6 +8,7 @@ import {
   createTechnology,
   getProjects,
   getTechnologies,
+  updateProject,
 } from "../../../services/ManagementAPI";
 
 vi.mock("../../../services/ManagementAPI");
@@ -316,6 +317,82 @@ describe("Management View page", () => {
     expect(input).toBeInTheDocument();
     fireEvent.change(input, { target: { value: "test" } });
     fireEvent.keyDown(input, { key: "Enter", code: "Enter", charCode: 13 });
+    await waitFor(() => {
+      expect(input).not.toBeInTheDocument();
+    });
+  });
+
+  it("should handle cancel on add technology", async () => {
+    const projects = {
+      data: [
+        {
+          id: 1,
+          name: "PixelGram",
+          summary: "",
+          technology: [
+            { id: 2, name: "Java" },
+            { id: 8, name: "React" },
+            { id: 12, name: "Rust" },
+            { id: 12, name: "C++" },
+          ],
+          repoLink: "google.com",
+        },
+        {
+          id: 2,
+          name: "Flow-E",
+          summary: "",
+          technology: [
+            { id: 2, name: "Java" },
+            { id: 8, name: "React" },
+            { id: 12, name: "Rust" },
+            { id: 12, name: "C++" },
+          ],
+          repoLink: "google.com",
+        },
+      ],
+    };
+
+    const technologies = {
+      data: [
+        {
+          id: 3,
+          name: "Java",
+        },
+        {
+          id: 4,
+          name: "React",
+        },
+        {
+          id: 5,
+          name: "Ruby",
+        },
+        {
+          id: 3,
+          name: "Spring Framework",
+        },
+      ],
+    };
+    (getProjects as jest.Mock).mockResolvedValueOnce(projects);
+    (getTechnologies as jest.Mock).mockResolvedValueOnce(technologies);
+    (createTechnology as jest.Mock).mockResolvedValueOnce({
+      data: {
+        id: 10,
+        name: "mockSkill",
+        backgroundColor: "red",
+      },
+    });
+
+    render(<ManagementContainer />);
+    const technologyTab = screen.getByTestId("techTab");
+    expect(technologyTab).toBeInTheDocument();
+    fireEvent.click(technologyTab);
+    const addSkill = screen.getByTestId("button");
+    expect(addSkill).toBeInTheDocument();
+    fireEvent.click(addSkill);
+    const input = screen.getByTestId("input");
+    expect(input).toBeInTheDocument();
+    fireEvent.change(input, { target: { value: "test" } });
+    fireEvent.keyDown(input, { key: "Escape", code: "Escape", charCode: 27 });
     await waitFor(() => {
       expect(input).not.toBeInTheDocument();
     });
