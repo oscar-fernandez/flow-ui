@@ -184,7 +184,7 @@ export default function PodAssignment() {
         <div>
           {error !== "" ? <div className="error">{error}</div> : ""}
           <div className="container">
-            <PageViewHeader pageTitle="Enablee" showPlus={true} />
+            {/* <PageViewHeader pageTitle="Enablee" showPlus={true} /> */}
             {radioCheck}
             <CustomTableContainer
               headers={headersEnablee}
