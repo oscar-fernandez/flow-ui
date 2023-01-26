@@ -56,7 +56,6 @@ describe("usePendingPodEnablees hook tests", async () => {
     const { result } = renderHook(() => usePendingStartEnablees());
 
     await act(() => mock);
-
-    expect(result.current.list).toEqual([...enableesList.data]);
+    expect(result.current[0]).toEqual([...enableesList.data]);
   });
 });

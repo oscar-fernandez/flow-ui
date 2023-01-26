@@ -6,7 +6,6 @@ import IProject from "../models/interfaces/IProject";
 import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnology from "../models/interfaces/ITechnology";
 import ITechnologyTable from "../models/interfaces/ITechnologyTable";
-import PodAssignment from "../pages/Enablee/PodAssignment/PodAssignment";
 
 export function getName(name: string) {
   switch (name) {
@@ -148,5 +147,25 @@ export const getActivePendingPodTag = (pod: IFEPod) => {
     podTag.color = "#344E41";
   }
 
+  return podTag;
+};
+
+export const generateTags = (enablee: IEnablee): IDisplayTag => {
+  const startDate = new Date(enablee.enablementStartDate);
+  const endDate = new Date(enablee.enablementEndDate);
+  const currentDate = new Date();
+  let podTag: IDisplayTag = { name: "", color: "" };
+  if (currentDate < endDate && currentDate >= startDate && enablee.podId > 0) {
+    podTag = { name: "Active", color: "rgba(230, 57, 70, 1)" };
+  } else if (enablee.podId == null || enablee.podId == 0) {
+    podTag = { name: "Pending Pod Assignment", color: "rgba(52, 78, 65, 1)" };
+  } else if (currentDate > endDate && enablee.podId > 0) {
+    podTag = { name: "Completed", color: "rgba(99, 56, 133, 1)" };
+  } else if (
+    enablee.enablementStartDate === null ||
+    enablee.enablementStartDate === ""
+  ) {
+    podTag = { name: "Pending Start Date", color: "rgba(62, 143, 114, 1)" };
+  }
   return podTag;
 };
