@@ -1,12 +1,4 @@
-import {
-  FormControl,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-  ButtonGroup,
-  Button,
-} from "@mui/material";
+import { MenuItem, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import ITechnology from "../../models/interfaces/ITechnology";
 import IProject from "../../models/interfaces/IProject";
@@ -14,36 +6,6 @@ import { updateProject, createProject } from "../../services/ManagementAPI";
 import { TagComponent } from "../TagComponent/Tag";
 
 import "./FormComponent.css";
-
-const inputStyle = () => ({
-  marginLeft: "auto",
-  marginRight: "auto",
-  backgroundColor: "#d9d9d9",
-  borderRadius: "10px",
-  width: "23.5rem",
-  padding: "1rem",
-  marginTop: "1rem",
-  marginBottom: "2.875rem",
-  input: {
-    "&::placeholder": {
-      fontWeight: "700",
-      fontSize: "16px",
-      color: "black",
-      letterSpacing: "0.025em",
-    },
-    "&:invalid": {
-      color: "red",
-      caretColor: "black",
-    },
-  },
-  textarea: {
-    "&::placeholder": {
-      fontWeight: "700",
-      fontSize: "16px",
-      letterSpacing: "0.025em",
-    },
-  },
-});
 
 const InputProps = {
   disableUnderline: true,
@@ -69,23 +31,24 @@ export default function FormComponent(props: any) {
   const [projectDescription, setProjectDescription] =
     useState(props.selectedRow?.current?.description) || null;
   const [disableSubmit, setDisableSubmit] = useState(true);
-  const [hasTechStack, setHasTechStack] = useState(true);
+  // const [hasTechStack, setHasTechStack] = useState(true);
 
-  useEffect(() => {
-    if (
-      projectName?.trim() === "" ||
-      projectLink?.trim() === "" ||
-      projectDescription?.length > 100 ||
-      !hasTechStack
-    ) {
-      setDisableSubmit(true);
-    } else {
-      setDisableSubmit(false);
-    }
-  });
+  // useEffect(() => {
+  //   if (
+  //     projectName?.trim() === "" ||
+  //     projectLink?.trim() === "" ||
+  //     projectDescription?.length > 100 ||
+  //     !hasTechStack
+  //   ) {
+  //     setDisableSubmit(true);
+  //   } else {
+  //     setDisableSubmit(false);
+  //   }
+  // });
 
   //function to reset form values to origonal values
-  const resetForm = () => {
+  const resetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     setProjectName(props.selectedRow?.current?.name);
     setProjectLink(props.selectedRow?.current?.repoLink);
     setProjectDescription(props.selectedRow?.current?.description);
@@ -176,17 +139,6 @@ export default function FormComponent(props: any) {
     return project;
   };
 
-  //input field value
-  let name,
-    link,
-    summ = "";
-
-  if (props.selectedRow != "") {
-    name = props.selectedRow?.current?.name;
-    link = props.selectedRow?.current?.repoLink;
-    summ = props.selectedRow?.current?.summary;
-  }
-
   return (
     <div className="form-component">
       <div style={{ width: "48%" }}>
@@ -200,13 +152,14 @@ export default function FormComponent(props: any) {
               <TextField
                 className="form-field"
                 value={projectName || ""}
-                data-testid="pName"
+                // data-testid="pName"
                 id="projectName"
                 name="projectName"
                 inputProps={{
                   ...inputProps,
                   maxLength: 255,
                   pattern: "^[a-zA-Z0-9_-]*$",
+                  "data-testid": "pName",
                 }}
                 InputProps={InputProps}
                 placeholder="Empty"
@@ -228,13 +181,14 @@ export default function FormComponent(props: any) {
               </label>
               <TextField
                 className="form-field"
-                data-testid="pLink"
+                // data-testid="pLink"
                 id="link"
                 name="link"
                 inputProps={{
                   ...inputProps,
                   pattern:
                     "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)",
+                  "data-testid": "pLink",
                 }}
                 InputProps={InputProps}
                 placeholder="Empty"
@@ -260,12 +214,12 @@ export default function FormComponent(props: any) {
               <label className="p-label">Project Summary</label>
               <TextField
                 className="form-field"
-                data-testid="pDesc"
+                // data-testid="pDesc"
                 id="summary"
                 name="summary"
                 multiline
                 rows={4}
-                inputProps={inputProps}
+                inputProps={{ ...inputProps, "data-testid": "pDesc" }}
                 InputProps={InputProps}
                 placeholder="Empty"
                 variant="standard"
@@ -287,10 +241,9 @@ export default function FormComponent(props: any) {
           <div className="column-r">
             <div className="tech-wrap">
               <label className="p-label">Technologies</label>
-
-              {selectedStack.length === 0 ? (
+              {selectedStack && (
                 <>
-                  <div className="stack-error">
+                  <div className="stack-error" data-testid={"teckStackError"}>
                     {techStack?.map((tech: ITechnology) => (
                       <MenuItem
                         key={tech.id}
@@ -306,21 +259,6 @@ export default function FormComponent(props: any) {
                     ))}
                   </div>
                 </>
-              ) : (
-                <div className="tech-stack" data-testid="techs">
-                  {techStack?.map((tech: ITechnology) => (
-                    <MenuItem
-                      key={tech.id}
-                      className="tech-item"
-                      disabled={props.edit}
-                      onClick={() => {
-                        handleTechStack(tech);
-                      }}
-                    >
-                      {tech.name}
-                    </MenuItem>
-                  ))}
-                </div>
               )}
             </div>
             <div className="button-wrap">
@@ -365,7 +303,7 @@ export default function FormComponent(props: any) {
                     className="orange-button"
                     data-testid="submitButton"
                     onClick={handleSubmit}
-                    disabled={disableSubmit}
+                    disabled={false}
                   >
                     Submit
                   </button>

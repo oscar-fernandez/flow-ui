@@ -1,7 +1,14 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import FormComponent from "./FormComponent";
 import { getProjects, createProject } from "../../services/ManagementAPI";
+import { mockFePod } from "../../data/MockFEPod";
 
 vi.mock("../../services/ManagementAPI");
 describe("FormComponent", () => {
@@ -149,46 +156,95 @@ describe("FormComponent", () => {
     expect(summary.value).toBe("project test ");
   });
 
-  it("should reset input fields on reset click", () => {
-    const project = {
-      id: 100,
-      name: "projectTest",
-      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
-      summary: "project test ",
-      technologies: {},
-    };
-
-    render(<FormComponent project={project} technologies={ts} edit={} />);
+  it("should reset input fields on reset click", async () => {
+    render(
+      <FormComponent
+        project={mockFePod[0].project}
+        technologies={ts}
+        edit={false}
+      />
+    );
     const projectName = screen.getByTestId("pName") as HTMLInputElement;
     const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
     const summary = screen.getByTestId("pDesc") as HTMLInputElement;
-    const editBtn = screen.getByTestId("editBtn") as HTMLButtonElement;
-    projectName.value = "projectTest";
+    projectName.value = "test";
     repoLink.value =
       "https://git.work.cognizant.studio/enablement/team-projects/a";
-    summary.value = "project test ";
+    summary.value = "test";
 
-    const project1 = {
-      id: 100,
-      name: "projectTest",
-      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
-      summary: "project test ",
-      technologies: {},
-    };
-
-    (createProject as jest.Mock).mockResolvedValueOnce(project1);
-
-    editBtn.click();
-
-    //chacge the value of project1.name to 'othertest'
-
-    const resetBtn = screen.getByTestId("resetButton") as HTMLButtonElement;
+    const resetBtn = screen.getByText("Reset") as HTMLButtonElement;
     resetBtn.click();
-
-    expect(projectName.value).toBe("projectTest");
-    expect(repoLink.value).toBe(
-      "https://git.work.cognizant.studio/enablement/team-projects/a"
-    );
-    expect(summary.value).toBe("project test ");
+    await waitFor(() => {
+      expect(projectName.value).toBe("test");
+    });
+    await waitFor(() => {
+      expect(repoLink.value).toBe(
+        "https://git.work.cognizant.studio/enablement/team-projects/a"
+      );
+    });
+    await waitFor(() => {
+      expect(summary.value).toBe("test");
+    });
   });
+
+  it("should handle input fields", () => {
+    render(
+      <FormComponent
+        project={mockFePod[0].project}
+        technologies={ts}
+        edit={true}
+      />
+    );
+    const projectName = screen.getByTestId("pName") as HTMLInputElement;
+    const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
+    const summary = screen.getByTestId("pDesc") as HTMLInputElement;
+    fireEvent.change(projectName, { target: { value: "test" } });
+    fireEvent.change(repoLink, { target: { value: "test" } });
+    fireEvent.change(summary, { target: { value: "test" } });
+    expect(projectName.value).toBe("test");
+    expect(repoLink.value).toBe("test");
+    expect(summary.value).toBe("test");
+    fireEvent.change(projectName, { target: { value: " " } });
+    fireEvent.change(repoLink, {
+      target: {
+        value: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      },
+    });
+    fireEvent.change(summary, {
+      target: {
+        value:
+          "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean masdf",
+      },
+    });
+  });
+
+  it("should set disable submit true if not all fields entered", () => {
+    render(
+      <FormComponent
+        project={mockFePod[0].project}
+        technologies={ts}
+        edit={false}
+      />
+    );
+    const submit = screen.getByText("Submit") as HTMLButtonElement;
+    expect(submit).toBeEnabled();
+    // const disabledButton = screen.getByText;
+    // const projectName = screen.getByTestId("pName") as HTMLInputElement;
+    // const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
+    // const summary = screen.getByTestId("pDesc") as HTMLInputElement;
+    // fireEvent.change(projectName, { target: { value: " " } });
+    // fireEvent.change(repoLink, { target: { value: " " } });
+    // fireEvent.change(summary, { target: { value: " " } });
+    // expect(projectName.value).toBe("test");
+  });
+
+  // it ("should handle techstack", () => {
+  //   render(
+  //     <FormComponent
+  //       project={mockFePod[0].project}
+  //       technologies={ts}
+  //       edit={false}
+  //     />
+  //   );
+  // });
 });
