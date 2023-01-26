@@ -1,6 +1,9 @@
 import { renderHook, act } from "@testing-library/react";
-import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
-import { usePendingPodEnablees } from "./customHook";
+import {
+  GetEnableesPendingPodAssignment,
+  GetEnableesWithNoStartDate,
+} from "../../../services/EnableeAPI";
+import { usePendingPodEnablees, usePendingStartEnablees } from "./customHook";
 import { vi, describe, it, expect } from "vitest";
 import { dummyEnablees } from "../../../data/EnableeMock";
 
@@ -44,5 +47,16 @@ describe("usePendingPodEnablees hook tests", async () => {
       dummyEnablees[0], //temp
       dummyEnablees[1], //temp
     ]);
+  });
+
+  it("should make an API call on mount", async () => {
+    const mock = GetEnableesWithNoStartDate as jest.Mock;
+    mock.mockResolvedValue(enableesList);
+
+    const { result } = renderHook(() => usePendingStartEnablees());
+
+    await act(() => mock);
+
+    expect(result.current.list).toEqual([...enableesList.data]);
   });
 });

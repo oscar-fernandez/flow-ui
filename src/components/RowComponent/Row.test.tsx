@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Row from "./Row";
 import ITechnology from "../../models/interfaces/ITechnology";
@@ -15,6 +15,20 @@ describe("Row tests", () => {
     );
     const rowComp = screen.getByTestId("rowTest");
     expect(rowComp).toBeInTheDocument();
+  });
+
+  it("Should click on the row", () => {
+    const expectedChild = "Some Item";
+
+    const mockClicFn = vi.fn();
+
+    render(<Row onClick={mockClicFn}>{<p>{expectedChild}</p>}</Row>);
+
+    const actualChild = screen.getByText("Some Item");
+
+    expect(actualChild).toBeInTheDocument();
+    fireEvent.click(actualChild);
+    expect(mockClicFn).toHaveBeenCalled();
   });
 
   //   it("Renders the row but no text in tech stack portion", () => {
