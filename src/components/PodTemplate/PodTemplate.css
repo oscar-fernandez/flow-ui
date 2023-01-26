@@ -40,8 +40,8 @@
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(5, 1fr);
   grid-column-gap: 0px;
-  grid-row-gap: 20px;
-  padding-top: 50px;
+  grid-row-gap: 10px;
+  padding-top: 35px;
 }
 .div1 {
   grid-area: 1 / 1 / 2 / 2;
@@ -122,7 +122,7 @@
 
 .project-item {
   cursor: pointer;
-  padding: 10px 5px;
+  padding: 0 5px 10px 5px;
   width: 140px;
   cursor: pointer;
   font-weight: 400;
@@ -136,7 +136,7 @@
 }
 
 .project-selected {
-  padding: 7px 5px;
+  padding: 0 5px 7px 5px;
   width: 140px;
   cursor: pointer;
   font-weight: 600;
@@ -191,6 +191,14 @@
 
 .empty.project {
   width: 150px;
+}
+
+.techstack-container {
+  position: absolute;
+}
+
+.techstack-list {
+  list-style: none;
 }
 /* END OF INPUT STYLING */
 

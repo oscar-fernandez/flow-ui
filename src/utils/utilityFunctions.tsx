@@ -5,7 +5,6 @@ import IProject from "../models/interfaces/IProject";
 import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnology from "../models/interfaces/ITechnology";
 import ITechnologyTable from "../models/interfaces/ITechnologyTable";
-import PodAssignment from "../pages/Enablee/PodAssignment/PodAssignment";
 
 export function getName(name: string) {
   switch (name) {

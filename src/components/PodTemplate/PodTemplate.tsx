@@ -3,6 +3,13 @@ import "./PodTemplate.css";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
 import { MockRows, thing } from "../../data/MockData";
+import ITechnology from "../../models/interfaces/ITechnology";
+import { TagComponent } from "../TagComponent/Tag";
+import IEnablee from "../../models/interfaces/IEnablee";
+import IFEPod from "../../models/interfaces/IFEPod";
+import IProject from "../../models/interfaces/IProject";
+import { mockFePod } from "../../data/MockFEPod";
+import { dumbProjects } from "../../data/MockProjects";
 
 /**
  * Functional component that is a side modal to help the user manage
@@ -16,19 +23,29 @@ import { MockRows, thing } from "../../data/MockData";
  * @returns the Pod Component
  */
 export default function PodTemplate(props: { showPodTemplate: boolean }) {
+  // FEPod interface that is being created within this tempalte
+  let pod: IFEPod;
+  let projects: IProject[];
+
   // Closes the component when close is false, opens when close is true
   const [close, setClose] = useState(props.showPodTemplate);
 
-  // The 3 states below keep track of whether the user has selected them
+  // If the pod name is empty then this value is false
   const [emptyPodName, setEmptyPodName] = useState(true);
-
-  // States used for datePicker component
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
 
   // State used to see for poject
   const [projectClicked, setProjectClicked] = useState(false);
   const [projectSelected, setProjectSelected] = useState("Empty");
+
+  // State for project's tech stack
+  const [projectTechStack, setProjectTechStack] = useState<ITechnology[]>([]);
+  const [projectTechStackMargin, setProjectTechStackMargin] = useState("0px");
+
+  // States used for creating the FEPod Object
+  const [podName, setPodName] = useState("Untitled");
+  const [enablees, setEnablees] = useState<IEnablee[]>([]);
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date());
 
   // Open/Closes the PodTemplate component
   const closeModal = () => {
@@ -39,22 +56,47 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
   const checkPodName = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value === null || event.target.value === "") {
       setEmptyPodName(true);
+      setPodName("Untitled");
     } else {
       setEmptyPodName(false);
+      setPodName(event.target.value);
+      pod.podName = podName;
     }
   };
 
+  /**
+   * This function will open up a dropdown menu for the user to select projects from
+   * by managing  the state of the variable listed below.
+   */
   function showProjects() {
     setProjectClicked(!projectClicked);
-    MockRows.forEach((element) => {
-      // eslint-disable-next-line no-console
-      console.log(element.projectName);
-    });
   }
 
+  /**
+   * This function sets the project's states when the user selects it.
+   * @param item project selected by user
+   */
   function projectSelectedClicked(item: thing) {
+    const techStackMargin = item.techStack.length * 24 - 32 + "px";
+    setProjectTechStackMargin(techStackMargin);
     setProjectSelected(item.projectName);
+    setProjectTechStack(item.techStack);
+
+    // Will have to refactor hardcoded data
+    pod.id = mockFePod.length + 1;
+    pod.podStartDate = startDate?.toString();
+    pod.podEndDate = endDate?.toString();
+    pod.enabler = null;
+    projects = dumbProjects;
+    // pod.project = getProject(projectSelected)
+    // retreiveEnablees(item);
   }
+
+  // function getProject(projectName:string) {
+
+  // }
+
+  // function retreiveEnablees(item: thing) {}
 
   return (
     <>
@@ -85,7 +127,7 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                   <input
                     className="podname-input null"
                     type="text"
-                    placeholder="Untitled"
+                    placeholder={podName}
                     onChange={(event) => checkPodName(event)}
                   />
                   <div className="errormsg">* Pod Name required</div>
@@ -182,32 +224,75 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
               </div>
 
               <div className="div10">
-                <p className="empty project">Select Project</p>
+                {projectSelected === "Empty" ? (
+                  <p className="empty project">Select Project</p>
+                ) : (
+                  <div className="techstack-container">
+                    <ul className="techstack-list">
+                      {projectTechStack.map((item, index) => (
+                        <li className="techstack-item" key={index}>
+                          <TagComponent
+                            name={item.name}
+                            color={item.backgroundColor}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
-
-            <PageViewHeader
-              pageTitle={"Enablees"}
-              showPlus={true}
-              isHeader={false}
-              plusClicked={false}
-            />
-            <p className="empty project">Select Project</p>
-            <div className="btn-container">
-              {emptyPodName ||
-              startDate === null ||
-              endDate === null ||
-              projectSelected === "Empty" ? (
-                <button className="disabled btn-submit" disabled>
-                  Submit
-                </button>
-              ) : (
-                <button className="btn-submit">Submit</button>
-              )}
-            </div>
+            {projectSelected === "Empty" ? (
+              <div>
+                <PageViewHeader
+                  pageTitle={"Enablees"}
+                  showPlus={true}
+                  isHeader={false}
+                  plusClicked={false}
+                />
+                <p className="empty project">Select Project</p>
+                <div className="btn-container">
+                  {emptyPodName ||
+                  startDate === null ||
+                  endDate === null ||
+                  projectSelected === "Empty" ? (
+                    <button className="disabled btn-submit" disabled>
+                      Submit
+                    </button>
+                  ) : (
+                    <button className="btn-submit">Submit</button>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div style={{ marginTop: projectTechStackMargin }}>
+                <PageViewHeader
+                  pageTitle={"Enablees"}
+                  showPlus={true}
+                  isHeader={false}
+                  plusClicked={false}
+                />
+                <p className="empty project">Select Project</p>
+                <div className="btn-container">
+                  {emptyPodName ||
+                  startDate === null ||
+                  endDate === null ||
+                  projectSelected === "Empty" ? (
+                    <button className="disabled btn-submit" disabled>
+                      Submit
+                    </button>
+                  ) : (
+                    <button className="btn-submit">Submit</button>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ) : null}
     </>
   );
+}
+function createProjectObjectForPod(item: thing) {
+  throw new Error("Function not implemented.");
 }
