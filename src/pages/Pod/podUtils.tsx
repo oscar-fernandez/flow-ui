@@ -19,6 +19,7 @@ const podRowFactory = (
   if (obj.id != selectedRowId) {
     selectedCapacity = 0;
   }
+
   return [
     obj.project.name,
     obj.podName,
@@ -38,7 +39,7 @@ const transformPodArray = (
 const PLACEHOLDER = 15;
 
 const capasityEmployee = (ar: IEnablee[], selectedCapacity: number) =>
-  ` ${selectedCapacity} / ${PLACEHOLDER}`;
+  ` ${ar.length ? ar.length + selectedCapacity : "0"} / ${PLACEHOLDER}`;
 
 const eqSet = (xs: Set<string>, ys: Set<string>) =>
   xs.size === ys.size && [...xs].every((x) => ys.has(x));

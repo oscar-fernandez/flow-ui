@@ -222,7 +222,9 @@ export default function PodAssignment() {
             </div>
             <button
               className="button button-orange"
-              disabled={true}
+              disabled={
+                selectedEnablees.current.length === 0 || !selectedRow.current
+              }
               type="submit"
             >
               submit
