@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import IEnablee from "../../models/interfaces/IEnablee";
+import IFEPod from "../../models/interfaces/IFEPod";
 
 interface ToggleBarProps {
   children: JSX.Element;
@@ -22,7 +23,7 @@ export const ToggleArrowContext = React.createContext<
 ]);
 
 export const ToggleDetailsContext = React.createContext<
-  [IEnablee | null, (item: IEnablee | null) => void]
+  [IEnablee | IFEPod | null, (item: IEnablee | IFEPod | null) => void]
 >([
   null,
   () => {
@@ -45,7 +46,7 @@ export function useToggleDetails() {
 const ToggleProvider = ({ children }: ToggleBarProps) => {
   const [toggle, setToggle] = useState(false);
   const [toggleArrow, setToggleArrow] = useState(false);
-  const [details, setDetails] = useState<IEnablee | null>(null);
+  const [details, setDetails] = useState<IEnablee | IFEPod | null>(null);
 
   const changeToggle = () => {
     setToggle((prevToggle) => !prevToggle);
@@ -55,7 +56,7 @@ const ToggleProvider = ({ children }: ToggleBarProps) => {
     setToggleArrow(arrow);
   };
 
-  const setSideBarInfo = (item: IEnablee | null) => {
+  const setSideBarInfo = (item: IEnablee | IFEPod | null) => {
     setDetails(item);
   };
 
