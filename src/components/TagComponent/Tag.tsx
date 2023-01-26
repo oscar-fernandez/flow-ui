@@ -8,7 +8,11 @@ interface Props {
 export function TagComponent({ name, color }: Props) {
   return (
     <div className="tag-container">
-      <div className="tag" style={{ backgroundColor: color }}>
+      <div
+        data-testid="tag-name"
+        className="tag"
+        style={{ backgroundColor: color }}
+      >
         {name}
       </div>
     </div>
