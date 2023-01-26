@@ -1,5 +1,5 @@
-import { render } from "@testing-library/react";
-import { describe, it, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { describe, it, vi, expect } from "vitest";
 import { GeneratePodRows } from "./GeneratePodRows";
 import {
   convertToStringArr,
@@ -31,5 +31,38 @@ describe("Generate Pod Rows component", () => {
         displayTag={mockGetActivePendingPodTag}
       />
     );
+  });
+
+  it("Should generate a list of row components with Enablers", () => {
+    const expectedMockEnabler = {
+      employeeId: 123,
+      firstName: "Test",
+      lastName: "Tester",
+      assetTag: "",
+      isActive: true,
+      technology: [],
+      countryCode: 0,
+      communityId: 0,
+      employmentTypeId: 0,
+      podId: [],
+    };
+
+    mockConvertToStringArr.mockReturnValue(techList);
+    mockGetActivePendingPodTag.mockReturnValue({
+      name: "Active",
+      color: "#E63946",
+    });
+    mockFePod[0].enabler = [expectedMockEnabler];
+
+    render(
+      <GeneratePodRows
+        pageNum={1}
+        pods={mockFePod}
+        displayTag={mockGetActivePendingPodTag}
+      />
+    );
+    expect(
+      screen.getByText(`Enabler(s): ${expectedMockEnabler.firstName}`)
+    ).toBeInTheDocument();
   });
 });
