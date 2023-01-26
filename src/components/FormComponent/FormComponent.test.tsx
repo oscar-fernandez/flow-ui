@@ -1,16 +1,17 @@
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import FormComponent from "./FormComponent";
 import { getProjects, createProject } from "../../services/ManagementAPI";
 import { mockFePod } from "../../data/MockFEPod";
+import ITechnology from "../../models/interfaces/ITechnology";
 
 vi.mock("../../services/ManagementAPI");
+let expectedTechnology: ITechnology[];
+
+beforeEach(() => {
+  expectedTechnology = mockFePod[0].project.technology;
+});
+
 describe("FormComponent", () => {
   let ts: any = [];
   beforeEach(() => {
@@ -238,13 +239,48 @@ describe("FormComponent", () => {
     // expect(projectName.value).toBe("test");
   });
 
-  // it ("should handle techstack", () => {
-  //   render(
-  //     <FormComponent
-  //       project={mockFePod[0].project}
-  //       technologies={ts}
-  //       edit={false}
-  //     />
-  //   );
-  // });
+  describe("Tech Stack menu option", () => {
+    it("should display current techstack is none", () => {
+      render(<FormComponent technologies={[]} />);
+      expect(screen.getByText("Current Tech Stack: None")).toBeInTheDocument();
+    });
+
+    it("should display current project techStack if provided", () => {
+      render(<FormComponent technologies={expectedTechnology} />);
+
+      expect(screen.getByText(expectedTechnology[0].name)).toBeInTheDocument();
+    });
+
+    it("should display all technologies in menu", () => {
+      render(
+        <FormComponent allTechnologies={expectedTechnology} technologies={[]} />
+      );
+
+      expect(screen.queryAllByRole("menuitem").length).toEqual(
+        expectedTechnology.length
+      );
+    });
+
+    it("should select a tech from the tech menu and display in form as current tech stack", () => {
+      const expectedMenuItem1 = expectedTechnology[0].name;
+
+      render(
+        <FormComponent allTechnologies={expectedTechnology} technologies={[]} />
+      );
+
+      const actualMenuItem1 = screen.getByText(expectedMenuItem1);
+
+      //select a tech item from menu
+      fireEvent.click(actualMenuItem1);
+
+      expect(screen.getByTestId("tag-name")).toHaveTextContent(
+        expectedMenuItem1
+      );
+
+      //unselect the previously selected tech item from the menu
+      fireEvent.click(actualMenuItem1);
+
+      expect(screen.getByText("Current Tech Stack: None")).toBeInTheDocument();
+    });
+  });
 });
