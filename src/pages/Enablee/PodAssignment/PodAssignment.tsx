@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import "./PodAssignment.css";
@@ -57,7 +57,7 @@ const rowStyle = {
 };
 
 export default function PodAssignment() {
-  const selectedEnablees = useRef<IEnablee[]>([]);
+  const [selectedEnablees, setSelectedEnablees] = useState<IEnablee[]>([]);
   const selectedRow = useRef<IFEPod>();
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
   const [name, setName] = useState("");
@@ -89,7 +89,7 @@ export default function PodAssignment() {
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    selectedRow.current = mockFePod[+event.currentTarget.id];
+    selectedRow.current = mockFePod[+event.currentTarget.id]; //shorthand convert str to number
     const filteredEnablees =
       receivedEnablees &&
       selectedRow &&
@@ -117,7 +117,7 @@ export default function PodAssignment() {
   const updateSelectedEnablees = (index: number) => {
     if (receivedEnablees && selectedRow.current) {
       const e = receivedEnablees?.[index];
-      const ar = selectedEnablees.current;
+      const ar = selectedEnablees;
       if (e) {
         if (!ar.includes(e)) {
           ar.push(e);
@@ -138,6 +138,24 @@ export default function PodAssignment() {
     selectedRow.current && fn();
   };
   // const error = "* Max Capacity Selected";
+
+  // this function needs to be updated to make api call to update pod and enablee
+  const handleSubmit = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    const updatedEnablees = receivedEnablees?.filter((enablee: IEnablee) => {
+      let remove = true;
+      selectedEnablees.forEach((item) => {
+        item.employeeId === enablee.employeeId ? (remove = false) : null;
+      });
+      return remove;
+    });
+    setReceivedEnablees(updatedEnablees);
+    setSelectedEnablees([]);
+    selectedRow.current = undefined;
+  };
+
   const error = "";
 
   const radioCheck = (
@@ -214,10 +232,9 @@ export default function PodAssignment() {
             </div>
             <button
               className="button button-orange"
-              disabled={
-                selectedEnablees.current.length === 0 || !selectedRow.current
-              }
-              type="submit"
+              disabled={selectedEnablees.length === 0 || !selectedRow.current}
+              // type='submit'
+              onClick={handleSubmit}
             >
               submit
             </button>
