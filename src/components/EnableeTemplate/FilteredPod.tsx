@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import IFEPod from "../../models/interfaces/IFEPod";
 import ITechnology from "../../models/interfaces/ITechnology";
 import "./FilteredPod.css";
 
@@ -7,6 +8,8 @@ interface Props {
   podName: string;
   podTech: ITechnology[];
   enableeTech: ITechnology[];
+  selectedPod: IFEPod;
+  handleOnClick: (e: React.ChangeEvent) => void;
 }
 
 const labelStyle = {
@@ -18,9 +21,15 @@ const labelStyle = {
   color: "#8A8B8A",
 };
 
-export default function FilteredPod({ podName, podTech, enableeTech }: Props) {
+export default function FilteredPod({
+  podName,
+  podTech,
+  enableeTech,
+  selectedPod,
+  handleOnClick,
+}: Props) {
   const [filteredTech, setFilteredTech] = useState<ITechnology[]>([]);
-  const [selectedPod, setSelectedPod] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
     const result = enableeTech.filter((etech) => {
@@ -37,10 +46,11 @@ export default function FilteredPod({ podName, podTech, enableeTech }: Props) {
         <Typography sx={labelStyle}>{podName}</Typography>
         <div className="tech-stack-container">
           <input
-            checked={selectedPod}
+            id={podName}
             type="checkbox"
-            onChange={(e) => setSelectedPod(e.target.checked)}
+            onChange={(e) => handleOnClick(e)}
             data-testid="selectedPod"
+            disabled={selectedPod ? selectedPod.podName !== podName : false}
           ></input>
           <div className="tech-stack-margin">
             <div className="pod-logo" />

@@ -96,6 +96,15 @@ export default function EnableeTemplate() {
   const [grade, setGrade] = useState("");
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
+  const [selectedPod, setSelectedPod] = useState<IFEPod>();
+
+  const handleOnSelect = (e) => {
+    if (!e.target.checked) {
+      setSelectedPod(undefined);
+    } else {
+      setSelectedPod(...mockFePod.filter((p) => p.podName === e.target.id));
+    }
+  };
 
   //check if all fields are entered
   useEffect(() => {
@@ -270,6 +279,8 @@ export default function EnableeTemplate() {
                     podName={pod.podName}
                     podTech={pod.project.technology}
                     enableeTech={mockTechnology}
+                    handleOnClick={(e) => handleOnSelect(e)}
+                    selectedPod={selectedPod}
                   />
                 );
               })}

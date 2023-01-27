@@ -1,3 +1,4 @@
+import EnableeTemplate from "../../components/EnableeTemplate/EnableeTemplate";
 import ToggleProvider from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import PageContainer from "../PageContainer/PageContainer";
 import "./App.css";
@@ -5,9 +6,10 @@ import "./App.css";
 function App() {
   return (
     <>
-      <ToggleProvider>
+      {/* <ToggleProvider>
         <PageContainer />
-      </ToggleProvider>
+      </ToggleProvider> */}
+      <EnableeTemplate />
     </>
   );
 }
