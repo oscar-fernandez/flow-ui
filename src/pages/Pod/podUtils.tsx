@@ -20,8 +20,8 @@ const podRowFactory = (
   }
 
   return [
-    obj.project.name,
     obj.podName,
+    obj.project.name,
     convertTechArToStr(obj.project.technology),
     convertStringDateToLocalFormat(obj.podStartDate),
     convertStringDateToLocalFormat(obj.podEndDate),

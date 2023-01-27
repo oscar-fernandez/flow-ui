@@ -70,7 +70,7 @@ const CustomTableContainer = ({
           <TableBody>
             {rows.map((r: string[], index: number) => (
               <CustomTableRow
-                key={index}
+                key={r[0]}
                 rowId={index.toString()}
                 row={r}
                 rowStyle={rowStyle}

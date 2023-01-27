@@ -26,8 +26,8 @@ const headersEnablee = [
 ];
 
 const headersPods = [
-  "Project",
   "Pod Name",
+  "Project",
   "Tech Stack",
   "Pod Start Date",
   "Pod End Date",
