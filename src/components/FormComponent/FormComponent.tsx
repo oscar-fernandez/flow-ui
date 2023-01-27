@@ -166,9 +166,11 @@ export default function FormComponent(props: any) {
                 variant="standard"
                 autoComplete="off"
                 onChange={(e) => setProjectName(e.target.value)}
-                error={projectName === null || projectName?.trim().length === 0}
+                error={
+                  projectName === undefined || projectName?.trim().length === 0
+                }
                 helperText={
-                  projectName?.trim().length === 0
+                  projectName === undefined || projectName?.trim().length === 0
                     ? "* Invalid Project Name"
                     : " "
                 }
