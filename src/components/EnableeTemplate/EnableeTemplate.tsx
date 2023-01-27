@@ -250,8 +250,7 @@ export default function EnableeTemplate() {
                 return (
                   <FilteredPod
                     key={pod.id}
-                    podName={pod.podName}
-                    podTech={pod.project.technology}
+                    pod={pod}
                     enableeTech={mockTechnology}
                   />
                 );

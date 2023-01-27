@@ -1,11 +1,11 @@
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import IFEPod from "../../models/interfaces/IFEPod";
 import ITechnology from "../../models/interfaces/ITechnology";
 import "./FilteredPod.css";
 
 interface Props {
-  podName: string;
-  podTech: ITechnology[];
+  pod: IFEPod;
   enableeTech: ITechnology[];
 }
 
@@ -18,13 +18,13 @@ const labelStyle = {
   color: "#8A8B8A",
 };
 
-export default function FilteredPod({ podName, podTech, enableeTech }: Props) {
+export default function FilteredPod({ pod, enableeTech }: Props) {
   const [filteredTech, setFilteredTech] = useState<ITechnology[]>([]);
   const [selectedPod, setSelectedPod] = useState(false);
 
   useEffect(() => {
     const result = enableeTech.filter((etech) => {
-      return podTech.find((ptech) => {
+      return pod.project.technology.find((ptech) => {
         return etech.name === ptech.name;
       });
     });
@@ -34,7 +34,7 @@ export default function FilteredPod({ podName, podTech, enableeTech }: Props) {
   return (
     <>
       <div className="filtered-pod-container">
-        <Typography sx={labelStyle}>{podName}</Typography>
+        <Typography sx={labelStyle}>{pod.podName}</Typography>
         <div className="tech-stack-container">
           <input
             checked={selectedPod}
