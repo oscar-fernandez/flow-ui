@@ -2,14 +2,13 @@ import { ChangeEvent, useState } from "react";
 import "./PodTemplate.css";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
-import { MockRows, thing } from "../../data/MockData";
 import ITechnology from "../../models/interfaces/ITechnology";
 import { TagComponent } from "../TagComponent/Tag";
 import IEnablee from "../../models/interfaces/IEnablee";
-import IFEPod from "../../models/interfaces/IFEPod";
 import IProject from "../../models/interfaces/IProject";
-import { mockFePod } from "../../data/MockFEPod";
 import { dumbProjects } from "../../data/MockProjects";
+import { isEnableeValidForPod } from "../../utils/utilityFunctions";
+import { dummyEnablees } from "../../data/EnableeMock";
 
 /**
  * Functional component that is a side modal to help the user manage
@@ -23,10 +22,6 @@ import { dumbProjects } from "../../data/MockProjects";
  * @returns the Pod Component
  */
 export default function PodTemplate(props: { showPodTemplate: boolean }) {
-  // FEPod interface that is being created within this tempalte
-  let pod: IFEPod;
-  let projects: IProject[];
-
   // Closes the component when close is false, opens when close is true
   const [close, setClose] = useState(props.showPodTemplate);
 
@@ -60,7 +55,6 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
     } else {
       setEmptyPodName(false);
       setPodName(event.target.value);
-      pod.podName = podName;
     }
   };
 
@@ -76,27 +70,29 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
    * This function sets the project's states when the user selects it.
    * @param item project selected by user
    */
-  function projectSelectedClicked(item: thing) {
-    const techStackMargin = item.techStack.length * 24 - 32 + "px";
+  function projectSelectedClicked(item: IProject) {
+    const techStackMargin = item.technology.length * 24 - 32 + "px";
     setProjectTechStackMargin(techStackMargin);
-    setProjectSelected(item.projectName);
-    setProjectTechStack(item.techStack);
-
-    // Will have to refactor hardcoded data
-    pod.id = mockFePod.length + 1;
-    pod.podStartDate = startDate?.toString();
-    pod.podEndDate = endDate?.toString();
-    pod.enabler = null;
-    projects = dumbProjects;
-    // pod.project = getProject(projectSelected)
-    // retreiveEnablees(item);
+    setProjectSelected(item.name);
+    setProjectTechStack(item.technology);
+    retrieveEnablees();
   }
 
-  // function getProject(projectName:string) {
-
-  // }
-
-  // function retreiveEnablees(item: thing) {}
+  function retrieveEnablees() {
+    dummyEnablees.filter((enablee) => {
+      if (
+        isEnableeValidForPod(
+          startDate.toString(),
+          endDate.toString(),
+          enablee.enablementStartDate,
+          enablee.enablementEndDate
+        )
+      ) {
+        enablees.push(enablee);
+        setEnablees(enablees);
+      }
+    });
+  }
 
   return (
     <>
@@ -186,13 +182,13 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                 {projectClicked ? (
                   <div onClick={showProjects}>
                     <ul className="projects">
-                      {MockRows.map((item, index) => (
+                      {dumbProjects.map((item, index) => (
                         <li
                           className="project-item"
                           onClick={() => projectSelectedClicked(item)}
                           key={index}
                         >
-                          {item.projectName}
+                          {item.name}
                         </li>
                       ))}
                     </ul>
@@ -272,7 +268,15 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                   isHeader={false}
                   plusClicked={false}
                 />
-                <p className="empty project">Select Project</p>
+                <div className="enablees-container">
+                  <ul className="enablees-list">
+                    {enablees.map((enablee, index) => (
+                      <li className="enablees-enablee" key={index}>
+                        {enablee.firstName} {enablee.lastName}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
                 <div className="btn-container">
                   {emptyPodName ||
                   startDate === null ||
@@ -292,7 +296,4 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
       ) : null}
     </>
   );
-}
-function createProjectObjectForPod(item: thing) {
-  throw new Error("Function not implemented.");
 }
