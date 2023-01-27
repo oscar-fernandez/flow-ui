@@ -8,7 +8,6 @@ import { mockFePod } from "../../data/MockFEPod";
 const listCheckboxes = [
   { name: "Match Tech Stack" },
   { name: "Contains Tech Stack" },
-  { name: "Available Enablees" },
 ];
 
 const podRowFactory = (
@@ -19,12 +18,13 @@ const podRowFactory = (
   if (obj.id != selectedRowId) {
     selectedCapacity = 0;
   }
+
   return [
     obj.project.name,
     obj.podName,
     convertTechArToStr(obj.project.technology),
-    obj.podStartDate,
-    obj.podEndDate,
+    convertStringDateToLocalFormat(obj.podStartDate),
+    convertStringDateToLocalFormat(obj.podEndDate),
     capasityEmployee(obj.enablee, selectedCapacity),
   ];
 };
@@ -38,7 +38,7 @@ const transformPodArray = (
 const PLACEHOLDER = 15;
 
 const capasityEmployee = (ar: IEnablee[], selectedCapacity: number) =>
-  ` ${selectedCapacity} / ${PLACEHOLDER}`;
+  ` ${ar.length ? ar.length + selectedCapacity : "0"} / ${PLACEHOLDER}`;
 
 const eqSet = (xs: Set<string>, ys: Set<string>) =>
   xs.size === ys.size && [...xs].every((x) => ys.has(x));
@@ -79,7 +79,19 @@ const matchData = (ar: IEnablee[], p: IFEPod) => {
   return validEnablee;
 };
 
+const convertStringDateToLocalFormat = (date: string) => {
+  const strDate = date.split("-");
+  const newdate = new Date(+strDate[0], +strDate[1] - 1, +strDate[2]);
+  const strLocalDate = newdate.toLocaleDateString("en-us", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+  return strLocalDate;
+};
+
 export {
+  convertStringDateToLocalFormat,
   matchData,
   transformPodArray,
   matchAllSkills,

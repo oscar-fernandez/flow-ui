@@ -1,10 +1,4 @@
-import {
-  useEffect,
-  useState,
-  useRef,
-  ChangeEvent,
-  SetStateAction,
-} from "react";
+import { useEffect, useState, useRef } from "react";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import "./PodAssignment.css";
@@ -65,13 +59,11 @@ const rowStyle = {
 export default function PodAssignment() {
   const selectedEnablees = useRef<IEnablee[]>([]);
   const selectedRow = useRef<IFEPod>();
-  //const [selectedRow, setSelectedRow] = useState<IFEPod>();
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
   const [name, setName] = useState("");
   const [count, setCount] = useState(0);
   const [value, setValue] = useState("");
   const [formValid, setFormValid] = useState(false);
-  const [toggle, setToggle] = useState(false);
 
   function fn(): string[][] {
     if (receivedEnablees && selectedRow.current) {
@@ -222,7 +214,9 @@ export default function PodAssignment() {
             </div>
             <button
               className="button button-orange"
-              disabled={true}
+              disabled={
+                selectedEnablees.current.length === 0 || !selectedRow.current
+              }
               type="submit"
             >
               submit
