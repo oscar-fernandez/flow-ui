@@ -10,6 +10,7 @@ import { mockFePod } from "../../data/MockFEPod";
 import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
 import { useToggleDetails } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import IEnablee from "../../models/interfaces/IEnablee";
 
 const InputProps = {
   disableUnderline: true,
@@ -99,8 +100,13 @@ export default function EnableeTemplate() {
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [enablee, setEnablee] = useToggleDetails();
 
+  // Hacky way to ensure that the useEffect is passed in a Enablee
+  function isEnablee(object: any): object is IEnablee {
+    return "enablementStartDate" in object;
+  }
+
   useEffect(() => {
-    if (enablee) {
+    if (enablee && isEnablee(enablee)) {
       setName(`${enablee.firstName} ${enablee.lastName}`);
       setStartDate(new Date(enablee.enablementStartDate));
       setEndDate(new Date(enablee.enablementEndDate));
