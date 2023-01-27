@@ -1,10 +1,4 @@
-import {
-  useEffect,
-  useState,
-  useRef,
-  ChangeEvent,
-  SetStateAction,
-} from "react";
+import { useEffect, useState, useRef } from "react";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import "./PodAssignment.css";
@@ -65,13 +59,11 @@ const rowStyle = {
 export default function PodAssignment() {
   const selectedEnablees = useRef<IEnablee[]>([]);
   const selectedRow = useRef<IFEPod>();
-  //const [selectedRow, setSelectedRow] = useState<IFEPod>();
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
   const [name, setName] = useState("");
   const [count, setCount] = useState(0);
   const [value, setValue] = useState("");
   const [formValid, setFormValid] = useState(false);
-  const [toggle, setToggle] = useState(false);
 
   function fn(): string[][] {
     if (receivedEnablees && selectedRow.current) {
@@ -101,7 +93,7 @@ export default function PodAssignment() {
     const filteredEnablees =
       receivedEnablees &&
       selectedRow &&
-      Unit.matchData(dummyEnablees, selectedRow.current);
+      Unit.matchData(receivedEnablees, selectedRow.current);
     setReceivedEnablees(filteredEnablees);
   };
 
@@ -183,44 +175,53 @@ export default function PodAssignment() {
       <form action="">
         <div>
           {error !== "" ? <div className="error">{error}</div> : ""}
-          {radioCheck}
-          <CustomTableContainer
-            headers={headersEnablee}
-            headerStyle={headerStyle}
-            rows={fn()}
-            cellStyle={cellStyle}
-            rowStyle={rowStyle}
-            //  toggle={toggle}
-            updateSelectedEnablees={updateSelectedEnablees}
-            skill={false}
-            value={""}
-            toggleShowForm={() => {
-              return null;
-            }}
-          />
-
           <div className="container">
+            {/* <PageViewHeader pageTitle="Enablee" showPlus={true} /> */}
+            {radioCheck}
             <CustomTableContainer
-              headers={headersPods}
+              headers={headersEnablee}
               headerStyle={headerStyle}
-              rows={Unit.transformPodArray(mockFePod, count)}
+              rows={fn()}
               cellStyle={cellStyle}
               rowStyle={rowStyle}
-              customHandleSelection={customHandleSelection}
+              //  toggle={toggle}
+              updateSelectedEnablees={updateSelectedEnablees}
               skill={false}
               value={""}
-              toggleShowForm={function (): void {
-                throw new Error("Function not implemented.");
+              toggleShowForm={() => {
+                return null;
               }}
             />
+
+            <div className="container">
+              <CustomTableContainer
+                headers={headersPods}
+                headerStyle={headerStyle}
+                rows={Unit.transformPodArray(
+                  mockFePod,
+                  selectedRow.current?.id,
+                  count
+                )}
+                cellStyle={cellStyle}
+                rowStyle={rowStyle}
+                customHandleSelection={customHandleSelection}
+                skill={false}
+                value={""}
+                toggleShowForm={function (): void {
+                  throw new Error("Function not implemented.");
+                }}
+              />
+            </div>
+            <button
+              className="button button-orange"
+              disabled={
+                selectedEnablees.current.length === 0 || !selectedRow.current
+              }
+              type="submit"
+            >
+              submit
+            </button>
           </div>
-          <button
-            className="button button-orange"
-            disabled={true}
-            type="submit"
-          >
-            submit
-          </button>
         </div>
       </form>
     </div>
