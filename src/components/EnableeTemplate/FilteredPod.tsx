@@ -29,7 +29,6 @@ export default function FilteredPod({
   handleOnClick,
 }: Props) {
   const [filteredTech, setFilteredTech] = useState<ITechnology[]>([]);
-  const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
     const result = enableeTech.filter((etech) => {
