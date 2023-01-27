@@ -9,6 +9,7 @@ import React from "react";
 import TableInput from "./TableInput";
 
 interface Props {
+  clickable?: boolean;
   headers: string[];
   headerStyle?: SxProps<Theme>;
   rows: string[][];
@@ -27,6 +28,7 @@ interface Props {
 }
 
 const CustomTableContainer = ({
+  clickable,
   headers,
   rows,
   headerStyle,
@@ -70,6 +72,7 @@ const CustomTableContainer = ({
           <TableBody>
             {rows.map((r: string[], index: number) => (
               <CustomTableRow
+                clickable={clickable}
                 key={r[0]}
                 rowId={index.toString()}
                 row={r}

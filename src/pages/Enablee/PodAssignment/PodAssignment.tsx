@@ -63,6 +63,7 @@ export default function PodAssignment() {
   const [name, setName] = useState("");
   const [count, setCount] = useState(0);
   const [value, setValue] = useState("");
+  const [clickable, setClickable] = useState(true);
   const [formValid, setFormValid] = useState(false);
 
   function fn(): string[][] {
@@ -117,14 +118,22 @@ export default function PodAssignment() {
   const updateSelectedEnablees = (index: number) => {
     if (receivedEnablees && selectedRow.current) {
       const e = receivedEnablees?.[index];
-      const ar = selectedEnablees;
+      const selectedEnableesCopy = [...selectedEnablees];
+      const totalCalculatedEnablees =
+        selectedEnablees.length + selectedRow.current.enablee.length;
       if (e) {
-        if (!ar.includes(e)) {
-          ar.push(e);
-          increment();
+        if (!selectedEnableesCopy.includes(e)) {
+          if (totalCalculatedEnablees <= 14) {
+            setSelectedEnablees([...selectedEnablees, e]);
+            increment();
+          } else {
+            setClickable(false);
+          }
         } else {
-          ar.splice(ar.indexOf(e), 1);
+          selectedEnableesCopy.splice(selectedEnableesCopy.indexOf(e), 1);
+          setSelectedEnablees(selectedEnableesCopy);
           decrement();
+          setClickable(true);
         }
       }
     }
@@ -197,6 +206,7 @@ export default function PodAssignment() {
             {/* <PageViewHeader pageTitle="Enablee" showPlus={true} /> */}
             {radioCheck}
             <CustomTableContainer
+              clickable={clickable}
               headers={headersEnablee}
               headerStyle={headerStyle}
               rows={fn()}
@@ -213,6 +223,7 @@ export default function PodAssignment() {
 
             <div className="container">
               <CustomTableContainer
+                clickable={clickable}
                 headers={headersPods}
                 headerStyle={headerStyle}
                 rows={Unit.transformPodArray(
