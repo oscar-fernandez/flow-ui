@@ -8,6 +8,7 @@ import {
   updatedTechnology,
   getAvailablePodTag,
   getActivePendingPodTag,
+  generateTags,
   getName,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
@@ -15,7 +16,6 @@ import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnologyTable from "../models/interfaces/ITechnologyTable";
 import IEnablee from "../models/interfaces/IEnablee";
 import IFEPod from "../models/interfaces/IFEPod";
-import IProject from "../models/interfaces/IProject";
 
 describe("utilityTest", () => {
   it("map Enablees to Table Rows", () => {
@@ -147,6 +147,28 @@ describe("utilityTest", () => {
     expect(getName("enablementEndDate")).toEqual("enablement end date");
     expect(getName("skillName")).toEqual("Skill Name");
     expect(getName("projectName")).toEqual("Project Name");
+  });
+});
+
+describe("generateTags", () => {
+  const enablee = dummyEnablees[0];
+  it("returns a completed tag", () => {
+    expect(generateTags(enablee).name).toEqual("Completed");
+  });
+
+  it("returns an active tag", () => {
+    enablee.enablementEndDate = "9999-01-21";
+    expect(generateTags(enablee).name).toEqual("Active");
+  });
+
+  it("returns Pending Pod Assignment", () => {
+    enablee.podId = 0;
+    expect(generateTags(enablee).name).toEqual("Pending Pod Assignment");
+  });
+
+  it("returns Pending Start Date", () => {
+    const enablee = dummyEnablees[4];
+    expect(generateTags(enablee).name).toEqual("Pending Start Date");
   });
 });
 
