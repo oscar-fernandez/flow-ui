@@ -7,6 +7,8 @@ import "./FilteredPod.css";
 interface Props {
   pod: IFEPod;
   enableeTech: ITechnology[];
+  selectedPod: IFEPod | undefined;
+  handleOnClick: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const labelStyle = {
@@ -18,9 +20,13 @@ const labelStyle = {
   color: "#8A8B8A",
 };
 
-export default function FilteredPod({ pod, enableeTech }: Props) {
+export default function FilteredPod({
+  pod,
+  enableeTech,
+  handleOnClick,
+  selectedPod,
+}: Props) {
   const [filteredTech, setFilteredTech] = useState<ITechnology[]>([]);
-  const [selectedPod, setSelectedPod] = useState(false);
 
   useEffect(() => {
     const result = enableeTech.filter((etech) => {
@@ -37,10 +43,11 @@ export default function FilteredPod({ pod, enableeTech }: Props) {
         <Typography sx={labelStyle}>{pod.podName}</Typography>
         <div className="tech-stack-container">
           <input
-            checked={selectedPod}
+            id={pod.podName}
             type="checkbox"
-            onChange={(e) => setSelectedPod(e.target.checked)}
+            onChange={(e) => handleOnClick(e)}
             data-testid="selectedPod"
+            disabled={selectedPod ? selectedPod.podName !== pod.podName : false}
           ></input>
           <div className="tech-stack-margin">
             <div className="pod-logo" />

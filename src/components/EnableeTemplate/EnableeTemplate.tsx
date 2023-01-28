@@ -1,5 +1,5 @@
 import { Button, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
 import "./EnableeTemplate.css";
 import { mockTechnology } from "../../data/MockData";
@@ -96,6 +96,15 @@ export default function EnableeTemplate() {
   const [grade, setGrade] = useState("");
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
+  const [selectedPod, setSelectedPod] = useState<IFEPod>();
+
+  const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.checked) {
+      setSelectedPod(undefined);
+    } else {
+      setSelectedPod(...mockFePod.filter((p) => p.podName === e.target.id));
+    }
+  };
 
   //check if all fields are entered
   useEffect(() => {
@@ -252,6 +261,8 @@ export default function EnableeTemplate() {
                     key={pod.id}
                     pod={pod}
                     enableeTech={mockTechnology}
+                    handleOnClick={handleOnClick}
+                    selectedPod={selectedPod}
                   />
                 );
               })}
