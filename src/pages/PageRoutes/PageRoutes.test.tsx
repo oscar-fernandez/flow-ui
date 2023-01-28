@@ -1,15 +1,15 @@
 import { describe, it, expect, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import PageContainer from "./PageContainer";
+import PageRoutes from "./PageRoutes";
 import { useCompletedPods } from "../Pod/Hooks/customHook";
 import { mockFePod } from "../../data/MockFEPod";
 
 vi.mock("../Pod/Hooks/customHook");
 
-describe("PageContainer", () => {
-  it("should contain 'page-container' class", () => {
-    render(<PageContainer />);
+describe("PageRoutes", () => {
+  it("should contain 'page-routes' class", () => {
+    render(<PageRoutes />);
     expect(screen.getByText("Andrew")).toBeInTheDocument();
   });
 
@@ -17,7 +17,7 @@ describe("PageContainer", () => {
     const mockUseCompletedPods = useCompletedPods as jest.Mock;
     mockUseCompletedPods.mockReturnValueOnce({ podList: mockFePod });
 
-    render(<PageContainer />);
+    render(<PageRoutes />);
 
     fireEvent.click(screen.getByText("Pod"));
     fireEvent.click(screen.getByText("Completed Pod"));
