@@ -1,5 +1,5 @@
 import { Button, TextField, Typography } from "@mui/material";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
 import "./EnableeTemplate.css";
 import { mockTechnology } from "../../data/MockData";

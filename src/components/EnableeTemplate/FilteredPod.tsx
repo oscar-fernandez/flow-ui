@@ -46,7 +46,7 @@ export default function FilteredPod({
             id={pod.podName}
             type="checkbox"
             onChange={(e) => handleOnClick(e)}
-            data-testid="selectedPod"
+            data-testid={pod.podName}
             disabled={selectedPod ? selectedPod.podName !== pod.podName : false}
           ></input>
           <div className="tech-stack-margin">
