@@ -9,6 +9,8 @@ import FilteredPod from "./FilteredPod";
 import { mockFePod } from "../../data/MockFEPod";
 import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
+import { useToggleDetails } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import IEnablee from "../../models/interfaces/IEnablee";
 
 const InputProps = {
   disableUnderline: true,
@@ -106,6 +108,31 @@ export default function EnableeTemplate() {
       setSelectedPod(result);
     }
   };
+  const [enablee, setEnablee] = useToggleDetails();
+
+  // Hacky way to ensure that the useEffect is passed in a Enablee
+  function isEnablee(object: any): object is IEnablee {
+    return "enablementStartDate" in object;
+  }
+
+  useEffect(() => {
+    if (enablee && isEnablee(enablee)) {
+      setName(`${enablee.firstName} ${enablee.lastName}`);
+      setStartDate(new Date(enablee.enablementStartDate));
+      setEndDate(new Date(enablee.enablementEndDate));
+      setEmployeeId(enablee.employeeId.toString());
+      setDateOfJoin(enablee.dateOfJoin);
+      const tags = enablee.assetTag ? enablee.assetTag.toString() : "";
+      setAssetTag(tags);
+      setCountry(enablee.countryCode.toString());
+      setCommunity(enablee.communityId.toString());
+      const employmentType = enablee.employmentTypeId
+        ? enablee.employmentTypeId.toString()
+        : "";
+      setEmploymentType(employmentType);
+      setGrade(enablee.gradeId.toString());
+    }
+  }, []);
 
   //check if all fields are entered
   useEffect(() => {
@@ -126,7 +153,8 @@ export default function EnableeTemplate() {
     if (startDate && endDate) {
       const filtered = mockFePod.filter((pod) =>
         isEnableeValidForPod(
-          pod,
+          pod.podStartDate,
+          pod.podEndDate,
           startDate.toDateString(),
           endDate.toDateString()
         )
@@ -253,7 +281,12 @@ export default function EnableeTemplate() {
               ))}
             </div>
           </div>
-          <PageViewHeader pageTitle={"Pod"} showPlus={true} />
+          <PageViewHeader
+            pageTitle={"Pod"}
+            showPlus={true}
+            isHeader={false}
+            plusClicked={false}
+          />
           {filteredPods.length > 0 ? (
             <>
               {filteredPods.map((pod) => {
@@ -279,7 +312,12 @@ export default function EnableeTemplate() {
               No Pods Match Enablement Dates
             </Typography>
           )}
-          <PageViewHeader pageTitle={"Comments"} showPlus={true} />
+          <PageViewHeader
+            pageTitle={"Comments"}
+            showPlus={true}
+            isHeader={false}
+            plusClicked={false}
+          />
           <Typography
             sx={{
               ...labelStyle,
