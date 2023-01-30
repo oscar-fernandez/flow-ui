@@ -11,7 +11,7 @@ export const getCompletedPods = () => {
   return get(`${baseUrl}/completed`);
 };
 
-export const getPods = (pageNumber: Number) => {
+export const getPods = (pageNumber: number) => {
   return get(`${baseUrl}?page=${pageNumber}`);
 };
 
