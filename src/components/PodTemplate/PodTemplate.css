@@ -200,6 +200,31 @@
 .techstack-list {
   list-style: none;
 }
+
+.enablees-list {
+  list-style: none;
+}
+
+.enablee-tech {
+  width: 7px;
+  height: 12px;
+  display: inline-block;
+}
+
+.enablee-techstack-container {
+  position: absolute;
+  left: 230px;
+  transform: translateY(-5px);
+}
+
+.enablee-checkbox {
+  position: absolute;
+  left: 200px;
+  width: 12px;
+  height: 12px;
+  accent-color: #000048;
+  border-radius: 2px;
+}
 /* END OF INPUT STYLING */
 
 /* START OF ENABLEES PROJECT SECTION */

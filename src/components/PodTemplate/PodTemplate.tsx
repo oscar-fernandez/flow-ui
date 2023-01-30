@@ -272,7 +272,26 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                   <ul className="enablees-list">
                     {enablees.map((enablee, index) => (
                       <li className="enablees-enablee" key={index}>
-                        {enablee.firstName} {enablee.lastName}
+                        <div className="enablee-item-container">
+                          {enablee.firstName} {enablee.lastName}
+                          <span className="enablee-checkbox-container">
+                            <input
+                              className="enablee-checkbox"
+                              type="checkbox"
+                            />
+                            <span className="enablee-techstack-container">
+                              {enablee.technology.map((tech, index) => (
+                                <span
+                                  key={index}
+                                  className="enablee-tech"
+                                  style={{
+                                    backgroundColor: tech.backgroundColor,
+                                  }}
+                                ></span>
+                              ))}
+                            </span>
+                          </span>
+                        </div>
                       </li>
                     ))}
                   </ul>
