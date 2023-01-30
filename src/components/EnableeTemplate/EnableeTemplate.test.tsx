@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import EnableeTemplate from "./EnableeTemplate";
+import { mockFePod } from "../../data/MockFEPod";
 
 describe("EnableeTemplate tests", () => {
   it("should render enablee template", () => {
@@ -69,7 +70,7 @@ describe("EnableeTemplate tests", () => {
     expect(grade.value).toBe("test");
   });
 
-  it("should disable submit button until all required fields are entered", () => {
+  it("should disable submit button until all required fields are entered and handle checkbox clicking", () => {
     render(<EnableeTemplate />);
     const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
     const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
@@ -83,5 +84,17 @@ describe("EnableeTemplate tests", () => {
     fireEvent.click(endDate);
     fireEvent.change(endDate, { target: { value: "5 Feb, 2023" } });
     expect(screen.getByText("Submit")).toBeEnabled();
+    //testing that checkbox is disabled and clicked twice
+    const teamCheckBox = screen.getByTestId(
+      mockFePod[1].podName
+    ) as HTMLInputElement;
+    fireEvent.click(teamCheckBox);
+    expect(teamCheckBox).toBeChecked();
+    const gangCheckbox = screen.getByTestId(
+      mockFePod[2].podName
+    ) as HTMLInputElement;
+    expect(gangCheckbox).toBeDisabled();
+    fireEvent.click(teamCheckBox);
+    expect(teamCheckBox).not.toBeChecked();
   });
 });
