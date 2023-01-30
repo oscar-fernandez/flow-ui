@@ -1,13 +1,19 @@
 import "./tag.css";
 
-export function TagComponent(props: {
-  name: string | undefined;
-  color: string | undefined;
-}) {
+interface Props {
+  name: string;
+  color: string;
+}
+
+export function TagComponent({ name, color }: Props) {
   return (
     <div className="tag-container">
-      <div className="tag" style={{ backgroundColor: props.color }}>
-        {props.name}
+      <div
+        data-testid="tag-name"
+        className="tag"
+        style={{ backgroundColor: color }}
+      >
+        {name}
       </div>
     </div>
   );

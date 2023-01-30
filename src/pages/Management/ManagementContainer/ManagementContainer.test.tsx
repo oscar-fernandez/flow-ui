@@ -1,11 +1,14 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
 import ManagementContainer from "./ManagementContainer";
 import ManagementView from "./ManagementContainer";
 import {
   createProject,
+  createTechnology,
   getProjects,
   getTechnologies,
+  updateProject,
 } from "../../../services/ManagementAPI";
 
 vi.mock("../../../services/ManagementAPI");
@@ -46,7 +49,7 @@ describe("Management View page", () => {
             { id: 2, name: "Java" },
             { id: 8, name: "React" },
             { id: 12, name: "Rust" },
-            { id: 12, name: "C++" },
+            { id: 13, name: "C++" },
           ],
           repoLink: "google.com",
         },
@@ -58,7 +61,7 @@ describe("Management View page", () => {
             { id: 2, name: "Java" },
             { id: 8, name: "React" },
             { id: 12, name: "Rust" },
-            { id: 12, name: "C++" },
+            { id: 13, name: "C++" },
           ],
           repoLink: "google.com",
         },
@@ -80,7 +83,7 @@ describe("Management View page", () => {
           name: "Ruby",
         },
         {
-          id: 3,
+          id: 6,
           name: "Spring Framework",
         },
       ],
@@ -295,15 +298,22 @@ describe("Management View page", () => {
     };
     (getProjects as jest.Mock).mockResolvedValueOnce(projects);
     (getTechnologies as jest.Mock).mockResolvedValueOnce(technologies);
+    (createTechnology as jest.Mock).mockResolvedValueOnce({
+      data: {
+        id: 10,
+        name: "mockSkill",
+        backgroundColor: "red",
+      },
+    });
 
     render(<ManagementContainer />);
     const technologyTab = screen.getByTestId("techTab");
     expect(technologyTab).toBeInTheDocument();
     fireEvent.click(technologyTab);
-    const addSkill = screen.getByTestId("button") as HTMLButtonElement;
+    const addSkill = screen.getByTestId("button");
     expect(addSkill).toBeInTheDocument();
     fireEvent.click(addSkill);
-    const input = screen.getByTestId("input") as HTMLInputElement;
+    const input = screen.getByTestId("input");
     expect(input).toBeInTheDocument();
     fireEvent.change(input, { target: { value: "test" } });
     fireEvent.keyDown(input, { key: "Enter", code: "Enter", charCode: 13 });

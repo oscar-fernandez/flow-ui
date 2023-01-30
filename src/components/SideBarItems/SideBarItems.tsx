@@ -6,34 +6,23 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
 import { StyledEngineProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import ColMenuItem from "./ColMenuItem/ColMenuItem";
+import SimpleMenuItem from "./SimpleMenuItem/SimpleMenuItem";
+import {
+  MenuItemsList,
+  EnableeSubMenuItems,
+  PodSubMenuItems,
+} from "../../data/SubMenuMock";
+import { useNavigate } from "react-router";
 
 const drawerWidth = 248;
-const sideBarItems = [
-  {
-    name: "Enablee",
-    testId: "enablee",
-    url: "/",
-  },
-  {
-    name: "Management",
-    testId: "management",
-    url: "/mgt",
-  },
-];
-const subItems = [
-  {
-    name: "Pending Pod Assignment",
-    testId: "pending-assignment",
-    url: "/pendingPodAssignment",
-  },
-  {
-    name: "Pending Enablement Start Date",
-    testId: "pending-enablement-start",
-    url: "/pendingStart",
-  },
+
+const podSubItems = [
+  { name: "Active", testID: "pod-active", url: "/active" },
+  { name: "Pending Start", testId: "pending-start", url: "/pendingStart" },
+  { name: "Available", testId: "pod-available", url: "/available" },
+  { name: "Completed", testId: "pod-completed", url: "/completed" },
 ];
 
 export function clickHandler(e: React.MouseEvent) {
@@ -46,22 +35,18 @@ export function clickHandler(e: React.MouseEvent) {
         item.classList.remove("selected-item");
       }
     }
-
     e.currentTarget.classList.add("selected-item");
   }
 }
 
-const itemColor = "#CCCCDA";
-
-function EnableeSideBarItems() {
+function SideBarItems() {
   const navigate = useNavigate();
-  const clickNavigateCombined = (event: any, path: string) => {
-    clickHandler(event);
+  const handleNavigate = (path: string) => {
     navigate(path);
   };
 
   return (
-    <>
+    <div className="side-bar-container">
       <StyledEngineProvider injectFirst>
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
@@ -73,89 +58,59 @@ function EnableeSideBarItems() {
                 width: drawerWidth,
                 boxSizing: "border-box",
                 bgcolor: "#000048",
+                overflowY: "inherit",
               },
-              overflowX: "hidden",
             }}
             variant="permanent"
             anchor="left"
           >
-            <List>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
+            <List sx={{ padding: "0" }}>
+              <ListItem disablePadding>
                 <ListItemButton
                   className="side-bar-item"
-                  onClick={(e) => {
-                    clickNavigateCombined(e, "/");
-                  }}
-                  data-testid="enablee-item"
+                  // onClick={(e) => {}}
+                  data-testid="flow-logo"
                 >
                   <ListItemText
                     disableTypography
                     sx={{
-                      color: itemColor,
-                      fontSize: 36,
-                      fontFamily: "Darker Grotesque",
+                      color: "#CCCCDA",
+                      fontSize: 20,
+                      fontFamily: "Oleo Script Swash Caps",
                       fontWeight: 700,
+                      letterSpacing: "0.025em",
+                      width: "70px",
+                      height: "27px",
+                      fontStyle: "normal",
                     }}
-                    primary="Enablee"
+                    primary={MenuItemsList[0].name}
                   />
                 </ListItemButton>
               </ListItem>
-            </List>
-            <Collapse in={true} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                {subItems.map((item) => (
-                  <ListItem key={item.name} disablePadding>
-                    <ListItemButton
-                      className="side-bar-item"
-                      onClick={(e) => {
-                        clickNavigateCombined(e, item.url);
-                      }}
-                      data-testid={item.testId}
-                    >
-                      <ListItemText
-                        disableTypography
-                        sx={{
-                          pl: 5,
-                          whiteSpace: "unset",
-                          color: itemColor,
-                          fontSize: 24,
-                          fontFamily: "Darker Grotesque",
-                          fontWeight: 700,
-                        }}
-                        primary={item.name}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </List>
-            </Collapse>
-            <List>
-              <ListItem sx={{ fontSize: 36 }} disablePadding>
-                <ListItemButton
-                  className="side-bar-item"
-                  onClick={(e) => {
-                    clickNavigateCombined(e, "/mgt");
-                  }}
-                  data-testid="management"
-                >
-                  <ListItemText
-                    disableTypography
-                    sx={{
-                      color: itemColor,
-                      fontSize: 36,
-                      fontFamily: "Darker Grotesque",
-                      fontWeight: 700,
-                    }}
-                    primary="Management"
-                  />
-                </ListItemButton>
+              <ListItem data-testid="enablee-item" disablePadding>
+                <ColMenuItem
+                  menuItemName={MenuItemsList[1].name}
+                  subMenuItems={EnableeSubMenuItems}
+                />
+              </ListItem>
+              <SimpleMenuItem
+                menuItemName={MenuItemsList[2].name}
+                routePath={"/mgt"}
+                handleOnClick={handleNavigate}
+                isMainMenu={"m"}
+              />
+              <ListItem disablePadding>
+                <ColMenuItem
+                  menuItemName={MenuItemsList[3].name}
+                  subMenuItems={PodSubMenuItems}
+                />
               </ListItem>
             </List>
           </Drawer>
         </Box>
       </StyledEngineProvider>
-    </>
+    </div>
   );
 }
 
-export default EnableeSideBarItems;
+export default SideBarItems;

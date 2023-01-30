@@ -1,9 +1,8 @@
 .row-container {
-  display: grid;
-  grid-template-columns: 2fr 2fr 2fr 2fr 1fr;
+  display: flex;
+  justify-content: space-evenly;
   width: 100%;
   border: solid #000048 1px;
-  border-radius: 16px;
   box-sizing: border-box;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   color: #000048;
@@ -11,8 +10,14 @@
   font-family: "Darker Grotesque";
   letter-spacing: 0.025em;
   font-size: 24px;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
   padding: 0.4em 0;
+  align-items: center;
+  gap: 1rem;
+}
+.row-container:hover {
+  background-color: #0000481a;
+  cursor: pointer;
 }
 
 .row-id {
@@ -27,4 +32,28 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
+  margin: 0;
+  margin-top: 4px;
+  padding: 0;
+}
+
+.row-lg-child {
+  flex: 4;
+}
+
+.row-child {
+  flex: 3;
+}
+
+.row-sm-child {
+  flex: 2;
+}
+
+.tags-container {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.date-container {
 }

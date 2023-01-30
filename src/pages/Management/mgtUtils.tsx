@@ -2,6 +2,7 @@ import IEnablee from "../../models/interfaces/IEnablee";
 import IProject from "../../models/interfaces/IProject";
 import ITechnology from "../../models/interfaces/ITechnology";
 import { convertToStringArr } from "../../utils/utilityFunctions";
+import { convertStringDateToLocalFormat } from "../Pod/podUtils";
 
 const tabLabels = ["Projects", "Technology", "Grade", "Country", "Community"];
 
@@ -56,8 +57,8 @@ const enableeRowfactory = (obj: IEnablee): string[] => {
     obj.firstName,
     obj.lastName,
     convertTechArToStr(obj.technology),
-    obj.enablementStartDate,
-    obj.enablementEndDate,
+    convertStringDateToLocalFormat(obj.enablementStartDate),
+    convertStringDateToLocalFormat(obj.enablementEndDate),
   ];
 };
 
@@ -78,6 +79,7 @@ const techRowFactory = (obj: ITechnology): string[] => {
 };
 
 export {
+  convertTechArToStr,
   transformEnableeArray,
   transformProjectRowArray,
   transformTechRowArray,
