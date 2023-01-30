@@ -31,10 +31,11 @@ export default function CustomRowComponent({
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
     if (clickable) {
-      setToggle(!toggle), updateSelectedEnablees?.(+e.currentTarget.id); //check updateSelectedEnablees could be undefined
+      setToggle(!toggle);
     } else if (!clickable) {
       setToggle(false);
     }
+    updateSelectedEnablees?.(+e.currentTarget.id);
   };
 
   let rowColor = "";
