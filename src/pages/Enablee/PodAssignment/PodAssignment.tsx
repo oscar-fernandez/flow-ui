@@ -61,10 +61,9 @@ export default function PodAssignment() {
   const selectedRow = useRef<IFEPod>();
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
   const [name, setName] = useState("");
-  const [count, setCount] = useState(0);
   const [value, setValue] = useState("");
-  const [clickable, setClickable] = useState(true);
-  const [formValid, setFormValid] = useState(false);
+  const totalCalculatedEnablees =
+    selectedEnablees.length + (selectedRow.current?.enablee.length || 0);
 
   function fn(): string[][] {
     if (receivedEnablees && selectedRow.current) {
@@ -98,42 +97,22 @@ export default function PodAssignment() {
     setReceivedEnablees(filteredEnablees);
   };
 
-  function increment() {
-    setCount(function (prevCount) {
-      return (prevCount += 1);
-    });
-  }
-
-  function decrement() {
-    setCount(function (prevCount) {
-      if (prevCount > 0) {
-        return (prevCount -= 1);
-      } else {
-        return (prevCount = 0);
-      }
-    });
-  }
-
   //temp location
   const updateSelectedEnablees = (index: number) => {
     if (receivedEnablees && selectedRow.current) {
       const e = receivedEnablees?.[index];
       const selectedEnableesCopy = [...selectedEnablees];
-      const totalCalculatedEnablees =
-        selectedEnablees.length + selectedRow.current.enablee.length;
       if (e) {
-        if (!selectedEnableesCopy.includes(e)) {
-          if (totalCalculatedEnablees <= 14) {
-            setSelectedEnablees([...selectedEnablees, e]);
-            increment();
-          } else {
-            setClickable(false);
-          }
-        } else {
+        if (
+          !selectedEnableesCopy.includes(e) &&
+          totalCalculatedEnablees <= 14
+        ) {
+          setSelectedEnablees([...selectedEnablees, e]);
+        }
+
+        if (selectedEnableesCopy.includes(e)) {
           selectedEnableesCopy.splice(selectedEnableesCopy.indexOf(e), 1);
           setSelectedEnablees(selectedEnableesCopy);
-          decrement();
-          setClickable(true);
         }
       }
     }
@@ -201,12 +180,11 @@ export default function PodAssignment() {
     <div>
       <form action="">
         <div>
-          {error !== "" ? <div className="error">{error}</div> : ""}
           <div className="container">
             {/* <PageViewHeader pageTitle="Enablee" showPlus={true} /> */}
             {radioCheck}
             <CustomTableContainer
-              clickable={clickable}
+              clickable={totalCalculatedEnablees < 15}
               headers={headersEnablee}
               headerStyle={headerStyle}
               rows={fn()}
@@ -223,13 +201,13 @@ export default function PodAssignment() {
 
             <div className="container">
               <CustomTableContainer
-                clickable={clickable}
+                clickable={totalCalculatedEnablees < 15}
                 headers={headersPods}
                 headerStyle={headerStyle}
                 rows={Unit.transformPodArray(
                   mockFePod,
                   selectedRow.current?.id,
-                  count
+                  selectedEnablees.length
                 )}
                 cellStyle={cellStyle}
                 rowStyle={rowStyle}
@@ -241,6 +219,21 @@ export default function PodAssignment() {
                 }}
               />
             </div>
+            <div
+              style={{
+                color: "red",
+                display: "flex",
+                justifyContent: "end",
+                marginBottom: "15px",
+              }}
+            >
+              {totalCalculatedEnablees === 15 ? (
+                <div className="error">* Max Capacity Selected</div>
+              ) : (
+                ""
+              )}
+            </div>
+
             <button
               className="button button-orange"
               disabled={selectedEnablees.length === 0 || !selectedRow.current}
