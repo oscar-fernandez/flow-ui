@@ -102,7 +102,8 @@ export default function EnableeTemplate() {
     if (!e.target.checked) {
       setSelectedPod(undefined);
     } else {
-      setSelectedPod(...mockFePod.filter((p) => p.podName === e.target.id));
+      const result = mockFePod.filter((p) => p.podName === e.target.id)[0];
+      setSelectedPod(result);
     }
   };
 
