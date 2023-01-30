@@ -1,3 +1,4 @@
+import IDisplayTag from "../models/interfaces/IDisplayTag";
 import IEnablee from "../models/interfaces/IEnablee";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
 import IFEPod from "../models/interfaces/IFEPod";
@@ -41,9 +42,12 @@ export const shortenStringList = (list: string[]): string => {
 
 export const convertToStringArr = (list: ITechnology[]): string[] => {
   const stringArr: string[] = [];
-  list.forEach((tech) => {
-    stringArr.push(tech.name);
-  });
+
+  if (list !== null) {
+    list.forEach((tech) => {
+      stringArr.push(tech.name);
+    });
+  }
   return stringArr;
 };
 
@@ -117,4 +121,52 @@ export const isEnableeValidForPod = (
       startDateFePod.getTime() >= startDateEnablee.getTime()) ||
     endDateFePod.getTime() >= endDateEnablee.getTime()
   );
+};
+
+export const getAvailablePodTag = (pod: IFEPod) => {
+  const POD_SIZE = 15;
+  const podTag: IDisplayTag = { name: "", color: "" };
+
+  if (pod.enablee.length < POD_SIZE) {
+    (podTag.name = "Available"), (podTag.color = "#3F88C5");
+  }
+  return podTag;
+};
+
+export const getActivePendingPodTag = (pod: IFEPod) => {
+  const startDatePod = new Date(pod.podStartDate);
+  const endDatePod = new Date(pod.podEndDate);
+  const currentDate = new Date();
+
+  const podTag: IDisplayTag = { name: "", color: "" };
+
+  if (currentDate >= startDatePod) {
+    podTag.name = "Active";
+    podTag.color = "#E63946";
+  } else {
+    podTag.name = "Pending";
+    podTag.color = "#344E41";
+  }
+
+  return podTag;
+};
+
+export const generateTags = (enablee: IEnablee): IDisplayTag => {
+  const startDate = new Date(enablee.enablementStartDate);
+  const endDate = new Date(enablee.enablementEndDate);
+  const currentDate = new Date();
+  let podTag: IDisplayTag = { name: "", color: "" };
+  if (currentDate < endDate && currentDate >= startDate && enablee.podId > 0) {
+    podTag = { name: "Active", color: "rgba(230, 57, 70, 1)" };
+  } else if (enablee.podId == null || enablee.podId == 0) {
+    podTag = { name: "Pending Pod Assignment", color: "rgba(52, 78, 65, 1)" };
+  } else if (currentDate > endDate && enablee.podId > 0) {
+    podTag = { name: "Completed", color: "rgba(99, 56, 133, 1)" };
+  } else if (
+    enablee.enablementStartDate === null ||
+    enablee.enablementStartDate === ""
+  ) {
+    podTag = { name: "Pending Start Date", color: "rgba(62, 143, 114, 1)" };
+  }
+  return podTag;
 };

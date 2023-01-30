@@ -96,6 +96,16 @@ export default function EnableeTemplate() {
   const [grade, setGrade] = useState("");
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
+  const [selectedPod, setSelectedPod] = useState<IFEPod>();
+
+  const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.checked) {
+      setSelectedPod(undefined);
+    } else {
+      const result = mockFePod.filter((p) => p.podName === e.target.id)[0];
+      setSelectedPod(result);
+    }
+  };
 
   //check if all fields are entered
   useEffect(() => {
@@ -128,23 +138,6 @@ export default function EnableeTemplate() {
   return (
     <>
       <div className="enablee-container">
-        <div className="close-end">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="4"
-            stroke="#DC8D0B"
-            height={32}
-            width={32}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </div>
         <form>
           <TextField
             value={name}
@@ -267,9 +260,10 @@ export default function EnableeTemplate() {
                 return (
                   <FilteredPod
                     key={pod.id}
-                    podName={pod.podName}
-                    podTech={pod.project.technology}
+                    pod={pod}
                     enableeTech={mockTechnology}
+                    handleOnClick={handleOnClick}
+                    selectedPod={selectedPod}
                   />
                 );
               })}

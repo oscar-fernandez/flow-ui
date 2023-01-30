@@ -66,10 +66,12 @@ export default function ManagementContainer() {
   // const [technologies, setTechnologies] = useState(mockTechnology);
   const [projects, setProjects] = useState<IProject[]>([]);
   const [technologies, setTechnologies] = useState<ITechnology[]>([]);
+  const [allTechnologies, setAllTechnologies] = useState<ITechnology[]>([]);
 
   const toggleShowForm = () => {
     switch (value) {
       case "Projects":
+        setTechnologies([]);
         setActive("Form");
         break;
       case "Technology":
@@ -96,7 +98,7 @@ export default function ManagementContainer() {
   const getListOfTechnology = () => {
     getTechnologies()
       .then((res: any) => {
-        setTechnologies(res.data);
+        setAllTechnologies(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -131,7 +133,8 @@ export default function ManagementContainer() {
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    selectedRow.current = projects[+event.currentTarget.id]; //shorthand convert str to number
+    selectedRow.current = projects[+event.currentTarget.id];
+    setTechnologies(projects[+event.currentTarget.id].technology); //shorthand convert str to number
     switch (value) {
       case "Projects":
         setActive("Details");
@@ -144,6 +147,7 @@ export default function ManagementContainer() {
       name: tech,
       backgroundColor: Module.getRandomColor(),
     };
+    setAllTechnologies([newTechnology, ...allTechnologies]);
     createTechnology(newTechnology)
       .then((res) => {
         setTechnologies([res.data, ...technologies]);
@@ -157,7 +161,7 @@ export default function ManagementContainer() {
       case "Projects":
         return Module.transformProjectRowArray(projects);
       case "Technology":
-        return Module.transformTechRowArray(technologies);
+        return Module.transformTechRowArray(allTechnologies);
       default:
         return [["no tab matches value"]];
     }
@@ -217,6 +221,8 @@ export default function ManagementContainer() {
             technologies={technologies}
             handleProjectChange={handleProjectChange}
             handleClick={() => setActive("Table")}
+            setTechnologies={setTechnologies}
+            allTechnologies={allTechnologies}
           />
         )}
         {active === "Details" && (
@@ -229,6 +235,7 @@ export default function ManagementContainer() {
             handleProjectChange={handleProjectChange}
             handleClick={() => setActive("Table")}
             handleEdit={() => setActive("Edit")}
+            allTechnologies={allTechnologies}
           />
         )}
         {active === "Edit" && (
@@ -240,6 +247,8 @@ export default function ManagementContainer() {
             technologies={technologies}
             handleProjectChange={handleProjectChange}
             handleClick={() => setActive("Table")}
+            setTechnologies={setTechnologies}
+            allTechnologies={allTechnologies}
           />
         )}
       </div>

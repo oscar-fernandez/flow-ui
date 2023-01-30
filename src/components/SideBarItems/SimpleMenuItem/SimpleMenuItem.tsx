@@ -1,5 +1,6 @@
 import { ListItem, ListItemButton, ListItemText, List } from "@mui/material";
 import { useCustomNavigate } from "../customHooks";
+import { clickHandler } from "../SideBarItems";
 
 interface Props {
   menuItemName: string;
@@ -19,15 +20,19 @@ export default function SimpleMenuItem({
 }: Props) {
   const { handleNavigate } = useCustomNavigate(routePath);
 
+  const handleClickAndNavigate = (e: React.MouseEvent) => (
+    clickHandler(e), handleOnClick ? handleOnClick(routePath) : handleNavigate()
+  );
+
   return (
     <div>
       {isMainMenu === "m" ? (
-        <List>
+        <List sx={{ padding: "0" }}>
           <ListItem disablePadding>
             <ListItemButton
               className="side-bar-item"
               onClick={(e) => {
-                handleOnClick ? handleOnClick(routePath) : handleNavigate();
+                handleClickAndNavigate(e);
               }}
               data-testid={menuItemName}
             >
@@ -37,7 +42,6 @@ export default function SimpleMenuItem({
                   color: itemColor,
                   fontSize: 20,
                   fontFamily: "Darker Grotesque",
-                  fontWeight: 700,
                 }}
                 primary={menuItemName}
               />
@@ -45,12 +49,12 @@ export default function SimpleMenuItem({
           </ListItem>
         </List>
       ) : isMainMenu === "s" ? (
-        <List>
+        <List sx={{ padding: "0" }}>
           <ListItem disablePadding>
             <ListItemButton
               className="side-bar-item"
               onClick={(e) => {
-                handleOnClick ? handleOnClick(routePath) : handleNavigate();
+                handleClickAndNavigate(e);
               }}
               data-testid={menuItemName}
             >
@@ -60,7 +64,6 @@ export default function SimpleMenuItem({
                   color: subMenuItemColor,
                   fontSize: 15,
                   fontFamily: "Darker Grotesque",
-                  fontWeight: 400,
                 }}
                 primary={menuItemName}
               />
@@ -68,12 +71,12 @@ export default function SimpleMenuItem({
           </ListItem>
         </List>
       ) : isMainMenu === "sm" ? (
-        <List>
+        <List sx={{ padding: "0" }}>
           <ListItem disablePadding>
             <ListItemButton
               className="side-bar-item"
               onClick={(e) => {
-                handleOnClick ? handleOnClick(routePath) : handleNavigate();
+                handleClickAndNavigate(e);
               }}
               data-testid={menuItemName}
             >
@@ -83,7 +86,6 @@ export default function SimpleMenuItem({
                   color: itemColor,
                   fontSize: 20,
                   fontFamily: "Darker Grotesque",
-                  fontWeight: 400,
                 }}
                 primary={menuItemName}
               />

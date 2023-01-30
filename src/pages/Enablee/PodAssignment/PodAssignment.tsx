@@ -1,18 +1,37 @@
 import { useEffect, useState, useRef } from "react";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
-import { GetEnableesPendingPodAssignment } from "../../../services/EnableeAPI";
 import "./PodAssignment.css";
 import * as Module from "../../Management/mgtUtils";
+import * as Unit from "../../Pod/podUtils";
 import IEnablee from "../../../models/interfaces/IEnablee";
+import {
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
+import { dummyEnablees } from "../../../data/EnableeMock";
+import { usePendingPodEnablees } from "../Hooks/customHook";
+import { mockFePod } from "../../../data/MockFEPod";
+import IFEPod from "../../../models/interfaces/IFEPod";
 
-const headers = [
+const headersEnablee = [
   "Employee Id",
   "First Name",
   "Last Name",
-  "Skills",
+  "Tech Stack",
   "Enablement Start Date",
   "Enablement End Date",
+];
+
+const headersPods = [
+  "Project",
+  "Pod Name",
+  "Tech Stack",
+  "Pod Start Date",
+  "Pod End Date",
+  "Capacity",
 ];
 const headerStyle = {
   minWidth: 50,
@@ -38,59 +57,173 @@ const rowStyle = {
 };
 
 export default function PodAssignment() {
-  const selectedEnablees = useRef<number[]>([]);
-  const [receivedEnablees, setReceivedEnablees] = useState<IEnablee[]>([]);
+  const selectedEnablees = useRef<IEnablee[]>([]);
+  const selectedRow = useRef<IFEPod>();
+  const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
+  const [name, setName] = useState("");
+  const [count, setCount] = useState(0);
+  const [value, setValue] = useState("");
+  const [formValid, setFormValid] = useState(false);
 
-  useEffect(() => {
-    getEnablees();
-  }, []);
+  function fn(): string[][] {
+    if (receivedEnablees && selectedRow.current) {
+      switch (name) {
+        case "matchTechStack":
+          return Module.transformEnableeArray(
+            Unit.matchAllSkills(receivedEnablees, selectedRow.current)
+          );
+        case "containsTechStack":
+          return Module.transformEnableeArray(
+            Unit.matchSomeSkills(receivedEnablees, selectedRow.current)
+          );
+        case "availableEnablees":
+          return Module.transformEnableeArray(
+            Unit.matchData(receivedEnablees, selectedRow.current)
+          );
+      }
+    }
+    if (receivedEnablees) return Module.transformEnableeArray(receivedEnablees);
+    return [];
+  }
 
-  const getEnablees = async () => {
-    GetEnableesPendingPodAssignment()
-      .then((res) => {
-        setReceivedEnablees(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    //possible refac https://www.intricatecloud.io/2020/03/how-to-handle-api-errors-in-your-web-app-using-axios/
+  const customHandleSelection = (
+    event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
+  ) => {
+    selectedRow.current = mockFePod[+event.currentTarget.id];
+    const filteredEnablees =
+      receivedEnablees &&
+      selectedRow &&
+      Unit.matchData(receivedEnablees, selectedRow.current);
+    setReceivedEnablees(filteredEnablees);
   };
+
+  function increment() {
+    setCount(function (prevCount) {
+      return (prevCount += 1);
+    });
+  }
+
+  function decrement() {
+    setCount(function (prevCount) {
+      if (prevCount > 0) {
+        return (prevCount -= 1);
+      } else {
+        return (prevCount = 0);
+      }
+    });
+  }
 
   //temp location
   const updateSelectedEnablees = (index: number) => {
-    const e = receivedEnablees[index];
-    const ar = selectedEnablees.current;
-    if (!ar.includes(e.employeeId)) {
-      ar.push(e.employeeId);
-    } else {
-      ar.splice(ar.indexOf(e.employeeId), 1);
+    if (receivedEnablees && selectedRow.current) {
+      const e = receivedEnablees?.[index];
+      const ar = selectedEnablees.current;
+      if (e) {
+        if (!ar.includes(e)) {
+          ar.push(e);
+          increment();
+        } else {
+          ar.splice(ar.indexOf(e), 1);
+          decrement();
+        }
+      }
     }
+    if (receivedEnablees) return Module.transformEnableeArray(receivedEnablees);
+    return [];
   };
 
-  return (
-    <div className="container">
-      <PageViewHeader
-        pageTitle="Assign Enablees to Pod"
-        showPlus={false}
-        isHeader={true}
-        plusClicked={false}
-      />
-      <CustomTableContainer
-        headers={headers}
-        headerStyle={headerStyle}
-        rows={Module.transformEnableeArray(receivedEnablees)}
-        cellStyle={cellStyle}
-        rowStyle={rowStyle}
-        updateSelectedEnablees={updateSelectedEnablees}
-        skill={false}
-        value={""}
-        toggleShowForm={() => {
-          return null;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue((event.target as HTMLInputElement).value);
+    setName(event.currentTarget.name);
+    selectedRow.current && fn();
+  };
+  // const error = "* Max Capacity Selected";
+  const error = "";
+
+  const radioCheck = (
+    <FormControl sx={{ display: "flex" }}>
+      <RadioGroup
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          ml: 3,
+          color: "#dc8d0b",
         }}
-      />
-      <div className="button-container">
-        <button className="button button-orange">submit</button>
-      </div>
+        aria-labelledby="demo-controlled-radio-buttons-group"
+        name="controlled-radio-buttons-group"
+        value={value}
+        onChange={handleChange}
+      >
+        <FormControlLabel
+          value="matchTechStack"
+          name="matchTechStack"
+          control={<Radio />}
+          label="Match Tech Stack"
+        />
+        <FormControlLabel
+          value="containsTechStack"
+          name="containsTechStack"
+          control={<Radio />}
+          label="Contains Tech Stack"
+        />
+      </RadioGroup>
+    </FormControl>
+  );
+
+  return (
+    <div>
+      <form action="">
+        <div>
+          {error !== "" ? <div className="error">{error}</div> : ""}
+          <div className="container">
+            {/* <PageViewHeader pageTitle="Enablee" showPlus={true} /> */}
+            {radioCheck}
+            <CustomTableContainer
+              headers={headersEnablee}
+              headerStyle={headerStyle}
+              rows={fn()}
+              cellStyle={cellStyle}
+              rowStyle={rowStyle}
+              //  toggle={toggle}
+              updateSelectedEnablees={updateSelectedEnablees}
+              skill={false}
+              value={""}
+              toggleShowForm={() => {
+                return null;
+              }}
+            />
+
+            <div className="container">
+              <CustomTableContainer
+                headers={headersPods}
+                headerStyle={headerStyle}
+                rows={Unit.transformPodArray(
+                  mockFePod,
+                  selectedRow.current?.id,
+                  count
+                )}
+                cellStyle={cellStyle}
+                rowStyle={rowStyle}
+                customHandleSelection={customHandleSelection}
+                skill={false}
+                value={""}
+                toggleShowForm={function (): void {
+                  throw new Error("Function not implemented.");
+                }}
+              />
+            </div>
+            <button
+              className="button button-orange"
+              disabled={
+                selectedEnablees.current.length === 0 || !selectedRow.current
+              }
+              type="submit"
+            >
+              submit
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   );
 }
