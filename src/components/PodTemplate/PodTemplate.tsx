@@ -9,6 +9,12 @@ import IProject from "../../models/interfaces/IProject";
 import { dumbProjects } from "../../data/MockProjects";
 import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import { dummyEnablees } from "../../data/EnableeMock";
+import {
+  useToggle,
+  useToggleDetails,
+} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
+import EnableeTemplate from "../EnableeTemplate/EnableeTemplate";
 
 /**
  * Functional component that is a side modal to help the user manage
@@ -41,6 +47,9 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
   const [enablees, setEnablees] = useState<IEnablee[]>([]);
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
+
+  const [toggle, changeToggle] = useToggle();
+  const [details, setDetails] = useToggleDetails();
 
   // Open/Closes the PodTemplate component
   const closeModal = () => {
@@ -273,7 +282,16 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                     {enablees.map((enablee, index) => (
                       <li className="enablees-enablee" key={index}>
                         <div className="enablee-item-container">
-                          {enablee.firstName} {enablee.lastName}
+                          <a
+                            className="enablee-item"
+                            onClick={() => {
+                              changeToggle();
+                              setDetails(enablee);
+                            }}
+                          >
+                            {enablee.firstName} {enablee.lastName}
+                          </a>
+
                           <span className="enablee-checkbox-container">
                             <input
                               className="enablee-checkbox"
@@ -313,6 +331,7 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
           </div>
         </div>
       ) : null}
+      <ToggleSidebar template={<EnableeTemplate></EnableeTemplate>} />
     </>
   );
 }

@@ -205,6 +205,19 @@
   list-style: none;
 }
 
+.enablee-item {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 100%;
+  letter-spacing: 0.025em;
+  color: #8a8b8a;
+}
+
+.enablee-item:hover {
+  text-decoration: 1px solid underline;
+}
+
 .enablee-tech {
   width: 7px;
   height: 12px;
@@ -214,7 +227,7 @@
 .enablee-techstack-container {
   position: absolute;
   left: 230px;
-  transform: translateY(-5px);
+  transform: translateY(2px);
 }
 
 .enablee-checkbox {
@@ -224,6 +237,7 @@
   height: 12px;
   accent-color: #000048;
   border-radius: 2px;
+  transform: translateY(9px);
 }
 /* END OF INPUT STYLING */
 
