@@ -5,9 +5,10 @@ import { GeneratePodRows } from "../../components/GeneratePodRows/GeneratePodRow
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import IFEPod from "../../models/interfaces/IFEPod";
 import IDisplayTag from "../../models/interfaces/IDisplayTag";
+import { Location, useLocation } from "react-router-dom";
 
 interface Props {
-  hook: () => IFEPod[];
+  hook: (location: Location) => IFEPod[];
   displayPageCarousel: boolean;
   displayTag: (pod: IFEPod) => IDisplayTag;
 }
@@ -16,12 +17,17 @@ export default function PodPageContainer({
   displayPageCarousel,
   displayTag,
 }: Props) {
-  const podList = hook();
+  const location = useLocation();
+  const fetchedPods = hook(location);
 
   return (
     <>
       <div data-testid="pageSectionTestId" className="page-section">
-        {<GeneratePodRows pageNum={0} pods={podList} displayTag={displayTag} />}
+        <GeneratePodRows
+          pageNum={0}
+          pods={fetchedPods}
+          displayTag={displayTag}
+        />
       </div>
     </>
   );

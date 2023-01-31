@@ -7,8 +7,9 @@ import {
   getCompletedPods,
   getPendingPods,
 } from "../../../services/PodAPI";
+import { Location } from "react-router-dom";
 
-export function useCompletedPods() {
+export function useCompletedPods(location: Location) {
   const [podList, setPodList] = useState<IFEPod[]>([]);
 
   const updatePods = () => {
@@ -19,11 +20,11 @@ export function useCompletedPods() {
 
   useEffect(() => {
     updatePods();
-  }, []);
+  }, [location]);
   return podList;
 }
 
-export function useAvailablePods() {
+export function useAvailablePods(location: Location) {
   const [podList, setPodList] = useState<IFEPod[]>([]);
 
   const updatePods = () => {
@@ -34,12 +35,12 @@ export function useAvailablePods() {
 
   useEffect(() => {
     updatePods();
-  }, []);
+  }, [location]);
 
   return podList;
 }
 
-export function useActivePods() {
+export function useActivePods(location: Location) {
   const [podList, setPodList] = useState<IFEPod[]>([]);
 
   const updatePods = () => {
@@ -50,12 +51,12 @@ export function useActivePods() {
 
   useEffect(() => {
     updatePods();
-  }, []);
+  }, [location]);
 
   return podList;
 }
 
-export const usePendingStartPods = () => {
+export const usePendingStartPods = (location: Location) => {
   const [podList, setPodList] = useState<IFEPod[]>([]);
   const updatePods = () => {
     getPendingPods().then((res) => {
@@ -65,7 +66,7 @@ export const usePendingStartPods = () => {
 
   useEffect(() => {
     updatePods();
-  }, []);
+  }, [location]);
 
   return podList;
 };
