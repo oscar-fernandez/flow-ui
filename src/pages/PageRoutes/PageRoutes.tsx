@@ -11,6 +11,7 @@ import {
   useCompletedPods,
   useAvailablePods,
   useActivePods,
+  usePendingStartPods,
 } from "../Pod/Hooks/customHook";
 import {
   getActivePendingPodTag,
@@ -61,8 +62,16 @@ function PageRoutes() {
             <Route path="/mgt" element={<ManagementContainer />} />
             <Route>
               <Route path="/pod" element={<PodView />}>
-                <Route path="" element={<div> Pod Master List </div>} />
-                <Route path="pending" element={<div> Pod Pending List </div>} />
+                <Route
+                  path="pending"
+                  element={
+                    <PodPageContainer
+                      hook={usePendingStartPods}
+                      displayPageCarousel={false}
+                      displayTag={getActivePendingPodTag}
+                    />
+                  }
+                />
                 <Route
                   path="completed"
                   element={

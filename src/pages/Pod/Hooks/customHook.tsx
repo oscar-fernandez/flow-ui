@@ -1,65 +1,71 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { mockFePod } from "../../../data/MockFEPod";
 import IFEPod from "../../../models/interfaces/IFEPod";
-import { getCompletedPods, getPendingPods } from "../../../services/PodAPI";
+import {
+  getActivePods,
+  getAvailablePods,
+  getCompletedPods,
+  getPendingPods,
+} from "../../../services/PodAPI";
 
-export function useCompletedPods(): {
-  podList: IFEPod[];
-  setPodList: Dispatch<SetStateAction<IFEPod[]>>;
-} {
+export function useCompletedPods() {
   const [podList, setPodList] = useState<IFEPod[]>([]);
 
-  useEffect(() => {
-    getCompletedPods().then((pods) => {
-      setPodList(pods.data);
-    });
-  }, []);
-  return { podList, setPodList };
-}
-
-export function useAvailablePods(): {
-  podList: IFEPod[];
-  setPodList: Dispatch<SetStateAction<IFEPod[]>>;
-} {
-  const [podList, setPodList] = useState<IFEPod[]>([]);
-
-  useEffect(() => {
-    setPodList(mockFePod);
-  }, []);
-
-  return { podList, setPodList };
-}
-
-export function useActivePods(): {
-  podList: IFEPod[];
-  setPodList: Dispatch<SetStateAction<IFEPod[]>>;
-} {
-  const [podList, setPodList] = useState<IFEPod[]>([]);
-
-  useEffect(() => {
-    mockFePod
-      .filter(
-        (pod) =>
-          Date.parse(pod.podStartDate) <= Date.now() &&
-          Date.parse(pod.podEndDate) >= Date.now()
-      )
-      .forEach((pod) => setPodList((podList) => [...podList, pod]));
-  }, []);
-
-  return { podList, setPodList };
-}
-
-export const usePendingStartPods = () => {
-  const [pendingStartPods, setPendingStartPods] = useState<IFEPod[]>();
-  const updatePendingStartPods = () => {
-    getPendingPods().then((res) => {
-      setPendingStartPods(res.data);
+  const updatePods = () => {
+    getCompletedPods().then((res) => {
+      setPodList(res.data);
     });
   };
 
   useEffect(() => {
-    updatePendingStartPods();
+    updatePods();
+  }, []);
+  return podList;
+}
+
+export function useAvailablePods() {
+  const [podList, setPodList] = useState<IFEPod[]>([]);
+
+  const updatePods = () => {
+    getAvailablePods().then((res) => {
+      setPodList(res.data);
+    });
+  };
+
+  useEffect(() => {
+    updatePods();
   }, []);
 
-  return { pendingStartPods, updatePendingStartPods };
+  return podList;
+}
+
+export function useActivePods() {
+  const [podList, setPodList] = useState<IFEPod[]>([]);
+
+  const updatePods = () => {
+    getActivePods().then((res) => {
+      setPodList(res.data);
+    });
+  };
+
+  useEffect(() => {
+    updatePods();
+  }, []);
+
+  return podList;
+}
+
+export const usePendingStartPods = () => {
+  const [podList, setPodList] = useState<IFEPod[]>([]);
+  const updatePods = () => {
+    getPendingPods().then((res) => {
+      setPodList(res.data);
+    });
+  };
+
+  useEffect(() => {
+    updatePods();
+  }, []);
+
+  return podList;
 };

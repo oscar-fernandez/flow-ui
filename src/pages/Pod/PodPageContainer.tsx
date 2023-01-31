@@ -7,10 +7,7 @@ import IFEPod from "../../models/interfaces/IFEPod";
 import IDisplayTag from "../../models/interfaces/IDisplayTag";
 
 interface Props {
-  hook: () => {
-    podList: IFEPod[];
-    setPodList: Dispatch<SetStateAction<IFEPod[]>>;
-  };
+  hook: () => IFEPod[];
   displayPageCarousel: boolean;
   displayTag: (pod: IFEPod) => IDisplayTag;
 }
@@ -19,7 +16,7 @@ export default function PodPageContainer({
   displayPageCarousel,
   displayTag,
 }: Props) {
-  const { podList, setPodList } = hook();
+  const podList = hook();
 
   return (
     <>
