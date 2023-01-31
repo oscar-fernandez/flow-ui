@@ -25,11 +25,11 @@ export const usePendingPodEnablees = () => {
 };
 
 export const usePendingStartEnablees = () => {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<IEnablee[]>([]);
   useEffect(() => {
     GetEnableesWithNoStartDate().then((enablees) => {
       setList(enablees.data);
     });
   }, []);
-  return { list, setList };
+  return [list, setList];
 };

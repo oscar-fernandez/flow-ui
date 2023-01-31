@@ -1,12 +1,12 @@
 import ToggleProvider from "../../context/ToggleSideBarContext/ToggleSideBarContext";
-import PageContainer from "../PageContainer/PageContainer";
+import PageRoutes from "../PageRoutes/PageRoutes";
 import "./App.css";
 
 function App() {
   return (
     <>
       <ToggleProvider>
-        <PageContainer />
+        <PageRoutes />
       </ToggleProvider>
     </>
   );

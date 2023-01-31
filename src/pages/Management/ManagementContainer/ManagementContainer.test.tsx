@@ -8,6 +8,7 @@ import {
   createTechnology,
   getProjects,
   getTechnologies,
+  updateProject,
 } from "../../../services/ManagementAPI";
 
 vi.mock("../../../services/ManagementAPI");
@@ -48,7 +49,7 @@ describe("Management View page", () => {
             { id: 2, name: "Java" },
             { id: 8, name: "React" },
             { id: 12, name: "Rust" },
-            { id: 12, name: "C++" },
+            { id: 13, name: "C++" },
           ],
           repoLink: "google.com",
         },
@@ -60,7 +61,7 @@ describe("Management View page", () => {
             { id: 2, name: "Java" },
             { id: 8, name: "React" },
             { id: 12, name: "Rust" },
-            { id: 12, name: "C++" },
+            { id: 13, name: "C++" },
           ],
           repoLink: "google.com",
         },
@@ -82,7 +83,7 @@ describe("Management View page", () => {
           name: "Ruby",
         },
         {
-          id: 3,
+          id: 6,
           name: "Spring Framework",
         },
       ],

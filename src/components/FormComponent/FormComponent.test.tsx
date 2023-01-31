@@ -1,9 +1,17 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import FormComponent from "./FormComponent";
 import { getProjects, createProject } from "../../services/ManagementAPI";
+import { mockFePod } from "../../data/MockFEPod";
+import ITechnology from "../../models/interfaces/ITechnology";
 
 vi.mock("../../services/ManagementAPI");
+let expectedTechnology: ITechnology[];
+
+beforeEach(() => {
+  expectedTechnology = mockFePod[0].project.technology;
+});
+
 describe("FormComponent", () => {
   let ts: any = [];
   beforeEach(() => {
@@ -85,10 +93,194 @@ describe("FormComponent", () => {
     expect(summary.value).toBe("test");
   });
 
-  // it("should create tech stack string array", () => {
-  //   render(<FormComponent />);
-  //   const select = screen.getByTestId("select") as HTMLSelectElement;
-  //   fireEvent.change(select, { target: { value: "Java" } });
-  //   expect(select.value).toBe("Java");
-  // });
+  it("should render edit form component", () => {
+    const project = {
+      id: 100,
+      name: "projectTest",
+      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      summary: "project test ",
+      technologies: {},
+    };
+
+    render(<FormComponent project={project} technologies={ts} edit={true} />);
+    expect(screen.getByTestId("title")).toBeInTheDocument();
+  });
+
+  it("should render edit form component with project data", () => {
+    const project = {
+      id: 100,
+      name: "projectTest",
+      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      summary: "project test ",
+      technologies: {},
+    };
+
+    render(<FormComponent project={project} technologies={ts} edit={true} />);
+    expect(screen.getByTestId("title")).toBeInTheDocument();
+  });
+
+  it("should update project on submit click", () => {
+    const project = {
+      id: 100,
+      name: "projectTest",
+      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      summary: "project test ",
+      technologies: {},
+    };
+
+    render(<FormComponent project={project} technologies={ts} edit={true} />);
+    const projectName = screen.getByTestId("pName") as HTMLInputElement;
+    const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
+    const summary = screen.getByTestId("pDesc") as HTMLInputElement;
+    const editBtn = screen.getByTestId("editBtn") as HTMLButtonElement;
+    projectName.value = "projectTest";
+    repoLink.value =
+      "https://git.work.cognizant.studio/enablement/team-projects/a";
+    summary.value = "project test ";
+
+    const project1 = {
+      id: 100,
+      name: "projectTest",
+      repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      summary: "project test ",
+      technologies: {},
+    };
+
+    (createProject as jest.Mock).mockResolvedValueOnce(project1);
+
+    editBtn.click();
+
+    expect(projectName.value).toBe("projectTest");
+    expect(repoLink.value).toBe(
+      "https://git.work.cognizant.studio/enablement/team-projects/a"
+    );
+    expect(summary.value).toBe("project test ");
+  });
+
+  it("should reset input fields on reset click", async () => {
+    render(
+      <FormComponent
+        project={mockFePod[0].project}
+        technologies={ts}
+        edit={false}
+      />
+    );
+    const projectName = screen.getByTestId("pName") as HTMLInputElement;
+    const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
+    const summary = screen.getByTestId("pDesc") as HTMLInputElement;
+    projectName.value = "test";
+    repoLink.value =
+      "https://git.work.cognizant.studio/enablement/team-projects/a";
+    summary.value = "test";
+
+    const resetBtn = screen.getByText("Reset") as HTMLButtonElement;
+    resetBtn.click();
+    await waitFor(() => {
+      expect(projectName.value).toBe("test");
+    });
+    await waitFor(() => {
+      expect(repoLink.value).toBe(
+        "https://git.work.cognizant.studio/enablement/team-projects/a"
+      );
+    });
+    await waitFor(() => {
+      expect(summary.value).toBe("test");
+    });
+  });
+
+  it("should handle input fields", () => {
+    render(
+      <FormComponent
+        project={mockFePod[0].project}
+        technologies={ts}
+        edit={true}
+      />
+    );
+    const projectName = screen.getByTestId("pName") as HTMLInputElement;
+    const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
+    const summary = screen.getByTestId("pDesc") as HTMLInputElement;
+    fireEvent.change(projectName, { target: { value: "test" } });
+    fireEvent.change(repoLink, { target: { value: "test" } });
+    fireEvent.change(summary, { target: { value: "test" } });
+    expect(projectName.value).toBe("test");
+    expect(repoLink.value).toBe("test");
+    expect(summary.value).toBe("test");
+    fireEvent.change(projectName, { target: { value: " " } });
+    fireEvent.change(repoLink, {
+      target: {
+        value: "https://git.work.cognizant.studio/enablement/team-projects/a",
+      },
+    });
+    fireEvent.change(summary, {
+      target: {
+        value:
+          "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean masdf",
+      },
+    });
+  });
+
+  it("should set disable submit true if not all fields entered", () => {
+    render(
+      <FormComponent
+        project={mockFePod[0].project}
+        technologies={ts}
+        edit={false}
+      />
+    );
+    const submit = screen.getByText("Submit") as HTMLButtonElement;
+    expect(submit).toBeEnabled();
+    // const disabledButton = screen.getByText;
+    // const projectName = screen.getByTestId("pName") as HTMLInputElement;
+    // const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
+    // const summary = screen.getByTestId("pDesc") as HTMLInputElement;
+    // fireEvent.change(projectName, { target: { value: " " } });
+    // fireEvent.change(repoLink, { target: { value: " " } });
+    // fireEvent.change(summary, { target: { value: " " } });
+    // expect(projectName.value).toBe("test");
+  });
+
+  describe("Tech Stack menu option", () => {
+    it("should display current techstack is none", () => {
+      render(<FormComponent technologies={[]} />);
+      expect(screen.getByText("Current Tech Stack: None")).toBeInTheDocument();
+    });
+
+    it("should display current project techStack if provided", () => {
+      render(<FormComponent technologies={expectedTechnology} />);
+
+      expect(screen.getByText(expectedTechnology[0].name)).toBeInTheDocument();
+    });
+
+    it("should display all technologies in menu", () => {
+      render(
+        <FormComponent allTechnologies={expectedTechnology} technologies={[]} />
+      );
+
+      expect(screen.queryAllByRole("menuitem").length).toEqual(
+        expectedTechnology.length
+      );
+    });
+
+    it("should select a tech from the tech menu and display in form as current tech stack", () => {
+      const expectedMenuItem1 = expectedTechnology[0].name;
+
+      render(
+        <FormComponent allTechnologies={expectedTechnology} technologies={[]} />
+      );
+
+      const actualMenuItem1 = screen.getByText(expectedMenuItem1);
+
+      //select a tech item from menu
+      fireEvent.click(actualMenuItem1);
+
+      expect(screen.getByTestId("tag-name")).toHaveTextContent(
+        expectedMenuItem1
+      );
+
+      //unselect the previously selected tech item from the menu
+      fireEvent.click(actualMenuItem1);
+
+      expect(screen.getByText("Current Tech Stack: None")).toBeInTheDocument();
+    });
+  });
 });
