@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { usePendingPodEnablees } from "../Hooks/customHook";
 import PodAssignment from "./PodAssignment";
+import * as Unit from "./PodAssignment";
 import { vi } from "vitest";
 import { mockFePod } from "../../../data/MockFEPod";
 import { matchAllSkills, matchData, matchSomeSkills } from "../../Pod/podUtils";
@@ -34,71 +35,17 @@ const receivedEnablees = [
   },
 ];
 
-const filteredEnablees = [
-  {
-    employeeId: 977284,
-    firstName: "Steve",
-    lastName: "Bob",
-    dateOfJoin: "2022-01-21",
-    enablementStartDate: "2021-01-21",
-    enablementEndDate: "2021-01-30",
-    assetTag: "I Don't know",
-    isEmployed: false,
-    technology: [
-      { id: 2, name: "Java", backgroundColor: "grey" },
-      { id: 8, name: "React", backgroundColor: "blue" },
-      { id: 12, name: "Rust", backgroundColor: "brown" },
-      { id: 12, name: "C++", backgroundColor: "yellow" },
-    ],
-    countryCode: 1,
-    gradeId: 1,
-    communityId: 1,
-    employmentTypeId: 1,
-    podId: 1,
-    commentId: [1, 2, 3],
-  },
-  {
-    employeeId: 1221,
-    firstName: "Jessabelle",
-    lastName: "Cowringer",
-    dateOfJoin: "2022-01-21",
-    enablementStartDate: "2021-01-21",
-    enablementEndDate: "2021-01-30",
-    assetTag: "I Don't know",
-    isEmployed: false,
-    technology: [
-      { id: 2, name: "Java", backgroundColor: "grey" },
-      { id: 8, name: "React", backgroundColor: "blue" },
-    ],
-    countryCode: 1,
-    gradeId: 1,
-    communityId: 1,
-    employmentTypeId: 1,
-    podId: 1,
-    commentId: [1, 2, 3],
-  },
-  {
-    employeeId: 738920,
-    firstName: "Ondrew",
-    lastName: "Jooors",
-    dateOfJoin: "2022-01-21",
-    enablementStartDate: "2021-01-21",
-    enablementEndDate: "2021-01-30",
-    assetTag: "I Don't know",
-    isEmployed: false,
-    technology: [
-      { id: 2, name: "Java", backgroundColor: "grey" },
-      { id: 8, name: "React", backgroundColor: "blue" },
-      { id: 12, name: "Rust", backgroundColor: "brown" },
-      { id: 12, name: "C++", backgroundColor: "yellow" },
-    ],
-    countryCode: 1,
-    gradeId: 1,
-    communityId: 1,
-    employmentTypeId: 1,
-    podId: 1,
-    commentId: [1, 2, 3],
-  },
+const selectedEnablees = [
+  dummyEnablees[0],
+  dummyEnablees[1],
+  dummyEnablees[2],
+  dummyEnablees[3],
+  dummyEnablees[4],
+  dummyEnablees[1],
+  dummyEnablees[2],
+  dummyEnablees[3],
+  dummyEnablees[4],
+  dummyEnablees[4],
 ];
 
 describe("PodAssignment", () => {
@@ -128,7 +75,7 @@ describe("PodAssignment", () => {
     expect(screen.getByText("John")).toBeInTheDocument();
   });
 
-  it("should display increase capasity when clicked enablee row ", () => {
+  it("should display filtered enablee when click radioButton", () => {
     (usePendingPodEnablees as jest.Mock).mockImplementation(() => {
       return { receivedEnablees };
     });
@@ -140,5 +87,23 @@ describe("PodAssignment", () => {
     expect(selectedRadioButton).toBeInTheDocument();
     selectedRadioButton && fireEvent.click(selectedRadioButton);
     const result = matchAllSkills(dummyEnablees, mockFePod[0]);
+  });
+
+  it("`*Max Capacity Selected` message should be displayed when quantity of selected enablees ==  total quantity of enablees for pod", () => {
+    (usePendingPodEnablees as jest.Mock).mockImplementation(() => {
+      return { receivedEnablees };
+    });
+    render(<PodAssignment />);
+    const selectedRow = screen.queryByText(mockFePod[1].podName);
+    selectedRow && fireEvent.click(selectedRow);
+    const selectedEnablee = screen.getByText("John");
+    selectedEnablee && fireEvent.click(selectedEnablee);
+
+    const submit = screen.queryByText("submit");
+    submit && fireEvent.click(submit);
+    const totalCalculatedEnablees =
+      selectedEnablees.length + mockFePod[1].enablee.length;
+    expect(totalCalculatedEnablees).equal(15);
+    expect("* Max Capacity Selected").toBe;
   });
 });
