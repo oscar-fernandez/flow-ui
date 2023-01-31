@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import "./PodTemplate.css";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
@@ -15,6 +15,8 @@ import {
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
 import EnableeTemplate from "../EnableeTemplate/EnableeTemplate";
+import IFEPod from "../../models/interfaces/IFEPod";
+import IEnabler from "../../models/interfaces/IEnabler";
 
 /**
  * Functional component that is a side modal to help the user manage
@@ -43,13 +45,35 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
   const [projectTechStackMargin, setProjectTechStackMargin] = useState("0px");
 
   // States used for creating the FEPod Object
-  const [podName, setPodName] = useState("Untitled");
+  const [pod, setPod] = useToggleDetails();
+
+  const [podId, setPodId] = useState("");
+  const [podName, setPodName] = useState("");
   const [enablees, setEnablees] = useState<IEnablee[]>([]);
+  const [enablers, setEnablers] = useState<IEnabler[] | null>(null);
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
+  // Need to connect this with projects backend API
+  const [podProject, setPodProject] = useState(dumbProjects);
 
+  // Context used for ToggleSideBar
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetails();
+
+  function isPod(object: any): object is IFEPod {
+    return "podStartDate" in object;
+  }
+
+  useEffect(() => {
+    if (pod && isPod(pod)) {
+      setPodId(pod.id.toString());
+      setPodName(pod.podName);
+      setEnablees(pod.enablee);
+      setEnablers(pod.enabler);
+      setStartDate(new Date(pod.podStartDate));
+      setEndDate(new Date(pod.podEndDate));
+    }
+  }, [pod]);
 
   // Open/Closes the PodTemplate component
   const closeModal = () => {
@@ -103,6 +127,13 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
     });
   }
 
+  function addEnableeToPod(
+    event: React.MouseEvent<HTMLInputElement, MouseEvent>
+  ): void {
+    // eslint-disable-next-line no-console
+    console.log(event.target.addEventListener);
+  }
+
   return (
     <>
       {close ? (
@@ -132,7 +163,8 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                   <input
                     className="podname-input null"
                     type="text"
-                    placeholder={podName}
+                    placeholder={"Untitled"}
+                    value={podName}
                     onChange={(event) => checkPodName(event)}
                   />
                   <div className="errormsg">* Pod Name required</div>
@@ -181,7 +213,19 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                 <p className="label">Enabler(s)</p>
               </div>
               <div className="div6">
-                <p className="empty">Empty</p>
+                {enablers ? (
+                  <div className="enablers-container">
+                    <ul className="enablers-list">
+                      {enablers?.map((enabler, index) => (
+                        <li className="enabler-item" key={index}>
+                          {enabler.firstName} {enabler.lastName}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <div className="empty">Empty</div>
+                )}
               </div>
 
               <div className="div7">
@@ -296,6 +340,7 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                             <input
                               className="enablee-checkbox"
                               type="checkbox"
+                              onClick={addEnableeToPod}
                             />
                             <span className="enablee-techstack-container">
                               {enablee.technology.map((tech, index) => (

@@ -160,6 +160,23 @@
   display: flex;
 }
 
+.enablers-list {
+  list-style: none;
+}
+
+.enabler-item {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 100%;
+  letter-spacing: 0.025em;
+  color: #8a8b8a;
+}
+
+.enabler-item:hover {
+  text-decoration: 1px solid underline;
+}
+
 .label {
   width: 93px;
   height: 19px;
