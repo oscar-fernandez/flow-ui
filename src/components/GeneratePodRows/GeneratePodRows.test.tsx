@@ -29,6 +29,7 @@ describe("Generate Pod Rows component", () => {
         pageNum={1}
         pods={mockFePod}
         displayTag={mockGetActivePendingPodTag}
+        podType={"Available"}
       />
     );
   });
@@ -59,6 +60,7 @@ describe("Generate Pod Rows component", () => {
         pageNum={1}
         pods={mockFePod}
         displayTag={mockGetActivePendingPodTag}
+        podType={"Available"}
       />
     );
     expect(
