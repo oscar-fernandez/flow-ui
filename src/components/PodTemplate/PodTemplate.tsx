@@ -340,7 +340,7 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                             <input
                               className="enablee-checkbox"
                               type="checkbox"
-                              onClick={addEnableeToPod}
+                              onChange={addEnableeToPod}
                             />
                             <span className="enablee-techstack-container">
                               {enablee.technology.map((tech, index) => (
