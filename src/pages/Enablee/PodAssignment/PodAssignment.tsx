@@ -58,12 +58,13 @@ const rowStyle = {
 
 export default function PodAssignment() {
   const [selectedEnablees, setSelectedEnablees] = useState<IEnablee[]>([]);
-  const selectedRow = useRef<IFEPod>();
+  const selectedRow = useRef<IFEPod>({} as IFEPod);
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
+  const [availablePods, setAvailablePods] = useState<IFEPod[]>(mockFePod);
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
   const totalCalculatedEnablees =
-    selectedEnablees.length + (selectedRow.current?.enablee.length || 0);
+    selectedEnablees.length + (selectedRow.current.enablee?.length || 0);
 
   function fn(): string[][] {
     if (receivedEnablees && selectedRow.current) {
@@ -89,12 +90,16 @@ export default function PodAssignment() {
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
+    if (selectedRow.current === mockFePod[+event.currentTarget.id]) {
+      return;
+    }
     selectedRow.current = mockFePod[+event.currentTarget.id]; //shorthand convert str to number
     const filteredEnablees =
       receivedEnablees &&
       selectedRow &&
       Unit.matchData(receivedEnablees, selectedRow.current);
     setReceivedEnablees(filteredEnablees);
+    setSelectedEnablees([]);
   };
 
   //temp location
@@ -140,11 +145,21 @@ export default function PodAssignment() {
       return remove;
     });
     setReceivedEnablees(updatedEnablees);
+    const copyOfAvailablePods = [...availablePods];
+    const targetPodIndex = copyOfAvailablePods.findIndex(
+      (podRow) => podRow === selectedRow.current
+    );
+    copyOfAvailablePods[targetPodIndex].enablee = [
+      ...copyOfAvailablePods[targetPodIndex].enablee,
+      ...selectedEnablees,
+    ];
+    if (copyOfAvailablePods[targetPodIndex].enablee.length === 15) {
+      copyOfAvailablePods.splice(targetPodIndex, 1);
+      selectedRow.current = {} as IFEPod;
+    }
+    setAvailablePods(copyOfAvailablePods);
     setSelectedEnablees([]);
-    selectedRow.current = undefined;
   };
-
-  const error = "";
 
   const radioCheck = (
     <FormControl sx={{ display: "flex" }}>
@@ -205,7 +220,7 @@ export default function PodAssignment() {
                 headers={headersPods}
                 headerStyle={headerStyle}
                 rows={Unit.transformPodArray(
-                  mockFePod,
+                  availablePods,
                   selectedRow.current?.id,
                   selectedEnablees.length
                 )}
