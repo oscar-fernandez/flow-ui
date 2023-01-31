@@ -56,9 +56,16 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
   // Need to connect this with projects backend API
   const [podProject, setPodProject] = useState(dumbProjects);
 
+  // State used to update Pod Capacity
+  const [numEnablees, setNumEnablees] = useState(0);
+
   // Context used for ToggleSideBar
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetails();
+
+  const [enableeCheckbox, setEnableeCheckbox] = useState(
+    new Array(15).fill(false)
+  );
 
   function isPod(object: any): object is IFEPod {
     return "podStartDate" in object;
@@ -127,11 +134,21 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
     });
   }
 
-  function addEnableeToPod(
-    event: React.MouseEvent<HTMLInputElement, MouseEvent>
-  ): void {
-    // eslint-disable-next-line no-console
-    console.log(event.target.addEventListener);
+  function addEnableeToPod(pos: number) {
+    const updatedCheckedState = enableeCheckbox.map((item, index) =>
+      index === pos ? !item : item
+    );
+    setEnableeCheckbox(updatedCheckedState);
+
+    let num = 0;
+
+    enableeCheckbox.map((item) => {
+      if (item === true) {
+        num++;
+      }
+    });
+
+    setNumEnablees(num);
   }
 
   return (
@@ -180,7 +197,7 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                 </div>
               )}
               <div className="div2">
-                <span className="numpods">0 / 15</span>
+                <span className="numpods">{numEnablees} / 15</span>
               </div>
 
               <div className="div3">
@@ -340,7 +357,7 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                             <input
                               className="enablee-checkbox"
                               type="checkbox"
-                              onChange={addEnableeToPod}
+                              onChange={() => addEnableeToPod(index)}
                             />
                             <span className="enablee-techstack-container">
                               {enablee.technology.map((tech, index) => (
