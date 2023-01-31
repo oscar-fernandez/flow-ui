@@ -72,6 +72,7 @@ function PageRoutes() {
                       displayTag={(pod: IFEPod) => {
                         return { name: "", color: "" };
                       }}
+                      podType={"Completed"}
                     />
                   }
                 />
@@ -82,6 +83,7 @@ function PageRoutes() {
                       hook={useAvailablePods}
                       displayPageCarousel={false}
                       displayTag={getActivePendingPodTag}
+                      podType={"Available"}
                     />
                   }
                 />
@@ -92,6 +94,7 @@ function PageRoutes() {
                       hook={useActivePods}
                       displayPageCarousel={false}
                       displayTag={getAvailablePodTag}
+                      podType={"Active"}
                     />
                   }
                 />
