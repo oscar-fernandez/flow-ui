@@ -5,17 +5,19 @@ import {
   useAvailablePods,
   useCompletedPods,
   useActivePods,
+  usePendingStartPods,
 } from "./customHook";
 import { mockFePod } from "../../../data/MockFEPod";
 import {
   getAvailablePods,
   getCompletedPods,
   getActivePods,
+  getPendingPods,
 } from "../../../services/PodAPI";
 
 vi.mock("../../../services/PodAPI");
 
-describe("useCustomHook Pods tests", async () => {
+describe("useCustomHook Pods tests", () => {
   it("should get available pods on mount", async () => {
     const podList = {
       data: [...mockFePod],
@@ -59,5 +61,13 @@ describe("useCustomHook Pods tests", async () => {
     await act(() => mockActive);
 
     expect(result.current.podList).toEqual(podList.data);
+  });
+
+  it("should get pending start pods on mount", async () => {
+    const getPodsPendingStartMock = getPendingPods as jest.Mock;
+    getPodsPendingStartMock.mockResolvedValue({ data: mockFePod });
+    const { result } = renderHook(() => usePendingStartPods());
+    await act(() => getPodsPendingStartMock);
+    expect(result.current.pendingStartPods).toEqual(mockFePod);
   });
 });

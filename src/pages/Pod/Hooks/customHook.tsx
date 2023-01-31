@@ -51,3 +51,18 @@ export function useActivePods(): {
 
   return { podList, setPodList };
 }
+
+export const usePendingStartPods = () => {
+  const [pendingStartPods, setPendingStartPods] = useState<IFEPod[]>();
+  const updatePendingStartPods = () => {
+    getPendingPods().then((res) => {
+      setPendingStartPods(res.data);
+    });
+  };
+
+  useEffect(() => {
+    updatePendingStartPods();
+  }, []);
+
+  return { pendingStartPods, updatePendingStartPods };
+};
