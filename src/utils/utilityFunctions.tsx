@@ -179,7 +179,9 @@ export const convertLocationToString = (location: string) => {
       return "Pending";
     case "/pod/available":
       return "Available";
+    case "/":
+      return "unknown";
     default:
-      return "";
+      return "default";
   }
 };
