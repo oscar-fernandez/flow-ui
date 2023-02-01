@@ -1,10 +1,8 @@
 import "./PodPageContainer.css";
 import { GeneratePodRows } from "../../components/GeneratePodRows/GeneratePodRows";
-//import ToggleProvider from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IFEPod from "../../models/interfaces/IFEPod";
 import { Location, useLocation } from "react-router-dom";
 import IDisplayTag from "../../models/interfaces/IDisplayTag";
-import { convertLocationToString } from "../../utils/utilityFunctions";
 
 interface Props {
   hook: (location: Location) => IFEPod[];
@@ -13,6 +11,23 @@ interface Props {
 export default function PodPageContainer({ hook, displayTag }: Props) {
   const location = useLocation();
   const fetchedPods = hook(location);
+  const locationPath: string = location.pathname;
+  const convertLocationToString = (path: string) => {
+    switch (path) {
+      case "/pod/active":
+        return "Active";
+      case "/pod/completed":
+        return "Completed";
+      case "/pod/pending":
+        return "Pending";
+      case "/pod/available":
+        return "Available";
+      case "/":
+        return "unknown";
+      default:
+        return "default";
+    }
+  };
 
   return (
     <>
@@ -20,7 +35,7 @@ export default function PodPageContainer({ hook, displayTag }: Props) {
         <GeneratePodRows
           pods={fetchedPods}
           displayTag={displayTag}
-          location={convertLocationToString(location.pathname)}
+          location={convertLocationToString(locationPath)}
         />
       </div>
     </>

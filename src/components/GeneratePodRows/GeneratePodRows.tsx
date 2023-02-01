@@ -32,14 +32,14 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
   return (
     <>
       {isPodEmpty ? (
-        <>
+        <div data-testid="alert-container">
           <AlertContainer
             text={`No ${location} Pods`}
             buttonText={"Create Pod"}
             handleClick={handleCreatePodClick}
           />
           <ToggleSidebar template={<div>Pod Side Bar</div>} />
-        </>
+        </div>
       ) : (
         pods?.map((pod, i) => {
           const tooltip = [...convertToStringArr(pod.project.technology)];

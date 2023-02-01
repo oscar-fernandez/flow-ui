@@ -6,6 +6,7 @@ import IProject from "../models/interfaces/IProject";
 import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnology from "../models/interfaces/ITechnology";
 import ITechnologyTable from "../models/interfaces/ITechnologyTable";
+import { Location } from "react-router-dom";
 
 export function getName(name: string) {
   switch (name) {
@@ -169,19 +170,24 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
   return podTag;
 };
 
-export const convertLocationToString = (location: string) => {
-  switch (location) {
-    case "/pod/active":
-      return "Active";
-    case "/pod/completed":
-      return "Completed";
-    case "/pod/pending":
-      return "Pending";
-    case "/pod/available":
-      return "Available";
-    case "/":
-      return "unknown";
-    default:
-      return "default";
-  }
-};
+// export const convertLocationToString = (location: Location) => {
+//   console.log("inside converter, getting location path: ", location)
+//   if(location.pathname === "/pod/active") {
+//     return "Active"
+//   }
+//   return "Unknown"
+//   // switch (location) {
+//   //   case '/pod/active':
+//   //     return "Active";
+//   //   case '/pod/completed':
+//   //     return "Completed";
+//   //   case '/pod/pending':
+//   //     return "Pending";
+//   //   case '/pod/available':
+//   //     return "Available";
+//   //   case '/':
+//   //     return "unknown";
+//   //   default:
+//   //     return "default";
+//   // }
+// };
