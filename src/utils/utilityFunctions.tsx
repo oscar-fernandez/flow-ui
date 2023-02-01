@@ -168,3 +168,18 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
   }
   return podTag;
 };
+
+export const convertLocationToString = (location: string) => {
+  switch (location) {
+    case "/pod/active":
+      return "Active";
+    case "/pod/completed":
+      return "Completed";
+    case "/pod/pending":
+      return "Pending";
+    case "/pod/available":
+      return "Available";
+    default:
+      return "";
+  }
+};

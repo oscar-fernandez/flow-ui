@@ -4,7 +4,6 @@ import { GeneratePodRows } from "./GeneratePodRows";
 import {
   convertToStringArr,
   getActivePendingPodTag,
-  getAvailablePodTag,
 } from "../../utils/utilityFunctions";
 import { mockFePod } from "../../data/MockFEPod";
 
@@ -29,6 +28,7 @@ describe("Generate Pod Rows component", () => {
         pageNum={1}
         pods={mockFePod}
         displayTag={mockGetActivePendingPodTag}
+        podType={"Available"}
       />
     );
   });
@@ -59,6 +59,7 @@ describe("Generate Pod Rows component", () => {
         pageNum={1}
         pods={mockFePod}
         displayTag={mockGetActivePendingPodTag}
+        podType={"Available"}
       />
     );
     expect(

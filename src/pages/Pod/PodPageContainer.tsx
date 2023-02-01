@@ -4,6 +4,7 @@ import { GeneratePodRows } from "../../components/GeneratePodRows/GeneratePodRow
 import IFEPod from "../../models/interfaces/IFEPod";
 import { Location, useLocation } from "react-router-dom";
 import IDisplayTag from "../../models/interfaces/IDisplayTag";
+import { convertLocationToString } from "../../utils/utilityFunctions";
 
 interface Props {
   hook: (location: Location) => IFEPod[];
@@ -17,9 +18,9 @@ export default function PodPageContainer({ hook, displayTag }: Props) {
     <>
       <div data-testid="pageSectionTestId" className="page-section">
         <GeneratePodRows
-          pageNum={0}
           pods={fetchedPods}
           displayTag={displayTag}
+          location={convertLocationToString(location.pathname)}
         />
       </div>
     </>

@@ -32,11 +32,6 @@ export const EnableeSubMenuItems = [
 
 export const PodSubMenuItems = [
   {
-    name: "Master List",
-    routePath: "/pod",
-    handleOnClick: () => null,
-  },
-  {
     name: "Active Pod",
     routePath: "/pod/active",
     handleOnClick: () => null,
