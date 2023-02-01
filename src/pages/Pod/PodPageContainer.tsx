@@ -1,15 +1,8 @@
 import "./PodPageContainer.css";
-import PageNumberCarousel from "../../components/PageNumberCarousel/PageNumberCarousel";
 import { GeneratePodRows } from "../../components/GeneratePodRows/GeneratePodRows";
-//import ToggleProvider from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import IFEPod from "../../models/interfaces/IFEPod";
 import IDisplayTag from "../../models/interfaces/IDisplayTag";
-import {
-  useActivePods,
-  useAvailablePods,
-  useCompletedPods,
-} from "./Hooks/customHook";
 
 interface Props {
   hook: () => {
@@ -29,20 +22,6 @@ export default function PodPageContainer({
   const pods: IFEPod[] = [];
 
   const { podList, setPodList } = hook();
-
-  /* switch (podType) {
-    case "Available":
-      const { availablePodList, setAvailablePodList } = useAvailablePods();
-      pods = availablePodList;
-      break;
-    case "Completed":
-      const { completedPodList, setCompletedPodList } = useCompletedPods();
-      pods = completedPodList;
-      break;
-    case "Active":
-      const { activePodList, setActivePodList } = useActivePods();
-      pods = activePodList;
-  }  */
 
   return (
     <>
