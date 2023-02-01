@@ -143,7 +143,6 @@ export default function PodAssignment() {
         if (item.employeeId === enablee.employeeId) {
           remove = false;
         }
-        null;
       });
       return remove;
     });
