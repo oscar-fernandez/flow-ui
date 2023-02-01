@@ -18,7 +18,7 @@ export function useCompletedPods(): {
     getCompletedPods().then((pods) => {
       setPodList(pods.data);
     });
-  }, [podList, setPodList]);
+  }, [podList]);
   return { podList, setPodList };
 }
 
@@ -32,7 +32,7 @@ export function useAvailablePods(): {
     getAvailablePods().then((pods) => {
       setPodList(pods.data);
     });
-  }, [podList, setPodList]);
+  }, [podList]);
 
   return { podList, setPodList };
 }
@@ -47,7 +47,7 @@ export function useActivePods(): {
     getActivePods().then((pods) => {
       setPodList(pods.data);
     });
-  }, [podList, setPodList]);
+  }, [podList]);
 
   return { podList, setPodList };
 }

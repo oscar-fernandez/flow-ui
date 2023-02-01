@@ -12,10 +12,7 @@ import { TagComponent } from "../TagComponent/Tag";
 import IDisplayTag from "../../models/interfaces/IDisplayTag";
 import AlertContainer from "../Alert/AlertContainer";
 import { useToggle } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
-import { useState } from "react";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
-
-// Example on how to use toggleSideBarContext
 
 interface Props {
   pageNum: number;
@@ -42,10 +39,10 @@ export function GeneratePodRows({ pageNum, pods, displayTag, podType }: Props) {
             buttonText={"Create Pod"}
             handleClick={handleCreatePodClick}
           />
-          <ToggleSidebar template={<div>Hello</div>} />
+          <ToggleSidebar template={<div>Pod Side Bar</div>} />
         </>
       ) : (
-        pods.map((pod, i) => {
+        pods?.map((pod, i) => {
           const tooltip = [...convertToStringArr(pod.project.technology)];
           const techDisplay = shortenStringList(tooltip);
           const startDate = new Date(pod.podStartDate);
@@ -82,7 +79,7 @@ export function GeneratePodRows({ pageNum, pods, displayTag, podType }: Props) {
                 placement="bottom"
               >
                 <div>
-                  {pod.project.technology !== null ? (
+                  {pod.project?.technology !== null ? (
                     pod.project.technology
                       .slice(0, 2)
                       .map((tech: ITechnology, i: number) => (

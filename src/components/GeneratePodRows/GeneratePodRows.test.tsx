@@ -4,7 +4,6 @@ import { GeneratePodRows } from "./GeneratePodRows";
 import {
   convertToStringArr,
   getActivePendingPodTag,
-  getAvailablePodTag,
 } from "../../utils/utilityFunctions";
 import { mockFePod } from "../../data/MockFEPod";
 
