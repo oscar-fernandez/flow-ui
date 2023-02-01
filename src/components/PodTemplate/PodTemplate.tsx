@@ -58,14 +58,13 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
 
   // State used to update Pod Capacity
   const [numEnablees, setNumEnablees] = useState(0);
+  const [enableeCheckbox, setEnableeCheckbox] = useState(
+    new Array(15).fill(false)
+  );
 
   // Context used for ToggleSideBar
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetails();
-
-  const [enableeCheckbox, setEnableeCheckbox] = useState(
-    new Array(15).fill(false)
-  );
 
   function isPod(object: any): object is IFEPod {
     return "podStartDate" in object;
@@ -139,7 +138,9 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
       index === pos ? !item : item
     );
     setEnableeCheckbox(updatedCheckedState);
+  }
 
+  useEffect(() => {
     let num = 0;
 
     enableeCheckbox.map((item) => {
@@ -147,33 +148,14 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
         num++;
       }
     });
-
     setNumEnablees(num);
-  }
+  }, [enableeCheckbox]);
 
   return (
     <>
       {close ? (
         <div className="container">
           <div className="margin-container">
-            <div className="close-icon" onClick={closeModal}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="4"
-                stroke="none"
-                className="close"
-                height={32}
-                width={32}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </div>
             <div className="content-section">
               {emptyPodName ? (
                 <div className="div1">
