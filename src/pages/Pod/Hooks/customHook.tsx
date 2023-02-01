@@ -1,7 +1,12 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { mockFePod } from "../../../data/MockFEPod";
 import IFEPod from "../../../models/interfaces/IFEPod";
-import { getCompletedPods, getPendingPods } from "../../../services/PodAPI";
+import {
+  getActivePods,
+  getAvailablePods,
+  getCompletedPods,
+  getPendingPods,
+} from "../../../services/PodAPI";
 
 export function useCompletedPods(): {
   podList: IFEPod[];
@@ -13,7 +18,7 @@ export function useCompletedPods(): {
     getCompletedPods().then((pods) => {
       setPodList(pods.data);
     });
-  }, []);
+  }, [podList]);
   return { podList, setPodList };
 }
 
@@ -24,8 +29,10 @@ export function useAvailablePods(): {
   const [podList, setPodList] = useState<IFEPod[]>([]);
 
   useEffect(() => {
-    setPodList(mockFePod);
-  }, []);
+    getAvailablePods().then((pods) => {
+      setPodList(pods.data);
+    });
+  }, [podList]);
 
   return { podList, setPodList };
 }
@@ -37,14 +44,25 @@ export function useActivePods(): {
   const [podList, setPodList] = useState<IFEPod[]>([]);
 
   useEffect(() => {
-    mockFePod
-      .filter(
-        (pod) =>
-          Date.parse(pod.podStartDate) <= Date.now() &&
-          Date.parse(pod.podEndDate) >= Date.now()
-      )
-      .forEach((pod) => setPodList((podList) => [...podList, pod]));
-  }, []);
+    getActivePods().then((pods) => {
+      setPodList(pods.data);
+    });
+  }, [podList]);
 
   return { podList, setPodList };
 }
+
+export const usePendingStartPods = () => {
+  const [pendingStartPods, setPendingStartPods] = useState<IFEPod[]>();
+  const updatePendingStartPods = () => {
+    getPendingPods().then((res) => {
+      setPendingStartPods(res.data);
+    });
+  };
+
+  useEffect(() => {
+    updatePendingStartPods();
+  }, []);
+
+  return { pendingStartPods, updatePendingStartPods };
+};
