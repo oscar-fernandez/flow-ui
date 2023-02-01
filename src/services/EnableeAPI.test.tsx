@@ -3,10 +3,15 @@ import {
   GetPaginatedEnablees,
   GetEnableesWithNoStartDate,
   GetEnableesPendingPodAssignment,
+  CreateEnablee,
+  UpdateEnablee,
 } from "./EnableeAPI";
 import axios from "axios";
+import IEnablee from "../models/interfaces/IEnablee";
 
 vi.mock("axios");
+const mockPost = axios.post as jest.Mock;
+const mockPut = axios.put as jest.Mock;
 
 describe("EnableeAPI tests", () => {
   it("GetPaginatedEnablees works properly", async () => {
@@ -134,5 +139,76 @@ describe("EnableeAPI tests", () => {
     await GetEnableesPendingPodAssignment().catch((err) =>
       expect(err).toEqual({ error: "some error" })
     );
+  });
+
+  it("Should create enablee", async () => {
+    const enableesList = [
+      {
+        employeeId: 10,
+        firstName: "John",
+        lastName: "Doe",
+        dateOfJoin: new Date(1995, 11, 16).toString(),
+        enablementStartDate: new Date(1995, 11, 18).toString(),
+        enablementEndDate: new Date(1995, 12, 16).toString(),
+        assetTag: "N/A",
+        isEmployed: true,
+        technology: [
+          {
+            id: 2,
+            name: "React",
+            backgroundColor: "Red",
+          },
+        ],
+        countryCode: 200,
+        gradeId: 10,
+        communityId: 13,
+        employmentTypeId: 1,
+        podId: 24,
+        commentId: [1, 2, 3],
+      },
+    ];
+
+    const expectedEnablee = {
+      data: enableesList,
+    };
+    mockPost.mockResolvedValueOnce(expectedEnablee);
+    const actualEnablee = await CreateEnablee(enableesList[0]);
+    expect(actualEnablee.data).toEqual(expectedEnablee.data);
+  });
+
+  it("Should update enablee", async () => {
+    const enableesList: IEnablee[] = [
+      {
+        employeeId: 10,
+        firstName: "John",
+        lastName: "Doe",
+        dateOfJoin: new Date(1995, 11, 16).toString(),
+        enablementStartDate: new Date(1995, 11, 18).toString(),
+        enablementEndDate: new Date(1995, 12, 16).toString(),
+        assetTag: "N/A",
+        isEmployed: true,
+        technology: [
+          {
+            id: 2,
+            name: "React",
+            backgroundColor: "Red",
+          },
+        ],
+        countryCode: 200,
+        gradeId: 10,
+        communityId: 13,
+        employmentTypeId: 1,
+        podId: 24,
+        commentId: [1, 2, 3],
+      },
+    ];
+
+    const expectedEnablee = {
+      data: enableesList,
+    };
+
+    mockPut.mockResolvedValueOnce(expectedEnablee);
+    const actualEnablee = await UpdateEnablee(enableesList[0]);
+    expect(actualEnablee.data).toEqual(expectedEnablee.data);
   });
 });
