@@ -140,7 +140,10 @@ export default function PodAssignment() {
     const updatedEnablees = receivedEnablees?.filter((enablee: IEnablee) => {
       let remove = true;
       selectedEnablees.forEach((item) => {
-        item.employeeId === enablee.employeeId ? (remove = false) : null;
+        if (item.employeeId === enablee.employeeId) {
+          remove = false;
+        }
+        null;
       });
       return remove;
     });
