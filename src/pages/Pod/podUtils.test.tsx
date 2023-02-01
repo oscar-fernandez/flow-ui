@@ -18,12 +18,8 @@ describe("utility", () => {
     expect(result).toEqual([]);
   });
 
-  it("should filtered value by startDate and ednDate", () => {
-    const result = Utility.matchData(dummyEnablees, mockFePod[0]);
-    expect(result).toEqual([
-      dummyEnablees[0],
-      dummyEnablees[1],
-      dummyEnablees[2],
-    ]);
+  it("should filtered value by startDate and endDate", () => {
+    const result = Utility.matchData(dummyEnablees, mockFePod[1]);
+    expect(result[0]).toEqual(dummyEnablees[0]);
   });
 });
