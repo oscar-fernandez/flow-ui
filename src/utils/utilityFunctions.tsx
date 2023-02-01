@@ -122,10 +122,9 @@ export const isEnableeValidForPod = (
   );
 };
 
-export const getAvailablePodTag = (pod: IFEPod) => {
+export const getAvailablePodTag = (pod: IFEPod): IDisplayTag => {
   const POD_SIZE = 15;
   const podTag: IDisplayTag = { name: "", color: "" };
-
   if (pod.enablee.length < POD_SIZE) {
     (podTag.name = "Available"), (podTag.color = "#3F88C5");
   }
@@ -136,9 +135,7 @@ export const generatePodTags = (pod: IFEPod): IDisplayTag => {
   const startDate = new Date(pod.podStartDate);
   const endDate = new Date(pod.podEndDate);
   const currentDate = new Date();
-
   const podTag: IDisplayTag = { name: "", color: "" };
-
   if (currentDate >= startDate && currentDate <= endDate) {
     podTag.name = "Active";
     podTag.color = "rgba(230, 57, 70, 1)";
@@ -146,8 +143,8 @@ export const generatePodTags = (pod: IFEPod): IDisplayTag => {
     podTag.name = "Pending Start";
     podTag.color = "rgba(52, 78, 65, 1)";
   } else {
-    podTag.name = "Completed";
-    podTag.color = "rgba(99, 56, 133, 1)";
+    podTag.name = "";
+    podTag.color = "";
   }
   return podTag;
 };

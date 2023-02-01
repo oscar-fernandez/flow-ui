@@ -16,6 +16,10 @@ import PodView from "../Pod/PodView";
 import { EnableePageContainer } from "../Enablee/EnableePageContainer/EnableePageContainer";
 import { usePendingStartEnablees } from "../Enablee/Hooks/customHook";
 import { useAllEnablees } from "../Enablee/Hooks/useAllEnablees";
+import {
+  generatePodTags,
+  getAvailablePodTag,
+} from "../../utils/utilityFunctions";
 
 function PageRoutes() {
   return (
@@ -58,19 +62,39 @@ function PageRoutes() {
               <Route path="/pod" element={<PodView />}>
                 <Route
                   path="pending"
-                  element={<PodPageContainer hook={usePendingStartPods} />}
+                  element={
+                    <PodPageContainer
+                      hook={usePendingStartPods}
+                      displayTag={getAvailablePodTag}
+                    />
+                  }
                 />
                 <Route
                   path="completed"
-                  element={<PodPageContainer hook={useCompletedPods} />}
+                  element={
+                    <PodPageContainer
+                      hook={useCompletedPods}
+                      displayTag={generatePodTags}
+                    />
+                  }
                 />
                 <Route
                   path="available"
-                  element={<PodPageContainer hook={useAvailablePods} />}
+                  element={
+                    <PodPageContainer
+                      hook={useAvailablePods}
+                      displayTag={generatePodTags}
+                    />
+                  }
                 />
                 <Route
                   path="active"
-                  element={<PodPageContainer hook={useActivePods} />}
+                  element={
+                    <PodPageContainer
+                      hook={useActivePods}
+                      displayTag={getAvailablePodTag}
+                    />
+                  }
                 />
               </Route>
             </Route>
