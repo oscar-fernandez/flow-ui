@@ -132,21 +132,23 @@ export const getAvailablePodTag = (pod: IFEPod) => {
   return podTag;
 };
 
-export const getActivePendingPodTag = (pod: IFEPod) => {
-  const startDatePod = new Date(pod.podStartDate);
-  const endDatePod = new Date(pod.podEndDate);
+export const generatePodTags = (pod: IFEPod): IDisplayTag => {
+  const startDate = new Date(pod.podStartDate);
+  const endDate = new Date(pod.podEndDate);
   const currentDate = new Date();
 
   const podTag: IDisplayTag = { name: "", color: "" };
 
-  if (currentDate >= startDatePod) {
+  if (currentDate >= startDate && currentDate <= endDate) {
     podTag.name = "Active";
-    podTag.color = "#E63946";
+    podTag.color = "rgba(230, 57, 70, 1)";
+  } else if (currentDate < startDate) {
+    podTag.name = "Pending Start";
+    podTag.color = "rgba(52, 78, 65, 1)";
   } else {
-    podTag.name = "Pending";
-    podTag.color = "#344E41";
+    podTag.name = "Completed";
+    podTag.color = "rgba(99, 56, 133, 1)";
   }
-
   return podTag;
 };
 

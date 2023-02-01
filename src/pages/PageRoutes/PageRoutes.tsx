@@ -2,7 +2,6 @@ import PodAssignment from "../Enablee/PodAssignment/PodAssignment";
 import "./PageRoutes.css";
 import SideBarItems from "../../components/SideBarItems/SideBarItems";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PendingEnablementStart from "../Enablee/PendingEnablementStart/PendingEnablementStart";
 import EnableeView from "../Enablee/EnableeView/EnableeView";
 import { LoginComponent } from "../../components/HeaderSectionComponents/LoginComponent/LoginComponent";
 import ManagementContainer from "../Management/ManagementContainer/ManagementContainer";
@@ -13,11 +12,6 @@ import {
   useActivePods,
   usePendingStartPods,
 } from "../Pod/Hooks/customHook";
-import {
-  getActivePendingPodTag,
-  getAvailablePodTag,
-} from "../../utils/utilityFunctions";
-import IFEPod from "../../models/interfaces/IFEPod";
 import PodView from "../Pod/PodView";
 import { EnableePageContainer } from "../Enablee/EnableePageContainer/EnableePageContainer";
 import { usePendingStartEnablees } from "../Enablee/Hooks/customHook";
@@ -64,45 +58,19 @@ function PageRoutes() {
               <Route path="/pod" element={<PodView />}>
                 <Route
                   path="pending"
-                  element={
-                    <PodPageContainer
-                      hook={usePendingStartPods}
-                      displayPageCarousel={false}
-                      displayTag={getActivePendingPodTag}
-                    />
-                  }
+                  element={<PodPageContainer hook={usePendingStartPods} />}
                 />
                 <Route
                   path="completed"
-                  element={
-                    <PodPageContainer
-                      hook={useCompletedPods}
-                      displayPageCarousel={false}
-                      displayTag={(pod: IFEPod) => {
-                        return { name: "", color: "" };
-                      }}
-                    />
-                  }
+                  element={<PodPageContainer hook={useCompletedPods} />}
                 />
                 <Route
                   path="available"
-                  element={
-                    <PodPageContainer
-                      hook={useAvailablePods}
-                      displayPageCarousel={false}
-                      displayTag={getActivePendingPodTag}
-                    />
-                  }
+                  element={<PodPageContainer hook={useAvailablePods} />}
                 />
                 <Route
                   path="active"
-                  element={
-                    <PodPageContainer
-                      hook={useActivePods}
-                      displayPageCarousel={false}
-                      displayTag={getAvailablePodTag}
-                    />
-                  }
+                  element={<PodPageContainer hook={useActivePods} />}
                 />
               </Route>
             </Route>
