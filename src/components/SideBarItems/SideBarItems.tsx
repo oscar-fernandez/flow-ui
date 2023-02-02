@@ -99,7 +99,7 @@ function SideBarItems() {
                 handleOnClick={handleNavigate}
                 isMainMenu={"m"}
               />
-              <ListItem disablePadding>
+              <ListItem data-testid="pod-item" disablePadding>
                 <ColMenuItem
                   menuItemName={MenuItemsList[3].name}
                   subMenuItems={PodSubMenuItems}

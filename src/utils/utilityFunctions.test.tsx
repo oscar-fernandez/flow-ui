@@ -7,8 +7,8 @@ import {
   updatedProjects,
   updatedTechnology,
   getAvailablePodTag,
-  getActivePendingPodTag,
   generateTags,
+  generatePodTags,
   getName,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
@@ -147,16 +147,27 @@ describe("utilityTest", () => {
 
   it("Active pod, start date is after current date", () => {
     const activePod = createPod();
-    const result = getActivePendingPodTag(activePod);
+    const enablee = createEnablee();
+    activePod.enablee[0] = enablee;
+    const currentDate = new Date();
+    const startDate = new Date();
+    const endDate = new Date();
+    startDate.setDate(currentDate.getDate() - 5);
+    endDate.setDate(currentDate.getDate() + 5);
+    enablee.enablementStartDate = startDate.toDateString();
+    enablee.enablementEndDate = endDate.toDateString();
+    const result = generateTags(activePod.enablee[0]);
     expect(result.name).toEqual("Active");
   });
 
   it("Pending Pod, start date is before current date", () => {
     const pendingPod = createPod();
     pendingPod.podStartDate = "2024-01-22";
-
-    const result = getActivePendingPodTag(pendingPod);
-    expect(result.name).toEqual("Pending");
+    const enablee = createEnablee();
+    enablee.podId = 0;
+    pendingPod.enablee[0] = enablee;
+    const result = generateTags(pendingPod.enablee[0]);
+    expect(result.name).toEqual("Pending Pod Assignment");
   });
   it("should return proper names using getName", () => {
     expect(getName("id")).toEqual("employee ID");
@@ -167,6 +178,35 @@ describe("utilityTest", () => {
     expect(getName("enablementEndDate")).toEqual("enablement end date");
     expect(getName("skillName")).toEqual("Skill Name");
     expect(getName("projectName")).toEqual("Project Name");
+  });
+});
+
+describe("generatePodTags", () => {
+  const pod = createPod();
+  it("returns no tag", () => {
+    expect(generatePodTags(pod).name).toEqual("");
+  });
+
+  it("returns an active tag", () => {
+    const currentDate = new Date();
+    const startDate = new Date();
+    const endDate = new Date();
+    startDate.setDate(currentDate.getDate() - 5);
+    endDate.setDate(currentDate.getDate() + 5);
+    pod.podStartDate = startDate.toDateString();
+    pod.podEndDate = endDate.toDateString();
+    expect(generatePodTags(pod).name).toEqual("Active");
+  });
+
+  it("returns pending start tag", () => {
+    const currentDate = new Date();
+    const startDate = new Date();
+    const endDate = new Date();
+    startDate.setDate(currentDate.getDate() + 5);
+    endDate.setDate(currentDate.getDate() + 10);
+    pod.podStartDate = startDate.toDateString();
+    pod.podEndDate = endDate.toDateString();
+    expect(generatePodTags(pod).name).toEqual("Pending Start");
   });
 });
 

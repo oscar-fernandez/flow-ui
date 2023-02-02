@@ -15,13 +15,12 @@ import { useToggle } from "../../context/ToggleSideBarContext/ToggleSideBarConte
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
 
 interface Props {
-  pageNum: number;
   pods: IFEPod[];
   displayTag: (pod: IFEPod) => IDisplayTag;
-  podType: string;
+  location: string;
 }
 
-export function GeneratePodRows({ pageNum, pods, displayTag, podType }: Props) {
+export function GeneratePodRows({ pods, displayTag, location }: Props) {
   const [toggle, changeToggle] = useToggle();
 
   const handleCreatePodClick = () => {
@@ -33,14 +32,14 @@ export function GeneratePodRows({ pageNum, pods, displayTag, podType }: Props) {
   return (
     <>
       {isPodEmpty ? (
-        <>
+        <div data-testid="alert-container">
           <AlertContainer
-            text={`No ${podType} Pods`}
+            text={`No ${location} Pods`}
             buttonText={"Create Pod"}
             handleClick={handleCreatePodClick}
           />
           <ToggleSidebar template={<div>Pod Side Bar</div>} />
-        </>
+        </div>
       ) : (
         pods?.map((pod, i) => {
           const tooltip = [...convertToStringArr(pod.project.technology)];

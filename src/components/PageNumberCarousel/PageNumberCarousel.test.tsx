@@ -132,25 +132,25 @@ describe("PageNumberCarousel", () => {
     expect(nextPageButton).toBeEnabled();
   });
 
-  //   it("should enable/disable previous and next page buttons correctly", () => {
-  //     render(<PageNumberCarousel totalPages={10} setPage={()=>{return}} currentPageNumber={1} />);
-  //     const nextPageButton = screen.getByRole("button", {
-  //       name: "Next page",
-  //     });
-  //     const previousPageButton = screen.getByRole("button", {
-  //       name: "Previous page",
-  //     });
-  //     fireEvent.click(screen.getByText("10"));
-  //     expect(previousPageButton).toBeEnabled();
-  //     expect(nextPageButton).toBeDisabled();
-  //     fireEvent.click(screen.getByText("7"));
-  //     expect(previousPageButton).toBeEnabled();
-  //     expect(nextPageButton).toBeEnabled();
-  //     fireEvent.click(screen.getByText("10"));
-  //     fireEvent.click(screen.getByText("1"));
-  //     expect(nextPageButton).toBeEnabled();
-  //     expect(previousPageButton).toBeDisabled();
+  // it("should enable/disable previous and next page buttons correctly", () => {
+  //   render(<PageNumberCarousel totalPages={10} setPage={()=>{return}} currentPageNumber={1} />);
+  //   const nextPageButton = screen.getByRole("button", {
+  //     name: "Next page",
   //   });
+  //   const previousPageButton = screen.getByRole("button", {
+  //     name: "Previous page",
+  //   });
+  //   fireEvent.click(screen.getByText("10"));
+  //   expect(previousPageButton).toBeEnabled();
+  //   expect(nextPageButton).toBeDisabled();
+  //   fireEvent.click(screen.getByText("7"));
+  //   expect(previousPageButton).toBeEnabled();
+  //   expect(nextPageButton).toBeEnabled();
+  //   fireEvent.click(screen.getByText("10"));
+  //   fireEvent.click(screen.getByText("1"));
+  //   expect(nextPageButton).toBeEnabled();
+  //   expect(previousPageButton).toBeDisabled();
+  // });
 
   //   it("should handle page size less than 5", () => {
   //     render(<PageNumberCarousel totalPages={4}  setPage={()=>{return}} currentPageNumber={1}/>);
