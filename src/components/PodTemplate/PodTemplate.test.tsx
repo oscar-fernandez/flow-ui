@@ -23,6 +23,13 @@ import PodTemplate from "./PodTemplate";
         expect(err);
       });
 
-    
+      //render the list of projects
+      it("should render the list of projects", async  () => {
+        const dataBtn = screen.getByTestId("projectsBtn");
+        await userEvent.click(dataBtn);
+        const flow = screen.getByText("Flow");
+        await userEvent.click(flow);
+        const project = screen.getByText("Flow");
+        expect(project);
     });
-
+});

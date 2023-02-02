@@ -228,7 +228,7 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
               </div>
               <div className="div8">
                 {projectClicked ? (
-                  <div onClick={showProjects}>
+                  <div onClick={showProjects}data-testid= "projects">
                     <ul className="projects">
                       {dumbProjects.map((item, index) => (
                         <li
@@ -248,6 +248,7 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                         <p
                           className="empty null project"
                           onClick={showProjects}
+                          data-testid="projectsBtn"
                         >
                           {projectSelected}
                         </p>
