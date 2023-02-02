@@ -81,11 +81,6 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
     }
   }, [pod]);
 
-  // Open/Closes the PodTemplate component
-  const closeModal = () => {
-    setClose(!close);
-  };
-
   // Checks if pod name input is empty helps manage disabling the submit button
   const checkPodName = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value === null || event.target.value === "") {
@@ -161,6 +156,7 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                 <div className="div1">
                   <input
                     className="podname-input null"
+                    data-testid="podName"
                     type="text"
                     placeholder={"Untitled"}
                     value={podName}
@@ -321,7 +317,7 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                   plusClicked={false}
                 />
                 <div className="enablees-container">
-                  <ul className="enablees-list">
+                  <ul className="enablees-list" data-testid="enableeList">
                     {enablees.map((enablee, index) => (
                       <li className="enablees-enablee" key={index}>
                         <div className="enablee-item-container">
