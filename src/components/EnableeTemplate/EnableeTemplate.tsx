@@ -9,6 +9,8 @@ import FilteredPod from "./FilteredPod";
 import { mockFePod } from "../../data/MockFEPod";
 import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
+import { useToggleDetail } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import IEnablee from "../../models/interfaces/IEnablee";
 
 const InputProps = {
   disableUnderline: true,
@@ -98,6 +100,8 @@ export default function EnableeTemplate() {
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
 
+  const [detail, changeToggleDetail] = useToggleDetail();
+
   const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.checked) {
       setSelectedPod(undefined);
@@ -132,6 +136,30 @@ export default function EnableeTemplate() {
         )
       );
       setFilteredPods(filtered);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (detail == null) {
+      const enablee: IEnablee = {
+        employeeId: parseInt(employeeId),
+        lastName: name.split(" ")[1],
+        firstName: name.split(" ")[0],
+        enablementStartDate: startDate?.toDateString() || "",
+        enablementEndDate: endDate?.toDateString() || "",
+        dateOfJoin: dateOfJoin,
+        assetTag: assetTag,
+        isEmployed: isEmployed,
+        technology: [],
+        countryCode: parseInt(country),
+        gradeId: parseInt(grade),
+        communityId: parseInt(community),
+        employmentTypeId: parseInt(employmentType),
+        podId: selectedPod?.id || 0,
+        commentId: [],
+      };
     }
   };
 
