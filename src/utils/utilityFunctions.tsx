@@ -117,8 +117,9 @@ export const isEnableeValidForPod = (
     endDateFePod.getTime() - startDateFePod.getTime() >=
     endDateEnablee.getTime() - startDateEnablee.getTime();
   return (
-    (isDateRangeValid &&
-      startDateFePod.getTime() >= startDateEnablee.getTime()) ||
+    isDateRangeValid &&
+    startDateFePod.getTime() >= startDateEnablee.getTime() &&
+    startDateFePod.getTime() <= endDateEnablee.getTime() &&
     endDateFePod.getTime() >= endDateEnablee.getTime()
   );
 };

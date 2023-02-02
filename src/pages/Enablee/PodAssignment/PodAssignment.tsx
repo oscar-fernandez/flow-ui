@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import "./PodAssignment.css";
@@ -26,8 +26,8 @@ const headersEnablee = [
 ];
 
 const headersPods = [
-  "Project",
   "Pod Name",
+  "Project",
   "Tech Stack",
   "Pod Start Date",
   "Pod End Date",
@@ -57,13 +57,14 @@ const rowStyle = {
 };
 
 export default function PodAssignment() {
-  const selectedEnablees = useRef<IEnablee[]>([]);
-  const selectedRow = useRef<IFEPod>();
+  const [selectedEnablees, setSelectedEnablees] = useState<IEnablee[]>([]);
+  const selectedRow = useRef<IFEPod>({} as IFEPod);
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
+  const [availablePods, setAvailablePods] = useState<IFEPod[]>(mockFePod);
   const [name, setName] = useState("");
-  const [count, setCount] = useState(0);
   const [value, setValue] = useState("");
-  const [formValid, setFormValid] = useState(false);
+  const totalCalculatedEnablees =
+    selectedEnablees.length + (selectedRow.current.enablee?.length || 0);
 
   function fn(): string[][] {
     if (receivedEnablees && selectedRow.current) {
@@ -89,42 +90,34 @@ export default function PodAssignment() {
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    selectedRow.current = mockFePod[+event.currentTarget.id];
+    if (selectedRow.current === mockFePod[+event.currentTarget.id]) {
+      return;
+    }
+    selectedRow.current = mockFePod[+event.currentTarget.id]; //shorthand convert str to number
     const filteredEnablees =
       receivedEnablees &&
       selectedRow &&
       Unit.matchData(receivedEnablees, selectedRow.current);
     setReceivedEnablees(filteredEnablees);
+    setSelectedEnablees([]);
   };
-
-  function increment() {
-    setCount(function (prevCount) {
-      return (prevCount += 1);
-    });
-  }
-
-  function decrement() {
-    setCount(function (prevCount) {
-      if (prevCount > 0) {
-        return (prevCount -= 1);
-      } else {
-        return (prevCount = 0);
-      }
-    });
-  }
 
   //temp location
   const updateSelectedEnablees = (index: number) => {
     if (receivedEnablees && selectedRow.current) {
       const e = receivedEnablees?.[index];
-      const ar = selectedEnablees.current;
+      const selectedEnableesCopy = [...selectedEnablees];
       if (e) {
-        if (!ar.includes(e)) {
-          ar.push(e);
-          increment();
-        } else {
-          ar.splice(ar.indexOf(e), 1);
-          decrement();
+        if (
+          !selectedEnableesCopy.includes(e) &&
+          totalCalculatedEnablees <= 14
+        ) {
+          setSelectedEnablees([...selectedEnablees, e]);
+        }
+
+        if (selectedEnableesCopy.includes(e)) {
+          selectedEnableesCopy.splice(selectedEnableesCopy.indexOf(e), 1);
+          setSelectedEnablees(selectedEnableesCopy);
         }
       }
     }
@@ -138,7 +131,37 @@ export default function PodAssignment() {
     selectedRow.current && fn();
   };
   // const error = "* Max Capacity Selected";
-  const error = "";
+
+  // this function needs to be updated to make api call to update pod and enablee
+  const handleSubmit = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    const updatedEnablees = receivedEnablees?.filter((enablee: IEnablee) => {
+      let remove = true;
+      selectedEnablees.forEach((item) => {
+        if (item.employeeId === enablee.employeeId) {
+          remove = false;
+        }
+      });
+      return remove;
+    });
+    setReceivedEnablees(updatedEnablees);
+    const copyOfAvailablePods = [...availablePods];
+    const targetPodIndex = copyOfAvailablePods.findIndex(
+      (podRow) => podRow === selectedRow.current
+    );
+    copyOfAvailablePods[targetPodIndex].enablee = [
+      ...copyOfAvailablePods[targetPodIndex].enablee,
+      ...selectedEnablees,
+    ];
+    if (copyOfAvailablePods[targetPodIndex].enablee.length === 15) {
+      copyOfAvailablePods.splice(targetPodIndex, 1);
+      selectedRow.current = {} as IFEPod;
+    }
+    setAvailablePods(copyOfAvailablePods);
+    setSelectedEnablees([]);
+  };
 
   const radioCheck = (
     <FormControl sx={{ display: "flex" }}>
@@ -174,11 +197,11 @@ export default function PodAssignment() {
     <div>
       <form action="">
         <div>
-          {error !== "" ? <div className="error">{error}</div> : ""}
           <div className="container">
             {/* <PageViewHeader pageTitle="Enablee" showPlus={true} /> */}
             {radioCheck}
             <CustomTableContainer
+              clickable={totalCalculatedEnablees < 15}
               headers={headersEnablee}
               headerStyle={headerStyle}
               rows={fn()}
@@ -195,12 +218,13 @@ export default function PodAssignment() {
 
             <div className="container">
               <CustomTableContainer
+                clickable={totalCalculatedEnablees < 15}
                 headers={headersPods}
                 headerStyle={headerStyle}
                 rows={Unit.transformPodArray(
-                  mockFePod,
+                  availablePods,
                   selectedRow.current?.id,
-                  count
+                  selectedEnablees.length
                 )}
                 cellStyle={cellStyle}
                 rowStyle={rowStyle}
@@ -212,12 +236,26 @@ export default function PodAssignment() {
                 }}
               />
             </div>
+            <div
+              style={{
+                color: "red",
+                display: "flex",
+                justifyContent: "end",
+                marginBottom: "15px",
+              }}
+            >
+              {totalCalculatedEnablees === 15 ? (
+                <div className="error">* Max Capacity Selected</div>
+              ) : (
+                ""
+              )}
+            </div>
+
             <button
               className="button button-orange"
-              disabled={
-                selectedEnablees.current.length === 0 || !selectedRow.current
-              }
-              type="submit"
+              disabled={selectedEnablees.length === 0 || !selectedRow.current}
+              // type='submit'
+              onClick={handleSubmit}
             >
               submit
             </button>
