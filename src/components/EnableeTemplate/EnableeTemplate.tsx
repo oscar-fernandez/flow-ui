@@ -9,8 +9,13 @@ import FilteredPod from "./FilteredPod";
 import { mockFePod } from "../../data/MockFEPod";
 import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
-import { useToggleDetail } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import {
+  useToggle,
+  useToggleDetail,
+} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../models/interfaces/IEnablee";
+import axios from "axios";
+import { CreateEnablee, UpdateEnablee } from "../../services/EnableeAPI";
 
 const InputProps = {
   disableUnderline: true,
@@ -101,6 +106,7 @@ export default function EnableeTemplate() {
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
 
   const [detail, changeToggleDetail] = useToggleDetail();
+  const [toggle, changeToggle] = useToggle();
 
   const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.checked) {
@@ -139,9 +145,7 @@ export default function EnableeTemplate() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (detail == null) {
       const enablee: IEnablee = {
         employeeId: parseInt(employeeId),
@@ -160,7 +164,41 @@ export default function EnableeTemplate() {
         podId: selectedPod?.id || 0,
         commentId: [],
       };
+
+      await postEnablee(enablee);
+      changeToggle();
+    } else if (detail?.employeeId) {
+      const tempDetail: IEnablee = detail;
+      tempDetail.assetTag = assetTag;
+      await putEnablee(tempDetail);
+      changeToggle();
+    } else {
+      e.preventDefault();
     }
+  };
+
+  const postEnablee = (enablee: IEnablee) => {
+    CreateEnablee(enablee)
+      .then((res) => {
+        if (res.status == 200 || res.status == 201) {
+          changeToggleDetail(res.data);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const putEnablee = (updateEnablee: IEnablee) => {
+    UpdateEnablee(updateEnablee)
+      .then((res) => {
+        if (res.status == 200 || res.status == 201) {
+          changeToggleDetail(res.data);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   return (

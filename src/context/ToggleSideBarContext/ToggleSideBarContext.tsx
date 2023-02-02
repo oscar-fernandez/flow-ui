@@ -23,7 +23,7 @@ export const ToggleArrowContext = React.createContext<
 ]);
 
 export const ToggleDetailsContext = React.createContext<
-  [IEnablee | IFEPod | null, (item: IEnablee | IFEPod | null) => void]
+  [any, (item: any) => void]
 >([
   null,
   () => {
@@ -46,7 +46,7 @@ export function useToggleDetail() {
 const ToggleProvider = ({ children }: ToggleBarProps) => {
   const [toggle, setToggle] = useState(false);
   const [toggleArrow, setToggleArrow] = useState(false);
-  const [detail, setDetail] = useState<IEnablee | IFEPod | null>(null);
+  const [detail, setDetail] = useState<any>(null);
 
   const changeToggle = () => {
     setToggle((prevToggle) => !prevToggle);
@@ -55,7 +55,7 @@ const ToggleProvider = ({ children }: ToggleBarProps) => {
   const changeToggleArrow = (arrow = false) => {
     setToggleArrow(arrow);
   };
-  const changeToggleDetail = (item: IEnablee | IFEPod | null) => {
+  const changeToggleDetail = (item: any) => {
     setDetail(item);
   };
 
