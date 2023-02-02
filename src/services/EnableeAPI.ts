@@ -1,4 +1,5 @@
-import { get } from "./API";
+import IEnablee from "../models/interfaces/IEnablee";
+import { get, post, put } from "./API";
 
 const baseUrl = process.env.VITE_ENABLEMENT_FEMS;
 
@@ -14,8 +15,18 @@ function GetEnableesPendingPodAssignment() {
   return get(baseUrl + "/enablee/pendingPodAssignment");
 }
 
+function CreateEnablee(enablee: IEnablee) {
+  return post(baseUrl + "/enablee/createEnablee", enablee);
+}
+
+function UpdateEnablee(enablee: IEnablee) {
+  return put(baseUrl + "/enablee/updateEnablee", enablee);
+}
+
 export {
   GetPaginatedEnablees,
   GetEnableesWithNoStartDate,
   GetEnableesPendingPodAssignment,
+  CreateEnablee,
+  UpdateEnablee,
 };

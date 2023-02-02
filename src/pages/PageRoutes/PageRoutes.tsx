@@ -2,7 +2,6 @@ import PodAssignment from "../Enablee/PodAssignment/PodAssignment";
 import "./PageRoutes.css";
 import SideBarItems from "../../components/SideBarItems/SideBarItems";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PendingEnablementStart from "../Enablee/PendingEnablementStart/PendingEnablementStart";
 import EnableeView from "../Enablee/EnableeView/EnableeView";
 import { LoginComponent } from "../../components/HeaderSectionComponents/LoginComponent/LoginComponent";
 import ManagementContainer from "../Management/ManagementContainer/ManagementContainer";
@@ -72,6 +71,7 @@ function PageRoutes() {
                       displayTag={(pod: IFEPod) => {
                         return { name: "", color: "" };
                       }}
+                      podType={"Completed"}
                     />
                   }
                 />
@@ -82,6 +82,7 @@ function PageRoutes() {
                       hook={useAvailablePods}
                       displayPageCarousel={false}
                       displayTag={getActivePendingPodTag}
+                      podType={"Available"}
                     />
                   }
                 />
@@ -92,6 +93,7 @@ function PageRoutes() {
                       hook={useActivePods}
                       displayPageCarousel={false}
                       displayTag={getAvailablePodTag}
+                      podType={"Active"}
                     />
                   }
                 />

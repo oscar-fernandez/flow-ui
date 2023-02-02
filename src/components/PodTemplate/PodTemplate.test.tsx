@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import PodTemplate from "./PodTemplate";
 
@@ -10,19 +10,19 @@ import PodTemplate from "./PodTemplate";
     });
 
     it("should render pod template", () => {
-        expect(screen.getByText("Submit")).toBeInTheDocument();
+      const sub = screen.getByText("Submit");
+        expect(sub);
       });
 
      it("should handle name change", () => {
-      
         const nameInput = screen.getByTestId("podName") as HTMLInputElement;
         fireEvent.change(nameInput, { target: { value: "test" } });
         expect(nameInput.value).toBe("test");
         fireEvent.change(nameInput, { target: { value: "" } });
-        expect(screen.getByText("* Pod Name required")).toBeInTheDocument();
+        const err = screen.getByText("* Pod Name required");
+        expect(err);
       });
 
-      
     
     });
 

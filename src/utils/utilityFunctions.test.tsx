@@ -66,14 +66,20 @@ describe("utilityTest", () => {
     };
     expect(resultingArray[0].skillName).toEqual(testingMark.skillName);
   });
-  it("Enablee is valid to join pod", () => {
-    const lateEnablee = createEnablee();
+
+  it("allows valid enablee", () => {
+    const enablee = createEnablee();
+    const thisDate = new Date();
+    const newDate = addDays(thisDate, 10);
+    const oldDate = subtractDays(thisDate, 10);
     const pod = createPod();
+    enablee.enablementStartDate = oldDate.toString();
+    enablee.enablementEndDate = newDate.toString();
     const result = isEnableeValidForPod(
       pod.podStartDate,
       pod.podEndDate,
-      lateEnablee.enablementStartDate,
-      lateEnablee.enablementEndDate
+      enablee.enablementStartDate,
+      enablee.enablementEndDate
     );
     expect(result).toBe(true);
   });
@@ -193,12 +199,11 @@ describe("generateTags", () => {
 
 const createPod = (): IFEPod => {
   const thisDate = new Date();
-  const newDate = addDays(thisDate, 10);
   return {
     id: 1,
     podName: "podCrew",
     podStartDate:thisDate.toString(),
-    podEndDate: newDate.toString(),
+    podEndDate: addDays(thisDate, 30).toString(),
     enablee: [],
     enabler: null,
     project: { id: 1, name: "foo", summary: "", technology: [], repoLink: "" },
@@ -209,7 +214,7 @@ const createPod = (): IFEPod => {
 
 const createEnablee = (): IEnablee => {
   const thisDate = new Date();
-  const newDate = addDays(thisDate, 10);
+  const newDate = addDays(thisDate, 5);
   return {
     employeeId: 1,
     firstName: "Steve",

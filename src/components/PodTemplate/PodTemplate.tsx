@@ -10,9 +10,9 @@ import { dumbProjects } from "../../data/MockProjects";
 import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import { dummyEnablees } from "../../data/EnableeMock";
 import {
-  useToggle,
-  useToggleDetails,
-} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+   useToggle,
+   useToggleDetails} 
+   from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
 import EnableeTemplate from "../EnableeTemplate/EnableeTemplate";
 import IFEPod from "../../models/interfaces/IFEPod";
@@ -317,7 +317,7 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
                   plusClicked={false}
                 />
                 <div className="enablees-container">
-                  <ul className="enablees-list" data-testid="enableeList">
+                  <ul className="enablees-list" data-testid="enablee">
                     {enablees.map((enablee, index) => (
                       <li className="enablees-enablee" key={index}>
                         <div className="enablee-item-container">
