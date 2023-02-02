@@ -5,6 +5,7 @@ import { mockFePod } from "../../data/MockFEPod";
 import {
   useActivePods,
   useAvailablePods,
+  usePendingStartPods,
   useCompletedPods,
 } from "./Hooks/customHook";
 import {
@@ -12,15 +13,7 @@ import {
   generatePodTags,
   getAvailablePodTag,
 } from "../../utils/utilityFunctions";
-import PageRoutes from "../PageRoutes/PageRoutes";
-import {
-  BrowserRouter,
-  MemoryRouter,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
-import App from "../App/App";
+import { MemoryRouter } from "react-router-dom";
 
 vi.mock("./Hooks/customHook");
 vi.mock("../../utils/utilityFunctions");
@@ -29,9 +22,17 @@ const mockUseAvailablePods = useAvailablePods as jest.MockedFunction<
   typeof useAvailablePods
 >;
 
+const mockUseCompletedPods = useCompletedPods as jest.MockedFunction<
+  typeof useCompletedPods
+>;
+
 const mockGetAvailablePodTags = getAvailablePodTag as jest.MockedFunction<
   typeof getAvailablePodTag
 >;
+const mockUsePendingStartPods = usePendingStartPods as jest.MockedFunction<
+  typeof usePendingStartPods
+>;
+
 const mockUseActivePods = useActivePods as jest.MockedFunction<
   typeof useActivePods
 >;
@@ -44,33 +45,44 @@ const mockConvertToStringArr = convertToStringArr as jest.MockedFunction<
   typeof convertToStringArr
 >;
 
-// const mockConvertLocationToString = convertLocationToString as jest.MockedFunction<typeof convertLocationToString>;
-
-// const mockUseLocation = useLocation as jest.MockedFunction<typeof useLocation>;
-
 const techList = ["Java", ".Net", "React", "JavaScript"];
 
 describe("Testing pod page container", async () => {
   it("display alert component", async () => {
-    // const locationMock = {
-    //   hash: "",
-    //   key: "ju2w1j46",
-    //   pathname: "/pod/active",
-    //   search: "",
-    //   state: null,
-    // };
-    // mockUseLocation.mockReturnValue(locationMock);
-    // mockUseAvailablePods.mockReturnValue([]);
     mockUseActivePods.mockReturnValue([]);
-    // mockGetActivePendingPodTag.mockReturnValue({
-    //   name: "Active",
-    //   color: "#E63946",
-    // });
     mockConvertToStringArr.mockReturnValue(techList);
-    // mockConvertLocationToString.mockReturnValue("Active");
-    // mockUseLocation.mockReturnValue(locationMock);
     render(
       <MemoryRouter initialEntries={["/pod/active"]}>
+        <PodPageContainer
+          displayTag={mockGetActivePendingPodTag}
+          hook={mockUseActivePods}
+        />
+      </MemoryRouter>
+    );
+    const alert = screen.getByTestId("alert-container");
+    expect(alert).toBeInTheDocument();
+  });
+
+  it("display alert component when wrong route is passed", async () => {
+    mockUseActivePods.mockReturnValue([]);
+    mockConvertToStringArr.mockReturnValue(techList);
+    render(
+      <MemoryRouter initialEntries={[""]}>
+        <PodPageContainer
+          displayTag={mockGetActivePendingPodTag}
+          hook={mockUseActivePods}
+        />
+      </MemoryRouter>
+    );
+    const alert = screen.getByTestId("alert-container");
+    expect(alert).toBeInTheDocument();
+  });
+
+  it("display alert component when defailt route is passed", async () => {
+    mockUseActivePods.mockReturnValue([]);
+    mockConvertToStringArr.mockReturnValue(techList);
+    render(
+      <MemoryRouter initialEntries={["/pod/"]}>
         <PodPageContainer
           displayTag={mockGetActivePendingPodTag}
           hook={mockUseActivePods}
@@ -100,65 +112,99 @@ describe("Testing pod page container", async () => {
     expect(alert).not.toBeInTheDocument();
   });
 
-  // it('display available pod to check if active tag is been display', () => {
-  //   const mockHook = {
-  //     podList: mockFePod,
-  //     setPodList: () => {
-  //       return null;
-  //     },
-  //   };
-  //   mockUseAvailablePods.mockReturnValue(mockHook);
-  //   mockGetActivePendingPodTag.mockReturnValue({
-  //     name: 'Active',
-  //     color: '#E63946',
-  //   });
-  //   mockConvertToStringArr.mockReturnValue(techList);
+  it("display available pod to check if active tag is been display", () => {
+    mockUseAvailablePods.mockReturnValue(mockFePod);
+    mockGetActivePendingPodTag.mockReturnValue({
+      name: "Active",
+      color: "#E63946",
+    });
+    mockConvertToStringArr.mockReturnValue(techList);
 
-  //   render(
-  //     <PodPageContainer
-  //       hook={mockUseAvailablePods}
-  //       displayPageCarousel={false}
-  //       displayTag={mockGetActivePendingPodTag}
-  //       podType={'Available'}
-  //     />
-  //   );
+    render(
+      <MemoryRouter initialEntries={["/pod/available"]}>
+        <PodPageContainer
+          hook={mockUseAvailablePods}
+          displayTag={mockGetActivePendingPodTag}
+        />
+      </MemoryRouter>
+    );
 
-  //   expect(screen.queryByText(mockFePod[0].podName)).toHaveTextContent(
-  //     mockFePod[0].podName
-  //   );
-  //   const podRowElm = screen.getByTestId('pageSectionTestId');
+    expect(screen.queryByText(mockFePod[0].podName)).toHaveTextContent(
+      mockFePod[0].podName
+    );
+    const podRowElm = screen.getByTestId("pageSectionTestId");
+    expect(podRowElm?.textContent).toContain("Active");
+  });
 
-  //   expect(podRowElm?.textContent).toContain('Active');
-  // });
+  it("display avtive pod to check if available tag is been display", () => {
+    mockUseAvailablePods.mockReturnValue(mockFePod);
+    mockGetActivePendingPodTag.mockReturnValue({
+      name: "Available",
+      color: "#E63946",
+    });
+    mockConvertToStringArr.mockReturnValue(techList);
 
-  // it('display active pod to check if active tag is been display', () => {
-  //   const mockHook = {
-  //     podList: mockFePod,
-  //     setPodList: () => {
-  //       return null;
-  //     },
-  //   };
-  //   mockUseActivePods.mockReturnValue(mockHook);
-  //   mockGetAvailablePodTags.mockReturnValue({
-  //     name: 'Available',
-  //     color: '#E63946',
-  //   });
-  //   mockConvertToStringArr.mockReturnValue(techList);
+    render(
+      <MemoryRouter initialEntries={["/pod/active"]}>
+        <PodPageContainer
+          hook={mockUseActivePods}
+          displayTag={mockGetActivePendingPodTag}
+        />
+      </MemoryRouter>
+    );
 
-  //   render(
-  //     <PodPageContainer
-  //       hook={mockUseActivePods}
-  //       displayPageCarousel={false}
-  //       displayTag={mockGetAvailablePodTags}
-  //       podType={'Active'}
-  //     />
-  //   );
+    expect(screen.queryByText(mockFePod[0].podName)).toHaveTextContent(
+      mockFePod[0].podName
+    );
+    const podRowElm = screen.getByTestId("pageSectionTestId");
+    expect(podRowElm?.textContent).toContain("Available");
+  });
 
-  //   expect(screen.queryByText(mockFePod[0].podName)).toHaveTextContent(
-  //     mockFePod[0].podName
-  //   );
-  //   const podRowElm = screen.getByTestId('pageSectionTestId');
+  it("display pending pod to check if available tag is been display", () => {
+    mockUsePendingStartPods.mockReturnValue(mockFePod);
+    mockGetAvailablePodTags.mockReturnValue({
+      name: "Available",
+      color: "#E63946",
+    });
+    mockConvertToStringArr.mockReturnValue(techList);
 
-  //   expect(podRowElm?.textContent).toContain('Available');
-  // });
+    render(
+      <MemoryRouter initialEntries={["/pod/pending"]}>
+        <PodPageContainer
+          hook={mockUsePendingStartPods}
+          displayTag={mockGetAvailablePodTags}
+        />
+      </MemoryRouter>
+    );
+
+    expect(screen.queryByText(mockFePod[2].podName)).toHaveTextContent(
+      mockFePod[2].podName
+    );
+    const podRowElm = screen.getByTestId("pageSectionTestId");
+    expect(podRowElm?.textContent).toContain("Available");
+  });
+
+  it("display completed pod to check if no tag is been display", () => {
+    mockUseCompletedPods.mockReturnValue(mockFePod);
+    mockGetAvailablePodTags.mockReturnValue({
+      name: "",
+      color: "#E63946",
+    });
+    mockConvertToStringArr.mockReturnValue(techList);
+
+    render(
+      <MemoryRouter initialEntries={["/pod/completed"]}>
+        <PodPageContainer
+          hook={mockUseCompletedPods}
+          displayTag={mockGetActivePendingPodTag}
+        />
+      </MemoryRouter>
+    );
+
+    expect(screen.queryByText(mockFePod[2].podName)).toHaveTextContent(
+      mockFePod[2].podName
+    );
+    const podRowElm = screen.getByTestId("pageSectionTestId");
+    expect(podRowElm?.textContent).toContain("");
+  });
 });

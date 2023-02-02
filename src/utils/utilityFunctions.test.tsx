@@ -8,6 +8,7 @@ import {
   updatedTechnology,
   getAvailablePodTag,
   generateTags,
+  generatePodTags,
   getName,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
@@ -157,6 +158,35 @@ describe("utilityTest", () => {
     expect(getName("enablementEndDate")).toEqual("enablement end date");
     expect(getName("skillName")).toEqual("Skill Name");
     expect(getName("projectName")).toEqual("Project Name");
+  });
+});
+
+describe("generatePodTags", () => {
+  const pod = createPod();
+  it("returns no tag", () => {
+    expect(generatePodTags(pod).name).toEqual("");
+  });
+
+  it("returns an active tag", () => {
+    const currentDate = new Date();
+    const startDate = new Date();
+    const endDate = new Date();
+    startDate.setDate(currentDate.getDate() - 5);
+    endDate.setDate(currentDate.getDate() + 5);
+    pod.podStartDate = startDate.toDateString();
+    pod.podEndDate = endDate.toDateString();
+    expect(generatePodTags(pod).name).toEqual("Active");
+  });
+
+  it("returns pending start tag", () => {
+    const currentDate = new Date();
+    const startDate = new Date();
+    const endDate = new Date();
+    startDate.setDate(currentDate.getDate() + 5);
+    endDate.setDate(currentDate.getDate() + 10);
+    pod.podStartDate = startDate.toDateString();
+    pod.podEndDate = endDate.toDateString();
+    expect(generatePodTags(pod).name).toEqual("Pending Start");
   });
 });
 

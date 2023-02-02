@@ -25,7 +25,6 @@ export function useCompletedPods(location: Location) {
 
 export function useAvailablePods(location: Location) {
   const [podList, setPodList] = useState<IFEPod[]>([]);
-
   const updatePods = () => {
     getAvailablePods().then((res) => {
       setPodList(res.data);
@@ -41,7 +40,6 @@ export function useAvailablePods(location: Location) {
 
 export function useActivePods(location: Location) {
   const [podList, setPodList] = useState<IFEPod[]>([]);
-
   const updatePods = () => {
     getActivePods().then((res) => {
       setPodList(res.data);
