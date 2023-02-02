@@ -5,6 +5,9 @@ export default defineConfig(({ command, mode }) => {
   //https://vitejs.dev/config/#define
   const env = loadEnv(mode, process.cwd(), "");
   return {
+    build: {
+      chunkSizeWarningLimit: 700,
+    },
     define: {
       "process.env.VITE_ENABLEMENT_FEMS": `"${env.VITE_ENABLEMENT_FEMS}"`,
     },

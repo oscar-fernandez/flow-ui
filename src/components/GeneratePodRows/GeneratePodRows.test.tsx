@@ -3,14 +3,15 @@ import { describe, it, vi, expect } from "vitest";
 import { GeneratePodRows } from "./GeneratePodRows";
 import {
   convertToStringArr,
-  getActivePendingPodTag,
+  generatePodTags,
 } from "../../utils/utilityFunctions";
 import { mockFePod } from "../../data/MockFEPod";
 
 vi.mock("../../utils/utilityFunctions");
 
-const mockGetActivePendingPodTag =
-  getActivePendingPodTag as jest.MockedFunction<typeof getActivePendingPodTag>;
+const mockGetActivePendingPodTag = generatePodTags as jest.MockedFunction<
+  typeof generatePodTags
+>;
 const mockConvertToStringArr = convertToStringArr as jest.MockedFunction<
   typeof convertToStringArr
 >;
@@ -25,10 +26,9 @@ describe("Generate Pod Rows component", () => {
     });
     render(
       <GeneratePodRows
-        pageNum={1}
         pods={mockFePod}
         displayTag={mockGetActivePendingPodTag}
-        podType={"Available"}
+        location={"Active"}
       />
     );
   });
@@ -56,10 +56,9 @@ describe("Generate Pod Rows component", () => {
 
     render(
       <GeneratePodRows
-        pageNum={1}
         pods={mockFePod}
         displayTag={mockGetActivePendingPodTag}
-        podType={"Available"}
+        location={"Available"}
       />
     );
     expect(
