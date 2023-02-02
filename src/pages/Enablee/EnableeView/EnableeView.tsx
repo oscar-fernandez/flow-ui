@@ -43,7 +43,6 @@ export default function EnableeView() {
         /> */}
         <Outlet />
       </div>
-      <PodTemplate showPodTemplate={true} />
       <ToggleSidebar template={<EnableeTemplate></EnableeTemplate>} />
     </>
   );

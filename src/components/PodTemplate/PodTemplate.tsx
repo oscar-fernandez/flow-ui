@@ -10,9 +10,9 @@ import { dumbProjects } from "../../data/MockProjects";
 import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import { dummyEnablees } from "../../data/EnableeMock";
 import {
-   useToggle,
-   useToggleDetails} 
-   from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+  useToggle,
+  useToggleDetails,
+} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
 import EnableeTemplate from "../EnableeTemplate/EnableeTemplate";
 import IFEPod from "../../models/interfaces/IFEPod";
@@ -29,9 +29,8 @@ import IEnabler from "../../models/interfaces/IEnabler";
  * @param props boolean TRUE to open component, FALSE to close component
  * @returns the Pod Component
  */
-export default function PodTemplate(props: { showPodTemplate: boolean }) {
+export default function PodTemplate() {
   // Closes the component when close is false, opens when close is true
-  const [close, setClose] = useState(props.showPodTemplate);
 
   // If the pod name is empty then this value is false
   const [emptyPodName, setEmptyPodName] = useState(true);
@@ -148,231 +147,228 @@ export default function PodTemplate(props: { showPodTemplate: boolean }) {
 
   return (
     <>
-      {close ? (
-        <div className="container">
-          <div className="margin-container">
-            <div className="content-section">
-              {emptyPodName ? (
-                <div className="div1">
-                  <input
-                    className="podname-input null"
-                    data-testid="podName"
-                    type="text"
-                    placeholder={"Untitled"}
-                    value={podName}
-                    onChange={(event) => checkPodName(event)}
-                  />
-                  <div className="errormsg">* Pod Name required</div>
-                </div>
-              ) : (
-                <div className="div1">
-                  <input
-                    className="podname-input"
-                    type="text"
-                    placeholder="Untitled"
-                    onChange={(event) => checkPodName(event)}
-                  />
-                </div>
-              )}
-              <div className="div2">
-                <span className="numpods">{numEnablees} / 15</span>
+      <div className="container">
+        <div className="margin-container">
+          <div className="content-section">
+            {emptyPodName ? (
+              <div className="div1">
+                <input
+                  className="podname-input null"
+                  data-testid="podName"
+                  type="text"
+                  placeholder={"Untitled"}
+                  value={podName}
+                  onChange={(event) => checkPodName(event)}
+                />
+                <div className="errormsg">* Pod Name required</div>
               </div>
+            ) : (
+              <div className="div1">
+                <input
+                  className="podname-input"
+                  type="text"
+                  placeholder="Untitled"
+                  onChange={(event) => checkPodName(event)}
+                />
+              </div>
+            )}
+            <div className="div2">
+              <span className="numpods">{numEnablees} / 15</span>
+            </div>
 
-              <div className="div3">
-                <p className="label">Dates</p>
-              </div>
-              <div className="div4">
-                <div>
-                  {startDate === null && endDate === null ? (
-                    <div className="empty null">
-                      <DatepickerComponent
-                        startDate={startDate}
-                        endDate={endDate}
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                      />
-                      <div className="errormsg dates">* Pod Dates required</div>
-                    </div>
-                  ) : (
+            <div className="div3">
+              <p className="label">Dates</p>
+            </div>
+            <div className="div4">
+              <div>
+                {startDate === null && endDate === null ? (
+                  <div className="empty null">
                     <DatepickerComponent
                       startDate={startDate}
                       endDate={endDate}
                       setStartDate={setStartDate}
                       setEndDate={setEndDate}
                     />
-                  )}
-                </div>
-              </div>
-
-              <div className="div5">
-                <p className="label">Enabler(s)</p>
-              </div>
-              <div className="div6">
-                {enablers ? (
-                  <div className="enablers-container">
-                    <ul className="enablers-list">
-                      {enablers?.map((enabler, index) => (
-                        <li className="enabler-item" key={index}>
-                          {enabler.firstName} {enabler.lastName}
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="errormsg dates">* Pod Dates required</div>
                   </div>
                 ) : (
-                  <div className="empty">Empty</div>
-                )}
-              </div>
-
-              <div className="div7">
-                <p className="label">Project name</p>
-              </div>
-              <div className="div8">
-                {projectClicked ? (
-                  <div onClick={showProjects}data-testid= "projects">
-                    <ul className="projects">
-                      {dumbProjects.map((item, index) => (
-                        <li
-                          className="project-item"
-                          onClick={() => projectSelectedClicked(item)}
-                          key={index}
-                        >
-                          {item.name}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : (
-                  <>
-                    {projectSelected === "Empty" ? (
-                      <>
-                        <p
-                          className="empty null project"
-                          onClick={showProjects}
-                          data-testid="projectsBtn"
-                        >
-                          {projectSelected}
-                        </p>
-                        <div className="errormsg">* Project Name required</div>
-                      </>
-                    ) : (
-                      <>
-                        <p className="project-selected" onClick={showProjects}>
-                          {projectSelected}
-                        </p>
-                      </>
-                    )}
-                  </>
-                )}
-              </div>
-              <div className="div9">
-                <p className="label">Tech Stack</p>
-              </div>
-
-              <div className="div10">
-                {projectSelected === "Empty" ? (
-                  <p className="empty project">Select Project</p>
-                ) : (
-                  <div className="techstack-container">
-                    <ul className="techstack-list">
-                      {projectTechStack.map((item, index) => (
-                        <li className="techstack-item" key={index}>
-                          <TagComponent
-                            name={item.name}
-                            color={item.backgroundColor}
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <DatepickerComponent
+                    startDate={startDate}
+                    endDate={endDate}
+                    setStartDate={setStartDate}
+                    setEndDate={setEndDate}
+                  />
                 )}
               </div>
             </div>
-            {projectSelected === "Empty" ? (
-              <div>
-                <PageViewHeader
-                  pageTitle={"Enablees"}
-                  showPlus={true}
-                  isHeader={false}
-                  plusClicked={false}
-                />
-                <p className="empty project">Select Project</p>
-                <div className="btn-container">
-                  {emptyPodName ||
-                  startDate === null ||
-                  endDate === null ||
-                  projectSelected === "Empty" ? (
-                    <button className="disabled btn-submit" disabled>
-                      Submit
-                    </button>
-                  ) : (
-                    <button className="btn-submit">Submit</button>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div style={{ marginTop: projectTechStackMargin }}>
-                <PageViewHeader
-                  pageTitle={"Enablees"}
-                  showPlus={true}
-                  isHeader={false}
-                  plusClicked={false}
-                />
-                <div className="enablees-container">
-                  <ul className="enablees-list" data-testid="enablee">
-                    {enablees.map((enablee, index) => (
-                      <li className="enablees-enablee" key={index}>
-                        <div className="enablee-item-container">
-                          <a
-                            className="enablee-item"
-                            onClick={() => {
-                              changeToggle();
-                              setDetails(enablee);
-                            }}
-                          >
-                            {enablee.firstName} {enablee.lastName}
-                          </a>
 
-                          <span className="enablee-checkbox-container">
-                            <input
-                              className="enablee-checkbox"
-                              type="checkbox"
-                              onChange={() => addEnableeToPod(index)}
-                            />
-                            <span className="enablee-techstack-container">
-                              {enablee.technology.map((tech, index) => (
-                                <span
-                                  key={index}
-                                  className="enablee-tech"
-                                  style={{
-                                    backgroundColor: tech.backgroundColor,
-                                  }}
-                                ></span>
-                              ))}
-                            </span>
-                          </span>
-                        </div>
+            <div className="div5">
+              <p className="label">Enabler(s)</p>
+            </div>
+            <div className="div6">
+              {enablers ? (
+                <div className="enablers-container">
+                  <ul className="enablers-list">
+                    {enablers?.map((enabler, index) => (
+                      <li className="enabler-item" key={index}>
+                        {enabler.firstName} {enabler.lastName}
                       </li>
                     ))}
                   </ul>
                 </div>
-                <div className="btn-container">
-                  {emptyPodName ||
-                  startDate === null ||
-                  endDate === null ||
-                  projectSelected === "Empty" ? (
-                    <button className="disabled btn-submit" disabled>
-                      Submit
-                    </button>
-                  ) : (
-                    <button className="btn-submit">Submit</button>
-                  )}
+              ) : (
+                <div className="empty">Empty</div>
+              )}
+            </div>
+
+            <div className="div7">
+              <p className="label">Project name</p>
+            </div>
+            <div className="div8">
+              {projectClicked ? (
+                <div onClick={showProjects} data-testid="projects">
+                  <ul className="projects">
+                    {dumbProjects.map((item, index) => (
+                      <li
+                        className="project-item"
+                        onClick={() => projectSelectedClicked(item)}
+                        key={index}
+                      >
+                        {item.name}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-            )}
+              ) : (
+                <>
+                  {projectSelected === "Empty" ? (
+                    <>
+                      <p
+                        className="empty null project"
+                        onClick={showProjects}
+                        data-testid="projectsBtn"
+                      >
+                        {projectSelected}
+                      </p>
+                      <div className="errormsg">* Project Name required</div>
+                    </>
+                  ) : (
+                    <>
+                      <p className="project-selected" onClick={showProjects}>
+                        {projectSelected}
+                      </p>
+                    </>
+                  )}
+                </>
+              )}
+            </div>
+            <div className="div9">
+              <p className="label">Tech Stack</p>
+            </div>
+
+            <div className="div10">
+              {projectSelected === "Empty" ? (
+                <p className="empty project">Select Project</p>
+              ) : (
+                <div className="techstack-container">
+                  <ul className="techstack-list">
+                    {projectTechStack.map((item, index) => (
+                      <li className="techstack-item" key={index}>
+                        <TagComponent
+                          name={item.name}
+                          color={item.backgroundColor}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
+          {projectSelected === "Empty" ? (
+            <div>
+              <PageViewHeader
+                pageTitle={"Enablees"}
+                showPlus={true}
+                isHeader={false}
+                plusClicked={false}
+              />
+              <p className="empty project">Select Project</p>
+              <div className="btn-container">
+                {emptyPodName ||
+                startDate === null ||
+                endDate === null ||
+                projectSelected === "Empty" ? (
+                  <button className="disabled btn-submit" disabled>
+                    Submit
+                  </button>
+                ) : (
+                  <button className="btn-submit">Submit</button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div style={{ marginTop: projectTechStackMargin }}>
+              <PageViewHeader
+                pageTitle={"Enablees"}
+                showPlus={true}
+                isHeader={false}
+                plusClicked={false}
+              />
+              <div className="enablees-container">
+                <ul className="enablees-list" data-testid="enablee">
+                  {enablees.map((enablee, index) => (
+                    <li className="enablees-enablee" key={index}>
+                      <div className="enablee-item-container">
+                        <a
+                          className="enablee-item"
+                          onClick={() => {
+                            changeToggle();
+                            setDetails(enablee);
+                          }}
+                        >
+                          {enablee.firstName} {enablee.lastName}
+                        </a>
+
+                        <span className="enablee-checkbox-container">
+                          <input
+                            className="enablee-checkbox"
+                            type="checkbox"
+                            onChange={() => addEnableeToPod(index)}
+                          />
+                          <span className="enablee-techstack-container">
+                            {enablee.technology.map((tech, index) => (
+                              <span
+                                key={index}
+                                className="enablee-tech"
+                                style={{
+                                  backgroundColor: tech.backgroundColor,
+                                }}
+                              ></span>
+                            ))}
+                          </span>
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="btn-container">
+                {emptyPodName ||
+                startDate === null ||
+                endDate === null ||
+                projectSelected === "Empty" ? (
+                  <button className="disabled btn-submit" disabled>
+                    Submit
+                  </button>
+                ) : (
+                  <button className="btn-submit">Submit</button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
-      ) : null}
-      <ToggleSidebar template={<EnableeTemplate></EnableeTemplate>} />
+      </div>
     </>
   );
 }
