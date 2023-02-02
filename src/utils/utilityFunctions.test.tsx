@@ -7,7 +7,6 @@ import {
   updatedProjects,
   updatedTechnology,
   getAvailablePodTag,
-  getActivePendingPodTag,
   generateTags,
   getName,
 } from "../utils/utilityFunctions";
@@ -127,16 +126,27 @@ describe("utilityTest", () => {
 
   it("Active pod, start date is after current date", () => {
     const activePod = createPod();
-    const result = getActivePendingPodTag(activePod);
+    const enablee = createEnablee();
+    activePod.enablee[0] = enablee;
+    const currentDate = new Date();
+    const startDate = new Date();
+    const endDate = new Date();
+    startDate.setDate(currentDate.getDate() - 5);
+    endDate.setDate(currentDate.getDate() + 5);
+    enablee.enablementStartDate = startDate.toDateString();
+    enablee.enablementEndDate = endDate.toDateString();
+    const result = generateTags(activePod.enablee[0]);
     expect(result.name).toEqual("Active");
   });
 
   it("Pending Pod, start date is before current date", () => {
     const pendingPod = createPod();
     pendingPod.podStartDate = "2024-01-22";
-
-    const result = getActivePendingPodTag(pendingPod);
-    expect(result.name).toEqual("Pending");
+    const enablee = createEnablee();
+    enablee.podId = 0;
+    pendingPod.enablee[0] = enablee;
+    const result = generateTags(pendingPod.enablee[0]);
+    expect(result.name).toEqual("Pending Pod Assignment");
   });
   it("should return proper names using getName", () => {
     expect(getName("id")).toEqual("employee ID");
