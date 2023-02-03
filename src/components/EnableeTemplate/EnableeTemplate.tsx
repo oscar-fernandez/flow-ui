@@ -11,6 +11,7 @@ import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
 import { useToggleDetails } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../models/interfaces/IEnablee";
+import ITechnology from "../../models/interfaces/ITechnology";
 
 const InputProps = {
   disableUnderline: true,
@@ -96,6 +97,7 @@ export default function EnableeTemplate() {
   const [employmentType, setEmploymentType] = useState("");
   const [isEmployed, setIsEmployed] = useState(true);
   const [grade, setGrade] = useState("");
+  const [techStack, setTeckStack] = useState<ITechnology[]>([]);
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
@@ -131,6 +133,7 @@ export default function EnableeTemplate() {
         : "";
       setEmploymentType(employmentType);
       setGrade(enablee.gradeId.toString());
+      setTeckStack(enablee.technology);
     }
   }, []);
 
@@ -272,7 +275,7 @@ export default function EnableeTemplate() {
             />
             <Typography sx={labelStyle}>Tech Stack</Typography>
             <div>
-              {mockTechnology.map((tech) => (
+              {techStack.map((tech) => (
                 <TagComponent
                   name={tech.name}
                   color={tech.backgroundColor}
