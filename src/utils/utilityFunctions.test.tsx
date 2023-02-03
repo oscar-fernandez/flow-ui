@@ -183,7 +183,10 @@ describe("utilityTest", () => {
 
 describe("generatePodTags", () => {
   const pod = createPod();
+
   it("returns no tag", () => {
+    pod.podStartDate = "";
+    pod.podEndDate = "";
     expect(generatePodTags(pod).name).toEqual("");
   });
 
@@ -212,7 +215,7 @@ describe("generatePodTags", () => {
 
 describe("generateTags", () => {
   const enablee = createEnablee();
-  
+
   it("returns a completed tag", () => {
     enablee.enablementEndDate = "2022-01-21";
     expect(generateTags(enablee).name).toEqual("Completed");
@@ -242,15 +245,13 @@ const createPod = (): IFEPod => {
   return {
     id: 1,
     podName: "podCrew",
-    podStartDate:thisDate.toString(),
+    podStartDate: thisDate.toString(),
     podEndDate: addDays(thisDate, 30).toString(),
     enablee: [],
     enabler: null,
     project: { id: 1, name: "foo", summary: "", technology: [], repoLink: "" },
   };
 };
-
-
 
 const createEnablee = (): IEnablee => {
   const thisDate = new Date();
@@ -279,14 +280,14 @@ const createEnablee = (): IEnablee => {
   };
 };
 
-function addDays(date : Date, days: number) {
-  const copy = new Date(Number(date))
-  copy.setDate(date.getDate() + days)
-  return copy
+function addDays(date: Date, days: number) {
+  const copy = new Date(Number(date));
+  copy.setDate(date.getDate() + days);
+  return copy;
 }
 
-function subtractDays(date : Date, days: number) {
-  const copy = new Date(Number(date))
-  copy.setDate(date.getDate() - days)
-  return copy
+function subtractDays(date: Date, days: number) {
+  const copy = new Date(Number(date));
+  copy.setDate(date.getDate() - days);
+  return copy;
 }

@@ -84,7 +84,6 @@ export default function PodTemplate() {
   const checkPodName = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value === null || event.target.value === "") {
       setEmptyPodName(true);
-      setPodName("Untitled");
     } else {
       setEmptyPodName(false);
       setPodName(event.target.value);
@@ -150,13 +149,13 @@ export default function PodTemplate() {
       <div className="container">
         <div className="margin-container">
           <div className="content-section">
-            {emptyPodName ? (
+            {emptyPodName || podName.length === 0 ? (
               <div className="div1">
                 <input
                   className="podname-input null"
                   data-testid="podName"
                   type="text"
-                  placeholder={"Untitled"}
+                  placeholder="Untitled"
                   value={podName}
                   onChange={(event) => checkPodName(event)}
                 />

@@ -1,13 +1,13 @@
 import IEnablee from "../models/interfaces/IEnablee";
-
+const today = new Date();
 export const dummyEnablees: IEnablee[] = [
   {
     employeeId: 977284,
     firstName: "Steve",
     lastName: "Bob",
-    dateOfJoin: "2023-01-21",
-    enablementStartDate: "2023-02-06",
-    enablementEndDate: "2023-02-24",
+    dateOfJoin: subtractDays(today, 20).toString(),
+    enablementStartDate: subtractDays(today, 20).toString(),
+    enablementEndDate: addDays(today, 20).toString(),
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
@@ -47,9 +47,9 @@ export const dummyEnablees: IEnablee[] = [
     employeeId: 738920,
     firstName: "Ondrew",
     lastName: "Jooors",
-    dateOfJoin: "2023-01-21",
-    enablementStartDate: "2023-02-06",
-    enablementEndDate: "2023-02-24",
+    dateOfJoin: subtractDays(today, 20).toString(),
+    enablementStartDate: subtractDays(today, 10).toString(),
+    enablementEndDate: addDays(today, 10).toString(),
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
@@ -67,9 +67,9 @@ export const dummyEnablees: IEnablee[] = [
     employeeId: 728912,
     firstName: "Mario",
     lastName: "Bros",
-    dateOfJoin: "2023-01-21",
-    enablementStartDate: "2023-02-06",
-    enablementEndDate: "2023-02-24",
+    dateOfJoin: subtractDays(today, 20).toString(),
+    enablementStartDate: subtractDays(today, 10).toString(),
+    enablementEndDate: addDays(today, 10).toString(),
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
@@ -87,9 +87,9 @@ export const dummyEnablees: IEnablee[] = [
     employeeId: 627890,
     firstName: "Super",
     lastName: "Sonic",
-    dateOfJoin: "2023-01-21",
-    enablementStartDate: "2023-02-06",
-    enablementEndDate: "2023-02-24",
+    dateOfJoin: subtractDays(today, 20).toString(),
+    enablementStartDate: subtractDays(today, 10).toString(),
+    enablementEndDate: addDays(today, 10).toString(),
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
@@ -104,3 +104,15 @@ export const dummyEnablees: IEnablee[] = [
     commentId: [1, 2, 3],
   },
 ];
+
+function addDays(date: Date, days: number) {
+  const copy = new Date(Number(date));
+  copy.setDate(date.getDate() + days);
+  return copy;
+}
+
+function subtractDays(date: Date, days: number) {
+  const copy = new Date(Number(date));
+  copy.setDate(date.getDate() - days);
+  return copy;
+}
