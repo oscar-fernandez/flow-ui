@@ -146,7 +146,7 @@ export default function EnableeTemplate() {
       setFilteredPods(filtered);
     }
   };
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (detail == null) {
       const enablee: IEnablee = {
         employeeId: parseInt(employeeId),
@@ -166,13 +166,11 @@ export default function EnableeTemplate() {
         commentId: [],
       };
 
-      await postEnablee(enablee);
-      changeToggle();
+      postEnablee(enablee);
     } else if (detail?.employeeId) {
       const tempDetail: IEnablee = detail;
       tempDetail.assetTag = assetTag;
-      await putEnablee(tempDetail);
-      changeToggle();
+      putEnablee(tempDetail);
     } else {
       e.preventDefault();
     }
@@ -183,6 +181,7 @@ export default function EnableeTemplate() {
       .then((res) => {
         if (res.status == 200 || res.status == 201) {
           changeToggleDetail(res.data);
+          changeToggle();
         }
       })
       .catch((e) => {
@@ -195,6 +194,7 @@ export default function EnableeTemplate() {
       .then((res) => {
         if (res.status == 200 || res.status == 201) {
           changeToggleDetail(res.data);
+          changeToggle();
         }
       })
       .catch((e) => {

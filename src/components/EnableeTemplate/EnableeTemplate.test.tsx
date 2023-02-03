@@ -14,7 +14,7 @@ import ToggleProvider, {
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
 import { CreateEnablee } from "../../services/EnableeAPI";
-import { userEvent } from "@testing-library/user-event/dist/types/setup";
+import userEvent from "@testing-library/user-event";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
 
 vi.mock("../../context/ToggleSideBarContext/ToggleSideBarContext");
@@ -154,18 +154,26 @@ describe("EnableeTemplate tests", () => {
     fireEvent.change(startDate, { target: { value: "1 Feb, 2023" } });
 
     fireEvent.click(endDate);
-    fireEvent.change(endDate, { target: { value: "5 Feb, 2023" } });
-    await waitFor(() => {
-      expect(startDate.innerHTML("February 1, 2023")).toBeInTheDocument();
-    });
+    // fireEvent.change(endDate, { target: { value: "5 Feb, 2023" } });
+    // await waitFor(() => {
+    //   expect(screen.getByDisplayValue("1 Feb, 2023")).toBeInTheDocument();
+    // });
+
     const dateJoin = screen.getByTestId("dateJoin");
     expect(dateJoin.innerHTML).toBe("February 3, 2023");
 
-    const submitButton = screen.getByTestId(
-      "enableeTemplateSubmitBtn"
-    ) as HTMLButtonElement;
+    const submitButton = screen.getByTestId("enableeTemplateSubmitBtn");
+
+    // await waitFor(() => {
+    //   expect(submitButton).toBeEnabled();
+    // });
     fireEvent.click(submitButton);
-    // await waitFor( () => {expect(mockCreateEnablee).toHaveBeenCalledOnce()})
+
+    await waitFor(() => {
+      // expect(submitButton).toBeEnabled();
+      expect(mockCreateEnablee).toHaveBeenCalledOnce();
+      // expect(mockCreateEnablee).toHaveBeenCalledWith("....");
+    });
   });
 
   // it("should disable submit button until all required fields are entered and handle checkbox clicking", () => {
