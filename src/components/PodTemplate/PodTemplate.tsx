@@ -84,6 +84,7 @@ export default function PodTemplate() {
   const checkPodName = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value === null || event.target.value === "") {
       setEmptyPodName(true);
+      setPodName(event.target.value);
     } else {
       setEmptyPodName(false);
       setPodName(event.target.value);
