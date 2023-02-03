@@ -2,6 +2,13 @@ import { describe, it, expect } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import EnableeTemplate from "./EnableeTemplate";
 import { mockFePod } from "../../data/MockFEPod";
+import {
+  ToggleArrowContext,
+  ToggleContext,
+  ToggleDetailsContext,
+} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
+import { dummyEnablees } from "../../data/EnableeMock";
 
 describe("EnableeTemplate tests", () => {
   it("should render enablee template", () => {
@@ -98,6 +105,20 @@ describe("EnableeTemplate tests", () => {
     expect(gangCheckbox).toBeDisabled();
     fireEvent.click(teamCheckBox);
     expect(teamCheckBox).not.toBeChecked();
+  });
+
+  it("should handle enablee that is passed in from context", async () => {
+    render(
+      <ToggleContext.Provider value={[true, () => false]}>
+        {" "}
+        <ToggleArrowContext.Provider value={[false, () => false]}>
+          {" "}
+          <ToggleDetailsContext.Provider value={[dummyEnablees[0], () => null]}>
+            <ToggleSideBar template={<EnableeTemplate />} />
+          </ToggleDetailsContext.Provider>
+        </ToggleArrowContext.Provider>
+      </ToggleContext.Provider>
+    );
   });
 });
 

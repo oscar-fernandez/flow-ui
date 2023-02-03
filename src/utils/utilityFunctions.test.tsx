@@ -253,7 +253,7 @@ const createPod = (): IFEPod => {
   };
 };
 
-const createEnablee = (): IEnablee => {
+export const createEnablee = (): IEnablee => {
   const thisDate = new Date();
   const newDate = addDays(thisDate, 5);
   return {
