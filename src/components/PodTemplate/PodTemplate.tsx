@@ -149,14 +149,13 @@ export default function PodTemplate() {
       <div className="container">
         <div className="margin-container">
           <div className="content-section">
-            {emptyPodName || podName.length === 0 ? (
+            {emptyPodName && podName.length === 0 ? (
               <div className="div1">
                 <input
                   className="podname-input null"
                   data-testid="podName"
                   type="text"
                   placeholder="Untitled"
-                  value={podName}
                   onChange={(event) => checkPodName(event)}
                 />
                 <div className="errormsg">* Pod Name required</div>
@@ -167,6 +166,7 @@ export default function PodTemplate() {
                   className="podname-input"
                   type="text"
                   placeholder="Untitled"
+                  value={podName}
                   onChange={(event) => checkPodName(event)}
                 />
               </div>
