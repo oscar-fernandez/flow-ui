@@ -50,8 +50,8 @@ export default function PodTemplate() {
   const [podName, setPodName] = useState("");
   const [enablees, setEnablees] = useState<IEnablee[]>([]);
   const [enablers, setEnablers] = useState<IEnabler[] | null>(null);
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   // Need to connect this with projects backend API
   const [podProject, setPodProject] = useState(dumbProjects);
 
@@ -73,6 +73,7 @@ export default function PodTemplate() {
     if (pod && isPod(pod)) {
       setPodId(pod.id.toString());
       setPodName(pod.podName);
+      setEmptyPodName(false);
       setEnablees(pod.enablee);
       setEnablers(pod.enabler);
       setStartDate(new Date(pod.podStartDate));
@@ -106,27 +107,53 @@ export default function PodTemplate() {
   function projectSelectedClicked(item: IProject) {
     const techStackMargin = item.technology.length * 24 - 32 + "px";
     setProjectTechStackMargin(techStackMargin);
+    setEnablees([]);
     setProjectSelected(item.name);
     setProjectTechStack(item.technology);
     retrieveEnablees();
   }
 
+  // function retrieveEnablees() {
+  //   setEnablees([]);
+  //   dummyEnablees.filter((enablee) => {
+  //     if (
+  //       isEnableeValidForPod(
+  //         startDate.toString(),
+  //         endDate.toString(),
+  //         enablee.enablementStartDate,
+  //         enablee.enablementEndDate
+  //       ) && enablees.length ===0
+  //     ) {
+  //       enablees.push(enablee);
+  //       setEnablees(enablees);
+  //     }
+  //     else if (isEnableeValidForPod(
+  //       startDate.toString(),
+  //       endDate.toString(),
+  //       enablee.enablementStartDate,
+  //       enablee.enablementEndDate
+  //     ))
+  //     {
+  //       setEnablees([])
+  //       console.log(enablees);
+  //       enablees.push(enablee);
+  //       setEnablees(enablees);
+  //     }
+  //   });
+  // }
   function retrieveEnablees() {
-    dummyEnablees.filter((enablee) => {
-      if (
+    if (startDate && endDate) {
+      const result = dummyEnablees.filter((enablee) =>
         isEnableeValidForPod(
           startDate.toString(),
           endDate.toString(),
           enablee.enablementStartDate,
           enablee.enablementEndDate
         )
-      ) {
-        enablees.push(enablee);
-        setEnablees(enablees);
-      }
-    });
+      );
+      setEnablees(result);
+    }
   }
-
   function addEnableeToPod(pos: number) {
     const updatedCheckedState = enableeCheckbox.map((item, index) =>
       index === pos ? !item : item
@@ -322,6 +349,7 @@ export default function PodTemplate() {
                       <div className="enablee-item-container">
                         <a
                           className="enablee-item"
+                          data-testid={enablee.firstName}
                           onClick={() => {
                             changeToggle();
                             setDetails(enablee);
@@ -333,6 +361,7 @@ export default function PodTemplate() {
                         <span className="enablee-checkbox-container">
                           <input
                             className="enablee-checkbox"
+                            data-testid="enableeCheckbox"
                             type="checkbox"
                             onChange={() => addEnableeToPod(index)}
                           />
