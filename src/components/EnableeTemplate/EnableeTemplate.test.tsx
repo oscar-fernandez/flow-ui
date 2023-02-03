@@ -13,7 +13,7 @@ import ToggleProvider, {
   ToggleDetailsContext,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
-import { CreateEnablee } from "../../services/EnableeAPI";
+import { CreateEnablee, UpdateEnablee } from "../../services/EnableeAPI";
 import userEvent from "@testing-library/user-event";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
 
@@ -30,6 +30,10 @@ const mockUseToggleArrow = useToggleArrow as jest.MockedFunction<
 
 const mockCreateEnablee = CreateEnablee as jest.MockedFunction<
   typeof CreateEnablee
+>;
+
+const mockUpdateEnablee = UpdateEnablee as jest.MockedFunction<
+  typeof UpdateEnablee
 >;
 //const handleSubmitSpy= vi.spyOn(EnableeTemplate.prototype ,'handleSubmit')
 
@@ -51,7 +55,7 @@ describe("EnableeTemplate tests", () => {
     ]);
 
     mockUseToggleDetail.mockReturnValue([
-      dummyEnablees[0],
+      null,
       () => {
         null;
       },
@@ -131,18 +135,8 @@ describe("EnableeTemplate tests", () => {
     expect(grade.value).toBe("test");
   });
 
-  it("Should make a post request when the submit button is clicked & toggle side bar should be closed", async () => {
-    render(
-      <ToggleContext.Provider value={[true, () => false]}>
-        {" "}
-        <ToggleArrowContext.Provider value={[false, () => false]}>
-          {" "}
-          <ToggleDetailsContext.Provider value={[dummyEnablees[0], () => null]}>
-            <ToggleSideBar template={<EnableeTemplate />} />
-          </ToggleDetailsContext.Provider>
-        </ToggleArrowContext.Provider>
-      </ToggleContext.Provider>
-    );
+  it("Should make a post request when the submit button is clicked & toggle side bar should be closed", () => {
+    render(<EnableeTemplate />);
     const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
     fireEvent.change(nameInput, { target: { value: "test" } });
     const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
@@ -151,29 +145,23 @@ describe("EnableeTemplate tests", () => {
     const endDate = screen.getByPlaceholderText("No End Date Selected");
 
     fireEvent.click(startDate);
-    fireEvent.change(startDate, { target: { value: "1 Feb, 2023" } });
+    fireEvent.change(startDate, { target: { value: "3 Feb, 2023" } });
+    expect(screen.getByDisplayValue("February 3, 2023 -")).toBeInTheDocument();
 
     fireEvent.click(endDate);
-    // fireEvent.change(endDate, { target: { value: "5 Feb, 2023" } });
-    // await waitFor(() => {
-    //   expect(screen.getByDisplayValue("1 Feb, 2023")).toBeInTheDocument();
-    // });
+    fireEvent.change(endDate, { target: { value: "5 Feb, 2023" } });
+    expect(screen.getByDisplayValue("February 5, 2023")).toBeInTheDocument();
 
     const dateJoin = screen.getByTestId("dateJoin");
     expect(dateJoin.innerHTML).toBe("February 3, 2023");
 
     const submitButton = screen.getByTestId("enableeTemplateSubmitBtn");
 
-    // await waitFor(() => {
-    //   expect(submitButton).toBeEnabled();
-    // });
     fireEvent.click(submitButton);
 
-    await waitFor(() => {
-      // expect(submitButton).toBeEnabled();
-      expect(mockCreateEnablee).toHaveBeenCalledOnce();
-      // expect(mockCreateEnablee).toHaveBeenCalledWith("....");
-    });
+    expect(mockCreateEnablee).toHaveBeenCalledOnce();
+
+    expect(mockUpdateEnablee).not.toHaveBeenCalled(); //the update was being called before because the test context was setting the details and so calling update instead of create
   });
 
   // it("should disable submit button until all required fields are entered and handle checkbox clicking", () => {
