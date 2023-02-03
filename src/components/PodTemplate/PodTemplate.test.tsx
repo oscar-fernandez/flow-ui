@@ -10,6 +10,7 @@ import {
 import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
 import IFEPod from "../../models/interfaces/IFEPod";
 import IEnablee from "../../models/interfaces/IEnablee";
+import IEnabler from "../../models/interfaces/IEnabler";
 
 describe("PodTemplate tests", () => {
   it("should render pod template", () => {
@@ -60,6 +61,15 @@ describe("PodTemplate tests", () => {
     await userEvent.click(projectBtn);
     const pixle = screen.getByText("Pixelgram");
     fireEvent.click(pixle);
+    waitFor(() => expect(screen.getByText("Jessabelle Cowringer")))
+      .then()
+      .catch();
+    const checker = waitFor(() => screen.getByTestId("enableeCheckbox"))
+      .then((e) => {
+        fireEvent.change(e, { target: { checked: true } });
+      })
+      .catch();
+    expect(checker);
   });
 
   //test the useEffect
@@ -92,34 +102,7 @@ const createPod = (): IFEPod => {
     podStartDate: thisDate.toString(),
     podEndDate: addDays(thisDate, 30).toString(),
     enablee: [],
-    enabler: null,
+    enabler: [],
     project: { id: 1, name: "foo", summary: "", technology: [], repoLink: "" },
-  };
-};
-
-const createEnablee = (): IEnablee => {
-  const thisDate = new Date();
-  const newDate = addDays(thisDate, 5);
-  return {
-    employeeId: 1,
-    firstName: "Steve",
-    lastName: "Bob",
-    dateOfJoin: Date.now().toString(),
-    enablementStartDate: Date.now().toString(),
-    enablementEndDate: newDate.toString(),
-    assetTag: "I Don't know",
-    isEmployed: false,
-    technology: [
-      { id: 2, name: "Java", backgroundColor: "grey" },
-      { id: 8, name: "React", backgroundColor: "blue" },
-      { id: 12, name: "Rust", backgroundColor: "brown" },
-      { id: 12, name: "C++", backgroundColor: "yellow" },
-    ],
-    countryCode: 1,
-    gradeId: 1,
-    communityId: 1,
-    employmentTypeId: 1,
-    podId: 1,
-    commentId: [1, 2, 3],
   };
 };
