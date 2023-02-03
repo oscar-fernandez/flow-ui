@@ -1,7 +1,13 @@
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import {
+  useToggleArrow,
+  useToggleDetails,
+} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IFEPod from "../../models/interfaces/IFEPod";
 import ITechnology from "../../models/interfaces/ITechnology";
+import PodTemplate from "../PodTemplate/PodTemplate";
+import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
 import "./FilteredPod.css";
 
 interface Props {
@@ -27,6 +33,9 @@ export default function FilteredPod({
   selectedPod,
 }: Props) {
   const [filteredTech, setFilteredTech] = useState<ITechnology[]>([]);
+  const [clickedPod, setClickedPod] = useState(false);
+  const [details, setDetails] = useToggleDetails();
+  const [toggleArrow, setToggleArrow] = useToggleArrow();
 
   useEffect(() => {
     const result = enableeTech.filter((etech) => {
@@ -37,34 +46,48 @@ export default function FilteredPod({
     setFilteredTech(result);
   }, []);
 
+  function togglePodTemplate(pod: IFEPod) {
+    setToggleArrow(true);
+    setDetails(pod);
+    setClickedPod(true);
+  }
+
   return (
     <>
-      <div className="filtered-pod-container">
-        <Typography sx={labelStyle}>{pod.podName}</Typography>
-        <div className="tech-stack-container">
-          <input
-            id={pod.podName}
-            type="checkbox"
-            onChange={(e) => handleOnClick(e)}
-            data-testid={pod.podName}
-            disabled={selectedPod ? selectedPod.podName !== pod.podName : false}
-          ></input>
-          <div className="tech-stack-margin">
-            <div className="pod-logo" />
-            {filteredTech.map((tech) => (
-              <div
-                key={tech.name}
-                style={{
-                  width: "7px",
-                  height: "12px",
-                  display: "inline-block",
-                  background: tech.backgroundColor,
-                }}
-              />
-            ))}
+      {!clickedPod ? (
+        <div className="filtered-pod-container">
+          <Typography onClick={() => togglePodTemplate(pod)} sx={labelStyle}>
+            {pod.podName}
+          </Typography>
+          <div className="tech-stack-container">
+            <input
+              id={pod.podName}
+              type="checkbox"
+              onChange={(e) => handleOnClick(e)}
+              data-testid={pod.podName}
+              disabled={
+                selectedPod ? selectedPod.podName !== pod.podName : false
+              }
+            ></input>
+            <div className="tech-stack-margin">
+              <div className="pod-logo" />
+              {filteredTech.map((tech) => (
+                <div
+                  key={tech.name}
+                  style={{
+                    width: "7px",
+                    height: "12px",
+                    display: "inline-block",
+                    background: tech.backgroundColor,
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <ToggleSideBar template={<PodTemplate />} />
+      )}
     </>
   );
 }
