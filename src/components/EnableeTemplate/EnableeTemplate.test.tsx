@@ -1,9 +1,70 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import EnableeTemplate from "./EnableeTemplate";
 import { mockFePod } from "../../data/MockFEPod";
+import { dummyEnablees } from "../../data/EnableeMock";
+
+import ToggleProvider, {
+  ToggleContext,
+  useToggle,
+  useToggleDetail,
+  useToggleArrow,
+  ToggleArrowContext,
+  ToggleDetailsContext,
+} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
+import { CreateEnablee } from "../../services/EnableeAPI";
+import { userEvent } from "@testing-library/user-event/dist/types/setup";
+import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
+
+vi.mock("../../context/ToggleSideBarContext/ToggleSideBarContext");
+vi.mock("../../services/EnableeAPI");
+
+const mockUseToggle = useToggle as jest.MockedFunction<typeof useToggle>;
+const mockUseToggleDetail = useToggleDetail as jest.MockedFunction<
+  typeof useToggleDetail
+>;
+const mockUseToggleArrow = useToggleArrow as jest.MockedFunction<
+  typeof useToggleArrow
+>;
+
+const mockCreateEnablee = CreateEnablee as jest.MockedFunction<
+  typeof CreateEnablee
+>;
+//const handleSubmitSpy= vi.spyOn(EnableeTemplate.prototype ,'handleSubmit')
+
+const axiosres = {
+  data: dummyEnablees[0],
+  status: 200,
+  statusText: "ok",
+  headers: {},
+  config: {},
+};
 
 describe("EnableeTemplate tests", () => {
+  beforeEach(() => {
+    mockUseToggle.mockReturnValue([
+      true,
+      () => {
+        null;
+      },
+    ]);
+
+    mockUseToggleDetail.mockReturnValue([
+      dummyEnablees[0],
+      () => {
+        null;
+      },
+    ]);
+    mockUseToggleArrow.mockReturnValue([
+      false,
+      () => {
+        null;
+      },
+    ]);
+    mockCreateEnablee.mockResolvedValue(axiosres);
+  });
+
   it("should render enablee template", () => {
     render(<EnableeTemplate />);
     expect(screen.getByText("Submit")).toBeInTheDocument();
@@ -68,6 +129,43 @@ describe("EnableeTemplate tests", () => {
     const grade = screen.getByTestId("grade") as HTMLInputElement;
     fireEvent.change(grade, { target: { value: "test" } });
     expect(grade.value).toBe("test");
+  });
+
+  it("Should make a post request when the submit button is clicked & toggle side bar should be closed", async () => {
+    render(
+      <ToggleContext.Provider value={[true, () => false]}>
+        {" "}
+        <ToggleArrowContext.Provider value={[false, () => false]}>
+          {" "}
+          <ToggleDetailsContext.Provider value={[dummyEnablees[0], () => null]}>
+            <ToggleSideBar template={<EnableeTemplate />} />
+          </ToggleDetailsContext.Provider>
+        </ToggleArrowContext.Provider>
+      </ToggleContext.Provider>
+    );
+    const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
+    fireEvent.change(nameInput, { target: { value: "test" } });
+    const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
+    fireEvent.change(employeeId, { target: { value: "test" } });
+    const startDate = screen.getByPlaceholderText("No Start Date Selected");
+    const endDate = screen.getByPlaceholderText("No End Date Selected");
+
+    fireEvent.click(startDate);
+    fireEvent.change(startDate, { target: { value: "1 Feb, 2023" } });
+
+    fireEvent.click(endDate);
+    fireEvent.change(endDate, { target: { value: "5 Feb, 2023" } });
+    await waitFor(() => {
+      expect(startDate.innerHTML("February 1, 2023")).toBeInTheDocument();
+    });
+    const dateJoin = screen.getByTestId("dateJoin");
+    expect(dateJoin.innerHTML).toBe("February 3, 2023");
+
+    const submitButton = screen.getByTestId(
+      "enableeTemplateSubmitBtn"
+    ) as HTMLButtonElement;
+    fireEvent.click(submitButton);
+    // await waitFor( () => {expect(mockCreateEnablee).toHaveBeenCalledOnce()})
   });
 
   // it("should disable submit button until all required fields are entered and handle checkbox clicking", () => {

@@ -33,7 +33,7 @@ export default function PodPageContainer({ hook, displayTag }: Props) {
     <>
       <div data-testid="pageSectionTestId" className="page-section">
         <GeneratePodRows
-          pods={fetchedPods}
+          pods={[]}
           displayTag={displayTag}
           location={convertLocationToString(locationPath)}
         />

@@ -16,6 +16,8 @@ import {
 import IEnablee from "../../models/interfaces/IEnablee";
 import axios from "axios";
 import { CreateEnablee, UpdateEnablee } from "../../services/EnableeAPI";
+import { dummyEnablees } from "../../data/EnableeMock";
+import { Navigate, useLocation, useNavigate } from "react-router";
 
 const InputProps = {
   disableUnderline: true,
@@ -107,7 +109,7 @@ export default function EnableeTemplate() {
 
   const [detail, changeToggleDetail] = useToggleDetail();
   const [toggle, changeToggle] = useToggle();
-
+  // const navigate=useNavigate();
   const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.checked) {
       setSelectedPod(undefined);
@@ -144,7 +146,6 @@ export default function EnableeTemplate() {
       setFilteredPods(filtered);
     }
   };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (detail == null) {
       const enablee: IEnablee = {
@@ -156,7 +157,7 @@ export default function EnableeTemplate() {
         dateOfJoin: dateOfJoin,
         assetTag: assetTag,
         isEmployed: isEmployed,
-        technology: [],
+        technology: mockTechnology,
         countryCode: parseInt(country),
         gradeId: parseInt(grade),
         communityId: parseInt(community),
@@ -243,7 +244,9 @@ export default function EnableeTemplate() {
               inputProps={{ "data-testid": "employeeId" }}
             />
             <Typography sx={labelStyle}>Date of Join</Typography>
-            <Typography sx={dateStyle}>{dateOfJoin}</Typography>
+            <Typography data-testid="dateJoin" sx={dateStyle}>
+              {dateOfJoin}
+            </Typography>
             <Typography sx={labelStyle}>Asset Tag</Typography>
             <TextField
               value={assetTag}
@@ -357,9 +360,11 @@ export default function EnableeTemplate() {
           </Typography>
           <div className="button-center">
             <Button
+              data-testId={"enableeTemplateSubmitBtn"}
               disabled={disableSubmit}
               variant="contained"
               sx={buttonStyle}
+              onClick={handleSubmit}
             >
               Submit
             </Button>

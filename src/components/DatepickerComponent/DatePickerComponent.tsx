@@ -31,7 +31,9 @@ export const DatepickerComponent = ({
       <DatePicker
         className="date-picker"
         selected={endDate}
-        onChange={(date: Date) => setEndDate(date)}
+        onChange={(date: Date) => {
+          setEndDate(date);
+        }}
         selectsEnd
         startDate={startDate}
         endDate={endDate}

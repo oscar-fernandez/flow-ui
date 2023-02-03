@@ -15,7 +15,7 @@ export default defineConfig(({ command, mode }) => {
     test: {
       environment: "jsdom",
       setupFiles: "src/utils/testSetup.js",
-      watch: false,
+      watch: true,
       coverage: {
         provider: "istanbul",
         all: true,
