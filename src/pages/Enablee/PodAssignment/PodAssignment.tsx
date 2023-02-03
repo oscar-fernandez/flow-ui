@@ -15,6 +15,7 @@ import { dummyEnablees } from "../../../data/EnableeMock";
 import { usePendingPodEnablees } from "../Hooks/customHook";
 import { mockFePod } from "../../../data/MockFEPod";
 import IFEPod from "../../../models/interfaces/IFEPod";
+import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumberCarousel";
 
 const headersEnablee = [
   "Employee Id",
