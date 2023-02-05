@@ -1,6 +1,5 @@
 import {
   useToggle,
-  useToggleArrow,
   useToggleDetails,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import "./PageViewHeader.css";
@@ -26,7 +25,6 @@ export function PageViewHeader(props: {
   ) => void;
 }) {
   const [toggle, changeToggle] = useToggle();
-  const [toggleArrow, changeToggleArrow] = useToggleArrow();
   const [details, setDetails] = useToggleDetails();
   return (
     <div className="header-section">

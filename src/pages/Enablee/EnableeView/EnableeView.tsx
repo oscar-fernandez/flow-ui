@@ -1,9 +1,7 @@
 import "./EnableeView.css";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
-import ToggleProvider from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { useEffect, useState } from "react";
 import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
-import PodTemplate from "../../../components/PodTemplate/PodTemplate";
 import { Outlet } from "react-router";
 import ToggleSidebar from "../../../components/ToggleSideBar/ToggleSidebar";
 import EnableeTemplate from "../../../components/EnableeTemplate/EnableeTemplate";

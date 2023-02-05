@@ -14,10 +14,6 @@ const ToggleSideBar = ({ template }: ToggleSBProps) => {
   const [toggle, setToggle] = useToggle();
   const [showArrow, setShowArrow] = useToggleArrow();
 
-  useEffect(() => {
-    setShowArrow(false);
-  }, [toggle]);
-
   return (
     <>
       <Drawer

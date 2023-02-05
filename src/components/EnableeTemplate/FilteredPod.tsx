@@ -24,6 +24,10 @@ const labelStyle = {
   letterSpacing: "0.025em",
   width: "90px",
   color: "#8A8B8A",
+  "&:hover": {
+    cursor: "pointer",
+    textDecoration: "underline",
+  },
 };
 
 export default function FilteredPod({
