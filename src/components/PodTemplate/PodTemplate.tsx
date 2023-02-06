@@ -157,7 +157,7 @@ export default function PodTemplate() {
   useEffect(() => {
     let num = 0;
 
-    enableeCheckbox.map((item) => {
+    enableeCheckbox.forEach((item) => {
       if (item === true) {
         num++;
       }
