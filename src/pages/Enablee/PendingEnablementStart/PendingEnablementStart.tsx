@@ -1,6 +1,5 @@
 import "./PendingEnablementStart.css";
 import { GenerateRows } from "../../../components/GenerateRows/GenerateRows";
-import PodTemplate from "../../../components/PodTemplate/PodTemplate";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import { Filter } from "../../../components/Filter/Filter";
 
@@ -22,7 +21,6 @@ export default function PendingEnablement() {
         />
         <GenerateRows pageNum={-1} />
       </div>
-      <PodTemplate showPodTemplate={true} />
     </>
   );
 }
