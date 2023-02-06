@@ -15,8 +15,6 @@ const PageNumberCarousel = ({
   currentPageNumber,
   setPage,
 }: Props) => {
-  // this will be replaced by prop function from parent to update page
-  // const [currentPageNumber, setPage] = useState(1);
   const [inputValue, setInputValue] = useState("");
   const [invalidPageRange, setIsInvalidPageRange] = useState(false);
 
