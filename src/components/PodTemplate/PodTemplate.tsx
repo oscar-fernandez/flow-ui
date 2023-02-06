@@ -13,8 +13,6 @@ import {
   useToggle,
   useToggleDetails,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
-import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
-import EnableeTemplate from "../EnableeTemplate/EnableeTemplate";
 import IFEPod from "../../models/interfaces/IFEPod";
 import IEnabler from "../../models/interfaces/IEnabler";
 
@@ -65,10 +63,20 @@ export default function PodTemplate() {
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetails();
 
+  /**
+   * Helper function for the useEffect to check if the object
+   * passed into the context is actually an IFEPod.
+   * @param object
+   * @returns object
+   */
   function isPod(object: any): object is IFEPod {
     return "podStartDate" in object;
   }
 
+  /**
+   * Prepopulates the pod template with pod information
+   * passed into it through the context IFEPod object.
+   */
   useEffect(() => {
     if (pod && isPod(pod)) {
       setPodId(pod.id.toString());
@@ -113,34 +121,11 @@ export default function PodTemplate() {
     retrieveEnablees();
   }
 
-  // function retrieveEnablees() {
-  //   setEnablees([]);
-  //   dummyEnablees.filter((enablee) => {
-  //     if (
-  //       isEnableeValidForPod(
-  //         startDate.toString(),
-  //         endDate.toString(),
-  //         enablee.enablementStartDate,
-  //         enablee.enablementEndDate
-  //       ) && enablees.length ===0
-  //     ) {
-  //       enablees.push(enablee);
-  //       setEnablees(enablees);
-  //     }
-  //     else if (isEnableeValidForPod(
-  //       startDate.toString(),
-  //       endDate.toString(),
-  //       enablee.enablementStartDate,
-  //       enablee.enablementEndDate
-  //     ))
-  //     {
-  //       setEnablees([])
-  //       console.log(enablees);
-  //       enablees.push(enablee);
-  //       setEnablees(enablees);
-  //     }
-  //   });
-  // }
+  /**
+   * Helper function to display all enablees that are valid
+   * for the pod given the start and end date for pod and
+   * enablee.
+   */
   function retrieveEnablees() {
     if (startDate && endDate) {
       const result = dummyEnablees.filter((enablee) =>
@@ -154,6 +139,11 @@ export default function PodTemplate() {
       setEnablees(result);
     }
   }
+
+  /**
+   * Function updated everytime the user selects a checkbox.
+   * @param pos index position
+   */
   function addEnableeToPod(pos: number) {
     const updatedCheckedState = enableeCheckbox.map((item, index) =>
       index === pos ? !item : item
@@ -161,6 +151,9 @@ export default function PodTemplate() {
     setEnableeCheckbox(updatedCheckedState);
   }
 
+  /**
+   * Helps update the capacity of the pod.
+   */
   useEffect(() => {
     let num = 0;
 

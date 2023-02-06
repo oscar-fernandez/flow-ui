@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import userEvent from "@testing-library/user-event";
 import PodTemplate from "./PodTemplate";
 import {
@@ -9,8 +9,6 @@ import {
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
 import IFEPod from "../../models/interfaces/IFEPod";
-import IEnablee from "../../models/interfaces/IEnablee";
-import IEnabler from "../../models/interfaces/IEnabler";
 
 describe("PodTemplate tests", () => {
   it("should render pod template", () => {
@@ -88,12 +86,22 @@ describe("PodTemplate tests", () => {
   });
 });
 
+/**
+ * Helper function used to test functions who use dates
+ * @param date
+ * @param days days to be added
+ * @returns the new date
+ */
 function addDays(date: Date, days: number) {
   const copy = new Date(Number(date));
   copy.setDate(date.getDate() + days);
   return copy;
 }
 
+/**
+ * Helper function to be used to create a pod when need be.
+ * @returns the created pod.
+ */
 const createPod = (): IFEPod => {
   const thisDate = new Date();
   return {
