@@ -1,9 +1,7 @@
 /* START OF CONPONENT LAYOUT STYLING */
 .container {
-  /* position: fixed; */
   margin: 0;
   padding: 0;
-
   height: 100vh;
   top: 0;
   right: 0;
