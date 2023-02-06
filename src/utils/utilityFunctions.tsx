@@ -105,22 +105,24 @@ export const updatedTechnology = (receivedTechnologies: ITechnology[]) => {
 };
 
 export const isEnableeValidForPod = (
-  fepod: IFEPod,
+  podStartDate: string,
+  podEndDate: string,
   startDate: string,
   endDate: string
 ) => {
-  const startDateFePod = new Date(fepod.podStartDate);
-  const endDateFePod = new Date(fepod.podEndDate);
+  const startDateFePod = new Date(podStartDate);
+  const endDateFePod = new Date(podEndDate);
   const startDateEnablee = new Date(startDate);
   const endDateEnablee = new Date(endDate);
+  const isPodActive =
+    startDateFePod.getTime() < startDateEnablee.getTime() &&
+    endDateFePod.getTime() >= endDateEnablee.getTime();
   const isDateRangeValid =
     endDateFePod.getTime() - startDateFePod.getTime() >=
     endDateEnablee.getTime() - startDateEnablee.getTime();
   return (
     isDateRangeValid &&
-    startDateFePod.getTime() >= startDateEnablee.getTime() &&
-    startDateFePod.getTime() <= endDateEnablee.getTime() &&
-    endDateFePod.getTime() >= endDateEnablee.getTime()
+    (startDateFePod.getTime() >= startDateEnablee.getTime() || isPodActive)
   );
 };
 

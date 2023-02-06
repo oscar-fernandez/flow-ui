@@ -1,4 +1,6 @@
 import React, { useState, useContext } from "react";
+import IEnablee from "../../models/interfaces/IEnablee";
+import IFEPod from "../../models/interfaces/IFEPod";
 
 interface ToggleBarProps {
   children: JSX.Element;
@@ -20,6 +22,15 @@ export const ToggleArrowContext = React.createContext<
   },
 ]);
 
+export const ToggleDetailsContext = React.createContext<
+  [IEnablee | IFEPod | null, (item: IEnablee | IFEPod | null) => void]
+>([
+  null,
+  () => {
+    return;
+  },
+]);
+
 export function useToggle() {
   return useContext(ToggleContext);
 }
@@ -28,9 +39,14 @@ export function useToggleArrow() {
   return useContext(ToggleArrowContext);
 }
 
+export function useToggleDetails() {
+  return useContext(ToggleDetailsContext);
+}
+
 const ToggleProvider = ({ children }: ToggleBarProps) => {
   const [toggle, setToggle] = useState(false);
   const [toggleArrow, setToggleArrow] = useState(false);
+  const [details, setDetails] = useState<IEnablee | IFEPod | null>(null);
 
   const changeToggle = () => {
     setToggle((prevToggle) => !prevToggle);
@@ -40,10 +56,16 @@ const ToggleProvider = ({ children }: ToggleBarProps) => {
     setToggleArrow(arrow);
   };
 
+  const setSideBarInfo = (item: IEnablee | IFEPod | null) => {
+    setDetails(item);
+  };
+
   return (
     <ToggleContext.Provider value={[toggle, changeToggle]}>
       <ToggleArrowContext.Provider value={[toggleArrow, changeToggleArrow]}>
-        {children}
+        <ToggleDetailsContext.Provider value={[details, setSideBarInfo]}>
+          {children}
+        </ToggleDetailsContext.Provider>
       </ToggleArrowContext.Provider>
     </ToggleContext.Provider>
   );

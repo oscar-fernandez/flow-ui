@@ -1,11 +1,11 @@
 import "./EnableeView.css";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
-import ToggleProvider from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { useEffect, useState } from "react";
 import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
 import { Outlet } from "react-router";
 import ToggleSidebar from "../../../components/ToggleSideBar/ToggleSidebar";
 import EnableeTemplate from "../../../components/EnableeTemplate/EnableeTemplate";
+// import { Filter } from "../../../components/Filter/Filter";
 
 export default function EnableeView() {
   const [pageNum, setPageNum] = useState(1);
@@ -27,7 +27,12 @@ export default function EnableeView() {
   return (
     <>
       <div className="page-section">
-        <PageViewHeader pageTitle="Enablees" showPlus={true} />
+        <PageViewHeader
+          pageTitle="Enablees"
+          showPlus={true}
+          isHeader={true}
+          plusClicked={false}
+        />
         {/* <Filter
           inputOne="employee id"
           inputTwo="first name"
