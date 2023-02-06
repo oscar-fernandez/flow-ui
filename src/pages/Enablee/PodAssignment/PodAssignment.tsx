@@ -11,10 +11,11 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { dummyEnablees } from "../../../data/EnableeMock";
-import { usePendingPodEnablees } from "../Hooks/customHook";
-import { mockFePod } from "../../../data/MockFEPod";
+//import { dummyEnablees } from "../../../data/EnableeMock";
+import { useMyAvailablePods, usePendingPodEnablees } from "../Hooks/customHook";
+//import { mockFePod } from "../../../data/MockFEPod";
 import IFEPod from "../../../models/interfaces/IFEPod";
+//import { useAvailablePods } from "../../Pod/Hooks/customHook";
 
 const headersEnablee = [
   "Employee Id",
@@ -60,7 +61,8 @@ export default function PodAssignment() {
   const [selectedEnablees, setSelectedEnablees] = useState<IEnablee[]>([]);
   const selectedRow = useRef<IFEPod>({} as IFEPod);
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
-  const [availablePods, setAvailablePods] = useState<IFEPod[]>(mockFePod);
+  const { availablePods, setAvailablePods } = useMyAvailablePods();
+  // const [availablePods, setAvailablePods] = useState<IFEPod[]>(mockFePod);
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
   const totalCalculatedEnablees =
@@ -90,10 +92,10 @@ export default function PodAssignment() {
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    if (selectedRow.current === mockFePod[+event.currentTarget.id]) {
+    if (selectedRow.current === availablePods[+event.currentTarget.id]) {
       return;
     }
-    selectedRow.current = mockFePod[+event.currentTarget.id]; //shorthand convert str to number
+    selectedRow.current = availablePods[+event.currentTarget.id]; //shorthand convert str to number
     const filteredEnablees =
       receivedEnablees &&
       selectedRow &&
