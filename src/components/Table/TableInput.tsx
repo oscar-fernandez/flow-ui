@@ -14,6 +14,7 @@ const errorStyle = {
     fontFamily: "Darker Grotesque",
     fontWeight: "400",
     letterSpacing: "0.025em",
+    margin: "0px",
   },
   padding: "5px 0px",
 };
