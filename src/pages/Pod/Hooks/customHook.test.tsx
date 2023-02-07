@@ -35,7 +35,7 @@ describe("useCustomHook Pods tests", () => {
 
     const { result } = renderHook(() => useAvailablePods(location));
     await act(() => mockPods);
-    expect(result.current).toEqual(podList.data);
+    expect(result.current).toEqual([podList.data]);
   });
 
   it("should get completed pods on mount", async () => {
@@ -47,7 +47,7 @@ describe("useCustomHook Pods tests", () => {
     mock.mockResolvedValue(podList);
     const { result } = renderHook(() => useCompletedPods(location));
     await act(() => mock);
-    expect(result.current).toEqual(podList.data);
+    expect(result.current).toEqual([podList.data]);
   });
 
   it("should get active pods on mount", async () => {
@@ -67,7 +67,7 @@ describe("useCustomHook Pods tests", () => {
     const { result } = renderHook(() => useActivePods(location));
     await act(() => mockActive);
 
-    expect(result.current).toEqual(podList.data);
+    expect(result.current).toEqual([podList.data]);
   });
 
   it("should get pending start pods on mount", async () => {
