@@ -109,7 +109,6 @@ export default function EnableeTemplate() {
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
 
-  const [detail, changeToggleDetail] = useToggleDetail();
   const [toggle, changeToggle] = useToggle();
   // const navigate=useNavigate();
   const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -175,14 +174,14 @@ export default function EnableeTemplate() {
       setFilteredPods(filtered);
     }
   };
-  const handleSubmit2 = (e: ReactFormEvent<HTMLFormElement>) => {
-    setCommunity("Jolly Holly");
-  };
+  // const handleSubmit2 = (e: ReactFormEvent<HTMLFormElement>) => {
+  //   setCommunity("Jolly Holly");
+  // };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (detail == null) {
-      const enablee: IEnablee = {
+    if (enablee == null) {
+      const tempEnablee: IEnablee = {
         employeeId: parseInt(employeeId),
         lastName: name.split(" ")[1],
         firstName: name.split(" ")[0],
@@ -200,20 +199,20 @@ export default function EnableeTemplate() {
         commentId: [],
       };
 
-      postEnablee(enablee);
-    } else if (detail?.employeeId) {
-      const tempDetail: IEnablee = detail;
+      postEnablee(tempEnablee);
+    } else if (isEnablee(enablee)) {
+      const tempDetail: IEnablee = enablee;
       tempDetail.assetTag = assetTag;
       putEnablee(tempDetail);
     }
   };
 
   const postEnablee = (enablee: IEnablee) => {
-    changeToggle();
     CreateEnablee(enablee)
       .then((res) => {
         if (res.status == 200 || res.status == 201) {
-          changeToggleDetail(res.data);
+          setEnablee(res.data);
+          changeToggle();
         }
       })
       .catch((e) => {
@@ -225,7 +224,7 @@ export default function EnableeTemplate() {
     UpdateEnablee(updateEnablee)
       .then((res) => {
         if (res.status == 200 || res.status == 201) {
-          changeToggleDetail(res.data);
+          setEnablee(res.data);
           changeToggle();
         }
       })
@@ -406,7 +405,7 @@ export default function EnableeTemplate() {
               disabled={disableSubmit}
               variant="contained"
               sx={buttonStyle}
-              onClick={handleSubmit2}
+              onClick={handleSubmit}
             >
               Submit
             </Button>

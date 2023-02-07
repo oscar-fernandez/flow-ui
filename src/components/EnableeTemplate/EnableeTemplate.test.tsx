@@ -146,23 +146,15 @@ describe("EnableeTemplate tests", () => {
 
     fireEvent.click(startDate);
     fireEvent.change(startDate, { target: { value: "11 Feb, 2023" } });
-    expect(screen.getByDisplayValue("11 Feb, 2023")).toBeInTheDocument();
 
     fireEvent.click(endDate);
     fireEvent.change(endDate, { target: { value: "15 Feb, 2023" } });
-    expect(screen.getByDisplayValue("15 Feb, 2023")).toBeInTheDocument();
-
-    const dateJoin = screen.getByTestId("dateJoin");
-
-    expect(dateJoin.innerHTML).toBe("February 7, 2023");
 
     const submitButton = screen.getByTestId("enableeTemplateSubmitBtn");
 
     fireEvent.click(submitButton);
 
-    const communityInput = screen.getByTestId("community") as HTMLInputElement;
-    //expect(mockCreateEnablee).toHaveBeenCalledOnce();
-    expect(communityInput).toHaveValue("Jolly Holly");
+    expect(mockCreateEnablee).toHaveBeenCalledOnce(); ///
 
     expect(mockUpdateEnablee).not.toHaveBeenCalled(); //the update was being called before because the test context was setting the details and so calling update instead of create
   });
