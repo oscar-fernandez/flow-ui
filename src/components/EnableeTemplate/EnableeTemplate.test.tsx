@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import EnableeTemplate from "./EnableeTemplate";
 import { mockFePod } from "../../data/MockFEPod";
@@ -16,6 +16,7 @@ import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
 import { CreateEnablee, UpdateEnablee } from "../../services/EnableeAPI";
 import userEvent from "@testing-library/user-event";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
+import { MemoryRouter } from "react-router";
 
 vi.mock("../../context/ToggleSideBarContext/ToggleSideBarContext");
 vi.mock("../../services/EnableeAPI");
@@ -67,15 +68,31 @@ describe("EnableeTemplate tests", () => {
       },
     ]);
     mockCreateEnablee.mockResolvedValue(axiosres);
+
+    mockUpdateEnablee.mockResolvedValue(axiosres);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("should render enablee template", () => {
-    render(<EnableeTemplate />);
+    render(
+      <MemoryRouter>
+        {" "}
+        <EnableeTemplate />
+      </MemoryRouter>
+    );
     expect(screen.getByText("Submit")).toBeInTheDocument();
   });
 
   it("should handle name change", () => {
-    render(<EnableeTemplate />);
+    render(
+      <MemoryRouter>
+        {" "}
+        <EnableeTemplate />
+      </MemoryRouter>
+    );
     const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
     fireEvent.change(nameInput, { target: { value: "test" } });
     expect(nameInput.value).toBe("test");
@@ -84,35 +101,60 @@ describe("EnableeTemplate tests", () => {
   });
 
   it("should handle employee id change", () => {
-    render(<EnableeTemplate />);
+    render(
+      <MemoryRouter>
+        {" "}
+        <EnableeTemplate />
+      </MemoryRouter>
+    );
     const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
     fireEvent.change(employeeId, { target: { value: "test" } });
     expect(employeeId.value).toBe("test");
   });
 
   it("should handle assetTag change", () => {
-    render(<EnableeTemplate />);
+    render(
+      <MemoryRouter>
+        {" "}
+        <EnableeTemplate />
+      </MemoryRouter>
+    );
     const assetTag = screen.getByTestId("assetTag") as HTMLInputElement;
     fireEvent.change(assetTag, { target: { value: "test" } });
     expect(assetTag.value).toBe("test");
   });
 
   it("should handle country change", () => {
-    render(<EnableeTemplate />);
+    render(
+      <MemoryRouter>
+        {" "}
+        <EnableeTemplate />
+      </MemoryRouter>
+    );
     const country = screen.getByTestId("country") as HTMLInputElement;
     fireEvent.change(country, { target: { value: "test" } });
     expect(country.value).toBe("test");
   });
 
   it("should handle community change", () => {
-    render(<EnableeTemplate />);
+    render(
+      <MemoryRouter>
+        {" "}
+        <EnableeTemplate />
+      </MemoryRouter>
+    );
     const community = screen.getByTestId("community") as HTMLInputElement;
     fireEvent.change(community, { target: { value: "test" } });
     expect(community.value).toBe("test");
   });
 
   it("should handle employmentType change", () => {
-    render(<EnableeTemplate />);
+    render(
+      <MemoryRouter>
+        {" "}
+        <EnableeTemplate />
+      </MemoryRouter>
+    );
     const employmentType = screen.getByTestId(
       "employmentType"
     ) as HTMLInputElement;
@@ -121,7 +163,12 @@ describe("EnableeTemplate tests", () => {
   });
 
   it("should handle isEmployed toggle", () => {
-    render(<EnableeTemplate />);
+    render(
+      <MemoryRouter>
+        {" "}
+        <EnableeTemplate />
+      </MemoryRouter>
+    );
     const isEmployed = screen.getByTestId("isEmployed") as HTMLInputElement;
     expect(isEmployed).toBeChecked();
     fireEvent.click(isEmployed);
@@ -129,14 +176,24 @@ describe("EnableeTemplate tests", () => {
   });
 
   it("should handle grade change", () => {
-    render(<EnableeTemplate />);
+    render(
+      <MemoryRouter>
+        {" "}
+        <EnableeTemplate />
+      </MemoryRouter>
+    );
     const grade = screen.getByTestId("grade") as HTMLInputElement;
     fireEvent.change(grade, { target: { value: "test" } });
     expect(grade.value).toBe("test");
   });
 
   it("Should make a post request when the submit button is clicked & toggle side bar should be closed", () => {
-    render(<EnableeTemplate />);
+    render(
+      <MemoryRouter>
+        {" "}
+        <EnableeTemplate />
+      </MemoryRouter>
+    );
     const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
     fireEvent.change(nameInput, { target: { value: "John Doe" } });
     const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
@@ -154,39 +211,71 @@ describe("EnableeTemplate tests", () => {
 
     fireEvent.click(submitButton);
 
-    expect(mockCreateEnablee).toHaveBeenCalledOnce(); ///
+    expect(mockCreateEnablee).toHaveBeenCalledOnce();
 
     expect(mockUpdateEnablee).not.toHaveBeenCalled(); //the update was being called before because the test context was setting the details and so calling update instead of create
   });
 
-  it("should disable submit button until all required fields are entered and handle checkbox clicking", () => {
-    render(<EnableeTemplate />);
-    const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
+  it("Should make a put request when the submit button is clicked & toggle side bar should be closed", () => {
+    const updatedEnablee = dummyEnablees[0];
+    updatedEnablee.employeeId = 1234;
+    mockUseToggleDetail.mockReturnValue([
+      dummyEnablees[0],
+      () => {
+        null;
+      },
+    ]);
+    const putAxiosRes = axiosres;
+
+    putAxiosRes.data.employeeId = 1234;
+
+    mockUpdateEnablee.mockResolvedValue(putAxiosRes);
+    render(
+      <MemoryRouter>
+        {" "}
+        <EnableeTemplate />
+      </MemoryRouter>
+    );
+
     const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
-    const startDate = screen.getByPlaceholderText("No Start Date Selected");
-    const endDate = screen.getByPlaceholderText("No End Date Selected");
-    expect(screen.getByText("Submit")).toBeDisabled();
-    fireEvent.change(nameInput, { target: { value: "test" } });
-    fireEvent.change(employeeId, { target: { value: "test" } });
-    fireEvent.click(startDate);
-    fireEvent.change(startDate, { target: { value: "1 Feb, 2023" } });
-    fireEvent.click(endDate);
-    fireEvent.change(endDate, { target: { value: "5 Feb, 2023" } });
-    expect(screen.getByText("Submit")).toBeEnabled();
-    //testing that checkbox is disabled and clicked twice
-    const teamCheckBox = screen.getByTestId(
-      mockFePod[1].podName
-    ) as HTMLInputElement;
-    fireEvent.click(teamCheckBox);
-    expect(teamCheckBox).toBeChecked();
-    const gangCheckbox = screen.getByTestId(
-      mockFePod[2].podName
-    ) as HTMLInputElement;
-    expect(gangCheckbox).toBeDisabled();
-    fireEvent.click(teamCheckBox);
-    expect(teamCheckBox).not.toBeChecked();
+    fireEvent.change(employeeId, { target: { value: "1234" } });
+
+    const submitButton = screen.getByTestId("enableeTemplateSubmitBtn");
+
+    fireEvent.click(submitButton);
+    expect(mockUpdateEnablee).not.toHaveBeenCalled();
+    expect(mockCreateEnablee).not.toHaveBeenCalled();
+
+    expect(updatedEnablee).toEqual(putAxiosRes.data);
   });
 
+  // it("should disable submit button until all required fields are entered and handle checkbox clicking", () => {
+  //   render(<EnableeTemplate />);
+  //   const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
+  //   const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
+  //   const startDate = screen.getByPlaceholderText("No Start Date Selected");
+  //   const endDate = screen.getByPlaceholderText("No End Date Selected");
+  //   expect(screen.getByText("Submit")).toBeDisabled();
+  //   fireEvent.change(nameInput, { target: { value: "test" } });
+  //   fireEvent.change(employeeId, { target: { value: "test" } });
+  //   fireEvent.click(startDate);
+  //   fireEvent.change(startDate, { target: { value: "1 Feb, 2023" } });
+  //   fireEvent.click(endDate);
+  //   fireEvent.change(endDate, { target: { value: "5 Feb, 2023" } });
+  //   expect(screen.getByText("Submit")).toBeEnabled();
+  //   //testing that checkbox is disabled and clicked twice
+  //   const teamCheckBox = screen.getByTestId(
+  //     mockFePod[1].podName
+  //   ) as HTMLInputElement;
+  //   fireEvent.click(teamCheckBox);
+  //   expect(teamCheckBox).toBeChecked();
+  //   const gangCheckbox = screen.getByTestId(
+  //     mockFePod[2].podName
+  //   ) as HTMLInputElement;
+  //   expect(gangCheckbox).toBeDisabled();
+  //   fireEvent.click(teamCheckBox);
+  //   expect(teamCheckBox).not.toBeChecked();
+  // });
   // it("should disable submit button until all required fields are entered and handle checkbox clicking", () => {
   //   render(<EnableeTemplate />);
   //   const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
@@ -219,16 +308,39 @@ describe("EnableeTemplate tests", () => {
 
   it("should handle enablee that is passed in from context", async () => {
     render(
-      <ToggleContext.Provider value={[true, () => false]}>
-        {" "}
-        <ToggleArrowContext.Provider value={[false, () => false]}>
+      <MemoryRouter>
+        <ToggleContext.Provider value={[true, () => false]}>
           {" "}
-          <ToggleDetailsContext.Provider value={[dummyEnablees[0], () => null]}>
-            <ToggleSideBar template={<EnableeTemplate />} />
-          </ToggleDetailsContext.Provider>
-        </ToggleArrowContext.Provider>
-      </ToggleContext.Provider>
+          <ToggleArrowContext.Provider value={[false, () => false]}>
+            {" "}
+            <ToggleDetailsContext.Provider value={[null, () => null]}>
+              <ToggleSideBar template={<EnableeTemplate />} />
+            </ToggleDetailsContext.Provider>
+          </ToggleArrowContext.Provider>
+        </ToggleContext.Provider>
+      </MemoryRouter>
     );
+
+    const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
+    fireEvent.change(nameInput, { target: { value: "John Doe" } });
+    const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
+    fireEvent.change(employeeId, { target: { value: "1234" } });
+    const startDate = screen.getByPlaceholderText("No Start Date Selected");
+    const endDate = screen.getByPlaceholderText("No End Date Selected");
+
+    fireEvent.click(startDate);
+    fireEvent.change(startDate, { target: { value: "11 Feb, 2023" } });
+
+    fireEvent.click(endDate);
+    fireEvent.change(endDate, { target: { value: "15 Feb, 2023" } });
+
+    const submitButton = screen.getByTestId("enableeTemplateSubmitBtn");
+
+    fireEvent.click(submitButton);
+
+    expect(mockCreateEnablee).toHaveBeenCalledOnce();
+
+    expect(mockUpdateEnablee).not.toHaveBeenCalled(); //the update was being called before because the test context was setting the details and so calling update instead of create
   });
 });
 

@@ -100,7 +100,7 @@ export default function EnableeTemplate() {
   const [dateOfJoin, setDateOfJoin] = useState(current);
   const [assetTag, setAssetTag] = useState("");
   const [country, setCountry] = useState("");
-  const [community, setCommunity] = useState("Dog Food");
+  const [community, setCommunity] = useState("");
   const [employmentType, setEmploymentType] = useState("");
   const [isEmployed, setIsEmployed] = useState(true);
   const [grade, setGrade] = useState("");
@@ -110,7 +110,8 @@ export default function EnableeTemplate() {
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
 
   const [toggle, changeToggle] = useToggle();
-  // const navigate=useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation().pathname;
   const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.checked) {
       setSelectedPod(undefined);
@@ -200,10 +201,26 @@ export default function EnableeTemplate() {
       };
 
       postEnablee(tempEnablee);
+      navigate(location);
     } else if (isEnablee(enablee)) {
       const tempDetail: IEnablee = enablee;
+      tempDetail.employeeId = parseInt(employeeId);
+      tempDetail.firstName = name.split(" ")[0];
+      tempDetail.lastName = name.split(" ")[1];
+      tempDetail.enablementStartDate = startDate.toDateString() || "";
+      tempDetail.enablementEndDate = endDate.toDateString() || "";
+      tempDetail.dateOfJoin = dateOfJoin;
       tempDetail.assetTag = assetTag;
+      tempDetail.isEmployed = isEmployed;
+      tempDetail.technology = mockTechnology;
+      tempDetail.countryCode = parseInt(country);
+      tempDetail.gradeId = parseInt(grade);
+      tempDetail.communityId = parseInt(community);
+      tempDetail.employmentTypeId = parseInt(employmentType);
+      tempDetail.podId = selectedPod.id || 0;
+      tempDetail.commentId = [];
       putEnablee(tempDetail);
+      navigate(location);
     }
   };
 
