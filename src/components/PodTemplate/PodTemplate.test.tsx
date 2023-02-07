@@ -38,7 +38,6 @@ describe("PodTemplate tests", () => {
     expect(project);
   });
 
-  //render the list of available enablees
   it("should render the list of available enablees", async () => {
     render(<PodTemplate />);
     const startDate = screen.getByPlaceholderText(
