@@ -8,7 +8,7 @@ import {
 } from "../../../services/PodAPI";
 import { Location } from "react-router-dom";
 
-export const useCompletedPods = (location: Location) => {
+export function useCompletedPods(location: Location) {
   const [podList, setPodList] = useState<IFEPod[]>([]);
 
   const updatePods = () => {
@@ -25,9 +25,9 @@ export const useCompletedPods = (location: Location) => {
     updatePods();
   }, [location]);
   return [podList, updatePodList];
-};
+}
 
-export const useAvailablePods = (location: Location) => {
+export function useAvailablePods(location: Location) {
   const [podList, setPodList] = useState<IFEPod[]>([]);
   const updatePods = () => {
     getAvailablePods().then((res) => {
@@ -44,9 +44,9 @@ export const useAvailablePods = (location: Location) => {
   }, [location]);
 
   return [podList, updatePodList];
-};
+}
 
-export const useActivePods = (location: Location) => {
+export function useActivePods(location: Location) {
   const [podList, setPodList] = useState<IFEPod[]>([]);
   const updatePods = () => {
     getActivePods().then((res) => {
@@ -63,7 +63,7 @@ export const useActivePods = (location: Location) => {
   }, [location]);
 
   return [podList, updatePodList];
-};
+}
 
 export const usePendingStartPods = (location: Location) => {
   const [podList, setPodList] = useState<IFEPod[]>([]);
