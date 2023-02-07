@@ -48,7 +48,7 @@ describe("EnableePageContainer", () => {
     ];
     mockUseAllEnablees.mockReturnValue(pageOfItems);
     render(
-      <MemoryRouter initialEntries={["/enablee"]}>
+      <MemoryRouter initialEntries={["/enablee/masterList"]}>
         <EnableePageContainer
           hook={useAllEnablees}
           displayPageCarousel={true}
