@@ -1,5 +1,6 @@
 import { Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumberCarousel";
 import Row from "../../../components/RowComponent/Row";
 import { TagComponent } from "../../../components/TagComponent/Tag";
@@ -12,12 +13,13 @@ import {
 } from "../../../utils/utilityFunctions";
 
 interface Props {
-  hook: () => any[];
+  hook: (location: string) => any[];
   displayPageCarousel: boolean;
 }
 
 export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
-  const [enablees, getEnablees] = hook();
+  const location = useLocation();
+  const [enablees, getEnablees] = hook(location.pathname);
   const [page, setPage] = useState(1);
 
   const getTotalPages = () => {
