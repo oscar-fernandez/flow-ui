@@ -100,7 +100,7 @@ export default function EnableeTemplate() {
   const [dateOfJoin, setDateOfJoin] = useState(current);
   const [assetTag, setAssetTag] = useState("");
   const [country, setCountry] = useState("");
-  const [community, setCommunity] = useState("");
+  const [community, setCommunity] = useState("Dog Food");
   const [employmentType, setEmploymentType] = useState("");
   const [isEmployed, setIsEmployed] = useState(true);
   const [grade, setGrade] = useState("");
@@ -175,6 +175,9 @@ export default function EnableeTemplate() {
       setFilteredPods(filtered);
     }
   };
+  const handleSubmit2 = (e: ReactFormEvent<HTMLFormElement>) => {
+    setCommunity("Jolly Holly");
+  };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -206,11 +209,11 @@ export default function EnableeTemplate() {
   };
 
   const postEnablee = (enablee: IEnablee) => {
+    changeToggle();
     CreateEnablee(enablee)
       .then((res) => {
         if (res.status == 200 || res.status == 201) {
           changeToggleDetail(res.data);
-          changeToggle();
         }
       })
       .catch((e) => {
@@ -403,7 +406,7 @@ export default function EnableeTemplate() {
               disabled={disableSubmit}
               variant="contained"
               sx={buttonStyle}
-              onClick={handleSubmit}
+              onClick={handleSubmit2}
             >
               Submit
             </Button>

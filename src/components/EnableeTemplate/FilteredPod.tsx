@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
   useToggleArrow,
-  useToggleDetails,
+  useToggleDetail,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IFEPod from "../../models/interfaces/IFEPod";
 import ITechnology from "../../models/interfaces/ITechnology";
@@ -38,7 +38,7 @@ export default function FilteredPod({
 }: Props) {
   const [filteredTech, setFilteredTech] = useState<ITechnology[]>([]);
   const [clickedPod, setClickedPod] = useState(false);
-  const [details, setDetails] = useToggleDetails();
+  const [details, setDetails] = useToggleDetail();
   const [toggleArrow, setToggleArrow] = useToggleArrow();
 
   useEffect(() => {

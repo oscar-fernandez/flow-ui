@@ -11,7 +11,7 @@ import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import { dummyEnablees } from "../../data/EnableeMock";
 import {
   useToggle,
-  useToggleDetails,
+  useToggleDetail,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IFEPod from "../../models/interfaces/IFEPod";
 import IEnabler from "../../models/interfaces/IEnabler";
@@ -42,7 +42,7 @@ export default function PodTemplate() {
   const [projectTechStackMargin, setProjectTechStackMargin] = useState("0px");
 
   // States used for creating the FEPod Object
-  const [pod, setPod] = useToggleDetails();
+  const [pod, setPod] = useToggleDetail();
 
   const [podId, setPodId] = useState("");
   const [podName, setPodName] = useState("");
@@ -61,7 +61,7 @@ export default function PodTemplate() {
 
   // Context used for ToggleSideBar
   const [toggle, changeToggle] = useToggle();
-  const [details, setDetails] = useToggleDetails();
+  const [details, setDetails] = useToggleDetail();
 
   /**
    * Helper function for the useEffect to check if the object
