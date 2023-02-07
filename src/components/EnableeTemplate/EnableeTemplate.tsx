@@ -208,11 +208,11 @@ export default function EnableeTemplate() {
   };
 
   const postEnablee = (enablee: IEnablee) => {
+    changeToggle();
     CreateEnablee(enablee)
       .then((res) => {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
-          changeToggle();
         }
       })
       .catch((e) => {

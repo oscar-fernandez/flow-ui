@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import EnableeTemplate from "./EnableeTemplate";
 import { mockFePod } from "../../data/MockFEPod";
@@ -67,6 +67,10 @@ describe("EnableeTemplate tests", () => {
       },
     ]);
     mockCreateEnablee.mockResolvedValue(axiosres);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("should render enablee template", () => {
@@ -150,14 +154,19 @@ describe("EnableeTemplate tests", () => {
     fireEvent.click(endDate);
     fireEvent.change(endDate, { target: { value: "15 Feb, 2023" } });
 
+    const community = screen.getByTestId("community");
     const submitButton = screen.getByTestId("enableeTemplateSubmitBtn");
 
     fireEvent.click(submitButton);
 
-    expect(mockCreateEnablee).toHaveBeenCalledOnce(); ///
+    expect(mockCreateEnablee).toHaveBeenCalledOnce();
 
     expect(mockUpdateEnablee).not.toHaveBeenCalled(); //the update was being called before because the test context was setting the details and so calling update instead of create
+
+    //expect(community).not.toBeInTheDocument();
   });
+
+  // it("Should make a put request when the submit button is clicked & toggle side bar should be closed", () => {});
 
   // it("should disable submit button until all required fields are entered and handle checkbox clicking", () => {
   //   render(<EnableeTemplate />);
@@ -216,19 +225,40 @@ describe("EnableeTemplate tests", () => {
   //   expect(teamCheckBox).not.toBeChecked();
   // });
 
-  // it("should handle enablee that is passed in from context", async () => {
-  //   render(
-  //     <ToggleContext.Provider value={[true, () => false]}>
-  //       {" "}
-  //       <ToggleArrowContext.Provider value={[false, () => false]}>
-  //         {" "}
-  //         <ToggleDetailsContext.Provider value={[dummyEnablees[0], () => null]}>
-  //           <ToggleSideBar template={<EnableeTemplate />} />
-  //         </ToggleDetailsContext.Provider>
-  //       </ToggleArrowContext.Provider>
-  //     </ToggleContext.Provider>
-  //   );
-  // });
+  it("should handle enablee that is passed in from context", async () => {
+    render(
+      <ToggleContext.Provider value={[true, () => false]}>
+        {" "}
+        <ToggleArrowContext.Provider value={[false, () => false]}>
+          {" "}
+          <ToggleDetailsContext.Provider value={[null, () => null]}>
+            <ToggleSideBar template={<EnableeTemplate />} />
+          </ToggleDetailsContext.Provider>
+        </ToggleArrowContext.Provider>
+      </ToggleContext.Provider>
+    );
+
+    const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
+    fireEvent.change(nameInput, { target: { value: "John Doe" } });
+    const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
+    fireEvent.change(employeeId, { target: { value: "1234" } });
+    const startDate = screen.getByPlaceholderText("No Start Date Selected");
+    const endDate = screen.getByPlaceholderText("No End Date Selected");
+
+    fireEvent.click(startDate);
+    fireEvent.change(startDate, { target: { value: "11 Feb, 2023" } });
+
+    fireEvent.click(endDate);
+    fireEvent.change(endDate, { target: { value: "15 Feb, 2023" } });
+
+    const submitButton = screen.getByTestId("enableeTemplateSubmitBtn");
+
+    fireEvent.click(submitButton);
+
+    expect(mockCreateEnablee).toHaveBeenCalledOnce();
+
+    expect(mockUpdateEnablee).not.toHaveBeenCalled(); //the update was being called before because the test context was setting the details and so calling update instead of create
+  });
 });
 
 function addDays(date: Date, days: number) {
