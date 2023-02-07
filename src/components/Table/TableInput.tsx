@@ -34,7 +34,7 @@ function TableInput({ skill, setTechnology, setSkill }: Props) {
           onKeyDown={handleNewTechEnter}
           inputProps={{
             "data-testid": "input",
-            style: { padding: "14.5px 0px" },
+            style: { padding: "5px 0px" },
           }}
         />
       </div>
