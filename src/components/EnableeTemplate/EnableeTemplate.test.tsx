@@ -153,6 +153,7 @@ describe("EnableeTemplate tests", () => {
     expect(screen.getByDisplayValue("5 Feb, 2023")).toBeInTheDocument();
 
     const dateJoin = screen.getByTestId("dateJoin");
+
     expect(dateJoin.innerHTML).toBe("February 7, 2023");
 
     const submitButton = screen.getByTestId("enableeTemplateSubmitBtn");
@@ -191,4 +192,53 @@ describe("EnableeTemplate tests", () => {
   //   fireEvent.click(teamCheckBox);
   //   expect(teamCheckBox).not.toBeChecked();
   // });
+  it("should disable submit button until all required fields are entered and handle checkbox clicking", () => {
+    render(<EnableeTemplate />);
+    const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
+    const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
+    const startDate = screen.getByPlaceholderText("No Start Date Selected");
+    const endDate = screen.getByPlaceholderText("No End Date Selected");
+    const today = new Date();
+    const later = addDays(today, 5).toString();
+    expect(screen.getByText("Submit")).toBeDisabled();
+    fireEvent.change(nameInput, { target: { value: "test" } });
+    fireEvent.change(employeeId, { target: { value: "test" } });
+    fireEvent.click(startDate);
+    fireEvent.change(startDate, { target: { value: today.toString() } });
+    fireEvent.click(endDate);
+    fireEvent.change(endDate, { target: { value: later } });
+    expect(screen.getByText("Submit")).toBeEnabled();
+    //testing that checkbox is disabled and clicked twice
+    const teamCheckBox = screen.getByTestId(
+      mockFePod[1].podName
+    ) as HTMLInputElement;
+    fireEvent.click(teamCheckBox);
+    expect(teamCheckBox).toBeChecked();
+    const gangCheckbox = screen.getByTestId(
+      mockFePod[2].podName
+    ) as HTMLInputElement;
+    expect(gangCheckbox).toBeDisabled();
+    fireEvent.click(teamCheckBox);
+    expect(teamCheckBox).not.toBeChecked();
+  });
+
+  it("should handle enablee that is passed in from context", async () => {
+    render(
+      <ToggleContext.Provider value={[true, () => false]}>
+        {" "}
+        <ToggleArrowContext.Provider value={[false, () => false]}>
+          {" "}
+          <ToggleDetailsContext.Provider value={[dummyEnablees[0], () => null]}>
+            <ToggleSideBar template={<EnableeTemplate />} />
+          </ToggleDetailsContext.Provider>
+        </ToggleArrowContext.Provider>
+      </ToggleContext.Provider>
+    );
+  });
 });
+
+function addDays(date: Date, days: number) {
+  const copy = new Date(Number(date));
+  copy.setDate(date.getDate() + days);
+  return copy;
+}

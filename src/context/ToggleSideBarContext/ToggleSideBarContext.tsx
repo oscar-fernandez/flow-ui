@@ -23,7 +23,7 @@ export const ToggleArrowContext = React.createContext<
 ]);
 
 export const ToggleDetailsContext = React.createContext<
-  [any, (item: any) => void]
+  [IEnablee | IFEPod | null, (item: IEnablee | IFEPod | null) => void]
 >([
   null,
   () => {
@@ -56,6 +56,10 @@ const ToggleProvider = ({ children }: ToggleBarProps) => {
     setToggleArrow(arrow);
   };
   const changeToggleDetail = (item: any) => {
+    setDetail(item);
+  };
+
+  const setSideBarInfo = (item: IEnablee | IFEPod | null) => {
     setDetail(item);
   };
 

@@ -4,8 +4,8 @@ import DatePicker from "react-datepicker";
 interface Props {
   startDate: Date | null;
   endDate: Date | null;
-  setStartDate: (date: Date | null) => void;
-  setEndDate: (date: Date | null) => void;
+  setStartDate: (date: Date) => void;
+  setEndDate: (date: Date) => void;
 }
 
 export const DatepickerComponent = ({

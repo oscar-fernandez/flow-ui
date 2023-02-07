@@ -49,4 +49,17 @@ describe("FilteredPod tests", () => {
     ) as HTMLInputElement;
     expect(checkbox).not.toBeChecked();
   });
+
+  it("should handle pod click", () => {
+    render(
+      <FilteredPod
+        pod={mockFePod[1]}
+        enableeTech={mockTechnology}
+        selectedPod={mockFePod[1]}
+        handleOnClick={mockFn}
+      />
+    );
+    const podName = screen.getByText(mockFePod[1].podName);
+    fireEvent.click(podName);
+  });
 });

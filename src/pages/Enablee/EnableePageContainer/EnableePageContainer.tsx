@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumberCarousel";
 import Row from "../../../components/RowComponent/Row";
 import { TagComponent } from "../../../components/TagComponent/Tag";
+import {
+  useToggle,
+  useToggleDetails,
+} from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../../models/interfaces/IEnablee";
 import ITechnology from "../../../models/interfaces/ITechnology";
 import {
@@ -19,6 +23,8 @@ interface Props {
 export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
   const [enablees, getEnablees] = hook();
   const [page, setPage] = useState(1);
+  const [toggle, changeToggle] = useToggle();
+  const [details, setDetails] = useToggleDetails();
 
   const getTotalPages = () => {
     return Math.ceil(enablees.totalElements / 25);
@@ -50,11 +56,10 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
         return (
           <Row
             key={i}
-            onClick={() => 1}
-            // onClick={() => {
-            //   changeToggle();
-            //   changeDetails(enablee);
-            // }}
+            onClick={() => {
+              changeToggle();
+              setDetails(enablee);
+            }}
           >
             <div className="row-sm-child">
               <div className="square"></div>
