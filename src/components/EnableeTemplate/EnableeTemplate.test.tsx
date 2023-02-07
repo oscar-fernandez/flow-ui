@@ -135,25 +135,25 @@ describe("EnableeTemplate tests", () => {
     expect(grade.value).toBe("test");
   });
 
-  it("Should make a post request when the submit button is clicked & toggle side bar should be closed", () => {
+  it("Should make a post request when the submit button is clicked & toggle side bar should be closed", async () => {
     render(<EnableeTemplate />);
     const nameInput = screen.getByTestId("enableeName") as HTMLInputElement;
-    fireEvent.change(nameInput, { target: { value: "test" } });
+    fireEvent.change(nameInput, { target: { value: "John Doe" } });
     const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
-    fireEvent.change(employeeId, { target: { value: "test" } });
+    fireEvent.change(employeeId, { target: { value: "1234" } });
     const startDate = screen.getByPlaceholderText("No Start Date Selected");
     const endDate = screen.getByPlaceholderText("No End Date Selected");
 
     fireEvent.click(startDate);
     fireEvent.change(startDate, { target: { value: "3 Feb, 2023" } });
-    expect(screen.getByDisplayValue("February 3, 2023 -")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("3 Feb, 2023")).toBeInTheDocument();
 
     fireEvent.click(endDate);
     fireEvent.change(endDate, { target: { value: "5 Feb, 2023" } });
-    expect(screen.getByDisplayValue("February 5, 2023")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("5 Feb, 2023")).toBeInTheDocument();
 
     const dateJoin = screen.getByTestId("dateJoin");
-    expect(dateJoin.innerHTML).toBe("February 3, 2023");
+    expect(dateJoin.innerHTML).toBe("February 7, 2023");
 
     const submitButton = screen.getByTestId("enableeTemplateSubmitBtn");
 

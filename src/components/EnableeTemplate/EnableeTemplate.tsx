@@ -147,6 +147,8 @@ export default function EnableeTemplate() {
     }
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     if (detail == null) {
       const enablee: IEnablee = {
         employeeId: parseInt(employeeId),
@@ -171,8 +173,6 @@ export default function EnableeTemplate() {
       const tempDetail: IEnablee = detail;
       tempDetail.assetTag = assetTag;
       putEnablee(tempDetail);
-    } else {
-      e.preventDefault();
     }
   };
 
@@ -360,7 +360,7 @@ export default function EnableeTemplate() {
           </Typography>
           <div className="button-center">
             <Button
-              data-testId={"enableeTemplateSubmitBtn"}
+              data-testid={"enableeTemplateSubmitBtn"}
               disabled={disableSubmit}
               variant="contained"
               sx={buttonStyle}
