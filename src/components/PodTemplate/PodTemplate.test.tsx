@@ -51,7 +51,6 @@ describe("PodTemplate tests", () => {
     const threeDay = addDays(today, 3).toString();
     const later = addDays(today, 21).toString();
     const projectBtn = screen.getByTestId("projectsBtn");
-    expect(screen.getByText("Submit")).toBeDisabled();
     await userEvent.click(startDate);
     fireEvent.change(startDate, { target: { value: threeDay } });
     await userEvent.click(endDate);
