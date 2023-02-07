@@ -1,65 +1,69 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { mockFePod } from "../../../data/MockFEPod";
+import { useEffect, useState } from "react";
 import IFEPod from "../../../models/interfaces/IFEPod";
-import { getCompletedPods, getPendingPods } from "../../../services/PodAPI";
+import {
+  getActivePods,
+  getAvailablePods,
+  getCompletedPods,
+  getPendingPods,
+} from "../../../services/PodAPI";
+import { Location } from "react-router-dom";
 
-export function useCompletedPods(): {
-  podList: IFEPod[];
-  setPodList: Dispatch<SetStateAction<IFEPod[]>>;
-} {
+export function useCompletedPods(location: Location) {
   const [podList, setPodList] = useState<IFEPod[]>([]);
 
-  useEffect(() => {
-    getCompletedPods().then((pods) => {
-      setPodList(pods.data);
-    });
-  }, []);
-  return { podList, setPodList };
-}
-
-export function useAvailablePods(): {
-  podList: IFEPod[];
-  setPodList: Dispatch<SetStateAction<IFEPod[]>>;
-} {
-  const [podList, setPodList] = useState<IFEPod[]>([]);
-
-  useEffect(() => {
-    setPodList(mockFePod);
-  }, []);
-
-  return { podList, setPodList };
-}
-
-export function useActivePods(): {
-  podList: IFEPod[];
-  setPodList: Dispatch<SetStateAction<IFEPod[]>>;
-} {
-  const [podList, setPodList] = useState<IFEPod[]>([]);
-
-  useEffect(() => {
-    mockFePod
-      .filter(
-        (pod) =>
-          Date.parse(pod.podStartDate) <= Date.now() &&
-          Date.parse(pod.podEndDate) >= Date.now()
-      )
-      .forEach((pod) => setPodList((podList) => [...podList, pod]));
-  }, []);
-
-  return { podList, setPodList };
-}
-
-export const usePendingStartPods = () => {
-  const [pendingStartPods, setPendingStartPods] = useState<IFEPod[]>();
-  const updatePendingStartPods = () => {
-    getPendingPods().then((res) => {
-      setPendingStartPods(res.data);
+  const updatePods = () => {
+    getCompletedPods().then((res) => {
+      setPodList(res.data);
     });
   };
 
   useEffect(() => {
-    updatePendingStartPods();
-  }, []);
+    updatePods();
+  }, [location]);
+  return podList;
+}
 
-  return { pendingStartPods, updatePendingStartPods };
+export function useAvailablePods(location: Location) {
+  const [podList, setPodList] = useState<IFEPod[]>([]);
+  const updatePods = () => {
+    getAvailablePods().then((res) => {
+      setPodList(res.data);
+    });
+  };
+
+  useEffect(() => {
+    updatePods();
+  }, [location]);
+
+  return podList;
+}
+
+export function useActivePods(location: Location) {
+  const [podList, setPodList] = useState<IFEPod[]>([]);
+  const updatePods = () => {
+    getActivePods().then((res) => {
+      setPodList(res.data);
+    });
+  };
+
+  useEffect(() => {
+    updatePods();
+  }, [location]);
+
+  return podList;
+}
+
+export const usePendingStartPods = (location: Location) => {
+  const [podList, setPodList] = useState<IFEPod[]>([]);
+  const updatePods = () => {
+    getPendingPods().then((res) => {
+      setPodList(res.data);
+    });
+  };
+
+  useEffect(() => {
+    updatePods();
+  }, [location]);
+
+  return podList;
 };

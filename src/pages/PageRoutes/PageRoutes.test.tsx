@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import PageRoutes from "./PageRoutes";
 import { useCompletedPods } from "../Pod/Hooks/customHook";
 import { mockFePod } from "../../data/MockFEPod";
@@ -23,7 +22,8 @@ describe("PageRoutes", () => {
     fireEvent.click(screen.getByText("Completed Pod"));
 
     await waitFor(() => {
-      expect(screen.queryAllByTestId("tag-name")?.[2]).toBeEmptyDOMElement();
+      const test = screen.queryByTestId("tag-name");
+      expect(test).not.toBeInTheDocument();
     });
   });
 });

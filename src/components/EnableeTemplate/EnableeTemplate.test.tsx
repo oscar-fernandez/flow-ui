@@ -2,6 +2,13 @@ import { describe, it, expect } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import EnableeTemplate from "./EnableeTemplate";
 import { mockFePod } from "../../data/MockFEPod";
+import {
+  ToggleArrowContext,
+  ToggleContext,
+  ToggleDetailsContext,
+} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
+import { dummyEnablees } from "../../data/EnableeMock";
 
 describe("EnableeTemplate tests", () => {
   it("should render enablee template", () => {
@@ -76,13 +83,15 @@ describe("EnableeTemplate tests", () => {
     const employeeId = screen.getByTestId("employeeId") as HTMLInputElement;
     const startDate = screen.getByPlaceholderText("No Start Date Selected");
     const endDate = screen.getByPlaceholderText("No End Date Selected");
+    const today = new Date();
+    const later = addDays(today, 5).toString();
     expect(screen.getByText("Submit")).toBeDisabled();
     fireEvent.change(nameInput, { target: { value: "test" } });
     fireEvent.change(employeeId, { target: { value: "test" } });
     fireEvent.click(startDate);
-    fireEvent.change(startDate, { target: { value: "1 Feb, 2023" } });
+    fireEvent.change(startDate, { target: { value: today.toString() } });
     fireEvent.click(endDate);
-    fireEvent.change(endDate, { target: { value: "5 Feb, 2023" } });
+    fireEvent.change(endDate, { target: { value: later } });
     expect(screen.getByText("Submit")).toBeEnabled();
     //testing that checkbox is disabled and clicked twice
     const teamCheckBox = screen.getByTestId(
@@ -97,4 +106,24 @@ describe("EnableeTemplate tests", () => {
     fireEvent.click(teamCheckBox);
     expect(teamCheckBox).not.toBeChecked();
   });
+
+  it("should handle enablee that is passed in from context", async () => {
+    render(
+      <ToggleContext.Provider value={[true, () => false]}>
+        {" "}
+        <ToggleArrowContext.Provider value={[false, () => false]}>
+          {" "}
+          <ToggleDetailsContext.Provider value={[dummyEnablees[0], () => null]}>
+            <ToggleSideBar template={<EnableeTemplate />} />
+          </ToggleDetailsContext.Provider>
+        </ToggleArrowContext.Provider>
+      </ToggleContext.Provider>
+    );
+  });
 });
+
+function addDays(date: Date, days: number) {
+  const copy = new Date(Number(date));
+  copy.setDate(date.getDate() + days);
+  return copy;
+}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SxProps, TableCell, TableRow, Theme } from "@mui/material";
 
 interface Props {
+  clickable?: boolean;
   rowId: string;
   row: string[];
   rowStyle?: SxProps<Theme>;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function CustomRowComponent({
+  clickable,
   rowId,
   row,
   rowStyle,
@@ -28,8 +30,12 @@ export default function CustomRowComponent({
   const defaultHandleSelection = (
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    setToggle(!toggle);
-    updateSelectedEnablees?.(+e.currentTarget.id); //check updateSelectedEnablees could be undefined
+    if (clickable) {
+      setToggle(!toggle);
+    } else if (!clickable) {
+      setToggle(false);
+    }
+    updateSelectedEnablees?.(+e.currentTarget.id);
   };
 
   let rowColor = "";

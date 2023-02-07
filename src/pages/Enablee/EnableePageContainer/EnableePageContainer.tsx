@@ -4,6 +4,10 @@ import { useLocation } from "react-router";
 import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumberCarousel";
 import Row from "../../../components/RowComponent/Row";
 import { TagComponent } from "../../../components/TagComponent/Tag";
+import {
+  useToggle,
+  useToggleDetails,
+} from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../../models/interfaces/IEnablee";
 import ITechnology from "../../../models/interfaces/ITechnology";
 import {
@@ -21,6 +25,8 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
   const location = useLocation();
   const [enablees, getEnablees] = hook(location.pathname);
   const [page, setPage] = useState(1);
+  const [toggle, changeToggle] = useToggle();
+  const [details, setDetails] = useToggleDetails();
 
   const getTotalPages = () => {
     return Math.ceil(enablees.totalElements / 25);
@@ -52,11 +58,10 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
         return (
           <Row
             key={i}
-            onClick={() => 1}
-            // onClick={() => {
-            //   changeToggle();
-            //   changeDetails(enablee);
-            // }}
+            onClick={() => {
+              changeToggle();
+              setDetails(enablee);
+            }}
           >
             <div className="row-sm-child">
               <div className="square"></div>

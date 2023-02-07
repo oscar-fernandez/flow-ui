@@ -1,44 +1,11 @@
-import IColumns from "../models/interfaces/IColumns";
-import ITechnology from "../models/interfaces/ITechnology";
+import IProject from "../models/interfaces/IProject";
 
-export const mockTechnology: ITechnology[] = [
-  {
-    id: 3,
-    name: "Java",
-    backgroundColor: "grey",
-  },
-  {
-    id: 4,
-    name: "React",
-    backgroundColor: "blue",
-  },
-  {
-    id: 5,
-    name: "Ruby",
-    backgroundColor: "red",
-  },
-  {
-    id: 3,
-    name: "Spring Framework",
-    backgroundColor: "silver",
-  },
-];
-
-export interface thing {
-  [key: string]: unknown;
-  id: number;
-  projectName: string;
-  techStack: ITechnology[];
-}
-
-export const MockData: IColumns = {
-  topics: ["projectName", "techStack"],
-};
-export const MockRows: thing[] = [
+export const dumbProjects: IProject[] = [
   {
     id: 1,
-    projectName: "Pixelgram",
-    techStack: [
+    name: "Pixelgram",
+    summary: "Something about the project",
+    technology: [
       {
         id: 3,
         name: "Java",
@@ -55,11 +22,14 @@ export const MockRows: thing[] = [
         backgroundColor: "blue",
       },
     ],
+    repoLink:
+      "https://git.work.cognizant.studio/enablement/team-projects/flow/enablement",
   },
   {
     id: 2,
-    projectName: "Flow",
-    techStack: [
+    name: "Flow",
+    summary: "Something about the project",
+    technology: [
       {
         id: 1,
         name: "TypeScript",
@@ -81,11 +51,14 @@ export const MockRows: thing[] = [
         backgroundColor: "purple",
       },
     ],
+    repoLink:
+      "https://git.work.cognizant.studio/enablement/team-projects/flow/enablement",
   },
   {
     id: 3,
-    projectName: "Quiz Monster",
-    techStack: [
+    name: "Quiz Monster",
+    summary: "Something about the project",
+    technology: [
       {
         id: 7,
         name: "JavaScript",
@@ -107,5 +80,7 @@ export const MockRows: thing[] = [
         backgroundColor: "aqua",
       },
     ],
+    repoLink:
+      "https://git.work.cognizant.studio/enablement/team-projects/flow/enablement",
   },
 ];

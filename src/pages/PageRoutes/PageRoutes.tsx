@@ -2,7 +2,6 @@ import PodAssignment from "../Enablee/PodAssignment/PodAssignment";
 import "./PageRoutes.css";
 import SideBarItems from "../../components/SideBarItems/SideBarItems";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PendingEnablementStart from "../Enablee/PendingEnablementStart/PendingEnablementStart";
 import EnableeView from "../Enablee/EnableeView/EnableeView";
 import { LoginComponent } from "../../components/HeaderSectionComponents/LoginComponent/LoginComponent";
 import ManagementContainer from "../Management/ManagementContainer/ManagementContainer";
@@ -11,16 +10,16 @@ import {
   useCompletedPods,
   useAvailablePods,
   useActivePods,
+  usePendingStartPods,
 } from "../Pod/Hooks/customHook";
-import {
-  getActivePendingPodTag,
-  getAvailablePodTag,
-} from "../../utils/utilityFunctions";
-import IFEPod from "../../models/interfaces/IFEPod";
 import PodView from "../Pod/PodView";
 import { EnableePageContainer } from "../Enablee/EnableePageContainer/EnableePageContainer";
 import { usePendingStartEnablees } from "../Enablee/Hooks/customHook";
 import { useAllEnablees } from "../Enablee/Hooks/useAllEnablees";
+import {
+  generatePodTags,
+  getAvailablePodTag,
+} from "../../utils/utilityFunctions";
 
 function PageRoutes() {
   return (
@@ -61,17 +60,21 @@ function PageRoutes() {
             <Route path="/mgt" element={<ManagementContainer />} />
             <Route>
               <Route path="/pod" element={<PodView />}>
-                <Route path="" element={<div> Pod Master List </div>} />
-                <Route path="pending" element={<div> Pod Pending List </div>} />
+                <Route
+                  path="pending"
+                  element={
+                    <PodPageContainer
+                      hook={usePendingStartPods}
+                      displayTag={getAvailablePodTag}
+                    />
+                  }
+                />
                 <Route
                   path="completed"
                   element={
                     <PodPageContainer
                       hook={useCompletedPods}
-                      displayPageCarousel={false}
-                      displayTag={(pod: IFEPod) => {
-                        return { name: "", color: "" };
-                      }}
+                      displayTag={generatePodTags}
                     />
                   }
                 />
@@ -80,8 +83,7 @@ function PageRoutes() {
                   element={
                     <PodPageContainer
                       hook={useAvailablePods}
-                      displayPageCarousel={false}
-                      displayTag={getActivePendingPodTag}
+                      displayTag={generatePodTags}
                     />
                   }
                 />
@@ -90,7 +92,6 @@ function PageRoutes() {
                   element={
                     <PodPageContainer
                       hook={useActivePods}
-                      displayPageCarousel={false}
                       displayTag={getAvailablePodTag}
                     />
                   }

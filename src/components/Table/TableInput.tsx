@@ -7,6 +7,18 @@ interface Props {
   setSkill?: (skill: boolean) => void;
 }
 
+const errorStyle = {
+  "& .MuiFormHelperText-root": {
+    color: "#EF233C",
+    fontSize: "12px",
+    fontFamily: "Darker Grotesque",
+    fontWeight: "400",
+    letterSpacing: "0.025em",
+    margin: "0px",
+  },
+  padding: "5px 0px",
+};
+
 function TableInput({ skill, setTechnology, setSkill }: Props) {
   const [newTechValue, setNewTechValue] = useState("");
 
@@ -34,8 +46,8 @@ function TableInput({ skill, setTechnology, setSkill }: Props) {
           onKeyDown={handleNewTechEnter}
           inputProps={{
             "data-testid": "input",
-            style: { padding: "14.5px 0px" },
           }}
+          sx={errorStyle}
         />
       </div>
     </>

@@ -7,7 +7,7 @@ import {
 } from "../../../services/EnableeAPI";
 
 export const usePendingPodEnablees = () => {
-  const [receivedEnablees, setReceivedEnablees] = useState<IEnablee[]>();
+  const [receivedEnablees, setReceivedEnablees] = useState<IEnablee[]>([]);
 
   useEffect(() => {
     GetEnableesPendingPodAssignment()

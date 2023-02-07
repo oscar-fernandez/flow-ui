@@ -7,8 +7,8 @@ import {
   updatedProjects,
   updatedTechnology,
   getAvailablePodTag,
-  getActivePendingPodTag,
   generateTags,
+  generatePodTags,
   getName,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
@@ -66,21 +66,35 @@ describe("utilityTest", () => {
     };
     expect(resultingArray[0].skillName).toEqual(testingMark.skillName);
   });
-  it("Enablee is valid to join pod", () => {
+
+  it("allows valid enablee", () => {
+    const enablee = createEnablee();
+    const thisDate = new Date();
+    const newDate = addDays(thisDate, 10);
+    const oldDate = subtractDays(thisDate, 10);
+    const pod = createPod();
+    enablee.enablementStartDate = oldDate.toString();
+    enablee.enablementEndDate = newDate.toString();
     const result = isEnableeValidForPod(
-      createPod(),
-      createEnablee().enablementStartDate,
-      createEnablee().enablementEndDate
+      pod.podStartDate,
+      pod.podEndDate,
+      enablee.enablementStartDate,
+      enablee.enablementEndDate
     );
     expect(result).toBe(true);
   });
 
   it("Invalid enablee, start date is too late and end date is too late", () => {
     const lateEnablee = createEnablee();
-    lateEnablee.enablementStartDate = "2021-01-22";
-    lateEnablee.enablementEndDate = "2022-06-22";
+    const thisDate = new Date();
+    const newDate = addDays(thisDate, 20);
+    const newerDate = addDays(newDate, 30);
+    const pod = createPod();
+    lateEnablee.enablementStartDate = newDate.toString();
+    lateEnablee.enablementEndDate = newerDate.toString();
     const result = isEnableeValidForPod(
-      createPod(),
+      pod.podStartDate,
+      pod.podEndDate,
       lateEnablee.enablementStartDate,
       lateEnablee.enablementEndDate
     );
@@ -89,9 +103,15 @@ describe("utilityTest", () => {
 
   it("Invalid enablee, range is longer than pod range ", () => {
     const lateEnablee = createEnablee();
-    lateEnablee.enablementEndDate = "2023-01-20";
+    const thisDate = new Date();
+    const newDate = addDays(thisDate, 20);
+    const newerDate = addDays(newDate, 30);
+    const pod = createPod();
+    lateEnablee.enablementStartDate = newDate.toString();
+    lateEnablee.enablementEndDate = newerDate.toString();
     const result = isEnableeValidForPod(
-      createPod(),
+      pod.podStartDate,
+      pod.podEndDate,
       lateEnablee.enablementStartDate,
       lateEnablee.enablementEndDate
     );
@@ -127,16 +147,27 @@ describe("utilityTest", () => {
 
   it("Active pod, start date is after current date", () => {
     const activePod = createPod();
-    const result = getActivePendingPodTag(activePod);
+    const enablee = createEnablee();
+    activePod.enablee[0] = enablee;
+    const currentDate = new Date();
+    const startDate = new Date();
+    const endDate = new Date();
+    startDate.setDate(currentDate.getDate() - 5);
+    endDate.setDate(currentDate.getDate() + 5);
+    enablee.enablementStartDate = startDate.toDateString();
+    enablee.enablementEndDate = endDate.toDateString();
+    const result = generateTags(activePod.enablee[0]);
     expect(result.name).toEqual("Active");
   });
 
   it("Pending Pod, start date is before current date", () => {
     const pendingPod = createPod();
     pendingPod.podStartDate = "2024-01-22";
-
-    const result = getActivePendingPodTag(pendingPod);
-    expect(result.name).toEqual("Pending");
+    const enablee = createEnablee();
+    enablee.podId = 0;
+    pendingPod.enablee[0] = enablee;
+    const result = generateTags(pendingPod.enablee[0]);
+    expect(result.name).toEqual("Pending Pod Assignment");
   });
   it("should return proper names using getName", () => {
     expect(getName("id")).toEqual("employee ID");
@@ -150,14 +181,50 @@ describe("utilityTest", () => {
   });
 });
 
+describe("generatePodTags", () => {
+  const pod = createPod();
+
+  it("returns no tag", () => {
+    pod.podStartDate = "";
+    pod.podEndDate = "";
+    expect(generatePodTags(pod).name).toEqual("");
+  });
+
+  it("returns an active tag", () => {
+    const currentDate = new Date();
+    const startDate = new Date();
+    const endDate = new Date();
+    startDate.setDate(currentDate.getDate() - 5);
+    endDate.setDate(currentDate.getDate() + 5);
+    pod.podStartDate = startDate.toDateString();
+    pod.podEndDate = endDate.toDateString();
+    expect(generatePodTags(pod).name).toEqual("Active");
+  });
+
+  it("returns pending start tag", () => {
+    const currentDate = new Date();
+    const startDate = new Date();
+    const endDate = new Date();
+    startDate.setDate(currentDate.getDate() + 5);
+    endDate.setDate(currentDate.getDate() + 10);
+    pod.podStartDate = startDate.toDateString();
+    pod.podEndDate = endDate.toDateString();
+    expect(generatePodTags(pod).name).toEqual("Pending Start");
+  });
+});
+
 describe("generateTags", () => {
-  const enablee = dummyEnablees[0];
+  const enablee = createEnablee();
+
   it("returns a completed tag", () => {
+    enablee.enablementEndDate = "2022-01-21";
     expect(generateTags(enablee).name).toEqual("Completed");
   });
 
   it("returns an active tag", () => {
-    enablee.enablementEndDate = "9999-01-21";
+    const day = new Date();
+    enablee.enablementEndDate = addDays(day, 10).toString();
+    enablee.enablementStartDate = subtractDays(day, 10).toString();
     expect(generateTags(enablee).name).toEqual("Active");
   });
 
@@ -167,31 +234,35 @@ describe("generateTags", () => {
   });
 
   it("returns Pending Start Date", () => {
-    const enablee = dummyEnablees[4];
+    enablee.podId = 1;
+    enablee.enablementStartDate = "";
     expect(generateTags(enablee).name).toEqual("Pending Start Date");
   });
 });
 
 const createPod = (): IFEPod => {
+  const thisDate = new Date();
   return {
     id: 1,
     podName: "podCrew",
-    podStartDate: "2021-01-21",
-    podEndDate: "2022-05-21",
+    podStartDate: thisDate.toString(),
+    podEndDate: addDays(thisDate, 30).toString(),
     enablee: [],
     enabler: null,
     project: { id: 1, name: "foo", summary: "", technology: [], repoLink: "" },
   };
 };
 
-const createEnablee = (): IEnablee => {
+export const createEnablee = (): IEnablee => {
+  const thisDate = new Date();
+  const newDate = addDays(thisDate, 5);
   return {
     employeeId: 1,
     firstName: "Steve",
     lastName: "Bob",
-    dateOfJoin: "1950-01-21",
-    enablementStartDate: "2021-01-21",
-    enablementEndDate: "2022-05-21",
+    dateOfJoin: Date.now().toString(),
+    enablementStartDate: Date.now().toString(),
+    enablementEndDate: newDate.toString(),
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
@@ -208,3 +279,15 @@ const createEnablee = (): IEnablee => {
     commentId: [1, 2, 3],
   };
 };
+
+function addDays(date: Date, days: number) {
+  const copy = new Date(Number(date));
+  copy.setDate(date.getDate() + days);
+  return copy;
+}
+
+function subtractDays(date: Date, days: number) {
+  const copy = new Date(Number(date));
+  copy.setDate(date.getDate() - days);
+  return copy;
+}

@@ -6,6 +6,7 @@ import IProject from "../models/interfaces/IProject";
 import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnology from "../models/interfaces/ITechnology";
 import ITechnologyTable from "../models/interfaces/ITechnologyTable";
+import { Location } from "react-router-dom";
 
 export function getName(name: string) {
   switch (name) {
@@ -104,49 +105,51 @@ export const updatedTechnology = (receivedTechnologies: ITechnology[]) => {
 };
 
 export const isEnableeValidForPod = (
-  fepod: IFEPod,
+  podStartDate: string,
+  podEndDate: string,
   startDate: string,
   endDate: string
 ) => {
-  const startDateFePod = new Date(fepod.podStartDate);
-  const endDateFePod = new Date(fepod.podEndDate);
+  const startDateFePod = new Date(podStartDate);
+  const endDateFePod = new Date(podEndDate);
   const startDateEnablee = new Date(startDate);
   const endDateEnablee = new Date(endDate);
+  const isPodActive =
+    startDateFePod.getTime() < startDateEnablee.getTime() &&
+    endDateFePod.getTime() >= endDateEnablee.getTime();
   const isDateRangeValid =
     endDateFePod.getTime() - startDateFePod.getTime() >=
     endDateEnablee.getTime() - startDateEnablee.getTime();
   return (
-    (isDateRangeValid &&
-      startDateFePod.getTime() >= startDateEnablee.getTime()) ||
-    endDateFePod.getTime() >= endDateEnablee.getTime()
+    isDateRangeValid &&
+    (startDateFePod.getTime() >= startDateEnablee.getTime() || isPodActive)
   );
 };
 
-export const getAvailablePodTag = (pod: IFEPod) => {
+export const getAvailablePodTag = (pod: IFEPod): IDisplayTag => {
   const POD_SIZE = 15;
   const podTag: IDisplayTag = { name: "", color: "" };
-
   if (pod.enablee.length < POD_SIZE) {
     (podTag.name = "Available"), (podTag.color = "#3F88C5");
   }
   return podTag;
 };
 
-export const getActivePendingPodTag = (pod: IFEPod) => {
-  const startDatePod = new Date(pod.podStartDate);
-  const endDatePod = new Date(pod.podEndDate);
+export const generatePodTags = (pod: IFEPod): IDisplayTag => {
+  const startDate = new Date(pod.podStartDate);
+  const endDate = new Date(pod.podEndDate);
   const currentDate = new Date();
-
   const podTag: IDisplayTag = { name: "", color: "" };
-
-  if (currentDate >= startDatePod) {
+  if (currentDate >= startDate && currentDate <= endDate) {
     podTag.name = "Active";
-    podTag.color = "#E63946";
+    podTag.color = "rgba(230, 57, 70, 1)";
+  } else if (currentDate < startDate) {
+    podTag.name = "Pending Start";
+    podTag.color = "rgba(52, 78, 65, 1)";
   } else {
-    podTag.name = "Pending";
-    podTag.color = "#344E41";
+    podTag.name = "";
+    podTag.color = "";
   }
-
   return podTag;
 };
 
@@ -169,3 +172,25 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
   }
   return podTag;
 };
+
+// export const convertLocationToString = (location: Location) => {
+//   console.log("inside converter, getting location path: ", location)
+//   if(location.pathname === "/pod/active") {
+//     return "Active"
+//   }
+//   return "Unknown"
+//   // switch (location) {
+//   //   case '/pod/active':
+//   //     return "Active";
+//   //   case '/pod/completed':
+//   //     return "Completed";
+//   //   case '/pod/pending':
+//   //     return "Pending";
+//   //   case '/pod/available':
+//   //     return "Available";
+//   //   case '/':
+//   //     return "unknown";
+//   //   default:
+//   //     return "default";
+//   // }
+// };
