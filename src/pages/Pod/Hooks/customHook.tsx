@@ -17,10 +17,14 @@ export function useCompletedPods(location: Location) {
     });
   };
 
+  const updatePodList = (list: IFEPod[]) => {
+    setPodList(list);
+  };
+
   useEffect(() => {
     updatePods();
   }, [location]);
-  return podList;
+  return [podList, updatePodList];
 }
 
 export function useAvailablePods(location: Location) {
@@ -31,11 +35,15 @@ export function useAvailablePods(location: Location) {
     });
   };
 
+  const updatePodList = (list: IFEPod[]) => {
+    setPodList(list);
+  };
+
   useEffect(() => {
     updatePods();
   }, [location]);
 
-  return podList;
+  return [podList, updatePodList];
 }
 
 export function useActivePods(location: Location) {
@@ -46,11 +54,15 @@ export function useActivePods(location: Location) {
     });
   };
 
+  const updatePodList = (list: IFEPod[]) => {
+    setPodList(list);
+  };
+
   useEffect(() => {
     updatePods();
   }, [location]);
 
-  return podList;
+  return [podList, updatePodList];
 }
 
 export const usePendingStartPods = (location: Location) => {
@@ -61,9 +73,13 @@ export const usePendingStartPods = (location: Location) => {
     });
   };
 
+  const updatePodList = (list: IFEPod[]) => {
+    setPodList(list);
+  };
+
   useEffect(() => {
     updatePods();
   }, [location]);
 
-  return podList;
+  return [podList, updatePodList];
 };
