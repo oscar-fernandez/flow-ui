@@ -27,6 +27,7 @@ export const DatepickerComponent = ({
         // selectsRange
         minDate={new Date()}
         maxDate={endDate}
+        excludeDates={[new Date(endDate!)]}
         dateFormat="MMMM d, yyyy -"
         placeholderText="No Start Date Selected"
       />
