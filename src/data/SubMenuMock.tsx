@@ -15,7 +15,7 @@ export const MenuItemsList = [
 export const EnableeSubMenuItems = [
   {
     name: "Master List",
-    routePath: "/enablee",
+    routePath: "/enablee/masterList",
     handleOnClick: () => null,
   },
   {
