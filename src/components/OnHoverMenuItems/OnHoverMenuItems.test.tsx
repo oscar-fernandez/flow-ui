@@ -1,6 +1,6 @@
 import { describe, it, vi } from "vitest";
 import { OnHoverMenuItems } from "./OnHoverMenuItems";
-import { EnableeSubMenuItems } from "../../data/SubMenuMock";
+import { EnableeSubMenuItems } from "../SideBarItems/menuItems";
 import { render } from "@testing-library/react";
 
 const customFunction = (path: string) => {

@@ -12,10 +12,10 @@ import {
   shortenStringList,
   tooltipString,
 } from "../../utils/utilityFunctions";
-// import {
-//   useDetails,
-//   useToggle,
-// } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import {
+  useToggleDetails,
+  useToggle,
+} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 // import ToggleSidebar, { Action } from "../ToggleSideBar/ToggleSidebar";
 import "./GenerateRows.css";
 import { TagComponent } from "../TagComponent/Tag";
@@ -26,8 +26,8 @@ interface Props {
 }
 
 export function GenerateRows({ pageNum }: Props) {
-  // const [toggle, changeToggle] = useToggle();
-  // const [details, changeDetails] = useDetails();
+  const [toggle, changeToggle] = useToggle();
+  const [details, setItem] = useToggleDetails();
   const [enablees, setEnablees] = useState<IEnablee[]>([]);
 
   useEffect(() => {
@@ -63,11 +63,10 @@ export function GenerateRows({ pageNum }: Props) {
         return (
           <Row
             key={i}
-            onClick={() => 1}
-            // onClick={() => {
-            //   changeToggle();
-            //   changeDetails(enablee);
-            // }}
+            onClick={() => {
+              changeToggle();
+              setItem(enablee);
+            }}
           >
             <div className="row-sm-child">
               <div className="square"></div>

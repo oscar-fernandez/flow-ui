@@ -75,8 +75,8 @@ export const mockFePod: IFEPod[] = [
     podName: "Crew",
     enablee: dummyEnablees,
     enabler: null,
-    podStartDate: "2021-01-21",
-    podEndDate: "2021-01-30",
+    podStartDate: subtractDays(new Date(), 5).toString(),
+    podEndDate: addDays(new Date(), 35).toString(),
     project: project,
   },
   {
@@ -84,8 +84,8 @@ export const mockFePod: IFEPod[] = [
     podName: "Team",
     enablee: dummyEnablees,
     enabler: null,
-    podStartDate: "2024-02-21",
-    podEndDate: "2024-03-21",
+    podStartDate: subtractDays(new Date(), 5).toString(),
+    podEndDate: addDays(new Date(), 35).toString(),
     project: project2,
   },
   {
@@ -93,8 +93,8 @@ export const mockFePod: IFEPod[] = [
     podName: "Gang",
     enablee: dummyEnablees,
     enabler: null,
-    podStartDate: "2022-03-21",
-    podEndDate: "2023-06-21",
+    podStartDate: subtractDays(new Date(), 5).toString(),
+    podEndDate: addDays(new Date(), 35).toString(),
     project: project3,
   },
   {
@@ -107,3 +107,15 @@ export const mockFePod: IFEPod[] = [
     project: project3,
   },
 ];
+
+function addDays(date: Date, days: number) {
+  const copy = new Date(Number(date));
+  copy.setDate(date.getDate() + days);
+  return copy;
+}
+
+function subtractDays(date: Date, days: number) {
+  const copy = new Date(Number(date));
+  copy.setDate(date.getDate() - days);
+  return copy;
+}

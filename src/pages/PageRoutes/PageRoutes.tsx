@@ -42,6 +42,15 @@ function PageRoutes() {
                   }
                 />
                 <Route
+                  path="masterList"
+                  element={
+                    <EnableePageContainer
+                      hook={useAllEnablees}
+                      displayPageCarousel={true}
+                    />
+                  }
+                />
+                <Route
                   path="pendingStart"
                   element={
                     <EnableePageContainer
@@ -56,7 +65,11 @@ function PageRoutes() {
                 />
               </Route>
             </Route>
-
+            {/* uncomment when 131 is complete */}
+            {/* <Route 
+                path="/enabler" 
+                element {<EnablerView />}
+            /> */}
             <Route path="/mgt" element={<ManagementContainer />} />
             <Route>
               <Route path="/pod" element={<PodView />}>

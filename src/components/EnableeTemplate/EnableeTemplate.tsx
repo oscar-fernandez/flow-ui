@@ -2,13 +2,16 @@ import { Button, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
 import "./EnableeTemplate.css";
-import { mockTechnology } from "../../data/MockData";
 import { TagComponent } from "../TagComponent/Tag";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import FilteredPod from "./FilteredPod";
 import { mockFePod } from "../../data/MockFEPod";
 import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
+import { useToggleDetails } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import IEnablee from "../../models/interfaces/IEnablee";
+import ITechnology from "../../models/interfaces/ITechnology";
+import { red } from "@mui/material/colors";
 
 const InputProps = {
   disableUnderline: true,
@@ -33,12 +36,12 @@ const inputStyle = {
 };
 
 const titleProps = {
-  marginBottom: "1rem",
   input: {
     fontFamily: "Darker Grotesque",
     fontSize: "32px",
     color: "#000048",
     fontWeight: 700,
+    borderBottomColor: "red",
     letterSpacing: "0.025em",
     "&::placeholder": {
       color: "#8A8B8A",
@@ -94,6 +97,7 @@ export default function EnableeTemplate() {
   const [employmentType, setEmploymentType] = useState("");
   const [isEmployed, setIsEmployed] = useState(true);
   const [grade, setGrade] = useState("");
+  const [techStack, setTeckStack] = useState<ITechnology[]>([]);
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
@@ -106,6 +110,32 @@ export default function EnableeTemplate() {
       setSelectedPod(result);
     }
   };
+  const [enablee, setEnablee] = useToggleDetails();
+
+  // Hacky way to ensure that the useEffect is passed in a Enablee
+  function isEnablee(object: any): object is IEnablee {
+    return "enablementStartDate" in object;
+  }
+
+  useEffect(() => {
+    if (enablee && isEnablee(enablee)) {
+      setName(`${enablee.firstName} ${enablee.lastName}`);
+      setStartDate(new Date(enablee.enablementStartDate));
+      setEndDate(new Date(enablee.enablementEndDate));
+      setEmployeeId(enablee.employeeId.toString());
+      setDateOfJoin(enablee.dateOfJoin);
+      const tags = enablee.assetTag ? enablee.assetTag.toString() : "";
+      setAssetTag(tags);
+      setCountry(enablee.countryCode.toString());
+      setCommunity(enablee.communityId.toString());
+      const employmentType = enablee.employmentTypeId
+        ? enablee.employmentTypeId.toString()
+        : "";
+      setEmploymentType(employmentType);
+      setGrade(enablee.gradeId.toString());
+      setTeckStack(enablee.technology);
+    }
+  }, []);
 
   //check if all fields are entered
   useEffect(() => {
@@ -126,7 +156,8 @@ export default function EnableeTemplate() {
     if (startDate && endDate) {
       const filtered = mockFePod.filter((pod) =>
         isEnableeValidForPod(
-          pod,
+          pod.podStartDate,
+          pod.podEndDate,
           startDate.toDateString(),
           endDate.toDateString()
         )
@@ -141,6 +172,7 @@ export default function EnableeTemplate() {
         <form>
           <TextField
             value={name}
+            key="name"
             placeholder="Empty"
             variant="standard"
             autoComplete="off"
@@ -149,10 +181,13 @@ export default function EnableeTemplate() {
             onChange={(e) => setName(e.target.value)}
             inputProps={{ "data-testid": "enableeName" }}
             error={name.trim().length === 0}
-            helperText={
-              name.trim().length === 0 ? "* Enablee Name required" : " "
-            }
           />
+          {name.length === 0 ? (
+            <div className="form-error">* Enablee Name required</div>
+          ) : (
+            <div className="dummy-padding"></div>
+          )}
+
           <div className="grid-container">
             <Typography sx={labelStyle}>Enablement Dates</Typography>
             <DatepickerComponent
@@ -162,20 +197,22 @@ export default function EnableeTemplate() {
               setEndDate={setEndDate}
             />
             <Typography sx={labelStyle}>Employee Id</Typography>
-            <TextField
-              value={employeeId}
-              placeholder="Empty"
-              variant="standard"
-              autoComplete="off"
-              InputProps={InputProps}
-              sx={inputStyle}
-              onChange={(e) => setEmployeeId(e.target.value)}
-              error={employeeId.trim().length === 0}
-              helperText={
-                employeeId.trim().length === 0 ? "* Id required" : " "
-              }
-              inputProps={{ "data-testid": "employeeId" }}
-            />
+            <div className="id-wrap">
+              <TextField
+                value={employeeId}
+                placeholder="Empty"
+                variant="standard"
+                autoComplete="off"
+                InputProps={InputProps}
+                sx={inputStyle}
+                onChange={(e) => setEmployeeId(e.target.value)}
+                error={employeeId.trim().length === 0}
+                inputProps={{ "data-testid": "employeeId" }}
+              />
+              {employeeId.length === 0 ? (
+                <div className="form-error">* Employee Id required</div>
+              ) : null}
+            </div>
             <Typography sx={labelStyle}>Date of Join</Typography>
             <Typography sx={dateStyle}>{dateOfJoin}</Typography>
             <Typography sx={labelStyle}>Asset Tag</Typography>
@@ -244,7 +281,7 @@ export default function EnableeTemplate() {
             />
             <Typography sx={labelStyle}>Tech Stack</Typography>
             <div>
-              {mockTechnology.map((tech) => (
+              {techStack.map((tech) => (
                 <TagComponent
                   name={tech.name}
                   color={tech.backgroundColor}
@@ -253,22 +290,46 @@ export default function EnableeTemplate() {
               ))}
             </div>
           </div>
-          <PageViewHeader pageTitle={"Pod"} showPlus={true} />
-          {filteredPods.length > 0 ? (
-            <>
-              {filteredPods.map((pod) => {
-                return (
-                  <FilteredPod
-                    key={pod.id}
-                    pod={pod}
-                    enableeTech={mockTechnology}
-                    handleOnClick={handleOnClick}
-                    selectedPod={selectedPod}
-                  />
-                );
-              })}
-            </>
-          ) : (
+          <div className="pod-section">
+            <PageViewHeader
+              pageTitle={"Pod"}
+              showPlus={true}
+              isHeader={false}
+              plusClicked={false}
+            />
+            {filteredPods.length > 0 ? (
+              <>
+                {filteredPods.map((pod) => {
+                  return (
+                    <FilteredPod
+                      key={pod.id}
+                      pod={pod}
+                      enableeTech={techStack}
+                      handleOnClick={handleOnClick}
+                      selectedPod={selectedPod}
+                    />
+                  );
+                })}
+              </>
+            ) : (
+              <Typography
+                sx={{
+                  ...labelStyle,
+                  width: "none",
+                  color: "rgba(138, 139, 138, 0.4)",
+                }}
+              >
+                No Pods Match Enablement Dates
+              </Typography>
+            )}
+          </div>
+          <div className="comment-section">
+            <PageViewHeader
+              pageTitle={"Comments"}
+              showPlus={true}
+              isHeader={false}
+              plusClicked={false}
+            />
             <Typography
               sx={{
                 ...labelStyle,
@@ -276,19 +337,9 @@ export default function EnableeTemplate() {
                 color: "rgba(138, 139, 138, 0.4)",
               }}
             >
-              No Pods Match Enablement Dates
+              No Comments
             </Typography>
-          )}
-          <PageViewHeader pageTitle={"Comments"} showPlus={true} />
-          <Typography
-            sx={{
-              ...labelStyle,
-              width: "none",
-              color: "rgba(138, 139, 138, 0.4)",
-            }}
-          >
-            No Comments
-          </Typography>
+          </div>
           <div className="button-center">
             <Button
               disabled={disableSubmit}

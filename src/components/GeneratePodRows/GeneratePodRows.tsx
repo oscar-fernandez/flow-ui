@@ -11,7 +11,10 @@ import "./GeneratePodRows.css";
 import { TagComponent } from "../TagComponent/Tag";
 import IDisplayTag from "../../models/interfaces/IDisplayTag";
 import AlertContainer from "../Alert/AlertContainer";
-import { useToggle } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import {
+  useToggle,
+  useToggleDetails,
+} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
 
 interface Props {
@@ -22,6 +25,7 @@ interface Props {
 
 export function GeneratePodRows({ pods, displayTag, location }: Props) {
   const [toggle, changeToggle] = useToggle();
+  const [details, setDetails] = useToggleDetails();
 
   const handleCreatePodClick = () => {
     changeToggle();
@@ -60,7 +64,8 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
             <Row
               key={i}
               onClick={() => {
-                return "";
+                changeToggle();
+                setDetails(pod);
               }}
             >
               <div className="row-sm-child">
