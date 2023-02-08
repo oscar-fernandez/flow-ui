@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import PodPageContainer from "./PodPageContainer";
 import { mockFePod } from "../../data/MockFEPod";
 import {
@@ -46,12 +46,17 @@ const mockConvertToStringArr = convertToStringArr as jest.MockedFunction<
   typeof convertToStringArr
 >;
 
+const mockUpdatePodsFn = vi.fn((list: IFEPod[]) => []);
+
+beforeEach(() => {
+  vi.restoreAllMocks();
+});
+
 const techList = ["Java", ".Net", "React", "JavaScript"];
 
 describe("Testing pod page container", async () => {
   it("display alert component", async () => {
-    const dumbFunction = vi.fn((list: IFEPod[]) => []);
-    mockUseActivePods.mockReturnValue([[], dumbFunction]);
+    mockUseActivePods.mockReturnValue([[], mockUpdatePodsFn]);
     mockConvertToStringArr.mockReturnValue(techList);
     render(
       <MemoryRouter initialEntries={["/pod/active"]}>
@@ -66,8 +71,7 @@ describe("Testing pod page container", async () => {
   });
 
   it("display alert component when wrong route is passed", async () => {
-    const dumbFunction = vi.fn((list: IFEPod[]) => []);
-    mockUseActivePods.mockReturnValue([[], dumbFunction]);
+    mockUseActivePods.mockReturnValue([[], mockUpdatePodsFn]);
     mockConvertToStringArr.mockReturnValue(techList);
     render(
       <MemoryRouter initialEntries={[""]}>
@@ -82,8 +86,7 @@ describe("Testing pod page container", async () => {
   });
 
   it("display alert component when defailt route is passed", async () => {
-    const dumbFunction = vi.fn((list: IFEPod[]) => []);
-    mockUseActivePods.mockReturnValue([[], dumbFunction]);
+    mockUseActivePods.mockReturnValue([[], mockUpdatePodsFn]);
     mockConvertToStringArr.mockReturnValue(techList);
     render(
       <MemoryRouter initialEntries={["/pod/"]}>
@@ -98,8 +101,7 @@ describe("Testing pod page container", async () => {
   });
 
   it("does not display alert component when pod list is not empty", async () => {
-    const dumbFunction = vi.fn((list: IFEPod[]) => []);
-    mockUseActivePods.mockReturnValue([mockFePod, dumbFunction]);
+    mockUseActivePods.mockReturnValue([mockFePod, mockUpdatePodsFn]);
     mockGetActivePendingPodTag.mockReturnValue({
       name: "Active",
       color: "#E63946",
@@ -118,8 +120,7 @@ describe("Testing pod page container", async () => {
   });
 
   it("display available pod to check if active tag is been display", () => {
-    const dumbFunction = vi.fn((list: IFEPod[]) => []);
-    mockUseActivePods.mockReturnValue([[], dumbFunction]);
+    mockUseAvailablePods.mockReturnValue([mockFePod, mockUpdatePodsFn]);
     mockGetActivePendingPodTag.mockReturnValue({
       name: "Active",
       color: "#E63946",
@@ -143,8 +144,7 @@ describe("Testing pod page container", async () => {
   });
 
   it("display avtive pod to check if available tag is been display", () => {
-    const dumbFunction = vi.fn((list: IFEPod[]) => []);
-    mockUseActivePods.mockReturnValue([[], dumbFunction]);
+    mockUseActivePods.mockReturnValue([mockFePod, mockUpdatePodsFn]);
     mockGetActivePendingPodTag.mockReturnValue({
       name: "Available",
       color: "#E63946",
@@ -168,8 +168,7 @@ describe("Testing pod page container", async () => {
   });
 
   it("display pending pod to check if available tag is been display", () => {
-    const dumbFunction = vi.fn((list: IFEPod[]) => []);
-    mockUseActivePods.mockReturnValue([[], dumbFunction]);
+    mockUsePendingStartPods.mockReturnValue([mockFePod, mockUpdatePodsFn]);
     mockGetAvailablePodTags.mockReturnValue({
       name: "Available",
       color: "#E63946",
@@ -193,8 +192,7 @@ describe("Testing pod page container", async () => {
   });
 
   it("display completed pod to check if no tag is been display", () => {
-    const dumbFunction = vi.fn((list: IFEPod[]) => []);
-    mockUseActivePods.mockReturnValue([[], dumbFunction]);
+    mockUseCompletedPods.mockReturnValue([mockFePod, mockUpdatePodsFn]);
     mockGetAvailablePodTags.mockReturnValue({
       name: "",
       color: "#E63946",
