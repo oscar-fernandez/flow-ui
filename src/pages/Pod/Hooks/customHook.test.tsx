@@ -54,6 +54,11 @@ describe("useCustomHook Pods tests", () => {
     const { result } = renderHook(() => useCompletedPods(location));
     await act(() => mock);
     expect(result.current[0]).toEqual(podList.data);
+
+    const fn = result.current[1];
+    !(fn instanceof Array) && fn([]);
+
+    await waitFor(() => expect(result.current[0]).toEqual([]));
   });
 
   it("should get active pods on mount", async () => {
@@ -67,6 +72,11 @@ describe("useCustomHook Pods tests", () => {
     await act(() => mockActive);
 
     expect(result.current[0]).toEqual(podList.data);
+
+    const fn = result.current[1];
+    !(fn instanceof Array) && fn([]);
+
+    await waitFor(() => expect(result.current[0]).toEqual([]));
   });
 
   it("should get pending start pods on mount", async () => {
@@ -75,5 +85,10 @@ describe("useCustomHook Pods tests", () => {
     const { result } = renderHook(() => usePendingStartPods(location));
     await act(() => getPodsPendingStartMock);
     expect(result.current[0]).toEqual(mockFePod);
+
+    const fn = result.current[1];
+    !(fn instanceof Array) && fn([]);
+
+    await waitFor(() => expect(result.current[0]).toEqual([]));
   });
 });
