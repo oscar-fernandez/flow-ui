@@ -34,6 +34,13 @@ describe("usePendingPodEnablees hook tests", async () => {
       },
     ],
   };
+  const location = {
+    hash: "",
+    key: "cmgzl3g9",
+    pathname: "/enablee/pendingStart",
+    search: "",
+    state: null,
+  };
   it("should make an API call on mount", async () => {
     const mock = GetEnableesPendingPodAssignment as jest.Mock;
     mock.mockResolvedValue(enableesList);
@@ -53,7 +60,9 @@ describe("usePendingPodEnablees hook tests", async () => {
     const mock = GetEnableesWithNoStartDate as jest.Mock;
     mock.mockResolvedValue(enableesList);
 
-    const { result } = renderHook(() => usePendingStartEnablees());
+    const { result } = renderHook(() =>
+      usePendingStartEnablees(location.pathname)
+    );
 
     await act(() => mock);
     expect(result.current[0]).toEqual([...enableesList.data]);
