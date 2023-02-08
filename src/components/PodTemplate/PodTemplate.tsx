@@ -86,6 +86,7 @@ export default function PodTemplate() {
       setEnablers(pod.enabler);
       setStartDate(new Date(pod.podStartDate));
       setEndDate(new Date(pod.podEndDate));
+      setProjectSelected(pod.project.name);
     }
   }, [pod]);
 
@@ -193,7 +194,7 @@ export default function PodTemplate() {
               </div>
             )}
             <div className="div2">
-              <span className="numpods">{numEnablees} / 15</span>
+              <div className="numpods">{numEnablees} / 15</div>
             </div>
 
             <div className="div3">

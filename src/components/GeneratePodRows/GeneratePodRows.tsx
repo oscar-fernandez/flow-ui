@@ -16,6 +16,7 @@ import {
   useToggleDetails,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
+import { mockFePod } from "../../data/MockFEPod";
 
 interface Props {
   pods: IFEPod[];
@@ -31,7 +32,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
     changeToggle();
   };
 
-  const isPodEmpty = pods?.length === 0;
+  const isPodEmpty = mockFePod.length === 0;
 
   return (
     <>
@@ -45,7 +46,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
           <ToggleSidebar template={<div>Pod Side Bar</div>} />
         </div>
       ) : (
-        pods?.map((pod, i) => {
+        mockFePod.map((pod, i) => {
           const tooltip = [...convertToStringArr(pod.project.technology)];
           const techDisplay = shortenStringList(tooltip);
           const startDate = new Date(pod.podStartDate);

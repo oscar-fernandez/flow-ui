@@ -8,7 +8,6 @@
   width: 430px;
   background-color: #fff;
   z-index: 1000;
-  overflow-y: scroll;
 }
 
 .margin-container {
@@ -37,7 +36,8 @@
 .content-section {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, 1fr);
+  /* grid-template-rows: repeat(5, 1fr); */
+  grid-auto-rows: minmax(61px, auto);
   grid-column-gap: 0px;
   grid-row-gap: 10px;
   padding-top: 35px;
@@ -71,13 +71,14 @@
 }
 .div10 {
   grid-area: 5 / 2 / 6 / 3;
+  height: auto;
 }
 /* END OF CONTENT LAYOUT */
 
 /* START OF INPUT STYLING */
 .podname-input {
   width: 150px;
-  height: 32px;
+  height: 40px;
   font-weight: 700;
   font-size: 32px;
   letter-spacing: 0.025em;
@@ -152,6 +153,7 @@
   line-height: 100%;
   letter-spacing: 0.025em;
   color: #8a8b8a;
+  margin-top: 0.9em;
 }
 /* END OF HEADER STYLING */
 
@@ -210,7 +212,7 @@
 }
 
 .techstack-container {
-  position: absolute;
+  /* position: absolute; */
 }
 
 .techstack-list {
