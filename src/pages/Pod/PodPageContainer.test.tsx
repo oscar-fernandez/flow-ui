@@ -14,6 +14,7 @@ import {
   getAvailablePodTag,
 } from "../../utils/utilityFunctions";
 import { MemoryRouter } from "react-router-dom";
+import IFEPod from "../../models/interfaces/IFEPod";
 
 vi.mock("./Hooks/customHook");
 vi.mock("../../utils/utilityFunctions");
@@ -49,7 +50,8 @@ const techList = ["Java", ".Net", "React", "JavaScript"];
 
 describe("Testing pod page container", async () => {
   it("display alert component", async () => {
-    mockUseActivePods.mockReturnValue([]);
+    const dumbFunction = vi.fn((list: IFEPod[]) => []);
+    mockUseActivePods.mockReturnValue([[], dumbFunction]);
     mockConvertToStringArr.mockReturnValue(techList);
     render(
       <MemoryRouter initialEntries={["/pod/active"]}>
@@ -64,7 +66,8 @@ describe("Testing pod page container", async () => {
   });
 
   it("display alert component when wrong route is passed", async () => {
-    mockUseActivePods.mockReturnValue([]);
+    const dumbFunction = vi.fn((list: IFEPod[]) => []);
+    mockUseActivePods.mockReturnValue([[], dumbFunction]);
     mockConvertToStringArr.mockReturnValue(techList);
     render(
       <MemoryRouter initialEntries={[""]}>
@@ -79,7 +82,8 @@ describe("Testing pod page container", async () => {
   });
 
   it("display alert component when defailt route is passed", async () => {
-    mockUseActivePods.mockReturnValue([]);
+    const dumbFunction = vi.fn((list: IFEPod[]) => []);
+    mockUseActivePods.mockReturnValue([[], dumbFunction]);
     mockConvertToStringArr.mockReturnValue(techList);
     render(
       <MemoryRouter initialEntries={["/pod/"]}>
@@ -94,7 +98,8 @@ describe("Testing pod page container", async () => {
   });
 
   it("does not display alert component when pod list is not empty", async () => {
-    mockUseActivePods.mockReturnValue(mockFePod);
+    const dumbFunction = vi.fn((list: IFEPod[]) => []);
+    mockUseActivePods.mockReturnValue([mockFePod, dumbFunction]);
     mockGetActivePendingPodTag.mockReturnValue({
       name: "Active",
       color: "#E63946",
@@ -113,7 +118,8 @@ describe("Testing pod page container", async () => {
   });
 
   it("display available pod to check if active tag is been display", () => {
-    mockUseAvailablePods.mockReturnValue(mockFePod);
+    const dumbFunction = vi.fn((list: IFEPod[]) => []);
+    mockUseActivePods.mockReturnValue([[], dumbFunction]);
     mockGetActivePendingPodTag.mockReturnValue({
       name: "Active",
       color: "#E63946",
@@ -137,7 +143,8 @@ describe("Testing pod page container", async () => {
   });
 
   it("display avtive pod to check if available tag is been display", () => {
-    mockUseAvailablePods.mockReturnValue(mockFePod);
+    const dumbFunction = vi.fn((list: IFEPod[]) => []);
+    mockUseActivePods.mockReturnValue([[], dumbFunction]);
     mockGetActivePendingPodTag.mockReturnValue({
       name: "Available",
       color: "#E63946",
@@ -161,7 +168,8 @@ describe("Testing pod page container", async () => {
   });
 
   it("display pending pod to check if available tag is been display", () => {
-    mockUsePendingStartPods.mockReturnValue(mockFePod);
+    const dumbFunction = vi.fn((list: IFEPod[]) => []);
+    mockUseActivePods.mockReturnValue([[], dumbFunction]);
     mockGetAvailablePodTags.mockReturnValue({
       name: "Available",
       color: "#E63946",
@@ -185,7 +193,8 @@ describe("Testing pod page container", async () => {
   });
 
   it("display completed pod to check if no tag is been display", () => {
-    mockUseCompletedPods.mockReturnValue(mockFePod);
+    const dumbFunction = vi.fn((list: IFEPod[]) => []);
+    mockUseActivePods.mockReturnValue([[], dumbFunction]);
     mockGetAvailablePodTags.mockReturnValue({
       name: "",
       color: "#E63946",

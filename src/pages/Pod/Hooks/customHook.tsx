@@ -8,7 +8,9 @@ import {
 } from "../../../services/PodAPI";
 import { Location } from "react-router-dom";
 
-export function useCompletedPods(location: Location) {
+export function useCompletedPods(
+  location: Location
+): [IFEPod[], (list: IFEPod[]) => void] {
   const [podList, setPodList] = useState<IFEPod[]>([]);
 
   const updatePods = () => {
@@ -27,7 +29,9 @@ export function useCompletedPods(location: Location) {
   return [podList, updatePodList];
 }
 
-export function useAvailablePods(location: Location) {
+export function useAvailablePods(
+  location: Location
+): [IFEPod[], (list: IFEPod[]) => void] {
   const [podList, setPodList] = useState<IFEPod[]>([]);
   const updatePods = () => {
     getAvailablePods().then((res) => {
@@ -46,7 +50,9 @@ export function useAvailablePods(location: Location) {
   return [podList, updatePodList];
 }
 
-export function useActivePods(location: Location) {
+export function useActivePods(
+  location: Location
+): [IFEPod[], (list: IFEPod[]) => void] {
   const [podList, setPodList] = useState<IFEPod[]>([]);
   const updatePods = () => {
     getActivePods().then((res) => {
@@ -65,7 +71,9 @@ export function useActivePods(location: Location) {
   return [podList, updatePodList];
 }
 
-export const usePendingStartPods = (location: Location) => {
+export function usePendingStartPods(
+  location: Location
+): [IFEPod[], (list: IFEPod[]) => void] {
   const [podList, setPodList] = useState<IFEPod[]>([]);
   const updatePods = () => {
     getPendingPods().then((res) => {
@@ -82,4 +90,4 @@ export const usePendingStartPods = (location: Location) => {
   }, [location]);
 
   return [podList, updatePodList];
-};
+}
