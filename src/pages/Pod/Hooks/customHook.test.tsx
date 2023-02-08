@@ -1,4 +1,4 @@
-import { renderHook, act } from "@testing-library/react";
+import { renderHook, act, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
 import {
@@ -35,7 +35,13 @@ describe("useCustomHook Pods tests", () => {
 
     const { result } = renderHook(() => useAvailablePods(location));
     await act(() => mockPods);
+
     expect(result.current[0]).toEqual(podList.data);
+
+    const fn = result.current[1];
+    !(fn instanceof Array) && fn([]);
+
+    await waitFor(() => expect(result.current[0]).toEqual([]));
   });
 
   it("should get completed pods on mount", async () => {
