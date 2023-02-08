@@ -19,7 +19,7 @@ describe("PageRoutes", () => {
     render(<PageRoutes />);
 
     fireEvent.click(screen.getByText("Pod"));
-    fireEvent.click(screen.getByText("Completed Pod"));
+    fireEvent.click(screen.getByText("Completed"));
 
     await waitFor(() => {
       const test = screen.queryByTestId("tag-name");
