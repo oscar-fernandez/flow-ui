@@ -18,7 +18,7 @@ export const MenuItemsList = [
 export const EnableeSubMenuItems = [
   {
     name: "Master List",
-    routePath: "/enablee",
+    routePath: "/enablee/masterList",
     handleOnClick: () => null,
   },
   {
@@ -35,22 +35,22 @@ export const EnableeSubMenuItems = [
 
 export const PodSubMenuItems = [
   {
-    name: "Active Pod",
+    name: "Active",
     routePath: "/pod/active",
     handleOnClick: () => null,
   },
   {
-    name: "Pending Pod",
+    name: "Pending",
     routePath: "/pod/pending",
     handleOnClick: () => null,
   },
   {
-    name: "Available Pod",
+    name: "Available",
     routePath: "/pod/available",
     handleOnClick: () => null,
   },
   {
-    name: "Completed Pod",
+    name: "Completed",
     routePath: "/pod/completed",
     handleOnClick: () => null,
   },

@@ -42,6 +42,15 @@ function PageRoutes() {
                   }
                 />
                 <Route
+                  path="masterList"
+                  element={
+                    <EnableePageContainer
+                      hook={useAllEnablees}
+                      displayPageCarousel={true}
+                    />
+                  }
+                />
+                <Route
                   path="pendingStart"
                   element={
                     <EnableePageContainer
