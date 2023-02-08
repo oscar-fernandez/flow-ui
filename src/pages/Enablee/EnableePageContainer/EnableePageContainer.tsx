@@ -5,7 +5,7 @@ import Row from "../../../components/RowComponent/Row";
 import { TagComponent } from "../../../components/TagComponent/Tag";
 import {
   useToggle,
-  useToggleDetails,
+  useToggleDetail,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../../models/interfaces/IEnablee";
 import ITechnology from "../../../models/interfaces/ITechnology";
@@ -24,7 +24,7 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
   const [enablees, getEnablees] = hook();
   const [page, setPage] = useState(1);
   const [toggle, changeToggle] = useToggle();
-  const [details, setDetails] = useToggleDetails();
+  const [details, setDetails] = useToggleDetail();
 
   const getTotalPages = () => {
     return Math.ceil(enablees.totalElements / 25);
