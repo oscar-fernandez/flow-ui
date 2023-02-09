@@ -1,4 +1,4 @@
-import { renderHook, act } from "@testing-library/react";
+import { renderHook, act, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
 import {
@@ -35,7 +35,13 @@ describe("useCustomHook Pods tests", () => {
 
     const { result } = renderHook(() => useAvailablePods(location));
     await act(() => mockPods);
-    expect(result.current).toEqual(podList.data);
+
+    expect(result.current[0]).toEqual(podList.data);
+
+    const fn = result.current[1];
+    !(fn instanceof Array) && fn([]);
+
+    await waitFor(() => expect(result.current[0]).toEqual([]));
   });
 
   it("should get completed pods on mount", async () => {
@@ -47,17 +53,15 @@ describe("useCustomHook Pods tests", () => {
     mock.mockResolvedValue(podList);
     const { result } = renderHook(() => useCompletedPods(location));
     await act(() => mock);
-    expect(result.current).toEqual(podList.data);
+    expect(result.current[0]).toEqual(podList.data);
+
+    const fn = result.current[1];
+    !(fn instanceof Array) && fn([]);
+
+    await waitFor(() => expect(result.current[0]).toEqual([]));
   });
 
   it("should get active pods on mount", async () => {
-    /* const mockFePodData = mockFePod.filter(
-      (pod) =>
-        Date.parse(pod.podStartDate) <= Date.now() &&
-        Date.parse(pod.podEndDate) >= Date.now()
-    );
-    const { result } = renderHook(() => useActivePods());  */
-
     const podList = {
       data: [...mockFePod],
     };
@@ -67,7 +71,12 @@ describe("useCustomHook Pods tests", () => {
     const { result } = renderHook(() => useActivePods(location));
     await act(() => mockActive);
 
-    expect(result.current).toEqual(podList.data);
+    expect(result.current[0]).toEqual(podList.data);
+
+    const fn = result.current[1];
+    !(fn instanceof Array) && fn([]);
+
+    await waitFor(() => expect(result.current[0]).toEqual([]));
   });
 
   it("should get pending start pods on mount", async () => {
@@ -75,6 +84,11 @@ describe("useCustomHook Pods tests", () => {
     getPodsPendingStartMock.mockResolvedValue({ data: mockFePod });
     const { result } = renderHook(() => usePendingStartPods(location));
     await act(() => getPodsPendingStartMock);
-    expect(result.current).toEqual(mockFePod);
+    expect(result.current[0]).toEqual(mockFePod);
+
+    const fn = result.current[1];
+    !(fn instanceof Array) && fn([]);
+
+    await waitFor(() => expect(result.current[0]).toEqual([]));
   });
 });
