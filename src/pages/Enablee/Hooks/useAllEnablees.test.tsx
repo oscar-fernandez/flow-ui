@@ -16,11 +16,18 @@ describe("useAllEnablees hook", () => {
       },
     ],
   };
+  const location = {
+    hash: "",
+    key: "cmgzl3g9",
+    pathname: "/enablee",
+    search: "",
+    state: null,
+  };
 
   it("should make an API call on mount", async () => {
     const getPaginatedEnableesMock = GetPaginatedEnablees as jest.Mock;
     getPaginatedEnableesMock.mockResolvedValue(enableePage);
-    const { result } = renderHook(() => useAllEnablees());
+    const { result } = renderHook(() => useAllEnablees(location.pathname));
     await act(() => getPaginatedEnableesMock);
     expect(result.current[0]).toEqual(enableePage.data);
   });
