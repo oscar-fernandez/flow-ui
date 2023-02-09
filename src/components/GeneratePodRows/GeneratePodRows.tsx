@@ -16,6 +16,8 @@ import {
   useToggleDetails,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
+import { mockFePod } from "../../data/MockFEPod";
+import { badgesArray } from "../../data/BadgesArray";
 
 interface Props {
   pods: IFEPod[];
@@ -31,7 +33,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
     changeToggle();
   };
 
-  const isPodEmpty = pods?.length === 0;
+  const isPodEmpty = pods?.length === 1;
 
   return (
     <>
@@ -45,7 +47,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
           <ToggleSidebar template={<div>Pod Side Bar</div>} />
         </div>
       ) : (
-        pods?.map((pod, i) => {
+        mockFePod.map((pod, i) => {
           const tooltip = [...convertToStringArr(pod.project.technology)];
           const techDisplay = shortenStringList(tooltip);
           const startDate = new Date(pod.podStartDate);
@@ -69,7 +71,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
               }}
             >
               <div className="row-sm-child">
-                <div className="square"></div>
+                <img className="img" src={badgesArray[i].path} />
               </div>
 
               <div className="row-child row-name">
