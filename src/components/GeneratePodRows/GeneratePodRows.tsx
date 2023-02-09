@@ -16,7 +16,6 @@ import {
   useToggleDetails,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
-import { mockFePod } from "../../data/MockFEPod";
 import { badgesArray, pickBadgePicture } from "../../data/BadgesArray";
 
 interface Props {
@@ -29,7 +28,6 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetails();
 
-  // const [badgeIndex, setBadgeIndex] = useState(0);
   let badgeIndex = 0;
 
   const handleCreatePodClick = () => {
