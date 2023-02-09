@@ -11,7 +11,13 @@ interface Props {
 
 const itemColor = "#CCCCDA";
 const subMenuItemColor = "#000048";
-
+/**
+ * m = toggle side bar items
+ * s = on hover menu items
+ * sm = collapsible menu items
+ * @param param0 sidebar items
+ * @returns sidebar
+ */
 export default function SimpleMenuItem({
   menuItemName,
   routePath,
@@ -52,7 +58,7 @@ export default function SimpleMenuItem({
         <List sx={{ padding: "0" }}>
           <ListItem disablePadding>
             <ListItemButton
-              className="side-bar-item"
+              className="on-hover-item"
               onClick={(e) => {
                 handleClickAndNavigate(e);
               }}
