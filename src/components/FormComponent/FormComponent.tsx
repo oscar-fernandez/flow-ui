@@ -312,7 +312,7 @@ export default function FormComponent(props: any) {
                         "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)"
                       ) ||
                       selectedStack.length === 0 ||
-                      projectDescription.length >= 100
+                      projectDescription?.length >= 100
                     }
                   >
                     Submit
