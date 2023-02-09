@@ -3,16 +3,16 @@ export const MenuItemsList = [
     name: "Flow",
   },
   {
-    name: "Enablee",
-  },
-  {
     name: "Enabler",
   },
   {
-    name: "Management",
+    name: "Pod",
   },
   {
-    name: "Pod",
+    name: "Enablee",
+  },
+  {
+    name: "Management",
   },
 ];
 export const EnableeSubMenuItems = [
@@ -22,13 +22,13 @@ export const EnableeSubMenuItems = [
     handleOnClick: () => null,
   },
   {
-    name: "Pending Start",
-    routePath: "enablee/pendingStart",
+    name: "Pending Pod Assignment",
+    routePath: "enablee/pendingPodAssignment",
     handleOnClick: () => null,
   },
   {
-    name: "Pending Pod Assignment",
-    routePath: "enablee/pendingPodAssignment",
+    name: "Pending Enablement Start Date",
+    routePath: "enablee/pendingStart",
     handleOnClick: () => null,
   },
 ];
