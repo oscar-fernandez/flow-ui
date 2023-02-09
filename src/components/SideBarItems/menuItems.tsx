@@ -6,6 +6,9 @@ export const MenuItemsList = [
     name: "Enablee",
   },
   {
+    name: "Enabler",
+  },
+  {
     name: "Management",
   },
   {
@@ -52,3 +55,5 @@ export const PodSubMenuItems = [
     handleOnClick: () => null,
   },
 ];
+
+export const EnablerSubMenuItems = [{}];
