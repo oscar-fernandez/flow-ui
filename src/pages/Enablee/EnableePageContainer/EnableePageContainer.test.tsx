@@ -8,6 +8,7 @@ import {
 } from "../../../utils/utilityFunctions";
 import { dummyEnablees } from "../../../data/EnableeMock";
 import { usePendingStartEnablees } from "../Hooks/customHook";
+import { MemoryRouter } from "react-router";
 
 vi.mock("../Hooks/useAllEnablees");
 vi.mock("../Hooks/customHook");
@@ -47,7 +48,12 @@ describe("EnableePageContainer", () => {
     ];
     mockUseAllEnablees.mockReturnValue(pageOfItems);
     render(
-      <EnableePageContainer hook={useAllEnablees} displayPageCarousel={true} />
+      <MemoryRouter initialEntries={["/enablee/masterList"]}>
+        <EnableePageContainer
+          hook={useAllEnablees}
+          displayPageCarousel={true}
+        />
+      </MemoryRouter>
     );
     expect(
       screen.getByRole("button", {
@@ -63,10 +69,12 @@ describe("EnableePageContainer", () => {
     const arrOfItems = [dummyEnablees, vi.fn(() => null)];
     mockUsePendingStartEnablees.mockReturnValue(arrOfItems);
     render(
-      <EnableePageContainer
-        hook={usePendingStartEnablees}
-        displayPageCarousel={false}
-      />
+      <MemoryRouter initialEntries={["/enablee/pendingStart"]}>
+        <EnableePageContainer
+          hook={usePendingStartEnablees}
+          displayPageCarousel={false}
+        />
+      </MemoryRouter>
     );
     expect(
       screen.queryByRole("button", {

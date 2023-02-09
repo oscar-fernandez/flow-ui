@@ -4,6 +4,7 @@ import PageNumberCarousel from "./PageNumberCarousel";
 import { dummyEnablees } from "../../data/EnableeMock";
 import { useAllEnablees } from "../../pages/Enablee/Hooks/useAllEnablees";
 import { EnableePageContainer } from "../../pages/Enablee/EnableePageContainer/EnableePageContainer";
+import { MemoryRouter } from "react-router";
 
 vi.mock("../../pages/Enablee/Hooks/useAllEnablees");
 
@@ -128,7 +129,12 @@ describe("PageNumberCarousel", () => {
     ];
     mockUseAllEnablees.mockReturnValue(pageOfItems);
     render(
-      <EnableePageContainer hook={useAllEnablees} displayPageCarousel={true} />
+      <MemoryRouter initialEntries={["/enablee/masterList"]}>
+        <EnableePageContainer
+          hook={useAllEnablees}
+          displayPageCarousel={true}
+        />
+      </MemoryRouter>
     );
     const nextPageButton = screen.getByRole("button", {
       name: "Next page",
@@ -168,7 +174,12 @@ describe("PageNumberCarousel", () => {
     ];
     mockUseAllEnablees.mockReturnValue(pageOfItems);
     render(
-      <EnableePageContainer hook={useAllEnablees} displayPageCarousel={true} />
+      <MemoryRouter initialEntries={["/enablee/masterList"]}>
+        <EnableePageContainer
+          hook={useAllEnablees}
+          displayPageCarousel={true}
+        />
+      </MemoryRouter>
     );
     const nextPageButton = screen.getByRole("button", {
       name: "Next page",
@@ -190,7 +201,12 @@ describe("PageNumberCarousel", () => {
     ];
     mockUseAllEnablees.mockReturnValue(pageOfItems);
     render(
-      <EnableePageContainer hook={useAllEnablees} displayPageCarousel={true} />
+      <MemoryRouter initialEntries={["/enablee/masterList"]}>
+        <EnableePageContainer
+          hook={useAllEnablees}
+          displayPageCarousel={true}
+        />
+      </MemoryRouter>
     );
     const input = screen.getByRole("textbox");
     const goButton = screen.getByRole("button", { name: "Go" });
@@ -217,7 +233,12 @@ describe("PageNumberCarousel", () => {
     ];
     mockUseAllEnablees.mockReturnValue(pageOfItems);
     render(
-      <EnableePageContainer hook={useAllEnablees} displayPageCarousel={true} />
+      <MemoryRouter initialEntries={["/enablee/masterList"]}>
+        <EnableePageContainer
+          hook={useAllEnablees}
+          displayPageCarousel={true}
+        />
+      </MemoryRouter>
     );
     const input = screen.getByRole("textbox");
     const goButton = screen.getByRole("button", { name: "Go" });

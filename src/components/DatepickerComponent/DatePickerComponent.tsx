@@ -1,5 +1,6 @@
 import "./DatepickerComponent.css";
 import DatePicker from "react-datepicker";
+import { useEffect } from "react";
 
 interface Props {
   startDate: Date | null;
@@ -25,6 +26,8 @@ export const DatepickerComponent = ({
         endDate={endDate}
         // selectsRange
         minDate={new Date()}
+        maxDate={endDate}
+        excludeDates={[new Date(endDate!)]}
         dateFormat="MMMM d, yyyy -"
         placeholderText="No Start Date Selected"
       />
@@ -37,6 +40,7 @@ export const DatepickerComponent = ({
         selectsEnd
         startDate={startDate}
         endDate={endDate}
+        excludeDates={[new Date(startDate!)]}
         // selectsRange
         minDate={startDate}
         dateFormat="MMMM d, yyyy"

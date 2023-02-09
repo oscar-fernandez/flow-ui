@@ -15,7 +15,7 @@ export function OnHoverMenuItems(props: {
     <div className="hovermenuitems-container">
       <ul className="submenu">
         {props.subMenuItems.map((item, i) => (
-          <div key={i}>
+          <div className="submenu-item" key={i}>
             <SimpleMenuItem
               menuItemName={item.name}
               routePath={item.routePath}

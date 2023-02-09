@@ -13,7 +13,8 @@ import {
   MenuItemsList,
   EnableeSubMenuItems,
   PodSubMenuItems,
-} from "../../data/SubMenuMock";
+  EnablerSubMenuItems,
+} from "./menuItems";
 import { useNavigate } from "react-router";
 
 const drawerWidth = 248;
@@ -95,13 +96,19 @@ function SideBarItems() {
               </ListItem>
               <SimpleMenuItem
                 menuItemName={MenuItemsList[2].name}
+                routePath={"/enabler"}
+                handleOnClick={handleNavigate}
+                isMainMenu={"m"}
+              />
+              <SimpleMenuItem
+                menuItemName={MenuItemsList[3].name}
                 routePath={"/mgt"}
                 handleOnClick={handleNavigate}
                 isMainMenu={"m"}
               />
               <ListItem data-testid="pod-item" disablePadding>
                 <ColMenuItem
-                  menuItemName={MenuItemsList[3].name}
+                  menuItemName={MenuItemsList[4].name}
                   subMenuItems={PodSubMenuItems}
                 />
               </ListItem>
