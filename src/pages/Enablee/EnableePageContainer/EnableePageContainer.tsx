@@ -106,11 +106,6 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
                 <p className="row-secondary">Empty</p>
               )}
             </div>
-
-            <div className="row-lg-child">
-              <p className="row-secondary">Status</p>
-              <TagComponent name={statusTag.name} color={statusTag.color} />
-            </div>
           </Row>
         );
       })}
