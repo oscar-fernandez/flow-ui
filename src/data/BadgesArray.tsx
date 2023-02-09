@@ -28,11 +28,10 @@ export const badgesArray = [
 ];
 
 export function pickBadgePicture(pod: IFEPod, badgeIndex: number) {
-  for (let i = 0; i < badgesArray.length; i++) {
-    if (badgesArray[i].projectName == pod.project.name) {
+  badgesArray.map((badge, i) => {
+    if (badge.projectName == pod.project.name) {
       badgeIndex = i;
-      i = badgesArray.length;
     }
-  }
+  });
   return badgeIndex;
 }
