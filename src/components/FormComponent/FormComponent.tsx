@@ -1,8 +1,12 @@
-import { MenuItem, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { MenuItem, MenuList, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import ITechnology from "../../models/interfaces/ITechnology";
 import IProject from "../../models/interfaces/IProject";
-import { updateProject, createProject } from "../../services/ManagementAPI";
+import {
+  updateProject,
+  createProject,
+  getTechnologies,
+} from "../../services/ManagementAPI";
 import { TagComponent } from "../TagComponent/Tag";
 
 import "./FormComponent.css";
@@ -17,7 +21,8 @@ export default function FormComponent(props: any) {
       padding: 0,
       fontSize: "15px",
       fontWeight: 600,
-      color: "rgba(138, 139, 138, 0.4)",
+      //color: "rgba(138, 139, 138, 0.4)",
+      color: "rgba(120, 139, 138, 0.6)",
     },
     readOnly: props.readonly,
   };
@@ -155,9 +160,12 @@ export default function FormComponent(props: any) {
                   projectName === undefined || projectName?.trim().length === 0
                 }
                 helperText={
-                  projectName === undefined || projectName?.trim().length === 0
-                    ? "* Invalid Project Name"
-                    : " "
+                  projectName === undefined ||
+                  projectName?.trim().length === 0 ? (
+                    <p className="Invalid_msg">* Invalid Project Name</p>
+                  ) : (
+                    " "
+                  )
                 }
               />
             </div>
@@ -191,9 +199,11 @@ export default function FormComponent(props: any) {
                 helperText={
                   !projectLink?.match(
                     "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)"
+                  ) ? (
+                    <p className="Invalid_msg">* Invalid Project Link</p>
+                  ) : (
+                    " "
                   )
-                    ? "* Invalid Project Link"
-                    : " "
                 }
               />
             </div>
@@ -221,16 +231,18 @@ export default function FormComponent(props: any) {
                   projectDescription?.length > 100
                 }
                 helperText={
-                  projectDescription?.length > 100
-                    ? "* Max Character Limit Reached"
-                    : " "
+                  projectDescription?.length > 100 ? (
+                    <p className="maxCharater">* Max Character Limit Reached</p>
+                  ) : (
+                    " "
+                  )
                 }
               />
             </div>
           </div>
           <div className="column-r">
             <div className="tech-wrap">
-              <label className="p-label">Technologies</label>
+              <label className="te-label">Technologies</label>
               {selectedStack && (
                 <>
                   <div className="stack-error" data-testid={"teckStackError"}>
