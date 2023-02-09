@@ -17,7 +17,7 @@ import {
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
 import { mockFePod } from "../../data/MockFEPod";
-import { badgesArray } from "../../data/BadgesArray";
+import { badgesArray, pickBadgePicture } from "../../data/BadgesArray";
 
 interface Props {
   pods: IFEPod[];
@@ -29,11 +29,14 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetails();
 
+  // const [badgeIndex, setBadgeIndex] = useState(0);
+  let badgeIndex = 0;
+
   const handleCreatePodClick = () => {
     changeToggle();
   };
 
-  const isPodEmpty = pods?.length === 1;
+  const isPodEmpty = pods?.length === 0;
 
   return (
     <>
@@ -47,7 +50,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
           <ToggleSidebar template={<div>Pod Side Bar</div>} />
         </div>
       ) : (
-        mockFePod.map((pod, i) => {
+        pods?.map((pod, i) => {
           const tooltip = [...convertToStringArr(pod.project.technology)];
           const techDisplay = shortenStringList(tooltip);
           const startDate = new Date(pod.podStartDate);
@@ -62,6 +65,8 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
               pod.enabler[0].firstName + ", " + pod.enabler[1].firstName;
           }
 
+          badgeIndex = pickBadgePicture(pod, badgeIndex);
+
           return (
             <Row
               key={i}
@@ -71,7 +76,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
               }}
             >
               <div className="row-sm-child">
-                <img className="img" src={badgesArray[i].path} />
+                <img className="img" src={badgesArray[badgeIndex].path} />
               </div>
 
               <div className="row-child row-name">

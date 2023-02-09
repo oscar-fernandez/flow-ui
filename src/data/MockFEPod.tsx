@@ -47,7 +47,7 @@ const mockTech2: ITechnology[] = [
 
 const project: IProject = {
   id: 2,
-  name: "Flow",
+  name: "Cognivision",
   summary: "",
   technology: mockTech,
   repoLink: "",
@@ -55,7 +55,7 @@ const project: IProject = {
 
 const project2: IProject = {
   id: 2,
-  name: "Flow",
+  name: "NetZero",
   summary: "",
   technology: mockTech1,
   repoLink: "",
