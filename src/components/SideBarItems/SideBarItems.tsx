@@ -17,7 +17,7 @@ import {
 } from "./menuItems";
 import { useNavigate } from "react-router";
 
-const drawerWidth = 248;
+const drawerWidth = 270;
 
 const podSubItems = [
   { name: "Active", testID: "pod-active", url: "/active" },
@@ -88,30 +88,30 @@ function SideBarItems() {
                   />
                 </ListItemButton>
               </ListItem>
-              <ListItem data-testid="enablee-item" disablePadding>
-                <ColMenuItem
-                  menuItemName={MenuItemsList[1].name}
-                  subMenuItems={EnableeSubMenuItems}
-                />
-              </ListItem>
               <SimpleMenuItem
-                menuItemName={MenuItemsList[2].name}
+                menuItemName={MenuItemsList[1].name}
                 routePath={"/enabler"}
-                handleOnClick={handleNavigate}
-                isMainMenu={"m"}
-              />
-              <SimpleMenuItem
-                menuItemName={MenuItemsList[3].name}
-                routePath={"/mgt"}
                 handleOnClick={handleNavigate}
                 isMainMenu={"m"}
               />
               <ListItem data-testid="pod-item" disablePadding>
                 <ColMenuItem
-                  menuItemName={MenuItemsList[4].name}
+                  menuItemName={MenuItemsList[2].name}
                   subMenuItems={PodSubMenuItems}
                 />
               </ListItem>
+              <ListItem data-testid="enablee-item" disablePadding>
+                <ColMenuItem
+                  menuItemName={MenuItemsList[3].name}
+                  subMenuItems={EnableeSubMenuItems}
+                />
+              </ListItem>
+              <SimpleMenuItem
+                menuItemName={MenuItemsList[4].name}
+                routePath={"/mgt"}
+                handleOnClick={handleNavigate}
+                isMainMenu={"m"}
+              />
             </List>
           </Drawer>
         </Box>
