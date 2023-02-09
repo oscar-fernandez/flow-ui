@@ -2,6 +2,7 @@ import IFEPod from "../models/interfaces/IFEPod";
 import IProject from "../models/interfaces/IProject";
 import { dummyEnablees } from "./EnableeMock";
 import ITechnology from "../models/interfaces/ITechnology";
+import { mockEnabler } from "../data/mockEnabler";
 
 const mockTech: ITechnology[] = [
   {
@@ -73,8 +74,8 @@ export const mockFePod: IFEPod[] = [
     id: 1,
     podName: "Crew",
     enablee: dummyEnablees,
-    enabler: null,
-    podStartDate: subtractDays(new Date(), 5).toString(),
+    enabler: [mockEnabler[0]],
+    podStartDate: addDays(new Date(), 35).toString(),
     podEndDate: addDays(new Date(), 35).toString(),
     project: project,
   },
@@ -82,7 +83,7 @@ export const mockFePod: IFEPod[] = [
     id: 2,
     podName: "Team",
     enablee: dummyEnablees,
-    enabler: null,
+    enabler: [mockEnabler[1]],
     podStartDate: subtractDays(new Date(), 5).toString(),
     podEndDate: addDays(new Date(), 35).toString(),
     project: project2,

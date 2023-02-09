@@ -6,12 +6,13 @@ interface IEnabler {
   firstName: string;
   lastName: string;
   assetTag: string;
-  isActive: boolean;
+  isEmployed: boolean;
   technology: ITechnology[];
-  countryCode: number;
+  city: string;
+  state: string;
+  country: string;
   communityId: number;
   employmentTypeId: number;
-  podId: IFEPod[] | null;
 }
 
 export default IEnabler;
