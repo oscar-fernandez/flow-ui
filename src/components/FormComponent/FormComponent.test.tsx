@@ -60,7 +60,7 @@ describe("FormComponent", () => {
       name: "projectTest",
       repoLink: "https://git.work.cognizant.studio/enablement/team-projects/a",
       summary: "project test ",
-      technologies: {},
+      technologies: ["Java"],
     };
 
     (createProject as jest.Mock).mockResolvedValueOnce(project);
@@ -228,7 +228,7 @@ describe("FormComponent", () => {
       />
     );
     const submit = screen.getByText("Submit") as HTMLButtonElement;
-    expect(submit).toBeEnabled();
+    expect(submit).toBeDisabled();
     // const disabledButton = screen.getByText;
     // const projectName = screen.getByTestId("pName") as HTMLInputElement;
     // const repoLink = screen.getByTestId("pLink") as HTMLInputElement;
