@@ -12,7 +12,10 @@ import {
   RadioGroup,
 } from "@mui/material";
 //import { dummyEnablees } from "../../../data/EnableeMock";
-import { useMyAvailablePods, usePendingPodEnablees } from "../Hooks/customHook";
+import {
+  useHolderAvailablePods,
+  usePendingPodEnablees,
+} from "../Hooks/customHook";
 //import { mockFePod } from "../../../data/MockFEPod";
 import IFEPod from "../../../models/interfaces/IFEPod";
 import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumberCarousel";
@@ -61,7 +64,7 @@ export default function PodAssignment() {
   const [selectedEnablees, setSelectedEnablees] = useState<IEnablee[]>([]);
   const selectedRow = useRef<IFEPod>({} as IFEPod);
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
-  const { availablePods, setAvailablePods } = useMyAvailablePods();
+  const { availablePods, setAvailablePods } = useHolderAvailablePods();
   // const [availablePods, setAvailablePods] = useState<IFEPod[]>(mockFePod);
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
@@ -199,7 +202,7 @@ export default function PodAssignment() {
     <div>
       <form action="">
         <div>
-          <div className="container">
+          <div className="containerPodAssignment">
             {/* <PageViewHeader pageTitle="Enablee" showPlus={true} /> */}
             {radioCheck}
             <CustomTableContainer
@@ -218,7 +221,7 @@ export default function PodAssignment() {
               }}
             />
 
-            <div className="container">
+            <div className="containerPodAssignment">
               <CustomTableContainer
                 clickable={totalCalculatedEnablees < 15}
                 headers={headersPods}

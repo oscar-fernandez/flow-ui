@@ -36,7 +36,7 @@ export const usePendingStartEnablees = (location: string) => {
   return [list, setList];
 };
 
-export function useMyAvailablePods(location: Location | null = null) {
+export function useHolderAvailablePods(location: Location | null = null) {
   const [availablePods, setAvailablePods] = useState<IFEPod[]>([]);
   const updatePods = () => {
     getAvailablePods().then((res) => {
