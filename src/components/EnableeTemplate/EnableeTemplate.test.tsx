@@ -243,7 +243,7 @@ describe("EnableeTemplate tests", () => {
     const submitButton = screen.getByTestId("enableeTemplateSubmitBtn");
 
     fireEvent.click(submitButton);
-    expect(mockUpdateEnablee).not.toHaveBeenCalled();
+    expect(mockUpdateEnablee).toHaveBeenCalled();
     expect(mockCreateEnablee).not.toHaveBeenCalled();
 
     expect(updatedEnablee).toEqual(putAxiosRes.data);
