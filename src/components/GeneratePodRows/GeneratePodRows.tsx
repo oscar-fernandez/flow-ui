@@ -82,33 +82,35 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
                 <p className="row-secondary">{`Enabler(s): ${enablerNames}`}</p>
               </div>
 
-              <Tooltip
-                className="row-sm-child tags-container"
-                title={tooltipString(tooltip)}
-                placement="bottom"
-              >
-                <div>
-                  {pod.project?.technology !== null ? (
-                    pod.project.technology
-                      .slice(0, 2)
-                      .map((tech: ITechnology, i: number) => (
-                        <TagComponent
-                          data-testid="tech-stack"
-                          name={tech.name}
-                          color={tech.backgroundColor}
-                          key={tech.id}
-                        />
-                      ))
-                  ) : (
-                    <TagComponent
-                      data-testid="tech-stack"
-                      name={""}
-                      color={""}
-                      key={i}
-                    />
-                  )}
-                </div>
-              </Tooltip>
+              <div style={{ margin: "0 25px" }}>
+                <Tooltip
+                  className="row-sm-child tags-container"
+                  title={tooltipString(tooltip)}
+                  placement="bottom"
+                >
+                  <div>
+                    {pod.project?.technology !== null ? (
+                      pod.project.technology
+                        .slice(0, 2)
+                        .map((tech: ITechnology, i: number) => (
+                          <TagComponent
+                            data-testid="tech-stack"
+                            name={tech.name}
+                            color={tech.backgroundColor}
+                            key={tech.id}
+                          />
+                        ))
+                    ) : (
+                      <TagComponent
+                        data-testid="tech-stack"
+                        name={""}
+                        color={""}
+                        key={i}
+                      />
+                    )}
+                  </div>
+                </Tooltip>
+              </div>
 
               <div className="row-lg-child date-container">
                 {pod.podStartDate ? (
