@@ -10,7 +10,6 @@ import {
 import { TagComponent } from "../TagComponent/Tag";
 
 import "./FormComponent.css";
-import { e } from "vitest/dist/index-5aad25c1";
 
 const InputProps = {
   disableUnderline: true,
@@ -36,24 +35,8 @@ export default function FormComponent(props: any) {
     useState(props.selectedRow?.current?.repoLink) || null;
   const [projectDescription, setProjectDescription] =
     useState(props.selectedRow?.current?.description) || null;
-  const [disableSubmit, setDisableSubmit] = useState(true);
 
-  // const [hasTechStack, setHasTechStack] = useState(true);
-
-  // useEffect(() => {
-  //   if (
-  //     projectName?.trim() === "" ||
-  //     projectLink?.trim() === "" ||
-  //     projectDescription?.length > 100 ||
-  //     !hasTechStack
-  //   ) {
-  //     setDisableSubmit(true);
-  //   } else {
-  //     setDisableSubmit(false);
-  //   }
-  // });
-
-  //function to reset form values to origonal values
+  // function to reset form values to origonal values
   const resetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setProjectName(props.selectedRow?.current?.name);
@@ -233,7 +216,10 @@ export default function FormComponent(props: any) {
                 name="summary"
                 multiline
                 rows={4}
-                inputProps={{ ...inputProps, "data-testid": "pDesc" }}
+                inputProps={{
+                  ...inputProps,
+                  "data-testid": "pDesc",
+                }}
                 InputProps={InputProps}
                 placeholder="Empty"
                 variant="standard"
@@ -319,7 +305,15 @@ export default function FormComponent(props: any) {
                     className="orange-button"
                     data-testid="submitButton"
                     onClick={handleSubmit}
-                    disabled={false}
+                    disabled={
+                      projectName === undefined ||
+                      projectName?.trim().length === 0 ||
+                      !projectLink?.match(
+                        "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)"
+                      ) ||
+                      selectedStack.length === 0 ||
+                      projectDescription?.length >= 100
+                    }
                   >
                     Submit
                   </button>

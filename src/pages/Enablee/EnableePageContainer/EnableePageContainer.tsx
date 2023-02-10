@@ -72,24 +72,26 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
               <p className="row-secondary">{enablee.employeeId}</p>
             </div>
 
-            <Tooltip
-              className="row-sm-child tags-container"
-              title={tooltipString(tooltip)}
-              placement="bottom"
-            >
-              <div>
-                {enablee.technology
-                  .slice(0, 2)
-                  .map((tech: ITechnology, i: number) => (
-                    <TagComponent
-                      data-testid="tech-stack"
-                      name={tech.name}
-                      color={tech.backgroundColor}
-                      key={i}
-                    />
-                  ))}
-              </div>
-            </Tooltip>
+            <div style={{ margin: "0 25px" }}>
+              <Tooltip
+                className="row-sm-child tags-container"
+                title={tooltipString(tooltip)}
+                placement="bottom"
+              >
+                <div>
+                  {enablee.technology
+                    .slice(0, 2)
+                    .map((tech: ITechnology, i: number) => (
+                      <TagComponent
+                        data-testid="tech-stack"
+                        name={tech.name}
+                        color={tech.backgroundColor}
+                        key={i}
+                      />
+                    ))}
+                </div>
+              </Tooltip>
+            </div>
 
             <div className="row-lg-child date-container">
               <p className="row-primary">Enablement Dates</p>
