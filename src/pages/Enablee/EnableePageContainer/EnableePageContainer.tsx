@@ -6,7 +6,7 @@ import Row from "../../../components/RowComponent/Row";
 import { TagComponent } from "../../../components/TagComponent/Tag";
 import {
   useToggle,
-  useToggleDetails,
+  useToggleDetail,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../../models/interfaces/IEnablee";
 import ITechnology from "../../../models/interfaces/ITechnology";
@@ -26,7 +26,7 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
   const [enablees, getEnablees] = hook(location.pathname);
   const [page, setPage] = useState(1);
   const [toggle, changeToggle] = useToggle();
-  const [details, setDetails] = useToggleDetails();
+  const [details, setDetails] = useToggleDetail();
 
   const getTotalPages = () => {
     return Math.ceil(enablees.totalElements / 25);
@@ -109,10 +109,12 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
               )}
             </div>
 
-            <div className="row-lg-child">
-              <p className="row-secondary">Status</p>
-              <TagComponent name={statusTag.name} color={statusTag.color} />
-            </div>
+            {location.pathname === "/enablee/pendingStart" ? null : (
+              <div className="row-lg-child">
+                <p className="row-secondary">Status</p>
+                <TagComponent name={statusTag.name} color={statusTag.color} />
+              </div>
+            )}
           </Row>
         );
       })}
