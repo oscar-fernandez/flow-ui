@@ -13,11 +13,9 @@ import {
   useToggleDetail,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../models/interfaces/IEnablee";
-import axios from "axios";
 import ITechnology from "../../models/interfaces/ITechnology";
 import { red } from "@mui/material/colors";
 import { CreateEnablee, UpdateEnablee } from "../../services/EnableeAPI";
-import { dummyEnablees } from "../../data/EnableeMock";
 import { mockTechnology } from "../../data/MockData";
 import { useLocation, useNavigate } from "react-router";
 
@@ -202,14 +200,13 @@ export default function EnableeTemplate() {
       };
 
       postEnablee(tempEnablee);
-      navigate(location);
     } else if (isEnablee(enablee)) {
-      const tempDetail: IEnablee = enablee;
+      const tempDetail: IEnablee = { ...enablee };
       tempDetail.employeeId = parseInt(employeeId);
       tempDetail.firstName = name.split(" ")[0];
       tempDetail.lastName = name.split(" ")[1];
-      tempDetail.enablementStartDate = startDate.toDateString() || "";
-      tempDetail.enablementEndDate = endDate.toDateString() || "";
+      tempDetail.enablementStartDate = startDate?.toDateString() || "";
+      tempDetail.enablementEndDate = endDate?.toDateString() || "";
       tempDetail.dateOfJoin = dateOfJoin;
       tempDetail.assetTag = assetTag;
       tempDetail.isEmployed = isEmployed;
@@ -218,10 +215,9 @@ export default function EnableeTemplate() {
       tempDetail.gradeId = parseInt(grade);
       tempDetail.communityId = parseInt(community);
       tempDetail.employmentTypeId = parseInt(employmentType);
-      tempDetail.podId = selectedPod.id || 0;
+      tempDetail.podId = selectedPod?.id || 0;
       tempDetail.commentId = [];
       putEnablee(tempDetail);
-      navigate(location);
     }
   };
 
@@ -231,6 +227,7 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
+          navigate(location);
         }
       })
       .catch((e) => {
@@ -244,6 +241,7 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
+          navigate(location);
         }
       })
       .catch((e) => {

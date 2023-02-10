@@ -128,7 +128,6 @@ export default function PodTemplate() {
     setSelectedPodProject(item);
   }
 
-  //const handleSubmit = (e: React.MouseEventHandler<HTMLButtonElement>) => {
   const handleSubmit = () => {
     if (pod == null) {
       const tempPod: IFEPod = {
@@ -141,9 +140,8 @@ export default function PodTemplate() {
         project: selectedPodProject,
       };
       postPod(tempPod);
-      navigate(location);
     } else if (isPod(pod)) {
-      const tempPod: IFEPod = pod;
+      const tempPod: IFEPod = { ...pod };
       tempPod.enablee = enablees;
       tempPod.enabler = enablers;
       tempPod.podName = podName;
@@ -151,7 +149,6 @@ export default function PodTemplate() {
       tempPod.podEndDate = endDate?.toDateString() || "";
       tempPod.project = selectedPodProject;
       putPod(tempPod);
-      navigate(location);
     }
   };
 
@@ -161,6 +158,7 @@ export default function PodTemplate() {
         if (res.status == 200 || res.status == 201) {
           setPod(res.data);
           changeToggle();
+          navigate(location);
         }
       })
       .catch((e) => {
@@ -174,6 +172,7 @@ export default function PodTemplate() {
         if (res.status == 200 || res.status == 201) {
           setPod(res.data);
           changeToggle();
+          navigate(location);
         }
       })
       .catch((e) => {

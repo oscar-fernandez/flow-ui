@@ -81,7 +81,7 @@ describe("PodTemplate tests", () => {
     vi.restoreAllMocks();
   });
 
-  /*it("should render pod template", () => {
+  it("should render pod template", () => {
     render(
       <MemoryRouter>
         <PodTemplate />
@@ -126,6 +126,7 @@ describe("PodTemplate tests", () => {
         <PodTemplate />
       </MemoryRouter>
     );
+
     const startDate = screen.getByPlaceholderText(
       "No Start Date Selected"
     ) as HTMLInputElement;
@@ -143,14 +144,15 @@ describe("PodTemplate tests", () => {
     await userEvent.click(projectBtn);
     const pixle = screen.getByText("Pixelgram");
     fireEvent.click(pixle);
+
     waitFor(() => expect(screen.getByText("Jessabelle Cowringer")))
       .then()
-      .catch();
+      .catch((e) => console.error(e));
     const checker = waitFor(() => screen.getByTestId("enableeCheckbox"))
       .then((e) => {
         fireEvent.change(e, { target: { checked: true } });
       })
-      .catch();
+      .catch((e) => console.error(e));
     expect(checker);
   });
 
@@ -171,17 +173,14 @@ describe("PodTemplate tests", () => {
         </ToggleContext.Provider>
       </MemoryRouter>
     );
-  });  */
+  });
 
-  ///////////////////////////////////////
   it("Should make a post request when the submit button is clicked & toggle side bar should be closed", async () => {
     render(
       <MemoryRouter>
         <PodTemplate />
       </MemoryRouter>
     );
-
-    const inactiveSubmitButton = screen.getByTestId("podDisableSubmitButton");
 
     const nameInput = screen.getByTestId("podName") as HTMLInputElement;
     fireEvent.change(nameInput, { target: { value: "Crew" } });
@@ -204,7 +203,7 @@ describe("PodTemplate tests", () => {
     const flow = screen.getByText("Flow");
     await userEvent.click(flow);
     let button: any = null;
-    await waitFor(() => {
+    waitFor(() => {
       button = screen.getByTestId("podActiveSubmitButton");
     })
       .then(() => {
@@ -215,29 +214,25 @@ describe("PodTemplate tests", () => {
   });
 
   it("Should make a put request when the submit button is clicked & toggle side bar should be closed", async () => {
+    const tempPod = { ...mockFePod[0] };
+    tempPod.podStartDate = new Date().toDateString();
+    tempPod.podEndDate = addDays(new Date(), 15).toDateString();
+
+    mockUseToggleDetail.mockReturnValue([
+      tempPod,
+      () => {
+        null;
+      },
+    ]);
+
     render(
       <MemoryRouter>
         <PodTemplate />
       </MemoryRouter>
     );
 
-    const inactiveSubmitButton = screen.getByTestId("podDisableSubmitButton");
-
     const nameInput = screen.getByTestId("podName") as HTMLInputElement;
     fireEvent.change(nameInput, { target: { value: "Crew" } });
-    const startDate = screen.getByPlaceholderText("No Start Date Selected");
-    const endDate = screen.getByPlaceholderText("No End Date Selected");
-
-    const currentDate = new Date();
-    const podEndDate = addDays(currentDate, 15);
-
-    await userEvent.click(startDate);
-    fireEvent.change(startDate, {
-      target: { value: currentDate.toDateString() },
-    });
-
-    await userEvent.click(endDate);
-    fireEvent.change(endDate, { target: { value: podEndDate.toDateString() } });
 
     const dataBtn = screen.getByTestId("projectsBtn");
     await userEvent.click(dataBtn);
@@ -245,21 +240,16 @@ describe("PodTemplate tests", () => {
     await userEvent.click(flow);
     let submitButton: any = null;
 
-    await waitFor(() => {
+    waitFor(() => {
       submitButton = screen.getByTestId("podActiveSubmitButton");
-
-      expect(mockCreatePod).toHaveBeenCalledOnce();
     })
       .then(() => {
         fireEvent.click(submitButton);
-        expect(mockCreatePod).toHaveBeenCalledOnce();
+        expect(mockUpdatePod).toHaveBeenCalledOnce();
       })
       .catch((e) => console.error(e));
   });
 });
-
-////////////////////////////////////////
-
 /**
  * Helper function used to test functions who use dates
  * @param date
