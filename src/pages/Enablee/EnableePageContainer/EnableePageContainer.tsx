@@ -109,10 +109,12 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
               )}
             </div>
 
-            <div className="row-lg-child">
-              <p className="row-secondary">Status</p>
-              <TagComponent name={statusTag.name} color={statusTag.color} />
-            </div>
+            {location.pathname === "/enablee/pendingStart" ? null : (
+              <div className="row-lg-child">
+                <p className="row-secondary">Status</p>
+                <TagComponent name={statusTag.name} color={statusTag.color} />
+              </div>
+            )}
           </Row>
         );
       })}
