@@ -1,9 +1,5 @@
-import cognivision from "../assets/badge_cognivision.png";
-import flow from "../assets/badge_flow.png";
-import netZero from "../assets/badge_netzero.png";
-import qm from "../assets/badge_qm.png";
 import IFEPod from "../models/interfaces/IFEPod";
-
+import { cognivision, flow, netZero, qm } from "../assets";
 export const badgesArray = [
   {
     id: 0,
