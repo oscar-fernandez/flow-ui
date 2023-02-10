@@ -7,6 +7,10 @@
   background-color: #585887;
 }
 
+.on-hover-item:hover {
+  background-color: rgba(0, 0, 72, 0.1);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

@@ -1,6 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { usePendingPodEnablees } from "../Hooks/customHook";
+import {
+  useHolderAvailablePods,
+  usePendingPodEnablees,
+} from "../Hooks/customHook";
 import PodAssignment from "./PodAssignment";
 import * as Unit from "./PodAssignment";
 import { vi } from "vitest";
@@ -48,10 +51,15 @@ const selectedEnablees = [
   dummyEnablees[4],
 ];
 
+const availablePods = mockFePod;
+
 describe("PodAssignment", () => {
   it("should render title, table, button", () => {
     (usePendingPodEnablees as jest.Mock).mockImplementation(() => {
       return { receivedEnablees };
+    });
+    (useHolderAvailablePods as jest.Mock).mockImplementation(() => {
+      return { availablePods };
     });
 
     render(<PodAssignment />);
@@ -64,6 +72,9 @@ describe("PodAssignment", () => {
   it("should display filtered enablees when selected pod ", () => {
     (usePendingPodEnablees as jest.Mock).mockImplementation(() => {
       return { receivedEnablees };
+    });
+    (useHolderAvailablePods as jest.Mock).mockImplementation(() => {
+      return { availablePods };
     });
 
     render(<PodAssignment />);
@@ -79,6 +90,9 @@ describe("PodAssignment", () => {
     (usePendingPodEnablees as jest.Mock).mockImplementation(() => {
       return { receivedEnablees };
     });
+    (useHolderAvailablePods as jest.Mock).mockImplementation(() => {
+      return { availablePods };
+    });
 
     render(<PodAssignment />);
     const selectedRow = screen.queryByText(mockFePod[0].podName);
@@ -93,6 +107,10 @@ describe("PodAssignment", () => {
     (usePendingPodEnablees as jest.Mock).mockImplementation(() => {
       return { receivedEnablees };
     });
+    (useHolderAvailablePods as jest.Mock).mockImplementation(() => {
+      return { availablePods };
+    });
+
     render(<PodAssignment />);
     const selectedRow = screen.queryByText(mockFePod[1].podName);
     selectedRow && fireEvent.click(selectedRow);
