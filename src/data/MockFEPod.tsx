@@ -2,7 +2,7 @@ import IFEPod from "../models/interfaces/IFEPod";
 import IProject from "../models/interfaces/IProject";
 import { dummyEnablees } from "./EnableeMock";
 import ITechnology from "../models/interfaces/ITechnology";
-import { mockEnabler } from "../data/mockEnabler";
+import { mockEnabler } from "../data/MockEnabler";
 
 const mockTech: ITechnology[] = [
   {

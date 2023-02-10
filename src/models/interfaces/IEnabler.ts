@@ -1,5 +1,4 @@
 import ITechnology from "./ITechnology";
-import IFEPod from "./IFEPod";
 
 interface IEnabler {
   employeeId: number;
