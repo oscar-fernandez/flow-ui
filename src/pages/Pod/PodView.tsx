@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import ToggleSidebar from "../../components/ToggleSideBar/ToggleSidebar";
 import "./PodView.css";
 import PodTemplate from "../../components/PodTemplate/PodTemplate";
+import EnableeTemplate from "../../components/EnableeTemplate/EnableeTemplate";
 
 function PodView() {
   return (

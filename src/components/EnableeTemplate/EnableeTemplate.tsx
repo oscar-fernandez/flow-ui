@@ -8,10 +8,16 @@ import FilteredPod from "./FilteredPod";
 import { mockFePod } from "../../data/MockFEPod";
 import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
-import { useToggleDetails } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import {
+  useToggle,
+  useToggleDetail,
+} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../models/interfaces/IEnablee";
 import ITechnology from "../../models/interfaces/ITechnology";
 import { red } from "@mui/material/colors";
+import { CreateEnablee, UpdateEnablee } from "../../services/EnableeAPI";
+import { mockTechnology } from "../../data/MockData";
+import { useLocation, useNavigate } from "react-router";
 
 const InputProps = {
   disableUnderline: true,
@@ -102,6 +108,9 @@ export default function EnableeTemplate() {
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
 
+  const [toggle, changeToggle] = useToggle();
+  const navigate = useNavigate();
+  const location = useLocation().pathname;
   const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.checked) {
       setSelectedPod(undefined);
@@ -110,7 +119,7 @@ export default function EnableeTemplate() {
       setSelectedPod(result);
     }
   };
-  const [enablee, setEnablee] = useToggleDetails();
+  const [enablee, setEnablee] = useToggleDetail();
 
   // Hacky way to ensure that the useEffect is passed in a Enablee
   function isEnablee(object: any): object is IEnablee {
@@ -165,6 +174,80 @@ export default function EnableeTemplate() {
       setFilteredPods(filtered);
     }
   };
+  // const handleSubmit2 = (e: ReactFormEvent<HTMLFormElement>) => {
+  //   setCommunity("Jolly Holly");
+  // };
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+
+    if (enablee == null) {
+      const tempEnablee: IEnablee = {
+        employeeId: parseInt(employeeId),
+        lastName: name.split(" ")[1],
+        firstName: name.split(" ")[0],
+        enablementStartDate: startDate?.toDateString() || "",
+        enablementEndDate: endDate?.toDateString() || "",
+        dateOfJoin: dateOfJoin,
+        assetTag: assetTag,
+        isEmployed: isEmployed,
+        technology: mockTechnology,
+        countryCode: parseInt(country),
+        gradeId: parseInt(grade),
+        communityId: parseInt(community),
+        employmentTypeId: parseInt(employmentType),
+        podId: selectedPod?.id || 0,
+        commentId: [],
+      };
+
+      postEnablee(tempEnablee);
+    } else if (isEnablee(enablee)) {
+      const tempDetail: IEnablee = { ...enablee };
+      tempDetail.employeeId = parseInt(employeeId);
+      tempDetail.firstName = name.split(" ")[0];
+      tempDetail.lastName = name.split(" ")[1];
+      tempDetail.enablementStartDate = startDate?.toDateString() || "";
+      tempDetail.enablementEndDate = endDate?.toDateString() || "";
+      tempDetail.dateOfJoin = dateOfJoin;
+      tempDetail.assetTag = assetTag;
+      tempDetail.isEmployed = isEmployed;
+      tempDetail.technology = mockTechnology;
+      tempDetail.countryCode = parseInt(country);
+      tempDetail.gradeId = parseInt(grade);
+      tempDetail.communityId = parseInt(community);
+      tempDetail.employmentTypeId = parseInt(employmentType);
+      tempDetail.podId = selectedPod?.id || 0;
+      tempDetail.commentId = [];
+      putEnablee(tempDetail);
+    }
+  };
+
+  const postEnablee = (enablee: IEnablee) => {
+    CreateEnablee(enablee)
+      .then((res) => {
+        if (res.status == 200 || res.status == 201) {
+          setEnablee(res.data);
+          changeToggle();
+          navigate(location);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const putEnablee = (updateEnablee: IEnablee) => {
+    UpdateEnablee(updateEnablee)
+      .then((res) => {
+        if (res.status == 200 || res.status == 201) {
+          setEnablee(res.data);
+          changeToggle();
+          navigate(location);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
 
   return (
     <>
@@ -214,7 +297,9 @@ export default function EnableeTemplate() {
               ) : null}
             </div>
             <Typography sx={labelStyle}>Date of Join</Typography>
-            <Typography sx={dateStyle}>{dateOfJoin}</Typography>
+            <Typography data-testid="dateJoin" sx={dateStyle}>
+              {dateOfJoin}
+            </Typography>
             <Typography sx={labelStyle}>Asset Tag</Typography>
             <TextField
               value={assetTag}
@@ -281,7 +366,7 @@ export default function EnableeTemplate() {
             />
             <Typography sx={labelStyle}>Tech Stack</Typography>
             <div>
-              {techStack.map((tech) => (
+              {techStack.map((tech: ITechnology) => (
                 <TagComponent
                   name={tech.name}
                   color={tech.backgroundColor}
@@ -342,9 +427,13 @@ export default function EnableeTemplate() {
           </div>
           <div className="button-center">
             <Button
+              data-testid={"enableeTemplateSubmitBtn"}
               disabled={disableSubmit}
-              variant="contained"
+              variant={"contained"}
               sx={buttonStyle}
+              onClick={(e) => {
+                handleSubmit(e);
+              }}
             >
               Submit
             </Button>

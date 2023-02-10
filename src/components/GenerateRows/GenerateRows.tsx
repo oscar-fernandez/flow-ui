@@ -13,7 +13,7 @@ import {
   tooltipString,
 } from "../../utils/utilityFunctions";
 import {
-  useToggleDetails,
+  useToggleDetail,
   useToggle,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 // import ToggleSidebar, { Action } from "../ToggleSideBar/ToggleSidebar";
@@ -27,7 +27,7 @@ interface Props {
 
 export function GenerateRows({ pageNum }: Props) {
   const [toggle, changeToggle] = useToggle();
-  const [details, setItem] = useToggleDetails();
+  const [details, setItem] = useToggleDetail();
   const [enablees, setEnablees] = useState<IEnablee[]>([]);
 
   useEffect(() => {
