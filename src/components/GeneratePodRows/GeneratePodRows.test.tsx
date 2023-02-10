@@ -39,12 +39,13 @@ describe("Generate Pod Rows component", () => {
       firstName: "Test",
       lastName: "Tester",
       assetTag: "",
-      isActive: true,
+      isEmployed: true,
       technology: [],
-      countryCode: 0,
+      city: "TestCity",
+      state: "TestState",
+      country: "TestCountry",
       communityId: 0,
       employmentTypeId: 0,
-      podId: [],
     };
 
     mockConvertToStringArr.mockReturnValue(techList);
