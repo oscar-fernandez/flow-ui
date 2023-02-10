@@ -24,9 +24,9 @@ export const getAvailablePods = () => {
 };
 
 export const createPod = (pod: IFEPod) => {
-  return post(`${baseUrl}/create`, pod);
+  return post(`${baseUrl}`, pod);
 };
 
 export const updatePod = (pod: IFEPod) => {
-  return put(`${baseUrl}/update`, pod);
+  return put(`${baseUrl}`, pod);
 };
