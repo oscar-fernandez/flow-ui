@@ -11,9 +11,12 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { dummyEnablees } from "../../../data/EnableeMock";
-import { usePendingPodEnablees } from "../Hooks/customHook";
-import { mockFePod } from "../../../data/MockFEPod";
+//import { dummyEnablees } from "../../../data/EnableeMock";
+import {
+  useHolderAvailablePods,
+  usePendingPodEnablees,
+} from "../Hooks/customHook";
+//import { mockFePod } from "../../../data/MockFEPod";
 import IFEPod from "../../../models/interfaces/IFEPod";
 import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumberCarousel";
 
@@ -61,7 +64,8 @@ export default function PodAssignment() {
   const [selectedEnablees, setSelectedEnablees] = useState<IEnablee[]>([]);
   const selectedRow = useRef<IFEPod>({} as IFEPod);
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
-  const [availablePods, setAvailablePods] = useState<IFEPod[]>(mockFePod);
+  const { availablePods, setAvailablePods } = useHolderAvailablePods();
+  // const [availablePods, setAvailablePods] = useState<IFEPod[]>(mockFePod);
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
   const totalCalculatedEnablees =
@@ -91,10 +95,10 @@ export default function PodAssignment() {
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    if (selectedRow.current === mockFePod[+event.currentTarget.id]) {
+    if (selectedRow.current === availablePods[+event.currentTarget.id]) {
       return;
     }
-    selectedRow.current = mockFePod[+event.currentTarget.id]; //shorthand convert str to number
+    selectedRow.current = availablePods[+event.currentTarget.id]; //shorthand convert str to number
     const filteredEnablees =
       receivedEnablees &&
       selectedRow &&
@@ -198,7 +202,7 @@ export default function PodAssignment() {
     <div>
       <form action="">
         <div>
-          <div className="container">
+          <div className="containerPodAssignment">
             {/* <PageViewHeader pageTitle="Enablee" showPlus={true} /> */}
             {radioCheck}
             <CustomTableContainer
@@ -217,7 +221,7 @@ export default function PodAssignment() {
               }}
             />
 
-            <div className="container">
+            <div className="containerPodAssignment">
               <CustomTableContainer
                 clickable={totalCalculatedEnablees < 15}
                 headers={headersPods}
