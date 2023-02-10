@@ -13,7 +13,7 @@ import IDisplayTag from "../../models/interfaces/IDisplayTag";
 import AlertContainer from "../Alert/AlertContainer";
 import {
   useToggle,
-  useToggleDetails,
+  useToggleDetail,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
 
@@ -25,7 +25,7 @@ interface Props {
 
 export function GeneratePodRows({ pods, displayTag, location }: Props) {
   const [toggle, changeToggle] = useToggle();
-  const [details, setDetails] = useToggleDetails();
+  const [details, setDetails] = useToggleDetail();
 
   const handleCreatePodClick = () => {
     changeToggle();
