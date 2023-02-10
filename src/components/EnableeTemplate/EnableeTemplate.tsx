@@ -177,7 +177,7 @@ export default function EnableeTemplate() {
   // const handleSubmit2 = (e: ReactFormEvent<HTMLFormElement>) => {
   //   setCommunity("Jolly Holly");
   // };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
     if (enablee == null) {
@@ -429,9 +429,11 @@ export default function EnableeTemplate() {
             <Button
               data-testid={"enableeTemplateSubmitBtn"}
               disabled={disableSubmit}
-              variant="contained"
+              variant={"contained"}
               sx={buttonStyle}
-              onClick={handleSubmit}
+              onClick={(e) => {
+                handleSubmit(e);
+              }}
             >
               Submit
             </Button>

@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import EnableeTemplate from "./EnableeTemplate";
 import { mockFePod } from "../../data/MockFEPod";
 import { dummyEnablees } from "../../data/EnableeMock";
+import { AxiosResponse } from "axios";
 
 import ToggleProvider, {
   ToggleContext,
@@ -40,11 +41,9 @@ const mockUpdateEnablee = UpdateEnablee as jest.MockedFunction<
 
 const axiosres = {
   data: dummyEnablees[0],
-  status: 200,
-  statusText: "ok",
-  headers: {},
-  config: {},
 };
+
+const t = Promise.resolve({ data: dummyEnablees[0] });
 
 describe("EnableeTemplate tests", () => {
   beforeEach(() => {
@@ -67,9 +66,9 @@ describe("EnableeTemplate tests", () => {
         null;
       },
     ]);
-    mockCreateEnablee.mockResolvedValue(axiosres);
+    (mockCreateEnablee as jest.Mock).mockResolvedValueOnce(axiosres);
 
-    mockUpdateEnablee.mockResolvedValue(axiosres);
+    (mockUpdateEnablee as jest.Mock).mockResolvedValue(axiosres);
   });
 
   afterEach(() => {
@@ -229,7 +228,7 @@ describe("EnableeTemplate tests", () => {
 
     putAxiosRes.data.employeeId = 1234;
 
-    mockUpdateEnablee.mockResolvedValue(putAxiosRes);
+    (mockUpdateEnablee as jest.Mock).mockResolvedValue(putAxiosRes);
     render(
       <MemoryRouter>
         {" "}

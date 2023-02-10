@@ -47,8 +47,6 @@ const axiosres = {
   config: {},
 };
 
-///////////////////////////
-
 describe("PodTemplate tests", () => {
   beforeEach(() => {
     mockUseToggle.mockReturnValue([
@@ -70,9 +68,9 @@ describe("PodTemplate tests", () => {
         null;
       },
     ]);
-    mockCreatePod.mockResolvedValue(axiosres);
+    (mockCreatePod as jest.Mock).mockResolvedValue(axiosres);
 
-    mockUpdatePod.mockResolvedValue(axiosres);
+    (mockUpdatePod as jest.Mock).mockResolvedValue(axiosres);
 
     // mockUpdatePod.mockResolvedValue(axiosres);
   });
