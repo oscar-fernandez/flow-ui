@@ -28,7 +28,7 @@ export const badgesArray = [
 ];
 
 export function pickBadgePicture(pod: IFEPod, badgeIndex: number) {
-  badgesArray.map((badge, i) => {
+  badgesArray.forEach(function (badge, i) {
     if (badge.projectName == pod.project.name) {
       badgeIndex = i;
     }
