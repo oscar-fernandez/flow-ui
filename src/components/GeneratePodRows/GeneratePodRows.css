@@ -1,9 +1,6 @@
-.square {
+.img {
   width: 36px;
   height: 34px;
-  margin: auto;
-  background-color: #000048;
-  border: solid;
 }
 
 .row-primary {
@@ -16,4 +13,12 @@
   color: #8a8b8a;
   font-size: 18px;
   font-weight: 600;
+}
+
+.row-sm-child {
+  text-align: center;
+}
+
+.row-sm-child img {
+  vertical-align: middle;
 }
