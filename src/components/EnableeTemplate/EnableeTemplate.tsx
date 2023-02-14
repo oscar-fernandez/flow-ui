@@ -18,6 +18,8 @@ import { red } from "@mui/material/colors";
 import { CreateEnablee, UpdateEnablee } from "../../services/EnableeAPI";
 import { mockTechnology } from "../../data/MockData";
 import { useLocation, useNavigate } from "react-router";
+import { useAvailablePods } from "../../pages/Pod/Hooks/customHook";
+import { getDefaultLocale } from "react-datepicker";
 
 const InputProps = {
   disableUnderline: true,
@@ -107,6 +109,7 @@ export default function EnableeTemplate() {
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
+  const [podId, set];
 
   const [toggle, changeToggle] = useToggle();
   const navigate = useNavigate();
@@ -119,7 +122,9 @@ export default function EnableeTemplate() {
       setSelectedPod(result);
     }
   };
+  const local = useLocation();
   const [enablee, setEnablee] = useToggleDetail();
+  const [availablePods, setAvailablePOds] = useAvailablePods(local);
 
   // Hacky way to ensure that the useEffect is passed in a Enablee
   function isEnablee(object: any): object is IEnablee {
@@ -163,7 +168,7 @@ export default function EnableeTemplate() {
 
   const filterPods = () => {
     if (startDate && endDate) {
-      const filtered = mockFePod.filter((pod) =>
+      const filtered = availablePods.filter((pod) =>
         isEnableeValidForPod(
           pod.podStartDate,
           pod.podEndDate,

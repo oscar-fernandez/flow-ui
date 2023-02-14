@@ -5,8 +5,10 @@ import {
   getAvailablePods,
   getCompletedPods,
   getPendingPods,
+  getPodById,
 } from "../../../services/PodAPI";
 import { Location } from "react-router-dom";
+import { InferCustomEventPayload } from "vite";
 
 export function useCompletedPods(
   location: Location
@@ -90,4 +92,25 @@ export function usePendingStartPods(
   }, [location]);
 
   return [podList, updatePodList];
+}
+
+export function usePodById(
+  location: Location
+): [IFEPod, (fepod: IFEPod) => void] {
+  const [pod, setPod] = useState<IFEPod>();
+  const updatePod = (podId: number) => {
+    getPodById(podId).then((res) => {
+      setPod(res.data);
+    });
+  };
+
+  const updatePodfunction = (fepod: IFEPod) => {
+    setPod(fepod);
+  };
+
+  useEffect(() => {
+    updatePod(0);
+  }, [location]);
+
+  return [pod, updatePodfunction];
 }
