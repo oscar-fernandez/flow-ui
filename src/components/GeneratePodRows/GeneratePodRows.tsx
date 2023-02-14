@@ -16,6 +16,7 @@ import {
   useToggleDetail,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
+import { badgesArray, pickBadgePicture } from "../../data/BadgesArray";
 
 interface Props {
   pods: IFEPod[];
@@ -26,6 +27,8 @@ interface Props {
 export function GeneratePodRows({ pods, displayTag, location }: Props) {
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
+
+  let badgeIndex = 0;
 
   const handleCreatePodClick = () => {
     changeToggle();
@@ -60,6 +63,8 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
               pod.enabler[0].firstName + ", " + pod.enabler[1].firstName;
           }
 
+          badgeIndex = pickBadgePicture(pod, badgeIndex);
+
           return (
             <Row
               key={i}
@@ -69,7 +74,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
               }}
             >
               <div className="row-sm-child">
-                <div className="square"></div>
+                <img className="img" src={badgesArray[badgeIndex].path} />
               </div>
 
               <div className="row-child row-name">
