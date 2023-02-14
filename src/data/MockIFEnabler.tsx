@@ -37,7 +37,7 @@ export const mockIFEnabler: IFEEnabler[] = [
     communityId: 1,
     employmentTypeId: 1,
     numActivePods: [4, 6],
-    numPendingPods: [3],
+    numPendingPods: [1, 3],
   },
   {
     employeeId: 332425,
