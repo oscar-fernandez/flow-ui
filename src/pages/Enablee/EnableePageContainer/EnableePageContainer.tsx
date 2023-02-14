@@ -67,12 +67,12 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
               <div className="square"></div>
             </div>
 
-            <div className="row-child row-name">
+            <div className="row-md-child row-name">
               <p className="row-primary">{`${enablee.firstName} ${enablee.lastName}`}</p>
               <p className="row-secondary">{enablee.employeeId}</p>
             </div>
 
-            <div style={{ margin: "0 25px" }}>
+            <div>
               <Tooltip
                 className="row-sm-child tags-container"
                 title={tooltipString(tooltip)}
@@ -110,7 +110,7 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
             </div>
 
             {location.pathname === "/enablee/pendingStart" ? null : (
-              <div className="row-lg-child">
+              <div className="row-md-child">
                 <p className="row-secondary">Status</p>
                 <TagComponent name={statusTag.name} color={statusTag.color} />
               </div>
