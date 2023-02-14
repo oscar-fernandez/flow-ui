@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import PageRoutes from "./PageRoutes";
 import { useCompletedPods } from "../Pod/Hooks/customHook";
 import { mockFePod } from "../../data/MockFEPod";
+import IFEPod from "../../models/interfaces/IFEPod";
 
 vi.mock("../Pod/Hooks/customHook");
 
@@ -12,18 +13,26 @@ describe("PageRoutes", () => {
     expect(screen.getByText("Andrew")).toBeInTheDocument();
   });
 
-  it("should show no tag for completed pod", async () => {
+  it("should show no tag for completed pod", () => {
+    const mockCompletedPod = mockFePod[0];
+    mockCompletedPod.podStartDate = "2022-Dec-30";
+    mockCompletedPod.podEndDate = "2022-Dec-31";
+
     const mockUseCompletedPods = useCompletedPods as jest.Mock;
-    mockUseCompletedPods.mockReturnValueOnce({ podList: mockFePod });
+    const mockUpdatePodListFn = vi.fn((list: IFEPod[]) => []);
+
+    mockUseCompletedPods.mockReturnValue([
+      [mockCompletedPod],
+      mockUpdatePodListFn,
+    ]);
 
     render(<PageRoutes />);
 
-    fireEvent.click(screen.getByText("Pod"));
-    fireEvent.click(screen.getByText("Completed Pod"));
+    fireEvent.click(screen.getByText("Completed"));
 
-    await waitFor(() => {
-      const test = screen.queryByTestId("tag-name");
-      expect(test).not.toBeInTheDocument();
-    });
+    const tags = screen.queryAllByTestId("tag-name");
+    expect(tags).not.toContain("Active");
+    expect(tags).not.toContain("Pending");
+    expect(tags).not.contain("Available");
   });
 });

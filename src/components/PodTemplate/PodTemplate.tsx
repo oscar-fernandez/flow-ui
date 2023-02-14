@@ -11,10 +11,34 @@ import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import { dummyEnablees } from "../../data/EnableeMock";
 import {
   useToggle,
-  useToggleDetails,
+  useToggleDetail,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IFEPod from "../../models/interfaces/IFEPod";
 import IEnabler from "../../models/interfaces/IEnabler";
+import { useLocation, useNavigate } from "react-router";
+import { createPod, updatePod } from "../../services/PodAPI";
+import { Button } from "@mui/material";
+
+const buttonStyle = {
+  backgroundColor: "#DC8D0B",
+  fontFamily: "Darker Grotesque",
+  fontWeight: 700,
+  fontSize: "15px",
+  letterSpacing: "0.025em",
+  padding: ".3rem 1.25rem",
+  textTransform: "none",
+  boxShadow: "none",
+  borderRadius: "5px",
+  "&:hover": {
+    color: "##F8E8CE",
+    backgroundColor: "#DC8D0B",
+    boxShadow: "none",
+  },
+  "&:disabled": {
+    backgroundColor: "rgba(220, 141, 11, 0.5)",
+    color: "#F8E8CE",
+  },
+};
 
 /**
  * Functional component that is a side modal to help the user manage
@@ -42,7 +66,7 @@ export default function PodTemplate() {
   const [projectTechStackMargin, setProjectTechStackMargin] = useState("0px");
 
   // States used for creating the FEPod Object
-  const [pod, setPod] = useToggleDetails();
+  const [pod, setPod] = useToggleDetail();
 
   const [podId, setPodId] = useState("");
   const [podName, setPodName] = useState("");
@@ -61,7 +85,10 @@ export default function PodTemplate() {
 
   // Context used for ToggleSideBar
   const [toggle, changeToggle] = useToggle();
-  const [details, setDetails] = useToggleDetails();
+  const [details, setDetails] = useToggleDetail();
+  const [selectedPodProject, setSelectedPodProject] = useState<any>();
+  const navigate = useNavigate();
+  const location = useLocation().pathname;
 
   /**
    * Helper function for the useEffect to check if the object
@@ -87,6 +114,8 @@ export default function PodTemplate() {
       setStartDate(new Date(pod.podStartDate));
       setEndDate(new Date(pod.podEndDate));
       setProjectSelected(pod.project.name);
+      setSelectedPodProject(pod.project);
+      setProjectTechStack(pod.project.technology);
     }
   }, [pod]);
 
@@ -120,7 +149,60 @@ export default function PodTemplate() {
     setProjectSelected(item.name);
     setProjectTechStack(item.technology);
     retrieveEnablees();
+    setSelectedPodProject(item);
   }
+
+  const handleSubmit = () => {
+    if (pod == null) {
+      const tempPod: IFEPod = {
+        id: 0,
+        podName: podName,
+        enablee: enablees,
+        enabler: enablers,
+        podStartDate: startDate?.toDateString() || "",
+        podEndDate: endDate?.toDateString() || "",
+        project: selectedPodProject,
+      };
+      postPod(tempPod);
+    } else if (isPod(pod)) {
+      const tempPod: IFEPod = { ...pod };
+      tempPod.enablee = enablees;
+      tempPod.enabler = enablers;
+      tempPod.podName = podName;
+      tempPod.podStartDate = startDate?.toDateString() || "";
+      tempPod.podEndDate = endDate?.toDateString() || "";
+      tempPod.project = selectedPodProject;
+      putPod(tempPod);
+    }
+  };
+
+  const postPod = (pod: IFEPod) => {
+    createPod(pod)
+      .then((res) => {
+        if (res.status == 200 || res.status == 201) {
+          setPod(res.data);
+          changeToggle();
+          navigate(location);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const putPod = (pod: IFEPod) => {
+    updatePod(pod)
+      .then((res) => {
+        if (res.status == 200 || res.status == 201) {
+          setPod(res.data);
+          changeToggle();
+          navigate(location);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
 
   /**
    * Helper function to display all enablees that are valid
@@ -185,6 +267,7 @@ export default function PodTemplate() {
             ) : (
               <div className="div1">
                 <input
+                  data-testid="podName"
                   className="podname-input"
                   type="text"
                   placeholder="Untitled"
@@ -320,11 +403,27 @@ export default function PodTemplate() {
                 startDate === null ||
                 endDate === null ||
                 projectSelected === "Empty" ? (
-                  <button className="disabled btn-submit" disabled>
-                    Submit
-                  </button>
+                  <div className="button-center">
+                    <Button
+                      disabled={true}
+                      variant="contained"
+                      sx={buttonStyle}
+                    >
+                      Submit
+                    </Button>
+                  </div>
                 ) : (
-                  <button className="btn-submit">Submit</button>
+                  <div className="button-center">
+                    <Button
+                      disabled={false}
+                      variant="contained"
+                      sx={buttonStyle}
+                      data-testid="podActiveSubmitButton"
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </Button>
+                  </div>
                 )}
               </div>
             </div>
@@ -381,11 +480,27 @@ export default function PodTemplate() {
                 startDate === null ||
                 endDate === null ||
                 projectSelected === "Empty" ? (
-                  <button className="disabled btn-submit" disabled>
-                    Submit
-                  </button>
+                  <div className="button-center">
+                    <Button
+                      disabled={true}
+                      variant="contained"
+                      sx={buttonStyle}
+                    >
+                      Submit
+                    </Button>
+                  </div>
                 ) : (
-                  <button className="btn-submit">Submit</button>
+                  <div className="button-center">
+                    <Button
+                      disabled={false}
+                      variant="contained"
+                      sx={buttonStyle}
+                      data-testid="podActiveSubmitButton"
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </Button>
+                  </div>
                 )}
               </div>
             </div>

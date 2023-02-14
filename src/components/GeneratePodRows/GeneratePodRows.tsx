@@ -13,10 +13,11 @@ import IDisplayTag from "../../models/interfaces/IDisplayTag";
 import AlertContainer from "../Alert/AlertContainer";
 import {
   useToggle,
-  useToggleDetails,
+  useToggleDetail,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
 import { mockFePod } from "../../data/MockFEPod";
+import { badgesArray, pickBadgePicture } from "../../data/BadgesArray";
 
 interface Props {
   pods: IFEPod[];
@@ -26,7 +27,9 @@ interface Props {
 
 export function GeneratePodRows({ pods, displayTag, location }: Props) {
   const [toggle, changeToggle] = useToggle();
-  const [details, setDetails] = useToggleDetails();
+  const [details, setDetails] = useToggleDetail();
+
+  let badgeIndex = 0;
 
   const handleCreatePodClick = () => {
     changeToggle();
@@ -61,6 +64,8 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
               pod.enabler[0].firstName + ", " + pod.enabler[1].firstName;
           }
 
+          badgeIndex = pickBadgePicture(pod, badgeIndex);
+
           return (
             <Row
               key={i}
@@ -70,7 +75,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
               }}
             >
               <div className="row-sm-child">
-                <div className="square"></div>
+                <img className="img" src={badgesArray[badgeIndex].path} />
               </div>
 
               <div className="row-child row-name">
@@ -78,33 +83,35 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
                 <p className="row-secondary">{`Enabler(s): ${enablerNames}`}</p>
               </div>
 
-              <Tooltip
-                className="row-sm-child tags-container"
-                title={tooltipString(tooltip)}
-                placement="bottom"
-              >
-                <div>
-                  {pod.project?.technology !== null ? (
-                    pod.project.technology
-                      .slice(0, 2)
-                      .map((tech: ITechnology, i: number) => (
-                        <TagComponent
-                          data-testid="tech-stack"
-                          name={tech.name}
-                          color={tech.backgroundColor}
-                          key={tech.id}
-                        />
-                      ))
-                  ) : (
-                    <TagComponent
-                      data-testid="tech-stack"
-                      name={""}
-                      color={""}
-                      key={i}
-                    />
-                  )}
-                </div>
-              </Tooltip>
+              <div style={{ margin: "0 25px" }}>
+                <Tooltip
+                  className="row-sm-child tags-container"
+                  title={tooltipString(tooltip)}
+                  placement="bottom"
+                >
+                  <div>
+                    {pod.project?.technology !== null ? (
+                      pod.project.technology
+                        .slice(0, 2)
+                        .map((tech: ITechnology, i: number) => (
+                          <TagComponent
+                            data-testid="tech-stack"
+                            name={tech.name}
+                            color={tech.backgroundColor}
+                            key={tech.id}
+                          />
+                        ))
+                    ) : (
+                      <TagComponent
+                        data-testid="tech-stack"
+                        name={""}
+                        color={""}
+                        key={i}
+                      />
+                    )}
+                  </div>
+                </Tooltip>
+              </div>
 
               <div className="row-lg-child date-container">
                 {pod.podStartDate ? (

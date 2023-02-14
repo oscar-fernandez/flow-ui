@@ -5,12 +5,12 @@ import { Location, useLocation } from "react-router-dom";
 import IDisplayTag from "../../models/interfaces/IDisplayTag";
 
 interface Props {
-  hook: (location: Location) => IFEPod[];
+  hook: (location: Location) => [IFEPod[], (list: IFEPod[]) => void];
   displayTag: (pod: IFEPod) => IDisplayTag;
 }
 export default function PodPageContainer({ hook, displayTag }: Props) {
   const location = useLocation();
-  const fetchedPods = hook(location);
+  const [fetchedPods, updateFetchedHooks] = hook(location);
   const locationPath: string = location.pathname;
   const convertLocationToString = (path: string) => {
     switch (path) {

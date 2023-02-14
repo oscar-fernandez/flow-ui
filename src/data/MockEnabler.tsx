@@ -1,0 +1,56 @@
+import IEnabler from "../models/interfaces/IEnabler";
+
+export const mockEnabler: IEnabler[] = [
+  {
+    employeeId: 292023,
+    firstName: "John",
+    lastName: "Smith",
+    assetTag: "Tag Asset",
+    isEmployed: true,
+    technology: [
+      { id: 4, name: "Angular", backgroundColor: "green" },
+      { id: 5, name: "C", backgroundColor: "blue" },
+      { id: 2, name: "Java", backgroundColor: "yellow" },
+    ],
+    city: "Nashville",
+    state: "Tennessee",
+    country: "USA",
+    communityId: 1,
+    employmentTypeId: 1,
+  },
+  {
+    employeeId: 295174,
+    firstName: "Tommy",
+    lastName: "Schmit",
+    assetTag: "Tag Asset",
+    isEmployed: true,
+    technology: [
+      { id: 2, name: "Java", backgroundColor: "yellow" },
+      { id: 8, name: "React", backgroundColor: "orange" },
+      { id: 12, name: "Rust", backgroundColor: "brown" },
+    ],
+    city: "Chicago",
+    state: "Illinois",
+    country: "USA",
+    communityId: 1,
+    employmentTypeId: 1,
+  },
+  {
+    employeeId: 332425,
+    firstName: "Piotr",
+    lastName: "Smith",
+    assetTag: "Tag Asset",
+    isEmployed: true,
+    technology: [
+      { id: 2, name: "Java", backgroundColor: "yellow" },
+      { id: 8, name: "React", backgroundColor: "orange" },
+      { id: 12, name: "Rust", backgroundColor: "brown" },
+      { id: 12, name: "C++", backgroundColor: "pink" },
+    ],
+    city: "Brooklyn",
+    state: "NY",
+    country: "USA",
+    communityId: 1,
+    employmentTypeId: 1,
+  },
+];

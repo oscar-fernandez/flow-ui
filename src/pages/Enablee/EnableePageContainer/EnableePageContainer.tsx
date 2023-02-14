@@ -1,14 +1,16 @@
 import { Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumberCarousel";
 import Row from "../../../components/RowComponent/Row";
 import { TagComponent } from "../../../components/TagComponent/Tag";
 import {
   useToggle,
-  useToggleDetails,
+  useToggleDetail,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../../models/interfaces/IEnablee";
 import ITechnology from "../../../models/interfaces/ITechnology";
+import "./EnableePageContainer.css";
 import {
   convertToStringArr,
   generateTags,
@@ -16,15 +18,16 @@ import {
 } from "../../../utils/utilityFunctions";
 
 interface Props {
-  hook: () => any[];
+  hook: (location: string) => any[];
   displayPageCarousel: boolean;
 }
 
 export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
-  const [enablees, getEnablees] = hook();
+  const location = useLocation();
+  const [enablees, getEnablees] = hook(location.pathname);
   const [page, setPage] = useState(1);
   const [toggle, changeToggle] = useToggle();
-  const [details, setDetails] = useToggleDetails();
+  const [details, setDetails] = useToggleDetail();
 
   const getTotalPages = () => {
     return Math.ceil(enablees.totalElements / 25);
@@ -65,29 +68,31 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
               <div className="square"></div>
             </div>
 
-            <div className="row-child row-name">
+            <div className="row-md-child row-name">
               <p className="row-primary">{`${enablee.firstName} ${enablee.lastName}`}</p>
               <p className="row-secondary">{enablee.employeeId}</p>
             </div>
 
-            <Tooltip
-              className="row-sm-child tags-container"
-              title={tooltipString(tooltip)}
-              placement="bottom"
-            >
-              <div>
-                {enablee.technology
-                  .slice(0, 2)
-                  .map((tech: ITechnology, i: number) => (
-                    <TagComponent
-                      data-testid="tech-stack"
-                      name={tech.name}
-                      color={tech.backgroundColor}
-                      key={i}
-                    />
-                  ))}
-              </div>
-            </Tooltip>
+            <div>
+              <Tooltip
+                className="row-sm-child tags-container"
+                title={tooltipString(tooltip)}
+                placement="bottom"
+              >
+                <div>
+                  {enablee.technology
+                    .slice(0, 2)
+                    .map((tech: ITechnology, i: number) => (
+                      <TagComponent
+                        data-testid="tech-stack"
+                        name={tech.name}
+                        color={tech.backgroundColor}
+                        key={i}
+                      />
+                    ))}
+                </div>
+              </Tooltip>
+            </div>
 
             <div className="row-lg-child date-container">
               <p className="row-primary">Enablement Dates</p>
@@ -105,10 +110,12 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
               )}
             </div>
 
-            <div className="row-lg-child">
-              <p className="row-secondary">Status</p>
-              <TagComponent name={statusTag.name} color={statusTag.color} />
-            </div>
+            {location.pathname === "/enablee/pendingStart" ? null : (
+              <div className="row-md-child">
+                <p className="row-secondary">Status</p>
+                <TagComponent name={statusTag.name} color={statusTag.color} />
+              </div>
+            )}
           </Row>
         );
       })}

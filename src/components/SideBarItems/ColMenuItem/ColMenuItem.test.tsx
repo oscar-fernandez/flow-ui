@@ -6,7 +6,7 @@ import {
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import ColMenuItem from "./ColMenuItem";
-import { EnableeSubMenuItems as list } from "../../../data/SubMenuMock";
+import { EnableeSubMenuItems as list } from "../menuItems";
 
 vi.mock("react-router", () => ({
   useNavigate: () => vi.fn(),

@@ -38,17 +38,19 @@
 }
 
 .row-lg-child {
-  flex: 4;
+  flex: 2;
+}
+.row-md-child {
+  flex: 1;
 }
 
 .row-child {
-  flex: 3;
+  flex: 1;
 }
 
 .row-sm-child {
-  flex: 2;
+  width: 180px;
 }
-
 .tags-container {
   display: flex;
   flex-direction: row;

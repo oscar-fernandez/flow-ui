@@ -39,14 +39,14 @@ export function useToggleArrow() {
   return useContext(ToggleArrowContext);
 }
 
-export function useToggleDetails() {
+export function useToggleDetail() {
   return useContext(ToggleDetailsContext);
 }
 
 const ToggleProvider = ({ children }: ToggleBarProps) => {
   const [toggle, setToggle] = useState(false);
   const [toggleArrow, setToggleArrow] = useState(false);
-  const [details, setDetails] = useState<IEnablee | IFEPod | null>(null);
+  const [detail, setDetail] = useState<any>(null);
 
   const changeToggle = () => {
     setToggle((prevToggle) => !prevToggle);
@@ -55,15 +55,18 @@ const ToggleProvider = ({ children }: ToggleBarProps) => {
   const changeToggleArrow = (arrow = false) => {
     setToggleArrow(arrow);
   };
+  const changeToggleDetail = (item: any) => {
+    setDetail(item);
+  };
 
   const setSideBarInfo = (item: IEnablee | IFEPod | null) => {
-    setDetails(item);
+    setDetail(item);
   };
 
   return (
     <ToggleContext.Provider value={[toggle, changeToggle]}>
       <ToggleArrowContext.Provider value={[toggleArrow, changeToggleArrow]}>
-        <ToggleDetailsContext.Provider value={[details, setSideBarInfo]}>
+        <ToggleDetailsContext.Provider value={[detail, changeToggleDetail]}>
           {children}
         </ToggleDetailsContext.Provider>
       </ToggleArrowContext.Provider>
