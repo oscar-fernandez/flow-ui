@@ -168,6 +168,8 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
     enablee.enablementStartDate === ""
   ) {
     podTag = { name: "Pending Start Date", color: "rgba(62, 143, 114, 1)" };
+  } else if (enablee.podId > 0 && enablee.enablementStartDate != null) {
+    podTag = { name: "Pending", color: "rgba(62, 143, 114, 1)" };
   }
   return podTag;
 };

@@ -238,6 +238,11 @@ describe("generateTags", () => {
     enablee.enablementStartDate = "";
     expect(generateTags(enablee).name).toEqual("Pending Start Date");
   });
+  it("returns Pending", () => {
+    enablee.podId = 1;
+    enablee.enablementStartDate = "2024-01-21";
+    expect(generateTags(enablee).name).toEqual("Pending");
+  });
 });
 
 const createPod = (): IFEPod => {
