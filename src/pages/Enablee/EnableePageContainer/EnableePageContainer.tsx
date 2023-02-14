@@ -10,6 +10,7 @@ import {
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../../models/interfaces/IEnablee";
 import ITechnology from "../../../models/interfaces/ITechnology";
+import "./EnableePageContainer.css";
 import {
   convertToStringArr,
   generateTags,
