@@ -129,8 +129,15 @@ export default function EnableeTemplate() {
   useEffect(() => {
     if (enablee && isEnablee(enablee)) {
       setName(`${enablee.firstName} ${enablee.lastName}`);
-      setStartDate(new Date(enablee.enablementStartDate));
-      setEndDate(new Date(enablee.enablementEndDate));
+
+      if (
+        enablee.enablementStartDate != null ||
+        enablee.enablementEndDate != null
+      ) {
+        setStartDate(new Date(enablee.enablementStartDate));
+        setEndDate(new Date(enablee.enablementEndDate));
+      }
+
       setEmployeeId(enablee.employeeId.toString());
       setDateOfJoin(enablee.dateOfJoin);
       const tags = enablee.assetTag ? enablee.assetTag.toString() : "";
@@ -273,6 +280,7 @@ export default function EnableeTemplate() {
 
           <div className="grid-container">
             <Typography sx={labelStyle}>Enablement Dates</Typography>
+
             <DatepickerComponent
               startDate={startDate}
               endDate={endDate}
