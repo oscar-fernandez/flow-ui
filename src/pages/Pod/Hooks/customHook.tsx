@@ -8,6 +8,7 @@ import {
   getPodById,
 } from "../../../services/PodAPI";
 import { Location } from "react-router-dom";
+import { mockFePod } from "../../../data/MockFEPod";
 
 export function useCompletedPods(
   location: Location
@@ -98,10 +99,12 @@ export function usePodById(
   location: Location
 ): [IFEPod, (pod: IFEPod) => void] {
   const [pod, setPod] = useState<IFEPod>(Object);
+
   const getPod = (id: number) => {
-    getPodById(id).then((res) => {
-      setPod(res.data);
-    });
+    setPod(mockFePod[0]);
+    // getPodById(id).then((res) => {
+    //   setPod(res.data);
+    // });
   };
 
   const updatePod = (pod: IFEPod) => {

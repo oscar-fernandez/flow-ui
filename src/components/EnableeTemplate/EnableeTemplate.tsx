@@ -20,7 +20,6 @@ import { mockTechnology } from "../../data/MockData";
 import { useLocation, useNavigate } from "react-router";
 import { useAvailablePods, usePodById } from "../../pages/Pod/Hooks/customHook";
 import { getDefaultLocale } from "react-datepicker";
-import { o } from "vitest/dist/index-5aad25c1";
 
 const InputProps = {
   disableUnderline: true,
@@ -107,7 +106,7 @@ export default function EnableeTemplate() {
   const [isEmployed, setIsEmployed] = useState(true);
   const [grade, setGrade] = useState("");
   const [techStack, setTeckStack] = useState<ITechnology[]>([]);
-  const [pod, setPod] = useState(0);
+  const [originalPodId, setOriginalPodId] = useState(0);
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
@@ -150,15 +149,16 @@ export default function EnableeTemplate() {
       setEmploymentType(employmentType);
       setGrade(enablee.gradeId.toString());
       setTeckStack(enablee.technology);
-      setPod(enablee.podId);
+      setOriginalPodId(enablee.podId);
     }
   }, []);
 
-  // getting original pod for the Enablee ID;
-  // const [originalPod, setOriginalPod] = usePodById(pod, local);
+  //getting original pod for the Enablee ID;
+  const [originalPod, setOriginalPod] = usePodById(originalPodId, local);
+  // console.log("ID = : ", originalPod.id);
 
   const filterPods = () => {
-    let filtered = [];
+    let filtered: IFEPod[] = [];
     if (startDate && endDate) {
       filtered = availablePods.filter((pod) =>
         isEnableeValidForPod(
@@ -168,7 +168,14 @@ export default function EnableeTemplate() {
           endDate.toDateString()
         )
       );
-      setFilteredPods(filtered);
+      setFilteredPods([...filtered, originalPod]);
+    }
+    if (
+      filtered.filter((pod) => {
+        pod === originalPod;
+      })
+    ) {
+      setSelectedPod(originalPod);
     }
   };
 
@@ -409,6 +416,14 @@ export default function EnableeTemplate() {
                   );
                 })}
               </>
+            ) : originalPodId > 0 ? (
+              <FilteredPod
+                key={originalPodId}
+                pod={originalPod}
+                enableeTech={techStack}
+                handleOnClick={handleOnClick}
+                selectedPod={originalPod}
+              />
             ) : (
               <Typography
                 sx={{
