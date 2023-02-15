@@ -48,8 +48,8 @@ export const dummyEnablees: IEnablee[] = [
     firstName: "Ondrew",
     lastName: "Jooors",
     dateOfJoin: "2022-01-21",
-    enablementStartDate: "2021-01-21",
-    enablementEndDate: "2021-01-30",
+    enablementStartDate: null,
+    enablementEndDate: null,
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
@@ -62,7 +62,7 @@ export const dummyEnablees: IEnablee[] = [
     gradeId: 1,
     communityId: 1,
     employmentTypeId: 1,
-    podId: 1,
+    podId: 0,
     commentId: [1, 2, 3],
   },
   {
@@ -90,8 +90,8 @@ export const dummyEnablees: IEnablee[] = [
     firstName: "Super",
     lastName: "Sonic",
     dateOfJoin: "2022-01-21",
-    enablementStartDate: "",
-    enablementEndDate: "",
+    enablementStartDate: null,
+    enablementEndDate: null,
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
