@@ -65,6 +65,7 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
         }
 
         const statusTag = generateTags(enablee);
+
         return (
           <Row
             key={i}

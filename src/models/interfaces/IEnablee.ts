@@ -14,7 +14,7 @@ interface IEnablee {
   gradeId: number;
   communityId: number;
   employmentTypeId: number;
-  podId: number;
+  podId: number | null;
   commentId: number[];
 }
 
