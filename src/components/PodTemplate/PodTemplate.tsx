@@ -7,7 +7,7 @@ import { TagComponent } from "../TagComponent/Tag";
 import IEnablee from "../../models/interfaces/IEnablee";
 import IProject from "../../models/interfaces/IProject";
 import { dumbProjects } from "../../data/MockProjects";
-import { isEnableeValidForPod } from "../../utils/utilityFunctions";
+import { isEnableeValidForPod, formatDate } from "../../utils/utilityFunctions";
 import { dummyEnablees } from "../../data/EnableeMock";
 import {
   useToggle,
@@ -152,81 +152,24 @@ export default function PodTemplate() {
 
   const handleSubmit = () => {
     if (pod == null) {
-      // const tempPod: IFEPod = {
-      //   id: 0,
-      //   podName: podName,
-      //   enablee: [], //enablees,
-      //   enabler: [], //enablers,
-      //   podStartDate: "2023-02-15", //startDate?.toDateString() || "",
-      //   podEndDate: "2023-03-07", //endDate?.toDateString() || "",
-      //   project: {
-      //     id: 10,
-      //     name: "Pixelgram",
-      //     summary: "Clone instagram app",
-      //     technology: [
-      //       {
-      //         id: 1,
-      //         name: ".Net",
-      //         backgroundColor: "red",
-      //       },
-      //       {
-      //         id: 3,
-      //         name: "React",
-      //         backgroundColor: "green",
-      //       },
-      //       {
-      //         id: 2,
-      //         name: "Java",
-      //         backgroundColor: "blue",
-      //       },
-      //     ],
-      //     repoLink:
-      //       "https://git.work.cognizant.studio/enablement/team-projects/a",
-      //   },
-      //   //selectedPodProject,
-      // };
-
-      const tempPod = {
+      const tempPod: IFEPod = {
         id: 0,
-        podName: "PodUITEST",
-        enablee: [],
-        enabler: [],
-        podStartDate: "2023-02-15",
-        podEndDate: "2023-03-07",
-        project: {
-          id: 10,
-          name: "Pixelgram",
-          summary: "Clone instagram app",
-          technology: [
-            {
-              id: 1,
-              name: ".Net",
-              backgroundColor: "red",
-            },
-            {
-              id: 2,
-              name: "Java",
-              backgroundColor: "blue",
-            },
-            {
-              id: 3,
-              name: "React",
-              backgroundColor: "green",
-            },
-          ],
-          repoLink:
-            "https://git.work.cognizant.studio/enablement/team-projects/a",
-        },
+        podName: podName,
+        enablee: enablees,
+        enabler: enablers !== null ? enablers : [],
+        podStartDate: formatDate(startDate),
+        podEndDate: formatDate(endDate),
+        project: selectedPodProject,
       };
 
       postPod(tempPod);
     } else if (isPod(pod)) {
       const tempPod: IFEPod = { ...pod };
       tempPod.enablee = enablees;
-      tempPod.enabler = enablers;
+      tempPod.enabler = enablers !== null ? enablers : [];
       tempPod.podName = podName;
-      tempPod.podStartDate = startDate?.toDateString() || "";
-      tempPod.podEndDate = endDate?.toDateString() || "";
+      tempPod.podStartDate = formatDate(startDate);
+      tempPod.podEndDate = formatDate(endDate);
       tempPod.project = selectedPodProject;
       putPod(tempPod);
     }

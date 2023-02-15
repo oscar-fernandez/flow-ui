@@ -174,6 +174,17 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
   return podTag;
 };
 
+export const formatDate = (date: Date | null) => {
+  let dateFormat = "";
+  if (date !== null) {
+    const year = date.getFullYear() || "";
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    dateFormat = `${year}-${month}-${day}`;
+  }
+  return dateFormat;
+};
+
 // export const convertLocationToString = (location: Location) => {
 //   console.log("inside converter, getting location path: ", location)
 //   if(location.pathname === "/pod/active") {

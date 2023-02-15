@@ -6,7 +6,7 @@ import { TagComponent } from "../TagComponent/Tag";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import FilteredPod from "./FilteredPod";
 import { mockFePod } from "../../data/MockFEPod";
-import { isEnableeValidForPod } from "../../utils/utilityFunctions";
+import { isEnableeValidForPod, formatDate } from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
 import {
   useToggle,
@@ -85,20 +85,14 @@ const labelStyle = {
   width: "90px",
 };
 
-const prevDate = new Date();
-prevDate.setDate(prevDate.getDate() - 1);
-const prevFormatedDate = prevDate.toLocaleDateString("en-us", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
+const currentDate = new Date();
 
 export default function EnableeTemplate() {
   const [name, setName] = useState("");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [employeeId, setEmployeeId] = useState("");
-  const [dateOfJoin, setDateOfJoin] = useState(prevFormatedDate);
+  const [dateOfJoin, setDateOfJoin] = useState(formatDate(currentDate));
   const [assetTag, setAssetTag] = useState("");
   const [country, setCountry] = useState("");
   const [community, setCommunity] = useState("");
@@ -178,28 +172,26 @@ export default function EnableeTemplate() {
       setFilteredPods(filtered);
     }
   };
-  // const handleSubmit2 = (e: ReactFormEvent<HTMLFormElement>) => {
-  //   setCommunity("Jolly Holly");
-  // };
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
     if (enablee == null) {
       const tempEnablee: IEnablee = {
         employeeId: parseInt(employeeId),
-        lastName: name.split(" ")[1],
         firstName: name.split(" ")[0],
-        enablementStartDate: formatDate(startDate), //?.toDateString() || "",
-        enablementEndDate: formatDate(endDate), //endDate?.toDateString() || "",
+        lastName: name.split(" ")[1],
         dateOfJoin: dateOfJoin,
+        enablementStartDate: formatDate(startDate),
+        enablementEndDate: formatDate(endDate),
         assetTag: assetTag,
         isEmployed: isEmployed,
-        technology: techStack, //mockTechnology,
+        technology: techStack,
         countryCode: parseInt(country),
         gradeId: parseInt(grade),
         communityId: parseInt(community),
         employmentTypeId: parseInt(employmentType),
-        podId: selectedPod?.id || 0,
+        podId: selectedPod?.id || null,
         commentId: [],
       };
       postEnablee(tempEnablee);
@@ -208,12 +200,12 @@ export default function EnableeTemplate() {
       tempDetail.employeeId = parseInt(employeeId);
       tempDetail.firstName = name.split(" ")[0];
       tempDetail.lastName = name.split(" ")[1];
-      tempDetail.enablementStartDate = startDate?.toDateString() || "";
-      tempDetail.enablementEndDate = endDate?.toDateString() || "";
       tempDetail.dateOfJoin = dateOfJoin;
+      tempDetail.enablementStartDate = formatDate(startDate);
+      tempDetail.enablementEndDate = formatDate(endDate);
       tempDetail.assetTag = assetTag;
       tempDetail.isEmployed = isEmployed;
-      tempDetail.technology = techStack; //mockTechnology;
+      tempDetail.technology = techStack;
       tempDetail.countryCode = parseInt(country);
       tempDetail.gradeId = parseInt(grade);
       tempDetail.communityId = parseInt(community);
@@ -251,16 +243,6 @@ export default function EnableeTemplate() {
         console.error(e);
       });
   };
-
-  ///////
-  function formatDate(date: Date | null) {
-    const year = date?.getFullYear() || "";
-    const month = String(date?.getMonth() + 1).padStart(2, "0") || "";
-    const day = String(date?.getDate()).padStart(2, "0") || "";
-
-    return year !== "" ? `${year}-${month}-${day}` : "";
-  }
-  ///////
 
   return (
     <>

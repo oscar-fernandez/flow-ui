@@ -10,6 +10,7 @@ import {
   generateTags,
   generatePodTags,
   getName,
+  formatDate,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
 import IProjectTable from "../models/interfaces/IProjectTable";
@@ -242,6 +243,11 @@ describe("generateTags", () => {
     enablee.podId = 1;
     enablee.enablementStartDate = "2024-01-21";
     expect(generateTags(enablee).name).toEqual("Pending");
+  });
+
+  it("return formated date", () => {
+    const day = new Date("July 21, 2022 01:15:00");
+    expect(formatDate(day)).toEqual("2022-07-21");
   });
 });
 
