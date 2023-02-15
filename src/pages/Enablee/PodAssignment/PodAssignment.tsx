@@ -56,7 +56,6 @@ export default function PodAssignment() {
   const selectedRow = useRef<IFEPod>({} as IFEPod);
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
   const { availablePods, setAvailablePods } = useHolderAvailablePods();
-  // const [availablePods, setAvailablePods] = useState<IFEPod[]>(mockFePod);
   const [name, setName] = useState("");
   const [selectValue, setSelectValue] = useState("");
   const totalCalculatedEnablees =
