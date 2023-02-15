@@ -152,13 +152,47 @@ export default function PodTemplate() {
 
   const handleSubmit = () => {
     if (pod == null) {
-      const tempPod: IFEPod = {
+      // const tempPod: IFEPod = {
+      //   id: 0,
+      //   podName: podName,
+      //   enablee: [], //enablees,
+      //   enabler: [], //enablers,
+      //   podStartDate: "2023-02-15", //startDate?.toDateString() || "",
+      //   podEndDate: "2023-03-07", //endDate?.toDateString() || "",
+      //   project: {
+      //     id: 10,
+      //     name: "Pixelgram",
+      //     summary: "Clone instagram app",
+      //     technology: [
+      //       {
+      //         id: 1,
+      //         name: ".Net",
+      //         backgroundColor: "red",
+      //       },
+      //       {
+      //         id: 3,
+      //         name: "React",
+      //         backgroundColor: "green",
+      //       },
+      //       {
+      //         id: 2,
+      //         name: "Java",
+      //         backgroundColor: "blue",
+      //       },
+      //     ],
+      //     repoLink:
+      //       "https://git.work.cognizant.studio/enablement/team-projects/a",
+      //   },
+      //   //selectedPodProject,
+      // };
+
+      const tempPod = {
         id: 0,
-        podName: podName,
-        enablee: [], //enablees,
-        enabler: [], //enablers,
-        podStartDate: "2023-02-15", //startDate?.toDateString() || "",
-        podEndDate: "2023-03-07", //endDate?.toDateString() || "",
+        podName: "PodUITEST",
+        enablee: [],
+        enabler: [],
+        podStartDate: "2023-02-15",
+        podEndDate: "2023-03-07",
         project: {
           id: 10,
           name: "Pixelgram",
@@ -170,19 +204,19 @@ export default function PodTemplate() {
               backgroundColor: "red",
             },
             {
-              id: 3,
-              name: "React",
-              backgroundColor: "green",
-            },
-            {
               id: 2,
               name: "Java",
               backgroundColor: "blue",
             },
+            {
+              id: 3,
+              name: "React",
+              backgroundColor: "green",
+            },
           ],
           repoLink:
             "https://git.work.cognizant.studio/enablement/team-projects/a",
-        }, //selectedPodProject,
+        },
       };
 
       postPod(tempPod);
