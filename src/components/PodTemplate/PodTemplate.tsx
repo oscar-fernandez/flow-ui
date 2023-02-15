@@ -210,15 +210,21 @@ export default function PodTemplate() {
    * enablee.
    */
   function retrieveEnablees() {
+    let result: IEnablee[] = [];
     if (startDate && endDate) {
-      const result = dummyEnablees.filter((enablee) =>
-        isEnableeValidForPod(
-          startDate.toString(),
-          endDate.toString(),
-          enablee.enablementStartDate,
-          enablee.enablementEndDate
-        )
-      );
+      result = dummyEnablees.filter((enablee) => {
+        if (
+          enablee.enablementEndDate != null &&
+          enablee.enablementStartDate != null
+        ) {
+          isEnableeValidForPod(
+            startDate.toString(),
+            endDate.toString(),
+            enablee.enablementStartDate,
+            enablee.enablementEndDate
+          );
+        }
+      });
       setEnablees(result);
     }
   }

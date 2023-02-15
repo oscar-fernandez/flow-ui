@@ -8,9 +8,9 @@ import {
   useToggle,
   useToggleDetail,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
+import { dummyEnablees } from "../../../data/EnableeMock";
 import IEnablee from "../../../models/interfaces/IEnablee";
 import ITechnology from "../../../models/interfaces/ITechnology";
-import "./EnableePageContainer.css";
 import {
   convertToStringArr,
   generateTags,
@@ -53,8 +53,17 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
       {/* conditional checks if enablees exists before mapping */}
       {getList()?.map((enablee, i) => {
         const tooltip = [...convertToStringArr(enablee.technology)];
-        const startDate = new Date(enablee.enablementStartDate);
-        const endDate = new Date(enablee.enablementEndDate);
+        let startDate: Date | null = null;
+        let endDate: Date | null = null;
+
+        if (
+          enablee.enablementStartDate != null &&
+          enablee.enablementEndDate != null
+        ) {
+          startDate = new Date(enablee.enablementStartDate);
+          endDate = new Date(enablee.enablementEndDate);
+        }
+
         const statusTag = generateTags(enablee);
         return (
           <Row
@@ -68,12 +77,12 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
               <div className="square"></div>
             </div>
 
-            <div className="row-md-child row-name">
+            <div className="row-child row-name">
               <p className="row-primary">{`${enablee.firstName} ${enablee.lastName}`}</p>
               <p className="row-secondary">{enablee.employeeId}</p>
             </div>
 
-            <div>
+            <div style={{ margin: "0 25px" }}>
               <Tooltip
                 className="row-sm-child tags-container"
                 title={tooltipString(tooltip)}
@@ -96,7 +105,7 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
 
             <div className="row-lg-child date-container">
               <p className="row-primary">Enablement Dates</p>
-              {enablee.enablementStartDate ? (
+              {startDate && endDate ? (
                 <p className="row-secondary">{`${startDate.toLocaleString(
                   "en-US",
                   { month: "long", day: "numeric", year: "numeric" }
@@ -110,12 +119,10 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
               )}
             </div>
 
-            {location.pathname === "/enablee/pendingStart" ? null : (
-              <div className="row-md-child">
-                <p className="row-secondary">Status</p>
-                <TagComponent name={statusTag.name} color={statusTag.color} />
-              </div>
-            )}
+            <div className="row-lg-child">
+              <p className="row-secondary">Status</p>
+              <TagComponent name={statusTag.name} color={statusTag.color} />
+            </div>
           </Row>
         );
       })}

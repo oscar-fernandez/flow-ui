@@ -9,6 +9,7 @@ import {
   getAvailablePodTag,
   generateTags,
   generatePodTags,
+  isDateObject,
   getName,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
@@ -178,6 +179,12 @@ describe("utilityTest", () => {
     expect(getName("enablementEndDate")).toEqual("enablement end date");
     expect(getName("skillName")).toEqual("Skill Name");
     expect(getName("projectName")).toEqual("Project Name");
+  });
+  it("isDateObject should return true when receiving a date Object and false for anything else", () => {
+    const currentDate = new Date();
+    const nullDate = null;
+    expect(isDateObject(currentDate)).toBeTruthy();
+    expect(isDateObject(nullDate)).toBeFalsy();
   });
 });
 
