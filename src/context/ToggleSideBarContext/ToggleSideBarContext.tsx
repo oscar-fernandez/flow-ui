@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import IEnablee from "../../models/interfaces/IEnablee";
 import IFEPod from "../../models/interfaces/IFEPod";
+import IFEEnabler from "../../models/interfaces/IFEEnabler";
 
 interface ToggleBarProps {
   children: JSX.Element;
@@ -23,7 +24,10 @@ export const ToggleArrowContext = React.createContext<
 ]);
 
 export const ToggleDetailsContext = React.createContext<
-  [IEnablee | IFEPod | null, (item: IEnablee | IFEPod | null) => void]
+  [
+    IEnablee | IFEPod | IFEEnabler | null,
+    (item: IEnablee | IFEPod | IFEEnabler | null) => void
+  ]
 >([
   null,
   () => {
