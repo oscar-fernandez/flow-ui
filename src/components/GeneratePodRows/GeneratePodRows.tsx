@@ -35,7 +35,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
     changeToggle();
   };
 
-  const isPodEmpty = mockFePod.length === 0;
+  const isPodEmpty = pods?.length === 0;
 
   return (
     <>
@@ -49,7 +49,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
           <ToggleSidebar template={<div>Pod Side Bar</div>} />
         </div>
       ) : (
-        mockFePod.map((pod, i) => {
+        pods?.map((pod, i) => {
           const tooltip = [...convertToStringArr(pod.project.technology)];
           const techDisplay = shortenStringList(tooltip);
           const startDate = new Date(pod.podStartDate);

@@ -358,7 +358,11 @@ export default function PodTemplate() {
                     </>
                   ) : (
                     <>
-                      <p className="project-selected" onClick={showProjects}>
+                      <p
+                        className="project-selected"
+                        data-testid="projectsBtn"
+                        onClick={showProjects}
+                      >
                         {projectSelected}
                       </p>
                     </>
