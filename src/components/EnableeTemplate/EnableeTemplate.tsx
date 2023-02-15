@@ -6,7 +6,10 @@ import { TagComponent } from "../TagComponent/Tag";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import FilteredPod from "./FilteredPod";
 import { mockFePod } from "../../data/MockFEPod";
-import { isEnableeValidForPod } from "../../utils/utilityFunctions";
+import {
+  isEnableeValidForPod,
+  isDateObject,
+} from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
 import {
   useToggle,
@@ -281,21 +284,12 @@ export default function EnableeTemplate() {
           <div className="grid-container">
             <Typography sx={labelStyle}>Enablement Dates</Typography>
 
-            {startDate instanceof Date && endDate instanceof Date ? (
-              <DatepickerComponent
-                startDate={startDate}
-                endDate={endDate}
-                setStartDate={setStartDate}
-                setEndDate={setEndDate}
-              />
-            ) : (
-              <DatepickerComponent
-                startDate={null}
-                endDate={null}
-                setStartDate={setStartDate}
-                setEndDate={setEndDate}
-              />
-            )}
+            <DatepickerComponent
+              startDate={isDateObject(startDate) ? startDate : null}
+              endDate={isDateObject(endDate) ? endDate : null}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+            />
 
             <Typography sx={labelStyle}>Employee Id</Typography>
             <div className="id-wrap">

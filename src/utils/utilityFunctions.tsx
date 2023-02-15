@@ -186,6 +186,10 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
   return podTag;
 };
 
+export function isDateObject(incomingDate: Date | null): boolean {
+  return incomingDate instanceof Date;
+}
+
 // export const convertLocationToString = (location: Location) => {
 //   console.log("inside converter, getting location path: ", location)
 //   if(location.pathname === "/pod/active") {

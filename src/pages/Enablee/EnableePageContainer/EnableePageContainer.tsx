@@ -51,84 +51,81 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
   return (
     <>
       {/* conditional checks if enablees exists before mapping */}
-      {
-        //getList()?.map((enablee, i) => {
-        dummyEnablees?.map((enablee, i) => {
-          const tooltip = [...convertToStringArr(enablee.technology)];
-          let startDate: Date | null = null;
-          let endDate: Date | null = null;
+      {getList()?.map((enablee, i) => {
+        const tooltip = [...convertToStringArr(enablee.technology)];
+        let startDate: Date | null = null;
+        let endDate: Date | null = null;
 
-          if (
-            enablee.enablementStartDate != null &&
-            enablee.enablementEndDate != null
-          ) {
-            startDate = new Date(enablee.enablementStartDate);
-            endDate = new Date(enablee.enablementEndDate);
-          }
+        if (
+          enablee.enablementStartDate != null &&
+          enablee.enablementEndDate != null
+        ) {
+          startDate = new Date(enablee.enablementStartDate);
+          endDate = new Date(enablee.enablementEndDate);
+        }
 
-          const statusTag = generateTags(enablee);
-          return (
-            <Row
-              key={i}
-              onClick={() => {
-                changeToggle();
-                setDetails(enablee);
-              }}
-            >
-              <div className="row-sm-child">
-                <div className="square"></div>
-              </div>
+        const statusTag = generateTags(enablee);
+        return (
+          <Row
+            key={i}
+            onClick={() => {
+              changeToggle();
+              setDetails(enablee);
+            }}
+          >
+            <div className="row-sm-child">
+              <div className="square"></div>
+            </div>
 
-              <div className="row-child row-name">
-                <p className="row-primary">{`${enablee.firstName} ${enablee.lastName}`}</p>
-                <p className="row-secondary">{enablee.employeeId}</p>
-              </div>
+            <div className="row-child row-name">
+              <p className="row-primary">{`${enablee.firstName} ${enablee.lastName}`}</p>
+              <p className="row-secondary">{enablee.employeeId}</p>
+            </div>
 
-              <div style={{ margin: "0 25px" }}>
-                <Tooltip
-                  className="row-sm-child tags-container"
-                  title={tooltipString(tooltip)}
-                  placement="bottom"
-                >
-                  <div>
-                    {enablee.technology
-                      .slice(0, 2)
-                      .map((tech: ITechnology, i: number) => (
-                        <TagComponent
-                          data-testid="tech-stack"
-                          name={tech.name}
-                          color={tech.backgroundColor}
-                          key={i}
-                        />
-                      ))}
-                  </div>
-                </Tooltip>
-              </div>
+            <div style={{ margin: "0 25px" }}>
+              <Tooltip
+                className="row-sm-child tags-container"
+                title={tooltipString(tooltip)}
+                placement="bottom"
+              >
+                <div>
+                  {enablee.technology
+                    .slice(0, 2)
+                    .map((tech: ITechnology, i: number) => (
+                      <TagComponent
+                        data-testid="tech-stack"
+                        name={tech.name}
+                        color={tech.backgroundColor}
+                        key={i}
+                      />
+                    ))}
+                </div>
+              </Tooltip>
+            </div>
 
-              <div className="row-lg-child date-container">
-                <p className="row-primary">Enablement Dates</p>
-                {startDate && endDate ? (
-                  <p className="row-secondary">{`${startDate.toLocaleString(
-                    "en-US",
-                    { month: "long", day: "numeric", year: "numeric" }
-                  )} - ${endDate.toLocaleString("en-us", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}`}</p>
-                ) : (
-                  <p className="row-secondary">Empty</p>
-                )}
-              </div>
+            <div className="row-lg-child date-container">
+              <p className="row-primary">Enablement Dates</p>
+              {startDate && endDate ? (
+                <p className="row-secondary">{`${startDate.toLocaleString(
+                  "en-US",
+                  { month: "long", day: "numeric", year: "numeric" }
+                )} - ${endDate.toLocaleString("en-us", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}`}</p>
+              ) : (
+                <p className="row-secondary">Empty</p>
+              )}
+            </div>
 
-              <div className="row-lg-child">
-                <p className="row-secondary">Status</p>
-                <TagComponent name={statusTag.name} color={statusTag.color} />
-              </div>
-            </Row>
-          );
-        })
-      }
+            <div className="row-lg-child">
+              <p className="row-secondary">Status</p>
+              <TagComponent name={statusTag.name} color={statusTag.color} />
+            </div>
+          </Row>
+        );
+      })}
       {displayPageCarousel ? (
         <PageNumberCarousel
           totalPages={enablees?.totalElements ? getTotalPages() : 0}
