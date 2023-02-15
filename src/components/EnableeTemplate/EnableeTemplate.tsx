@@ -85,7 +85,9 @@ const labelStyle = {
   width: "90px",
 };
 
-const current = new Date().toLocaleDateString("en-us", {
+const prevDate = new Date();
+prevDate.setDate(prevDate.getDate() - 1);
+const prevFormatedDate = prevDate.toLocaleDateString("en-us", {
   year: "numeric",
   month: "long",
   day: "numeric",
@@ -96,7 +98,7 @@ export default function EnableeTemplate() {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [employeeId, setEmployeeId] = useState("");
-  const [dateOfJoin, setDateOfJoin] = useState(current);
+  const [dateOfJoin, setDateOfJoin] = useState(prevFormatedDate);
   const [assetTag, setAssetTag] = useState("");
   const [country, setCountry] = useState("");
   const [community, setCommunity] = useState("");
@@ -187,8 +189,8 @@ export default function EnableeTemplate() {
         employeeId: parseInt(employeeId),
         lastName: name.split(" ")[1],
         firstName: name.split(" ")[0],
-        enablementStartDate: startDate?.toDateString() || "",
-        enablementEndDate: endDate?.toDateString() || "",
+        enablementStartDate: formatDate(startDate), //?.toDateString() || "",
+        enablementEndDate: formatDate(endDate), //endDate?.toDateString() || "",
         dateOfJoin: dateOfJoin,
         assetTag: assetTag,
         isEmployed: isEmployed,
@@ -249,6 +251,16 @@ export default function EnableeTemplate() {
         console.error(e);
       });
   };
+
+  ///////
+  function formatDate(date: Date | null) {
+    const year = date?.getFullYear() || "";
+    const month = String(date?.getMonth() + 1).padStart(2, "0") || "";
+    const day = String(date?.getDate()).padStart(2, "0") || "";
+
+    return year !== "" ? `${year}-${month}-${day}` : "";
+  }
+  ///////
 
   return (
     <>
