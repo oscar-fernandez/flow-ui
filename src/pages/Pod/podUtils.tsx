@@ -67,14 +67,19 @@ const matchData = (ar: IEnablee[], p: IFEPod) => {
 
   ar.forEach((element) => {
     if (
-      isEnableeValidForPod(
-        p.podStartDate,
-        p.podEndDate,
-        element.enablementStartDate,
-        element.enablementEndDate
-      )
+      element.enablementStartDate != null &&
+      element.enablementEndDate != null
     ) {
-      validEnablee.push(element);
+      if (
+        isEnableeValidForPod(
+          p.podStartDate,
+          p.podEndDate,
+          element.enablementStartDate,
+          element.enablementEndDate
+        )
+      ) {
+        validEnablee.push(element);
+      }
     }
   });
   return validEnablee;

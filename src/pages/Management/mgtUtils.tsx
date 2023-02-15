@@ -52,13 +52,18 @@ const transformEnableeArray = (ar: IEnablee[]): string[][] =>
   ar.map((e) => enableeRowfactory(e));
 
 const enableeRowfactory = (obj: IEnablee): string[] => {
+  /* if(obj.enablementEndDate==null || obj.enablementStartDate==null){
+    obj.enablementEndDate=""
+    obj.enablementStartDate=""
+  }*/
+
   return [
     obj.employeeId.toString(),
     obj.firstName,
     obj.lastName,
     convertTechArToStr(obj.technology),
-    convertStringDateToLocalFormat(obj.enablementStartDate),
-    convertStringDateToLocalFormat(obj.enablementEndDate),
+    convertStringDateToLocalFormat(obj.enablementStartDate || ""),
+    convertStringDateToLocalFormat(obj.enablementEndDate || ""),
   ];
 };
 

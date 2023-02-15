@@ -131,7 +131,7 @@ export default function EnableeTemplate() {
       setName(`${enablee.firstName} ${enablee.lastName}`);
 
       if (
-        enablee.enablementStartDate != null ||
+        enablee.enablementStartDate != null &&
         enablee.enablementEndDate != null
       ) {
         setStartDate(new Date(enablee.enablementStartDate));
@@ -169,7 +169,7 @@ export default function EnableeTemplate() {
   }, [name, employeeId, startDate, endDate]);
 
   const filterPods = () => {
-    if (startDate && endDate) {
+    if (startDate instanceof Date && endDate instanceof Date) {
       const filtered = mockFePod.filter((pod) =>
         isEnableeValidForPod(
           pod.podStartDate,
@@ -187,7 +187,7 @@ export default function EnableeTemplate() {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    if (enablee == null) {
+    if (enablee == null && startDate != null && endDate != null) {
       const tempEnablee: IEnablee = {
         employeeId: parseInt(employeeId),
         lastName: name.split(" ")[1],
@@ -207,7 +207,7 @@ export default function EnableeTemplate() {
       };
 
       postEnablee(tempEnablee);
-    } else if (isEnablee(enablee)) {
+    } else if (isEnablee(enablee) && endDate != null && startDate != null) {
       const tempDetail: IEnablee = { ...enablee };
       tempDetail.employeeId = parseInt(employeeId);
       tempDetail.firstName = name.split(" ")[0];
@@ -281,12 +281,22 @@ export default function EnableeTemplate() {
           <div className="grid-container">
             <Typography sx={labelStyle}>Enablement Dates</Typography>
 
-            <DatepickerComponent
-              startDate={startDate}
-              endDate={endDate}
-              setStartDate={setStartDate}
-              setEndDate={setEndDate}
-            />
+            {startDate instanceof Date && endDate instanceof Date ? (
+              <DatepickerComponent
+                startDate={startDate}
+                endDate={endDate}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+              />
+            ) : (
+              <DatepickerComponent
+                startDate={null}
+                endDate={null}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+              />
+            )}
+
             <Typography sx={labelStyle}>Employee Id</Typography>
             <div className="id-wrap">
               <TextField
