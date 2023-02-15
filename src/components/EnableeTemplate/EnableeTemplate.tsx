@@ -1,5 +1,5 @@
 import { Button, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
 import "./EnableeTemplate.css";
 import { TagComponent } from "../TagComponent/Tag";
@@ -18,8 +18,9 @@ import { red } from "@mui/material/colors";
 import { CreateEnablee, UpdateEnablee } from "../../services/EnableeAPI";
 import { mockTechnology } from "../../data/MockData";
 import { useLocation, useNavigate } from "react-router";
-import { useAvailablePods } from "../../pages/Pod/Hooks/customHook";
+import { useAvailablePods, usePodById } from "../../pages/Pod/Hooks/customHook";
 import { getDefaultLocale } from "react-datepicker";
+import { o } from "vitest/dist/index-5aad25c1";
 
 const InputProps = {
   disableUnderline: true,
@@ -106,25 +107,26 @@ export default function EnableeTemplate() {
   const [isEmployed, setIsEmployed] = useState(true);
   const [grade, setGrade] = useState("");
   const [techStack, setTeckStack] = useState<ITechnology[]>([]);
+  const [pod, setPod] = useState(0);
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
-  const [podId, set];
 
   const [toggle, changeToggle] = useToggle();
   const navigate = useNavigate();
   const location = useLocation().pathname;
+  const local = useLocation();
+  const [enablee, setEnablee] = useToggleDetail();
+  const [availablePods, setAvailablePOds] = useAvailablePods(local);
+
   const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.checked) {
       setSelectedPod(undefined);
     } else {
-      const result = mockFePod.filter((p) => p.podName === e.target.id)[0];
+      const result = availablePods.filter((p) => p.podName === e.target.id)[0];
       setSelectedPod(result);
     }
   };
-  const local = useLocation();
-  const [enablee, setEnablee] = useToggleDetail();
-  const [availablePods, setAvailablePOds] = useAvailablePods(local);
 
   // Hacky way to ensure that the useEffect is passed in a Enablee
   function isEnablee(object: any): object is IEnablee {
@@ -148,8 +150,27 @@ export default function EnableeTemplate() {
       setEmploymentType(employmentType);
       setGrade(enablee.gradeId.toString());
       setTeckStack(enablee.technology);
+      setPod(enablee.podId);
     }
   }, []);
+
+  // getting original pod for the Enablee ID;
+  // const [originalPod, setOriginalPod] = usePodById(pod, local);
+
+  const filterPods = () => {
+    let filtered = [];
+    if (startDate && endDate) {
+      filtered = availablePods.filter((pod) =>
+        isEnableeValidForPod(
+          pod.podStartDate,
+          pod.podEndDate,
+          startDate.toDateString(),
+          endDate.toDateString()
+        )
+      );
+      setFilteredPods(filtered);
+    }
+  };
 
   //check if all fields are entered
   useEffect(() => {
@@ -164,21 +185,8 @@ export default function EnableeTemplate() {
       filterPods();
       setDisableSubmit(false);
     }
-  }, [name, employeeId, startDate, endDate]);
+  }, [name, employeeId, startDate, endDate, filteredPods]);
 
-  const filterPods = () => {
-    if (startDate && endDate) {
-      const filtered = availablePods.filter((pod) =>
-        isEnableeValidForPod(
-          pod.podStartDate,
-          pod.podEndDate,
-          startDate.toDateString(),
-          endDate.toDateString()
-        )
-      );
-      setFilteredPods(filtered);
-    }
-  };
   // const handleSubmit2 = (e: ReactFormEvent<HTMLFormElement>) => {
   //   setCommunity("Jolly Holly");
   // };
