@@ -6,7 +6,11 @@ import { TagComponent } from "../TagComponent/Tag";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import FilteredPod from "./FilteredPod";
 import { mockFePod } from "../../data/MockFEPod";
-import { isEnableeValidForPod, formatDate } from "../../utils/utilityFunctions";
+import {
+  isEnableeValidForPod,
+  isDateObject,
+  formatDate,
+} from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
 import {
   useToggle,
@@ -127,8 +131,15 @@ export default function EnableeTemplate() {
   useEffect(() => {
     if (enablee && isEnablee(enablee)) {
       setName(`${enablee.firstName} ${enablee.lastName}`);
-      setStartDate(new Date(enablee.enablementStartDate));
-      setEndDate(new Date(enablee.enablementEndDate));
+
+      if (
+        enablee.enablementStartDate != null &&
+        enablee.enablementEndDate != null
+      ) {
+        setStartDate(new Date(enablee.enablementStartDate));
+        setEndDate(new Date(enablee.enablementEndDate));
+      }
+
       setEmployeeId(enablee.employeeId.toString());
       setDateOfJoin(enablee.dateOfJoin);
       const tags = enablee.assetTag ? enablee.assetTag.toString() : "";
@@ -160,7 +171,7 @@ export default function EnableeTemplate() {
   }, [name, employeeId, startDate, endDate]);
 
   const filterPods = () => {
-    if (startDate && endDate) {
+    if (startDate instanceof Date && endDate instanceof Date) {
       const filtered = mockFePod.filter((pod) =>
         isEnableeValidForPod(
           pod.podStartDate,
@@ -176,7 +187,7 @@ export default function EnableeTemplate() {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    if (enablee == null) {
+    if (enablee == null && startDate != null && endDate != null) {
       const tempEnablee: IEnablee = {
         employeeId: parseInt(employeeId),
         firstName: name.split(" ")[0],
@@ -195,7 +206,7 @@ export default function EnableeTemplate() {
         commentId: [],
       };
       postEnablee(tempEnablee);
-    } else if (isEnablee(enablee)) {
+    } else if (isEnablee(enablee) && endDate != null && startDate != null) {
       const tempDetail: IEnablee = { ...enablee };
       tempDetail.employeeId = parseInt(employeeId);
       tempDetail.firstName = name.split(" ")[0];
@@ -268,12 +279,14 @@ export default function EnableeTemplate() {
 
           <div className="grid-container">
             <Typography sx={labelStyle}>Enablement Dates</Typography>
+
             <DatepickerComponent
-              startDate={startDate}
-              endDate={endDate}
+              startDate={isDateObject(startDate) ? startDate : null}
+              endDate={isDateObject(endDate) ? endDate : null}
               setStartDate={setStartDate}
               setEndDate={setEndDate}
             />
+
             <Typography sx={labelStyle}>Employee Id</Typography>
             <div className="id-wrap">
               <TextField
