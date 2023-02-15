@@ -22,3 +22,11 @@
 .row-sm-child img {
   vertical-align: middle;
 }
+
+.square {
+  width: 36px;
+  height: 34px;
+  margin: auto;
+  background-color: #000048;
+  border: solid;
+}
