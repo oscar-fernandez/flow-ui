@@ -64,7 +64,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
               pod.enabler[0].firstName + ", " + pod.enabler[1].firstName;
           }
 
-          badgeIndex = pickBadgePicture(pod, badgeIndex);
+          badgeIndex = pickBadgePicture(pod);
 
           return (
             <Row

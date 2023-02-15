@@ -27,11 +27,12 @@ export const badgesArray = [
   },
 ];
 
-export function pickBadgePicture(pod: IFEPod, badgeIndex: number) {
-  badgesArray.forEach(function (badge, i) {
-    if (badge.projectName == pod.project.name) {
-      badgeIndex = i;
-    }
-  });
-  return badgeIndex;
+export function pickBadgePicture(pod: IFEPod) {
+  let badgeIndex = badgesArray.findIndex(
+    (badge) => badge.projectName === pod.project.name
+  );
+  if (badgeIndex != -1) {
+    return badgeIndex;
+  }
+  return -1;
 }
