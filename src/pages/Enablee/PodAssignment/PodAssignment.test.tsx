@@ -95,12 +95,13 @@ describe("PodAssignment", () => {
     });
 
     render(<PodAssignment />);
-    const selectedRow = screen.queryByText(mockFePod[0].podName);
+    const selectedRow = screen.queryByText(mockFePod[3].podName);
     selectedRow && fireEvent.click(selectedRow);
-    const selectedRadioButton = screen.queryByLabelText("Match Tech Stack");
+    const selectedRadioButton = screen.queryByLabelText("Contains Tech Stack");
+    expect(screen.getByText("Grang")).toBeInTheDocument();
     expect(selectedRadioButton).toBeInTheDocument();
     selectedRadioButton && fireEvent.click(selectedRadioButton);
-    const result = matchAllSkills(dummyEnablees, mockFePod[0]);
+    selectedRadioButton && fireEvent.click(selectedRadioButton);
   });
 
   it("`*Max Capacity Selected` message should be displayed when quantity of selected enablees ==  total quantity of enablees for pod", () => {
@@ -116,6 +117,7 @@ describe("PodAssignment", () => {
     selectedRow && fireEvent.click(selectedRow);
     const selectedEnablee = screen.getByText("John");
     selectedEnablee && fireEvent.click(selectedEnablee);
+    //selectedEnablee && fireEvent.click(selectedEnablee);
 
     const submit = screen.queryByText("submit");
     submit && fireEvent.click(submit);

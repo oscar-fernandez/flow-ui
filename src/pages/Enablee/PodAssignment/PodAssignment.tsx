@@ -1,24 +1,15 @@
 import { useState, useRef } from "react";
-import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import "./PodAssignment.css";
 import * as Module from "../../Management/mgtUtils";
 import * as Unit from "../../Pod/podUtils";
 import IEnablee from "../../../models/interfaces/IEnablee";
-import {
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-} from "@mui/material";
-//import { dummyEnablees } from "../../../data/EnableeMock";
+import { Checkbox, FormControl, FormControlLabel } from "@mui/material";
 import {
   useHolderAvailablePods,
   usePendingPodEnablees,
 } from "../Hooks/customHook";
-//import { mockFePod } from "../../../data/MockFEPod";
 import IFEPod from "../../../models/interfaces/IFEPod";
-import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumberCarousel";
 
 const headersEnablee = [
   "Employee Id",
@@ -67,7 +58,7 @@ export default function PodAssignment() {
   const { availablePods, setAvailablePods } = useHolderAvailablePods();
   // const [availablePods, setAvailablePods] = useState<IFEPod[]>(mockFePod);
   const [name, setName] = useState("");
-  const [value, setValue] = useState("");
+  const [selectValue, setSelectValue] = useState("");
   const totalCalculatedEnablees =
     selectedEnablees.length + (selectedRow.current.enablee?.length || 0);
 
@@ -82,6 +73,7 @@ export default function PodAssignment() {
           return Module.transformEnableeArray(
             Unit.matchSomeSkills(receivedEnablees, selectedRow.current)
           );
+
         case "availableEnablees":
           return Module.transformEnableeArray(
             Unit.matchData(receivedEnablees, selectedRow.current)
@@ -131,11 +123,16 @@ export default function PodAssignment() {
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
-    setName(event.currentTarget.name);
-    selectedRow.current && fn();
+    if (selectValue === "" || name !== event.currentTarget.name) {
+      setSelectValue(event.target.value);
+      setName(event.currentTarget.name);
+      selectedRow.current && fn();
+    } else {
+      setSelectValue("");
+      setName("availableEnablees");
+      selectedRow.current && fn();
+    }
   };
-  // const error = "* Max Capacity Selected";
 
   // this function needs to be updated to make api call to update pod and enablee
   const handleSubmit = (
@@ -168,33 +165,34 @@ export default function PodAssignment() {
     setSelectedEnablees([]);
   };
 
-  const radioCheck = (
-    <FormControl sx={{ display: "flex" }}>
-      <RadioGroup
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          ml: 3,
-          color: "#dc8d0b",
-        }}
-        aria-labelledby="demo-controlled-radio-buttons-group"
-        name="controlled-radio-buttons-group"
-        value={value}
-        onChange={handleChange}
-      >
-        <FormControlLabel
-          value="matchTechStack"
-          name="matchTechStack"
-          control={<Radio />}
-          label="Match Tech Stack"
-        />
-        <FormControlLabel
-          value="containsTechStack"
-          name="containsTechStack"
-          control={<Radio />}
-          label="Contains Tech Stack"
-        />
-      </RadioGroup>
+  const radioButtonCheckboxes = (
+    <FormControl
+      sx={{ display: "flex", flexDirection: "row", ml: 3, color: "#585887" }}
+    >
+      <FormControlLabel
+        control={
+          <Checkbox
+            color="warning"
+            checked={selectValue === "matchTechStack"}
+            onChange={handleChange}
+            value="matchTechStack"
+            name="matchTechStack"
+          />
+        }
+        label="Match Tech Stack"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            color="warning"
+            checked={selectValue === "containTechStack"}
+            onChange={handleChange}
+            value="containTechStack"
+            name="containTechStack"
+          />
+        }
+        label="Contains Tech Stack"
+      />
     </FormControl>
   );
 
@@ -204,7 +202,7 @@ export default function PodAssignment() {
         <div>
           <div className="containerPodAssignment">
             {/* <PageViewHeader pageTitle="Enablee" showPlus={true} /> */}
-            {radioCheck}
+            {radioButtonCheckboxes}
             <CustomTableContainer
               clickable={totalCalculatedEnablees < 15}
               headers={headersEnablee}
@@ -234,6 +232,8 @@ export default function PodAssignment() {
                 cellStyle={cellStyle}
                 rowStyle={rowStyle}
                 customHandleSelection={customHandleSelection}
+                // podHandleSelection={podHandleSelection}
+                // podHandleSelection={customHandleSelection}
                 skill={false}
                 value={""}
                 toggleShowForm={function (): void {
