@@ -17,8 +17,8 @@ export const mockIFEnabler: IFEEnabler[] = [
     country: "USA",
     communityId: 1,
     employmentTypeId: 1,
-    numActivePods: [1, 3],
-    numPendingPods: [2],
+    numActivePods: [],
+    numPendingPods: [1],
   },
   {
     employeeId: 295174,
@@ -36,8 +36,8 @@ export const mockIFEnabler: IFEEnabler[] = [
     country: "USA",
     communityId: 1,
     employmentTypeId: 1,
-    numActivePods: [4, 6],
-    numPendingPods: [1, 3],
+    numActivePods: [],
+    numPendingPods: [],
   },
   {
     employeeId: 332425,
@@ -56,7 +56,7 @@ export const mockIFEnabler: IFEEnabler[] = [
     country: "USA",
     communityId: 1,
     employmentTypeId: 1,
-    numActivePods: [1, 2, 3],
-    numPendingPods: [4],
+    numActivePods: [2, 3],
+    numPendingPods: [1],
   },
 ];
