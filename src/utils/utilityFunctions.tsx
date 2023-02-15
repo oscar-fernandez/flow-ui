@@ -157,7 +157,12 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
   const endDate = new Date(enablee.enablementEndDate);
   const currentDate = new Date();
   let podTag: IDisplayTag = { name: "", color: "" };
-  if (currentDate < endDate && currentDate >= startDate && enablee.podId > 0) {
+  if (
+    currentDate < endDate &&
+    currentDate >= startDate &&
+    enablee.podId != null &&
+    enablee.podId > 0
+  ) {
     podTag = { name: "Active", color: "rgba(230, 57, 70, 1)" };
   } else if (enablee.podId == null || enablee.podId == 0) {
     podTag = { name: "Pending Pod Assignment", color: "rgba(52, 78, 65, 1)" };
