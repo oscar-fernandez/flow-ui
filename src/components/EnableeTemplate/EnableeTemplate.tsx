@@ -103,7 +103,9 @@ export default function EnableeTemplate() {
   const [employmentType, setEmploymentType] = useState("");
   const [isEmployed, setIsEmployed] = useState(true);
   const [grade, setGrade] = useState("");
-  const [techStack, setTeckStack] = useState<ITechnology[]>([]);
+  const [techStack, setTeckStack] = useState<ITechnology[]>([
+    mockTechnology[0],
+  ]);
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
@@ -190,7 +192,7 @@ export default function EnableeTemplate() {
         dateOfJoin: dateOfJoin,
         assetTag: assetTag,
         isEmployed: isEmployed,
-        technology: mockTechnology,
+        technology: techStack, //mockTechnology,
         countryCode: parseInt(country),
         gradeId: parseInt(grade),
         communityId: parseInt(community),
@@ -198,7 +200,6 @@ export default function EnableeTemplate() {
         podId: selectedPod?.id || 0,
         commentId: [],
       };
-
       postEnablee(tempEnablee);
     } else if (isEnablee(enablee)) {
       const tempDetail: IEnablee = { ...enablee };
@@ -210,7 +211,7 @@ export default function EnableeTemplate() {
       tempDetail.dateOfJoin = dateOfJoin;
       tempDetail.assetTag = assetTag;
       tempDetail.isEmployed = isEmployed;
-      tempDetail.technology = mockTechnology;
+      tempDetail.technology = techStack; //mockTechnology;
       tempDetail.countryCode = parseInt(country);
       tempDetail.gradeId = parseInt(grade);
       tempDetail.communityId = parseInt(community);

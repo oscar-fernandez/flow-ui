@@ -56,6 +56,7 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
         const startDate = new Date(enablee.enablementStartDate);
         const endDate = new Date(enablee.enablementEndDate);
         const statusTag = generateTags(enablee);
+
         return (
           <Row
             key={i}

@@ -155,12 +155,36 @@ export default function PodTemplate() {
       const tempPod: IFEPod = {
         id: 0,
         podName: podName,
-        enablee: enablees,
-        enabler: enablers,
-        podStartDate: startDate?.toDateString() || "",
-        podEndDate: endDate?.toDateString() || "",
-        project: selectedPodProject,
+        enablee: [], //enablees,
+        enabler: [], //enablers,
+        podStartDate: "2023-02-15", //startDate?.toDateString() || "",
+        podEndDate: "2023-03-07", //endDate?.toDateString() || "",
+        project: {
+          id: 10,
+          name: "Pixelgram",
+          summary: "Clone instagram app",
+          technology: [
+            {
+              id: 1,
+              name: ".Net",
+              backgroundColor: "red",
+            },
+            {
+              id: 3,
+              name: "React",
+              backgroundColor: "green",
+            },
+            {
+              id: 2,
+              name: "Java",
+              backgroundColor: "blue",
+            },
+          ],
+          repoLink:
+            "https://git.work.cognizant.studio/enablement/team-projects/a",
+        }, //selectedPodProject,
       };
+
       postPod(tempPod);
     } else if (isPod(pod)) {
       const tempPod: IFEPod = { ...pod };
