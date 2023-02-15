@@ -77,7 +77,7 @@ export default function FilteredPod({
               }
             ></input>
             <div className="tech-stack-margin">
-              {badgeIndex > 0 ? (
+              {badgeIndex != -1 ? (
                 <img className="img" src={badgesArray[badgeIndex].path} />
               ) : (
                 <div className="pod-logo" />

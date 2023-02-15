@@ -31,8 +31,5 @@ export function pickBadgePicture(pod: IFEPod) {
   const badgeIndex = badgesArray.findIndex(
     (badge) => badge.projectName === pod.project.name
   );
-  if (badgeIndex != -1) {
-    return badgeIndex;
-  }
-  return -1;
+  return badgeIndex;
 }

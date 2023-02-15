@@ -16,7 +16,6 @@ import {
   useToggleDetail,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
-import { mockFePod } from "../../data/MockFEPod";
 import { badgesArray, pickBadgePicture } from "../../data/BadgesArray";
 
 interface Props {
@@ -75,7 +74,11 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
               }}
             >
               <div className="row-sm-child">
-                <img className="img" src={badgesArray[badgeIndex].path} />
+                {badgeIndex != -1 ? (
+                  <img className="img" src={badgesArray[badgeIndex].path} />
+                ) : (
+                  <div className="square" />
+                )}
               </div>
 
               <div className="row-child row-name">
