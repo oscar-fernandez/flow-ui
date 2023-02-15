@@ -113,7 +113,9 @@ export default function PodTemplate() {
       setEnablers(pod.enabler);
       setStartDate(new Date(pod.podStartDate));
       setEndDate(new Date(pod.podEndDate));
+      setProjectSelected(pod.project.name);
       setSelectedPodProject(pod.project);
+      setProjectTechStack(pod.project.technology);
     }
   }, [pod]);
 
@@ -275,7 +277,7 @@ export default function PodTemplate() {
               </div>
             )}
             <div className="div2">
-              <span className="numpods">{numEnablees} / 15</span>
+              <div className="numpods">{numEnablees} / 15</div>
             </div>
 
             <div className="div3">
@@ -356,7 +358,11 @@ export default function PodTemplate() {
                     </>
                   ) : (
                     <>
-                      <p className="project-selected" onClick={showProjects}>
+                      <p
+                        className="project-selected"
+                        data-testid="projectsBtn"
+                        onClick={showProjects}
+                      >
                         {projectSelected}
                       </p>
                     </>
