@@ -57,7 +57,7 @@ export default function FilteredPod({
     setClickedPod(true);
   }
 
-  let badgeIndex = pickBadgePicture(pod);
+  const badgeIndex = pickBadgePicture(pod);
 
   return (
     <>
