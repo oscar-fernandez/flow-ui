@@ -201,7 +201,6 @@ export default function PodAssignment() {
       <form action="">
         <div>
           <div className="containerPodAssignment">
-            {/* <PageViewHeader pageTitle="Enablee" showPlus={true} /> */}
             {radioButtonCheckboxes}
             <CustomTableContainer
               clickable={totalCalculatedEnablees < 15}
@@ -210,7 +209,6 @@ export default function PodAssignment() {
               rows={fn()}
               cellStyle={cellStyle}
               rowStyle={rowStyle}
-              //  toggle={toggle}
               updateSelectedEnablees={updateSelectedEnablees}
               skill={false}
               value={""}
@@ -232,8 +230,6 @@ export default function PodAssignment() {
                 cellStyle={cellStyle}
                 rowStyle={rowStyle}
                 customHandleSelection={customHandleSelection}
-                // podHandleSelection={podHandleSelection}
-                // podHandleSelection={customHandleSelection}
                 skill={false}
                 value={""}
                 toggleShowForm={function (): void {
@@ -259,7 +255,6 @@ export default function PodAssignment() {
             <button
               className="button button-orange"
               disabled={selectedEnablees.length === 0 || !selectedRow.current}
-              // type='submit'
               onClick={handleSubmit}
             >
               submit

@@ -35,7 +35,8 @@ export default function CustomRowComponent({
     } else if (!clickable) {
       setToggle(false);
     }
-    updateSelectedEnablees?.(+e.currentTarget.id);
+    updateSelectedEnablees?.(+e.currentTarget.id) ||
+      (customHandleSelection && customHandleSelection(e));
   };
 
   let rowColor = "";
@@ -47,7 +48,7 @@ export default function CustomRowComponent({
         id={rowId}
         hover
         tabIndex={-1}
-        onClick={customHandleSelection || defaultHandleSelection}
+        onClick={defaultHandleSelection}
         sx={{
           ...rowStyle,
           backgroundColor: toggle ? "#000048" : rowColor,
