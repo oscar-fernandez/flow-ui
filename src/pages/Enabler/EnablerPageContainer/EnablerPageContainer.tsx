@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import {
   useToggle,
@@ -7,7 +6,6 @@ import {
 import IFEEnabler from "../../../models/interfaces/IFEEnabler";
 import {
   convertToStringArr,
-  generateTags,
   tooltipString,
 } from "../../../utils/utilityFunctions";
 import Row from "../../../components/RowComponent/Row";
@@ -20,16 +18,16 @@ interface Props {
   displayPageCarousel: boolean;
 }
 
-export function EnablerPageContainer({ hook, displayPageCarousel }: Props) {
+/**
+ * Gets rendered as a nested route of "/enabler"
+ * @param param0 hook for API call
+ * @returns rendered enablers placed in styled rows
+ */
+export function EnablerPageContainer({ hook }: Props) {
   const location = useLocation();
   const [enablers, getEnablers] = hook(location.pathname);
-  const [page, setPage] = useState(1);
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
-
-  const getTotalPages = () => {
-    return Math.ceil(enablers.totalElements / 25);
-  };
 
   const getList = (): IFEEnabler[] => {
     if (enablers?.items) {
@@ -38,12 +36,6 @@ export function EnablerPageContainer({ hook, displayPageCarousel }: Props) {
       return enablers;
     }
   };
-
-  useEffect(() => {
-    if (enablers?.items) {
-      getEnablers(page - 1);
-    }
-  }, [page]);
 
   return (
     <>
