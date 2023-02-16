@@ -16,11 +16,11 @@ function GetEnableesPendingPodAssignment() {
 }
 
 function CreateEnablee(enablee: IEnablee) {
-  return post(baseUrl + "/enablee/createEnablee", enablee);
+  return post(baseUrl + "/enablee", enablee);
 }
 
 function UpdateEnablee(enablee: IEnablee) {
-  return put(baseUrl + "/enablee/updateEnablee", enablee);
+  return put(baseUrl + "/enablee", enablee);
 }
 
 export {

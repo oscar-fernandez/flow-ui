@@ -7,7 +7,7 @@ import { TagComponent } from "../TagComponent/Tag";
 import IEnablee from "../../models/interfaces/IEnablee";
 import IProject from "../../models/interfaces/IProject";
 import { dumbProjects } from "../../data/MockProjects";
-import { isEnableeValidForPod } from "../../utils/utilityFunctions";
+import { isEnableeValidForPod, formatDate } from "../../utils/utilityFunctions";
 import { dummyEnablees } from "../../data/EnableeMock";
 import {
   useToggle,
@@ -158,19 +158,20 @@ export default function PodTemplate() {
         id: 0,
         podName: podName,
         enablee: enablees,
-        enabler: enablers,
-        podStartDate: startDate?.toDateString() || "",
-        podEndDate: endDate?.toDateString() || "",
+        enabler: enablers !== null ? enablers : [],
+        podStartDate: formatDate(startDate),
+        podEndDate: formatDate(endDate),
         project: selectedPodProject,
       };
+
       postPod(tempPod);
     } else if (isPod(pod)) {
       const tempPod: IFEPod = { ...pod };
       tempPod.enablee = enablees;
-      tempPod.enabler = enablers;
+      tempPod.enabler = enablers !== null ? enablers : [];
       tempPod.podName = podName;
-      tempPod.podStartDate = startDate?.toDateString() || "";
-      tempPod.podEndDate = endDate?.toDateString() || "";
+      tempPod.podStartDate = formatDate(startDate);
+      tempPod.podEndDate = formatDate(endDate);
       tempPod.project = selectedPodProject;
       putPod(tempPod);
     }
@@ -210,15 +211,21 @@ export default function PodTemplate() {
    * enablee.
    */
   function retrieveEnablees() {
+    let result: IEnablee[] = [];
     if (startDate && endDate) {
-      const result = dummyEnablees.filter((enablee) =>
-        isEnableeValidForPod(
-          startDate.toString(),
-          endDate.toString(),
-          enablee.enablementStartDate,
-          enablee.enablementEndDate
-        )
-      );
+      result = dummyEnablees.filter((enablee) => {
+        if (
+          enablee.enablementEndDate != null &&
+          enablee.enablementStartDate != null
+        ) {
+          isEnableeValidForPod(
+            startDate.toString(),
+            endDate.toString(),
+            enablee.enablementStartDate,
+            enablee.enablementEndDate
+          );
+        }
+      });
       setEnablees(result);
     }
   }

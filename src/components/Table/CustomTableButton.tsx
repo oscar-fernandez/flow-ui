@@ -24,7 +24,11 @@ const CustomTableButton = ({
         >
           <p>
             <span style={{ fontSize: "20px" }}>+ </span>Add{" "}
-            {value === "Technology" ? "Skill" : value}
+            {value === "Technology"
+              ? "Skill"
+              : value === "Projects"
+              ? "Project"
+              : value}
           </p>
         </Button>
       </div>

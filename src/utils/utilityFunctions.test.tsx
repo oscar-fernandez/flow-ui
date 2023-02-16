@@ -9,7 +9,9 @@ import {
   getAvailablePodTag,
   generateTags,
   generatePodTags,
+  isDateObject,
   getName,
+  formatDate,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
 import IProjectTable from "../models/interfaces/IProjectTable";
@@ -179,6 +181,12 @@ describe("utilityTest", () => {
     expect(getName("skillName")).toEqual("Skill Name");
     expect(getName("projectName")).toEqual("Project Name");
   });
+  it("isDateObject should return true when receiving a date Object and false for anything else", () => {
+    const currentDate = new Date();
+    const nullDate = null;
+    expect(isDateObject(currentDate)).toBeTruthy();
+    expect(isDateObject(nullDate)).toBeFalsy();
+  });
 });
 
 describe("generatePodTags", () => {
@@ -242,6 +250,11 @@ describe("generateTags", () => {
     enablee.podId = 1;
     enablee.enablementStartDate = "2024-01-21";
     expect(generateTags(enablee).name).toEqual("Pending");
+  });
+
+  it("return formated date", () => {
+    const day = new Date("July 21, 2022 01:15:00");
+    expect(formatDate(day)).toEqual("2022-07-21");
   });
 });
 
