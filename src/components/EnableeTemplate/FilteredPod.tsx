@@ -15,6 +15,7 @@ interface Props {
   enableeTech: ITechnology[];
   selectedPod: IFEPod | undefined;
   handleOnClick: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  originalPodId?: number | false;
 }
 
 const labelStyle = {
@@ -35,11 +36,13 @@ export default function FilteredPod({
   enableeTech,
   handleOnClick,
   selectedPod,
+  originalPodId,
 }: Props) {
   const [filteredTech, setFilteredTech] = useState<ITechnology[]>([]);
   const [clickedPod, setClickedPod] = useState(false);
   const [details, setDetails] = useToggleDetail();
   const [toggleArrow, setToggleArrow] = useToggleArrow();
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     const result = enableeTech.filter((etech) => {
@@ -56,9 +59,23 @@ export default function FilteredPod({
     setClickedPod(true);
   }
 
+  const checkF = () => {
+    if (checked) {
+      setChecked(false);
+    } else setChecked(true);
+  };
+
+  const check = () => {
+    if (originalPodId === pod.id) {
+      setChecked(true);
+    } else {
+      setChecked(false);
+    }
+  };
+
   // const checked = (): boolean => {
   //   let bool = false;
-  //   if (selectedPod?.podName === pod.podName) {
+  //   if (originalPodId === pod.id) {
   //     bool = true;
   //   } else {
   //     bool = false;
@@ -77,11 +94,12 @@ export default function FilteredPod({
             <input
               id={pod.podName}
               type="checkbox"
-              onChange={(e) => handleOnClick(e)}
+              onChange={handleOnClick}
               data-testid={pod.podName}
               disabled={
                 selectedPod ? selectedPod.podName !== pod.podName : false
               }
+              checked={originalPodId === pod.id}
             ></input>
             <div className="tech-stack-margin">
               <div className="pod-logo" />

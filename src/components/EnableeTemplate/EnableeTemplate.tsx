@@ -119,7 +119,10 @@ export default function EnableeTemplate() {
   const [availablePods, setAvailablePOds] = useAvailablePods(local);
 
   const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.checked) {
+    if (e.target.id === selectedPod?.podName && e.target.checked) {
+      e.target.checked = false;
+      setOriginalPodId(0);
+    } else if (!e.target.checked) {
       setSelectedPod(undefined);
     } else {
       const result = filteredPods.filter((p) => p.podName === e.target.id)[0];
@@ -170,13 +173,10 @@ export default function EnableeTemplate() {
       );
       setFilteredPods([...filtered, originalPod]);
     }
-    if (
-      filtered.filter((pod) => {
-        pod === originalPod;
-      })
-    ) {
-      setSelectedPod(originalPod);
-    }
+    // if (isEnablee(enablee))
+    // {
+    //   setSelectedPod(originalPod);
+    // }
   };
 
   //check if all fields are entered
@@ -412,6 +412,7 @@ export default function EnableeTemplate() {
                       enableeTech={techStack}
                       handleOnClick={handleOnClick}
                       selectedPod={selectedPod}
+                      originalPodId={originalPodId}
                     />
                   );
                 })}
@@ -423,6 +424,7 @@ export default function EnableeTemplate() {
                 enableeTech={techStack}
                 handleOnClick={handleOnClick}
                 selectedPod={selectedPod}
+                originalPodId={originalPodId}
               />
             ) : (
               <Typography
