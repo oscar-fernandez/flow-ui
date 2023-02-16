@@ -1,3 +1,4 @@
+import "./EnablerPageContainer.css";
 import { useLocation } from "react-router";
 import {
   useToggle,
@@ -12,6 +13,7 @@ import Row from "../../../components/RowComponent/Row";
 import { Tooltip } from "@mui/material";
 import ITechnology from "../../../models/interfaces/ITechnology";
 import { TagComponent } from "../../../components/TagComponent/Tag";
+import { useEffect } from "react";
 
 interface Props {
   hook: (location: string) => any[];
@@ -37,59 +39,66 @@ export function EnablerPageContainer({ hook }: Props) {
     }
   };
 
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(enablers);
+  });
+
   return (
     <>
-      {getList()?.map((enabler, i) => {
-        const tooltip = [...convertToStringArr(enabler.technology)];
-        return (
-          <Row
-            key={i}
-            onClick={() => {
-              changeToggle();
-              setDetails(enabler);
-            }}
-          >
-            <div className="row-sm-child">
-              <div className="square"></div>
-            </div>
+      <div className="enabler-page-container">
+        {getList()?.map((enabler, i) => {
+          const tooltip = [...convertToStringArr(enabler.technology)];
+          return (
+            <Row
+              key={i}
+              onClick={() => {
+                changeToggle();
+                setDetails(enabler);
+              }}
+            >
+              <div className="row-sm-child">
+                <div className="square"></div>
+              </div>
 
-            <div className="row-md-child row-name">
-              <p className="row-primary">{`${enabler.firstName} ${enabler.lastName}`}</p>
-              <p className="row-secondary">{enabler.employeeId}</p>
-            </div>
+              <div className="row-md-child row-name">
+                <p className="row-primary">{`${enabler.firstName} ${enabler.lastName}`}</p>
+                <p className="row-secondary">{enabler.employeeId}</p>
+              </div>
 
-            <div>
-              <Tooltip
-                className="row-sm-child tags-container"
-                title={tooltipString(tooltip)}
-                placement="bottom"
-              >
-                <div>
-                  {enabler.technology
-                    .slice(0, 2)
-                    .map((tech: ITechnology, i: number) => (
-                      <TagComponent
-                        data-testid="tech-stack"
-                        name={tech.name}
-                        color={tech.backgroundColor}
-                        key={i}
-                      />
-                    ))}
-                </div>
-              </Tooltip>
-            </div>
+              <div>
+                <Tooltip
+                  className="row-sm-child tags-container"
+                  title={tooltipString(tooltip)}
+                  placement="bottom"
+                >
+                  <div>
+                    {enabler.technology
+                      .slice(0, 2)
+                      .map((tech: ITechnology, i: number) => (
+                        <TagComponent
+                          data-testid="tech-stack"
+                          name={tech.name}
+                          color={tech.backgroundColor}
+                          key={i}
+                        />
+                      ))}
+                  </div>
+                </Tooltip>
+              </div>
 
-            <div className="row-lg-child date-container">
-              <p className="row-primary">Assigned Pods</p>
-              {enabler.numActivePods ? (
-                <p className="row-secondary">{enabler.numActivePods}</p>
-              ) : (
-                <p className="row-secondary">Empty</p>
-              )}
-            </div>
-          </Row>
-        );
-      })}
+              <div className="row-lg-child date-container">
+                <p className="row-primary">Assigned Pods</p>
+                {enabler.numActivePods ? (
+                  <p className="row-secondary">{enabler.numActivePods}</p>
+                ) : (
+                  <p className="row-secondary">Empty</p>
+                )}
+              </div>
+            </Row>
+          );
+        })}
+      </div>
     </>
   );
 }
