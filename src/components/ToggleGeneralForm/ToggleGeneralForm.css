@@ -4,3 +4,7 @@
   grid-auto-rows: minmax(60px, auto);
   grid-column-gap: 2rem;
 }
+
+.employee-margin {
+  margin-bottom: 1rem;
+}
