@@ -56,6 +56,16 @@ export default function FilteredPod({
     setClickedPod(true);
   }
 
+  // const checked = (): boolean => {
+  //   let bool = false;
+  //   if (selectedPod?.podName === pod.podName) {
+  //     bool = true;
+  //   } else {
+  //     bool = false;
+  //   }
+  //   return bool;
+  // };
+
   return (
     <>
       {!clickedPod ? (

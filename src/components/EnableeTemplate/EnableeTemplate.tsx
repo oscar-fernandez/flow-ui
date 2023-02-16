@@ -122,7 +122,7 @@ export default function EnableeTemplate() {
     if (!e.target.checked) {
       setSelectedPod(undefined);
     } else {
-      const result = availablePods.filter((p) => p.podName === e.target.id)[0];
+      const result = filteredPods.filter((p) => p.podName === e.target.id)[0];
       setSelectedPod(result);
     }
   };
@@ -422,7 +422,7 @@ export default function EnableeTemplate() {
                 pod={originalPod}
                 enableeTech={techStack}
                 handleOnClick={handleOnClick}
-                selectedPod={originalPod}
+                selectedPod={selectedPod}
               />
             ) : (
               <Typography
