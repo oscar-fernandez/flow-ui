@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import "./ToggleGeneralForm.css";
+import { cities, countries, states } from "../../data/EnablerLocation";
 
 const InputProps = {
   disableUnderline: true,
@@ -53,6 +54,8 @@ const selectStyle = {
 
 export default function ToggleGeneralForm() {
   const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
   return (
     <>
       <div style={{ maxWidth: "430px" }}>
@@ -109,15 +112,69 @@ export default function ToggleGeneralForm() {
                   inputProps={{ IconComponent: () => null }}
                   sx={selectStyle}
                 >
-                  <MenuItem disabled value="">
+                  <MenuItem disabled value="" sx={selectStyle}>
                     City
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
+                  {cities.map((city, i) => {
+                    return (
+                      <MenuItem key={i} value={city} sx={selectStyle}>
+                        {city}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
             </div>
             <Typography sx={labelStyle}>State</Typography>
+            <div>
+              <FormControl sx={{ width: 120 }}>
+                <Select
+                  disableUnderline
+                  variant="standard"
+                  displayEmpty
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                  inputProps={{ IconComponent: () => null }}
+                  sx={selectStyle}
+                >
+                  <MenuItem disabled value="" sx={selectStyle}>
+                    State
+                  </MenuItem>
+                  {states.map((state, i) => {
+                    return (
+                      <MenuItem key={i} value={state} sx={selectStyle}>
+                        {state}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </div>
             <Typography sx={labelStyle}>Country</Typography>
+            <div>
+              <FormControl sx={{ width: 120 }}>
+                <Select
+                  disableUnderline
+                  variant="standard"
+                  displayEmpty
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  inputProps={{ IconComponent: () => null }}
+                  sx={selectStyle}
+                >
+                  <MenuItem disabled value="" sx={selectStyle}>
+                    Country
+                  </MenuItem>
+                  {countries.map((country, i) => {
+                    return (
+                      <MenuItem key={i} value={country} sx={selectStyle}>
+                        {country}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </div>
             <Typography sx={labelStyle}>Community</Typography>
             <TextField
               placeholder="Empty"

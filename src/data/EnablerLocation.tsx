@@ -1,4 +1,4 @@
-export const city: string[] = [
+export const cities: string[] = [
   "Chicago",
   "Flushing",
   "Philadelphia",
@@ -11,7 +11,7 @@ export const city: string[] = [
   "Spring",
 ];
 
-export const state: string[] = [
+export const states: string[] = [
   "IL",
   "MI",
   "PA",
@@ -23,4 +23,4 @@ export const state: string[] = [
   "TX",
 ];
 
-export const country: string[] = ["United States"];
+export const countries: string[] = ["United States"];
