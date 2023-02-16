@@ -63,7 +63,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
               pod.enabler[0].firstName + ", " + pod.enabler[1].firstName;
           }
 
-          badgeIndex = pickBadgePicture(pod, badgeIndex);
+          badgeIndex = pickBadgePicture(pod);
 
           return (
             <Row
@@ -74,7 +74,11 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
               }}
             >
               <div className="row-sm-child">
-                <img className="img" src={badgesArray[badgeIndex].path} />
+                {badgeIndex != -1 ? (
+                  <img className="img" src={badgesArray[badgeIndex].path} />
+                ) : (
+                  <div className="square" />
+                )}
               </div>
 
               <div className="row-child row-name">

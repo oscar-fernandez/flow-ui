@@ -1,20 +1,20 @@
 import IEnablee from "../models/interfaces/IEnablee";
-const today = new Date();
+
 export const dummyEnablees: IEnablee[] = [
   {
     employeeId: 977284,
     firstName: "Steve",
     lastName: "Bob",
-    dateOfJoin: subtractDays(today, 20).toString(),
-    enablementStartDate: subtractDays(today, 20).toString(),
-    enablementEndDate: addDays(today, 20).toString(),
+    dateOfJoin: "2022-01-21",
+    enablementStartDate: "2021-01-21",
+    enablementEndDate: "2021-01-30",
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
-      { id: 2, name: "Java", backgroundColor: "yellow" },
-      { id: 8, name: "React", backgroundColor: "orange" },
+      { id: 2, name: "Java", backgroundColor: "grey" },
+      { id: 8, name: "React", backgroundColor: "blue" },
       { id: 12, name: "Rust", backgroundColor: "brown" },
-      { id: 12, name: "C++", backgroundColor: "pink" },
+      { id: 12, name: "C++", backgroundColor: "yellow" },
     ],
     countryCode: 1,
     gradeId: 1,
@@ -27,14 +27,14 @@ export const dummyEnablees: IEnablee[] = [
     employeeId: 1221,
     firstName: "Jessabelle",
     lastName: "Cowringer",
-    dateOfJoin: "2023-01-21",
-    enablementStartDate: "2023-02-06",
-    enablementEndDate: "2023-02-24",
+    dateOfJoin: "2022-01-21",
+    enablementStartDate: "2021-01-21",
+    enablementEndDate: "2021-01-30",
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
-      { id: 2, name: "Java", backgroundColor: "yellow" },
-      { id: 8, name: "React", backgroundColor: "orange" },
+      { id: 2, name: "Java", backgroundColor: "grey" },
+      { id: 8, name: "React", backgroundColor: "blue" },
     ],
     countryCode: 1,
     gradeId: 1,
@@ -47,14 +47,16 @@ export const dummyEnablees: IEnablee[] = [
     employeeId: 738920,
     firstName: "Ondrew",
     lastName: "Jooors",
-    dateOfJoin: subtractDays(today, 20).toString(),
-    enablementStartDate: subtractDays(today, 10).toString(),
-    enablementEndDate: addDays(today, 10).toString(),
+    dateOfJoin: "2022-01-21",
+    enablementStartDate: "2021-01-21",
+    enablementEndDate: "2021-01-30",
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
-      { id: 2, name: "Java", backgroundColor: "yellow" },
-      { id: 8, name: "React", backgroundColor: "orange" },
+      { id: 2, name: "Java", backgroundColor: "grey" },
+      { id: 8, name: "React", backgroundColor: "blue" },
+      { id: 12, name: "Rust", backgroundColor: "brown" },
+      { id: 12, name: "C++", backgroundColor: "yellow" },
     ],
     countryCode: 1,
     gradeId: 1,
@@ -67,14 +69,14 @@ export const dummyEnablees: IEnablee[] = [
     employeeId: 728912,
     firstName: "Mario",
     lastName: "Bros",
-    dateOfJoin: subtractDays(today, 20).toString(),
-    enablementStartDate: subtractDays(today, 10).toString(),
-    enablementEndDate: addDays(today, 10).toString(),
+    dateOfJoin: "2022-01-21",
+    enablementStartDate: "2022-01-21",
+    enablementEndDate: "2022-01-21",
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
-      { id: 2, name: "Java", backgroundColor: "yellow" },
-      { id: 8, name: "React", backgroundColor: "orange" },
+      { id: 2, name: "Ruby", backgroundColor: "grey" },
+      { id: 8, name: "C Sharp", backgroundColor: "blue" },
     ],
     countryCode: 1,
     gradeId: 1,
@@ -87,14 +89,14 @@ export const dummyEnablees: IEnablee[] = [
     employeeId: 627890,
     firstName: "Super",
     lastName: "Sonic",
-    dateOfJoin: subtractDays(today, 20).toString(),
-    enablementStartDate: subtractDays(today, 10).toString(),
-    enablementEndDate: addDays(today, 10).toString(),
+    dateOfJoin: "2022-01-21",
+    enablementStartDate: "2021-01-21",
+    enablementEndDate: "2021-01-30",
     assetTag: "I Don't know",
     isEmployed: false,
     technology: [
-      { id: 2, name: "Java", backgroundColor: "yellow" },
-      { id: 8, name: "React", backgroundColor: "orange" },
+      { id: 2, name: "Java", backgroundColor: "grey" },
+      { id: 8, name: "React", backgroundColor: "blue" },
     ],
     countryCode: 1,
     gradeId: 1,
@@ -104,15 +106,3 @@ export const dummyEnablees: IEnablee[] = [
     commentId: [1, 2, 3],
   },
 ];
-
-function addDays(date: Date, days: number) {
-  const copy = new Date(Number(date));
-  copy.setDate(date.getDate() + days);
-  return copy;
-}
-
-function subtractDays(date: Date, days: number) {
-  const copy = new Date(Number(date));
-  copy.setDate(date.getDate() - days);
-  return copy;
-}
