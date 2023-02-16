@@ -4,7 +4,7 @@ import ITechnology from "../../models/interfaces/ITechnology";
 import { convertToStringArr } from "../../utils/utilityFunctions";
 import { convertStringDateToLocalFormat } from "../Pod/podUtils";
 
-const tabLabels = ["Project", "Technology", "Grade", "Country", "Community"];
+const tabLabels = ["Projects", "Technology", "Grade", "Country", "Community"];
 
 const techStackColors = [
   "#007C77",
