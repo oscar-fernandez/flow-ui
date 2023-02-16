@@ -114,14 +114,14 @@ export default function FormComponent(props: any) {
       "projectName"
     ) as HTMLInputElement;
     const currentRepoLink = document.getElementById("link") as HTMLInputElement;
-    const currentProjectsummary = document.getElementById(
+    const currentProjectSummary = document.getElementById(
       "summary"
     ) as HTMLInputElement;
 
     const project: IProject = {
       id: id,
       name: currentProjectName.value,
-      summary: currentProjectsummary.value,
+      summary: currentProjectSummary.value,
       technology: techArr,
       repoLink: currentRepoLink.value,
     };
@@ -312,7 +312,8 @@ export default function FormComponent(props: any) {
                         "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)"
                       ) ||
                       selectedStack.length === 0 ||
-                      projectDescription?.length >= 100
+                      projectDescription?.length >= 100 ||
+                      projectDescription?.length < 1
                     }
                   >
                     Submit

@@ -79,23 +79,36 @@ export default function PodAssignment() {
           );
       }
     }
-    if (receivedEnablees) return Module.transformEnableeArray(receivedEnablees);
+    if (receivedEnablees) {
+      return Module.transformEnableeArray(receivedEnablees);
+    }
     return [];
   }
 
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    if (selectedRow.current === availablePods[+event.currentTarget.id]) {
-      return;
+    // event.preventDefault();
+    const clickedRow = availablePods[+event.currentTarget.id];
+    if (selectedRow.current === clickedRow) {
+      //  return;
+      selectedRow.current = {} as IFEPod;
+      setReceivedEnablees(receivedEnablees);
+      setSelectedEnablees([]);
+      setName("");
+      setSelectValue("");
+    } else {
+      selectedRow.current = clickedRow;
+
+      const filteredEnablees =
+        // receivedEnablees &&
+        // selectedRow &&
+        Unit.matchData(receivedEnablees, clickedRow);
+      setSelectedEnablees([]); //shorthand convert str to number
+      setReceivedEnablees(filteredEnablees);
+      setName("");
+      setSelectValue("");
     }
-    selectedRow.current = availablePods[+event.currentTarget.id]; //shorthand convert str to number
-    const filteredEnablees =
-      receivedEnablees &&
-      selectedRow &&
-      Unit.matchData(receivedEnablees, selectedRow.current);
-    setReceivedEnablees(filteredEnablees);
-    setSelectedEnablees([]);
   };
 
   //temp location
