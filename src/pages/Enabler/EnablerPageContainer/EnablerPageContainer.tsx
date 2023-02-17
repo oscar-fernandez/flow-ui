@@ -66,7 +66,7 @@ export function EnablerPageContainer({ hook }: Props) {
                 <Tooltip
                   className="row-sm-child tags-container"
                   title={tooltipString(tooltip)}
-                  placement="bottom"
+                  placement="bottom-start"
                 >
                   <div>
                     {enabler.technology
@@ -83,7 +83,7 @@ export function EnablerPageContainer({ hook }: Props) {
                 </Tooltip>
               </div>
 
-              <div className="row-lg-child date-container">
+              <div className="row-md-child date-container">
                 <p className="row-primary">Assigned Pods</p>
                 {enabler.numActivePods ? (
                   <p className="row-secondary">{enabler.numActivePods}</p>
