@@ -13,7 +13,6 @@ import Row from "../../../components/RowComponent/Row";
 import { Tooltip } from "@mui/material";
 import ITechnology from "../../../models/interfaces/ITechnology";
 import { TagComponent } from "../../../components/TagComponent/Tag";
-import { useEffect } from "react";
 
 interface Props {
   hook: (location: string) => any[];
@@ -31,18 +30,15 @@ export function EnablerPageContainer({ hook }: Props) {
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
 
+  /**
+   * When EnablerPageContainer renders upon loading,
+   * getList constant gets set to the enablers state which is
+   * set using the customHook.
+   * @returns all enablers
+   */
   const getList = (): IFEEnabler[] => {
-    if (enablers?.items) {
-      return enablers.items;
-    } else {
-      return enablers;
-    }
+    return enablers;
   };
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(enablers);
-  });
 
   return (
     <>
@@ -94,6 +90,11 @@ export function EnablerPageContainer({ hook }: Props) {
                 ) : (
                   <p className="row-secondary">Empty</p>
                 )}
+              </div>
+
+              <div className="row-md-child">
+                <p className="row-secondary">Status</p>
+                <p className="row-secondary">Empty</p>
               </div>
             </Row>
           );
