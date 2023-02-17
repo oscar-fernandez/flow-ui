@@ -1,7 +1,11 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { mockFePod } from "../../../data/MockFEPod";
 import IFEPod from "../../../models/interfaces/IFEPod";
-import { containsPod, isInValidName } from "./EnableeTemplateUtils";
+import {
+  containsPod,
+  isInValidName,
+  isValidDate,
+} from "./EnableeTemplateUtils";
 
 const expectedPodList: IFEPod[] = [];
 let expectedPodId: number;
@@ -52,6 +56,16 @@ describe("EnableeTemplate Utils tests", () => {
     });
     it("isInValidName_Should_Return_True_When_Name_Undefined", () => {
       expect(isInValidName(undefined, undefined)).toBeTruthy();
+    });
+  });
+
+  describe("isValidDate tests: ", () => {
+    it("isValidDate_Should_Return_Null_When_Null_Date_Provided", () => {
+      expect(isValidDate(null)).toBeNull();
+    });
+    it("isValidDate_Should_Return_Date_When_Date_String_Provided", () => {
+      const expectedDate = "2022-04-08";
+      expect(isValidDate(expectedDate)).toEqual(new Date(expectedDate));
     });
   });
 });

@@ -16,3 +16,10 @@ export function isInValidName(
   const name = `${firstName} ${lastName}`;
   return (!firstName && !lastName) || name.trim().length === 0;
 }
+
+export function isValidDate(date: string | null): Date | null {
+  if (date) {
+    return new Date(date);
+  }
+  return null;
+}
