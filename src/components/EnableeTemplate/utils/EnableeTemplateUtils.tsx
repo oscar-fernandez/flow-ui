@@ -8,3 +8,11 @@ export function containsPod(
     ? ar.find((element) => element.id === searchPodId)
     : undefined;
 }
+
+export function isInValidName(
+  firstName: string | null | undefined,
+  lastName: string | null | undefined
+): boolean {
+  const name = `${firstName} ${lastName}`;
+  return (!firstName && !lastName) || name.trim().length === 0;
+}
