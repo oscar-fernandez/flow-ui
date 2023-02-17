@@ -4,7 +4,7 @@ import ITechnology from "../../models/interfaces/ITechnology";
 import { convertToStringArr } from "../../utils/utilityFunctions";
 import { convertStringDateToLocalFormat } from "../Pod/podUtils";
 
-const tabLabels = ["Project", "Technology", "Grade", "Country", "Community"];
+const tabLabels = ["Projects", "Technology", "Grade", "Country", "Community"];
 
 const techStackColors = [
   "#007C77",
@@ -52,13 +52,18 @@ const transformEnableeArray = (ar: IEnablee[]): string[][] =>
   ar.map((e) => enableeRowfactory(e));
 
 const enableeRowfactory = (obj: IEnablee): string[] => {
+  /* if(obj.enablementEndDate==null || obj.enablementStartDate==null){
+    obj.enablementEndDate=""
+    obj.enablementStartDate=""
+  }*/
+
   return [
     obj.employeeId.toString(),
     obj.firstName,
     obj.lastName,
     convertTechArToStr(obj.technology),
-    convertStringDateToLocalFormat(obj.enablementStartDate),
-    convertStringDateToLocalFormat(obj.enablementEndDate),
+    convertStringDateToLocalFormat(obj.enablementStartDate || ""),
+    convertStringDateToLocalFormat(obj.enablementEndDate || ""),
   ];
 };
 

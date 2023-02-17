@@ -5,8 +5,8 @@ interface IEnablee {
   firstName: string;
   lastName: string;
   dateOfJoin: string;
-  enablementStartDate: string;
-  enablementEndDate: string;
+  enablementStartDate: string | null;
+  enablementEndDate: string | null;
   assetTag: string;
   isEmployed: boolean;
   technology: ITechnology[];
@@ -14,7 +14,7 @@ interface IEnablee {
   gradeId: number;
   communityId: number;
   employmentTypeId: number;
-  podId: number;
+  podId: number | null;
   commentId: number[];
 }
 
