@@ -328,9 +328,9 @@ export default function EnableeTemplate() {
     setEnableeCurrentPod();
   }, [availablePods]);
 
-  // useEffect(() => {
-  //   console.log("dchan");
-  // }, [filteredPods]);
+  useEffect(() => {
+    setFilteredPods(filterPods(availablePods));
+  }, [startDate]);
 
   return (
     <>
