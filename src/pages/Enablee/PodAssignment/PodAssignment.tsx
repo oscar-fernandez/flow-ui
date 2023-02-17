@@ -53,6 +53,7 @@ const rowStyle = {
 
 export default function PodAssignment() {
   const [selectedEnablees, setSelectedEnablees] = useState<IEnablee[]>([]);
+  const [filterEnablees, setFilterEnablees] = useState<IEnablee[]>([]);
   const selectedRow = useRef<IFEPod>({} as IFEPod);
   const { receivedEnablees, setReceivedEnablees } = usePendingPodEnablees();
   const { availablePods, setAvailablePods } = useHolderAvailablePods();
@@ -62,20 +63,20 @@ export default function PodAssignment() {
     selectedEnablees.length + (selectedRow.current.enablee?.length || 0);
 
   function fn(): string[][] {
-    if (receivedEnablees && selectedRow.current) {
+    if (filterEnablees && selectedRow.current) {
+      // console.log(filterEnablees)
       switch (name) {
         case "matchTechStack":
           return Module.transformEnableeArray(
-            Unit.matchAllSkills(receivedEnablees, selectedRow.current)
+            Unit.matchAllSkills(filterEnablees, selectedRow.current)
           );
         case "containsTechStack":
           return Module.transformEnableeArray(
-            Unit.matchSomeSkills(receivedEnablees, selectedRow.current)
+            Unit.matchSomeSkills(filterEnablees, selectedRow.current)
           );
-
         case "availableEnablees":
           return Module.transformEnableeArray(
-            Unit.matchData(receivedEnablees, selectedRow.current)
+            Unit.matchData(filterEnablees, selectedRow.current)
           );
       }
     }
@@ -88,7 +89,6 @@ export default function PodAssignment() {
   const customHandleSelection = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    // event.preventDefault();
     const clickedRow = availablePods[+event.currentTarget.id];
     if (selectedRow.current === clickedRow) {
       //  return;
@@ -99,22 +99,18 @@ export default function PodAssignment() {
       setSelectValue("");
     } else {
       selectedRow.current = clickedRow;
-
-      const filteredEnablees =
-        // receivedEnablees &&
-        // selectedRow &&
-        Unit.matchData(receivedEnablees, clickedRow);
+      const filteredEnablees = Unit.matchData(receivedEnablees, clickedRow);
       setSelectedEnablees([]); //shorthand convert str to number
-      setReceivedEnablees(filteredEnablees);
-      setName("");
+      setFilterEnablees(filteredEnablees);
+      setName("availableEnablees");
       setSelectValue("");
     }
   };
 
   //temp location
   const updateSelectedEnablees = (index: number) => {
-    if (receivedEnablees && selectedRow.current) {
-      const e = receivedEnablees?.[index];
+    if (filterEnablees && selectedRow.current) {
+      const e = filterEnablees?.[index];
       const selectedEnableesCopy = [...selectedEnablees];
       if (e) {
         if (
@@ -130,7 +126,7 @@ export default function PodAssignment() {
         }
       }
     }
-    if (receivedEnablees) return Module.transformEnableeArray(receivedEnablees);
+    if (filterEnablees) return Module.transformEnableeArray(filterEnablees);
     return [];
   };
 
@@ -151,7 +147,7 @@ export default function PodAssignment() {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    const updatedEnablees = receivedEnablees?.filter((enablee: IEnablee) => {
+    const updatedEnablees = filterEnablees?.filter((enablee: IEnablee) => {
       let remove = true;
       selectedEnablees.forEach((item) => {
         if (item.employeeId === enablee.employeeId) {
@@ -160,7 +156,7 @@ export default function PodAssignment() {
       });
       return remove;
     });
-    setReceivedEnablees(updatedEnablees);
+    setFilterEnablees(updatedEnablees);
     const copyOfAvailablePods = [...availablePods];
     const targetPodIndex = copyOfAvailablePods.findIndex(
       (podRow) => podRow === selectedRow.current
