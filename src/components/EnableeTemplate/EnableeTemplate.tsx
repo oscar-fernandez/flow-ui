@@ -99,20 +99,20 @@ const labelStyle = {
 const currentDate = new Date();
 
 export default function EnableeTemplate() {
-  // const [name, setName] = useState("");
-  // const [startDate, setStartDate] = useState<Date | null>(null);
-  // const [endDate, setEndDate] = useState<Date | null>(null);
-  // const [employeeId, setEmployeeId] = useState("");
-  // const [dateOfJoin, setDateOfJoin] = useState(formatDate(currentDate));
-  // const [assetTag, setAssetTag] = useState("");
-  // const [country, setCountry] = useState("");
-  // const [community, setCommunity] = useState("");
-  // const [employmentType, setEmploymentType] = useState("");
-  // const [isEmployed, setIsEmployed] = useState(true);
-  // const [grade, setGrade] = useState("");
-  // const [techStack, setTeckStack] = useState<ITechnology[]>([
-  //   mockTechnology[0],
-  // ]);
+  const [name, setName] = useState("");
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [employeeId, setEmployeeId] = useState("");
+  const [dateOfJoin, setDateOfJoin] = useState(formatDate(currentDate));
+  const [assetTag, setAssetTag] = useState("");
+  const [country, setCountry] = useState("");
+  const [community, setCommunity] = useState("");
+  const [employmentType, setEmploymentType] = useState("");
+  const [isEmployed, setIsEmployed] = useState(true);
+  const [grade, setGrade] = useState("");
+  const [techStack, setTeckStack] = useState<ITechnology[]>([
+    mockTechnology[0],
+  ]);
   // // const [disableSubmit, setDisableSubmit] = useState(true);
   // const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
@@ -133,31 +133,31 @@ export default function EnableeTemplate() {
   function isEnablee(object: any): object is IEnablee {
     return "enablementStartDate" in object;
   }
-  // useEffect(() => {
-  //   if (enablee && isEnablee(enablee)) {
-  //     setName(`${enablee.firstName} ${enablee.lastName}`);
-  //     if (
-  //       enablee.enablementStartDate != null &&
-  //       enablee.enablementEndDate != null
-  //     ) {
-  //       setStartDate(new Date(enablee.enablementStartDate));
-  //       setEndDate(new Date(enablee.enablementEndDate));
-  //     }
-  //     setEmployeeId(enablee.employeeId.toString());
-  //     setDateOfJoin(enablee.dateOfJoin);
-  //     const tags = enablee.assetTag ? enablee.assetTag.toString() : "";
-  //     setAssetTag(tags);
-  //     setCountry(enablee.countryCode.toString());
-  //     setCommunity(enablee.communityId.toString());
-  //     const employmentType = enablee.employmentTypeId
-  //       ? enablee.employmentTypeId.toString()
-  //       : "";
-  //     setEmploymentType(employmentType);
-  //     setGrade(enablee.gradeId.toString());
-  //     setTeckStack(enablee.technology);
-  //     setOriginalPod();
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (enablee && isEnablee(enablee)) {
+      setName(`${enablee.firstName} ${enablee.lastName}`);
+      // if (
+      //   enablee.enablementStartDate != null &&
+      //   enablee.enablementEndDate != null
+      // ) {
+      setStartDate(startDateValidator());
+      setEndDate(endDateValidator());
+      // }
+      setEmployeeId(enablee.employeeId.toString());
+      setDateOfJoin(enablee.dateOfJoin);
+      const tags = enablee.assetTag ? enablee.assetTag.toString() : "";
+      setAssetTag(tags);
+      setCountry(enablee.countryCode.toString());
+      setCommunity(enablee.communityId.toString());
+      const employmentType = enablee.employmentTypeId
+        ? enablee.employmentTypeId.toString()
+        : "";
+      setEmploymentType(employmentType);
+      setGrade(enablee.gradeId.toString());
+      setTeckStack(enablee.technology);
+      //     setOriginalPod();
+    }
+  }, []);
 
   // //check if all fields are entered
   // // useEffect(() => {
@@ -175,8 +175,9 @@ export default function EnableeTemplate() {
   // // }, [name, employeeId, startDate, endDate]);
   // //[name, employeeId, startDate, endDate, filteredPods]);
   function filterPods(pods: IFEPod[]): IFEPod[] {
-    const startDate = startDateValidator();
-    const endDate = endDateValidator();
+    // console.log("FilterPods call");
+    // const startDate = startDateValidator();
+    // const endDate = endDateValidator();
     if (startDate && endDate) {
       return pods.filter((pod) =>
         isEnableeValidForPod(
@@ -272,6 +273,7 @@ export default function EnableeTemplate() {
   }
 
   function startDateValidator(): Date | null {
+    // console.log("StartDateValidator call");
     if (isEnablee(enablee)) {
       return isValidDate(enablee.enablementStartDate);
     }
@@ -285,13 +287,15 @@ export default function EnableeTemplate() {
     return null;
   }
 
-  const setStartDate = () => {
-    // console.log("setting startDate");
+  const resetStartDate = (date: Date) => {
+    // console.log("ResetDate call");
+    setStartDate(date);
+    setFilteredPods(filterPods(availablePods));
   };
 
-  const setEndDate = () => {
-    // console.log("setting endDate");
-  };
+  // const setEndDate = () => {
+  //   // console.log("setting endDate");
+  // };
 
   function setEnableeCurrentPod(): void {
     //selected enablee has non-null podId
@@ -355,13 +359,107 @@ export default function EnableeTemplate() {
           <div className="grid-container">
             <Typography sx={labelStyle}>Enablement Dates</Typography>
             <DatepickerComponent
-              startDate={startDateValidator()}
-              endDate={endDateValidator()}
-              setStartDate={setStartDate}
+              startDate={startDate}
+              endDate={endDate}
+              setStartDate={resetStartDate}
               setEndDate={setEndDate}
             />
+            <Typography sx={labelStyle}>Employee Id</Typography>
+            <div className="id-wrap">
+              <TextField
+                value={employeeId}
+                placeholder="Empty"
+                variant="standard"
+                autoComplete="off"
+                InputProps={InputProps}
+                sx={inputStyle}
+                onChange={(e) => setEmployeeId(e.target.value)}
+                error={employeeId.trim().length === 0}
+                inputProps={{ "data-testid": "employeeId" }}
+              />
+              {employeeId.length === 0 ? (
+                <div className="form-error">* Employee Id required</div>
+              ) : null}
+            </div>
+            <Typography sx={labelStyle}>Date of Join</Typography>
+            <Typography data-testid="dateJoin" sx={dateStyle}>
+              {dateOfJoin}
+            </Typography>
+            <Typography sx={labelStyle}>Asset Tag</Typography>
+            <TextField
+              value={assetTag}
+              placeholder="Empty"
+              variant="standard"
+              autoComplete="off"
+              InputProps={InputProps}
+              sx={inputStyle}
+              onChange={(e) => setAssetTag(e.target.value)}
+              inputProps={{ "data-testid": "assetTag" }}
+            />
+            <Typography sx={labelStyle}>Country</Typography>
+            <TextField
+              value={country}
+              placeholder="Empty"
+              variant="standard"
+              autoComplete="off"
+              InputProps={InputProps}
+              sx={inputStyle}
+              onChange={(e) => setCountry(e.target.value)}
+              inputProps={{ "data-testid": "country" }}
+            />
+            <Typography sx={labelStyle}>Community</Typography>
+            <TextField
+              value={community}
+              placeholder="Empty"
+              variant="standard"
+              autoComplete="off"
+              InputProps={InputProps}
+              sx={inputStyle}
+              onChange={(e) => setCommunity(e.target.value)}
+              inputProps={{ "data-testid": "community" }}
+            />
+            <Typography sx={labelStyle}>Employment Type</Typography>
+            <TextField
+              value={employmentType}
+              placeholder="Empty"
+              variant="standard"
+              autoComplete="off"
+              InputProps={InputProps}
+              sx={inputStyle}
+              onChange={(e) => setEmploymentType(e.target.value)}
+              inputProps={{ "data-testid": "employmentType" }}
+            />
+            <Typography sx={labelStyle}>Is Employed?</Typography>
+            <div>
+              <input
+                type="checkbox"
+                checked={isEmployed}
+                onChange={(e) => setIsEmployed(e.target.checked)}
+                data-testid="isEmployed"
+              ></input>
+            </div>
+            <Typography sx={labelStyle}>Grade</Typography>
+            <TextField
+              value={grade}
+              placeholder="Empty"
+              variant="standard"
+              autoComplete="off"
+              InputProps={InputProps}
+              sx={inputStyle}
+              onChange={(e) => setGrade(e.target.value)}
+              inputProps={{ "data-testid": "grade" }}
+            />
+            <Typography sx={labelStyle}>Tech Stack</Typography>
+            <div>
+              {techStack.map((tech: ITechnology) => (
+                <TagComponent
+                  name={tech.name}
+                  color={tech.backgroundColor}
+                  key={tech.name}
+                />
+              ))}
+            </div>
           </div>
-
           <div className="pod-section">
             <PageViewHeader
               pageTitle={"Pod"}
