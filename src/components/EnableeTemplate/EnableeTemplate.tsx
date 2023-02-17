@@ -23,7 +23,7 @@ import { mockTechnology } from "../../data/MockData";
 import { useLocation, useNavigate } from "react-router";
 import { useAvailablePods, usePodById } from "../../pages/Pod/Hooks/customHook";
 import { getDefaultLocale } from "react-datepicker";
-import { containsPod } from "./utils/EnableeTemplateUtils";
+import { containsPod, isInValidName } from "./utils/EnableeTemplateUtils";
 import { getPodById } from "../../services/PodAPI";
 
 const InputProps = {
@@ -281,13 +281,12 @@ export default function EnableeTemplate() {
   //   );
   // }
 
-  function isInValidName(): boolean {
-    if (isEnablee(enablee)) {
-      const name = `${enablee.firstName} ${enablee.lastName}`;
-      return name.trim().length === 0;
-    }
-    return false;
+  function nameValidator(): boolean {
+    return (
+      isEnablee(enablee) && isInValidName(enablee.firstName, enablee.lastName)
+    );
   }
+
   return (
     <>
       <div className="enablee-container">
@@ -304,9 +303,9 @@ export default function EnableeTemplate() {
             InputProps={InputProps}
             // onChange={(e) => setName(e.target.value)}
             inputProps={{ "data-testid": "enableeName" }}
-            error={isInValidName()}
+            error={nameValidator()}
           />
-          {isInValidName() ? (
+          {nameValidator() ? (
             <div className="form-error">* Enablee Name required</div>
           ) : (
             <div className="dummy-padding"></div>
