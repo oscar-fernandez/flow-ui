@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import "./PodTemplate.css";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
@@ -6,9 +6,9 @@ import ITechnology from "../../models/interfaces/ITechnology";
 import { TagComponent } from "../TagComponent/Tag";
 import IEnablee from "../../models/interfaces/IEnablee";
 import IProject from "../../models/interfaces/IProject";
-import { dumbProjects } from "../../data/MockProjects";
 import { isEnableeValidForPod } from "../../utils/utilityFunctions";
-import { dummyEnablees } from "../../data/EnableeMock";
+import { getProjects } from "../../services/ManagementAPI";
+import { GetEnableesPendingPodAssignment } from "../../services/EnableeAPI";
 import {
   useToggle,
   useToggleDetail,
@@ -52,15 +52,18 @@ const buttonStyle = {
  * @returns the Pod Component
  */
 export default function PodTemplate() {
+  const podCapacity = 15;
+  const selectedEnablees = useRef<IEnablee[]>([]);
   // Closes the component when close is false, opens when close is true
-
   // If the pod name is empty then this value is false
   const [emptyPodName, setEmptyPodName] = useState(true);
 
-  // State used to see for poject
-  const [projectClicked, setProjectClicked] = useState(false);
-  const [projectSelected, setProjectSelected] = useState("Empty");
-
+  // State used to see for project
+  const [showProjectList, setShowProjectList] = useState(false);
+  // const [projectSelected, setProjectSelected] = useState('Empty');
+  const [selectedProjectString, setSelectedProjectString] =
+    useState<string>("Empty");
+  const [selectedProject, setSelectedProject] = useState<any>();
   // State for project's tech stack
   const [projectTechStack, setProjectTechStack] = useState<ITechnology[]>([]);
   const [projectTechStackMargin, setProjectTechStackMargin] = useState("0px");
@@ -71,22 +74,22 @@ export default function PodTemplate() {
   const [podId, setPodId] = useState("");
   const [podName, setPodName] = useState("");
   const [enablees, setEnablees] = useState<IEnablee[]>([]);
+  const [podEnablees, setPodEnablees] = useState<IEnablee[]>([]);
   const [enablers, setEnablers] = useState<IEnabler[] | null>(null);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+
   // Need to connect this with projects backend API
-  const [podProject, setPodProject] = useState(dumbProjects);
+  const [allProjects, setAllProjects] = useState<IProject[]>([]);
 
   // State used to update Pod Capacity
-  const [numEnablees, setNumEnablees] = useState(0);
-  const [enableeCheckbox, setEnableeCheckbox] = useState(
-    new Array(15).fill(false)
-  );
+  const [numEnablees, setNumEnablees] = useState(15);
+  const [checkBoxList, setCheckBoxList] = useState<boolean[]>([]);
+  const [checkBoxesDisabled, setCheckBoxesDisabled] = useState(false);
 
   // Context used for ToggleSideBar
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
-  const [selectedPodProject, setSelectedPodProject] = useState<any>();
   const navigate = useNavigate();
   const location = useLocation().pathname;
 
@@ -99,23 +102,6 @@ export default function PodTemplate() {
   function isPod(object: any): object is IFEPod {
     return "podStartDate" in object;
   }
-
-  /**
-   * Prepopulates the pod template with pod information
-   * passed into it through the context IFEPod object.
-   */
-  useEffect(() => {
-    if (pod && isPod(pod)) {
-      setPodId(pod.id.toString());
-      setPodName(pod.podName);
-      setEmptyPodName(false);
-      setEnablees(pod.enablee);
-      setEnablers(pod.enabler);
-      setStartDate(new Date(pod.podStartDate));
-      setEndDate(new Date(pod.podEndDate));
-      setSelectedPodProject(pod.project);
-    }
-  }, [pod]);
 
   // Checks if pod name input is empty helps manage disabling the submit button
   const checkPodName = (event: ChangeEvent<HTMLInputElement>) => {
@@ -132,22 +118,21 @@ export default function PodTemplate() {
    * This function will open up a dropdown menu for the user to select projects from
    * by managing  the state of the variable listed below.
    */
-  function showProjects() {
-    setProjectClicked(!projectClicked);
+  function toggleShowProjectList() {
+    setShowProjectList(!showProjectList);
   }
 
   /**
    * This function sets the project's states when the user selects it.
    * @param item project selected by user
    */
-  function projectSelectedClicked(item: IProject) {
+  function handleProjectSelection(item: IProject) {
     const techStackMargin = item.technology.length * 24 - 32 + "px";
     setProjectTechStackMargin(techStackMargin);
-    setEnablees([]);
-    setProjectSelected(item.name);
     setProjectTechStack(item.technology);
-    retrieveEnablees();
-    setSelectedPodProject(item);
+    setSelectedProjectString(item.name);
+    setSelectedProject(item);
+    toggleShowProjectList();
   }
 
   const handleSubmit = () => {
@@ -155,21 +140,21 @@ export default function PodTemplate() {
       const tempPod: IFEPod = {
         id: 0,
         podName: podName,
-        enablee: enablees,
+        enablee: selectedEnablees.current,
         enabler: enablers,
-        podStartDate: startDate?.toDateString() || "",
-        podEndDate: endDate?.toDateString() || "",
-        project: selectedPodProject,
+        podStartDate: startDate?.toISOString().split("T")[0] || "",
+        podEndDate: startDate?.toISOString().split("T")[0] || "",
+        project: selectedProject,
       };
       postPod(tempPod);
     } else if (isPod(pod)) {
       const tempPod: IFEPod = { ...pod };
-      tempPod.enablee = enablees;
+      tempPod.enablee = selectedEnablees.current;
       tempPod.enabler = enablers;
       tempPod.podName = podName;
-      tempPod.podStartDate = startDate?.toDateString() || "";
-      tempPod.podEndDate = endDate?.toDateString() || "";
-      tempPod.project = selectedPodProject;
+      tempPod.podStartDate = startDate?.toISOString().split("T")[0] || "";
+      tempPod.podEndDate = endDate?.toISOString().split("T")[0] || "";
+      tempPod.project = selectedProject;
       putPod(tempPod);
     }
   };
@@ -209,42 +194,110 @@ export default function PodTemplate() {
    */
   function retrieveEnablees() {
     if (startDate && endDate) {
-      const result = dummyEnablees.filter((enablee) =>
-        isEnableeValidForPod(
-          startDate.toString(),
-          endDate.toString(),
-          enablee.enablementStartDate,
-          enablee.enablementEndDate
-        )
-      );
-      setEnablees(result);
+      let retrievedEnablees: IEnablee[] = [];
+      GetEnableesPendingPodAssignment().then((res) => {
+        retrievedEnablees = res.data;
+        retrievedEnablees = retrievedEnablees.filter((enablee) =>
+          isEnableeValidForPod(
+            startDate.toString(),
+            endDate.toString(),
+            enablee.enablementStartDate,
+            enablee.enablementEndDate
+          )
+        );
+        setEnablees([...podEnablees, ...retrievedEnablees]);
+      });
     }
   }
 
   /**
-   * Function updated everytime the user selects a checkbox.
-   * @param pos index position
+   * API call to retrieve list of Projects
    */
-  function addEnableeToPod(pos: number) {
-    const updatedCheckedState = enableeCheckbox.map((item, index) =>
-      index === pos ? !item : item
-    );
-    setEnableeCheckbox(updatedCheckedState);
-  }
+  const getListOfProjects = async () => {
+    getProjects()
+      .then((res: any) => {
+        setAllProjects(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   /**
-   * Helps update the capacity of the pod.
+   * Update list of checkbox "checked" state
    */
-  useEffect(() => {
-    let num = 0;
+  function handleCheckBoxClick(checkBoxIdx: number) {
+    let updatedCheckedState: boolean[];
+    if (numEnablees === podCapacity) {
+      updatedCheckedState = checkBoxList.map((checkBox, index) =>
+        index === checkBoxIdx && checkBox ? !checkBox : checkBox
+      );
+    } else {
+      updatedCheckedState = checkBoxList.map((checkBox, index) =>
+        index === checkBoxIdx ? !checkBox : checkBox
+      );
+    }
+    selectedEnablees.current = [];
+    updatedCheckedState.map((checked, index) => {
+      checked ? selectedEnablees.current.push(enablees[index]) : null;
+    });
+    setCheckBoxList(updatedCheckedState);
+  }
 
-    enableeCheckbox.forEach((item) => {
+  const handleCheckedCount = () => {
+    let num = 0;
+    checkBoxList.forEach((item) => {
       if (item === true) {
         num++;
       }
     });
     setNumEnablees(num);
-  }, [enableeCheckbox]);
+    if (num === podCapacity) {
+      setCheckBoxesDisabled(true);
+    } else {
+      setCheckBoxesDisabled(false);
+    }
+  };
+
+  /**
+   * Prepopulates the pod template with pod information
+   * passed into it through the context IFEPod object.
+   */
+  useEffect(() => {
+    getListOfProjects();
+    if (pod && isPod(pod)) {
+      setPodId(pod.id.toString());
+      setPodName(pod.podName);
+      setEmptyPodName(false);
+      setPodEnablees(pod.enablee);
+      setEnablers(pod.enabler);
+      setStartDate(new Date(pod.podStartDate));
+      setEndDate(new Date(pod.podEndDate));
+      setSelectedProjectString(pod.project.name);
+      setProjectTechStack(pod.project.technology);
+      setSelectedProjectString(pod.project.name);
+      setSelectedProject(pod.project);
+    }
+  }, [pod]);
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      retrieveEnablees();
+    }
+  }, [startDate, endDate]);
+
+  /**
+   * Helps update the capacity of the pod.
+   */
+  useEffect(() => {
+    const newCheckBoxList: boolean[] = new Array(enablees.length).fill(false);
+    newCheckBoxList.fill(true, 0, podEnablees.length);
+    setCheckBoxList(newCheckBoxList);
+  }, [enablees]);
+
+  useEffect(() => {
+    handleCheckedCount();
+  }, [checkBoxList]);
 
   return (
     <>
@@ -326,50 +379,44 @@ export default function PodTemplate() {
             <div className="div7">
               <p className="label">Project name</p>
             </div>
+            {/* Projects */}
             <div className="div8">
-              {projectClicked ? (
-                <div onClick={showProjects} data-testid="projects">
+              {!showProjectList ? (
+                <div data-testid="projects">
+                  <p
+                    className={
+                      selectedProjectString !== "Empty"
+                        ? "project-selected"
+                        : "empty null project"
+                    }
+                    onClick={toggleShowProjectList}
+                    data-testid="projectsBtn"
+                  >
+                    {selectedProjectString}
+                  </p>
+                </div>
+              ) : (
+                <div data-testid="projects">
                   <ul className="projects">
-                    {dumbProjects.map((item, index) => (
+                    {allProjects.map((project, index) => (
                       <li
                         className="project-item"
-                        onClick={() => projectSelectedClicked(item)}
+                        onClick={() => handleProjectSelection(project)}
                         key={index}
                       >
-                        {item.name}
+                        {project.name}
                       </li>
                     ))}
                   </ul>
                 </div>
-              ) : (
-                <>
-                  {projectSelected === "Empty" ? (
-                    <>
-                      <p
-                        className="empty null project"
-                        onClick={showProjects}
-                        data-testid="projectsBtn"
-                      >
-                        {projectSelected}
-                      </p>
-                      <div className="errormsg">* Project Name required</div>
-                    </>
-                  ) : (
-                    <>
-                      <p className="project-selected" onClick={showProjects}>
-                        {projectSelected}
-                      </p>
-                    </>
-                  )}
-                </>
               )}
             </div>
+            {/* Tech Stack */}
             <div className="div9">
               <p className="label">Tech Stack</p>
             </div>
-
             <div className="div10">
-              {projectSelected === "Empty" ? (
+              {selectedProjectString === "Empty" ? (
                 <p className="empty project">Select Project</p>
               ) : (
                 <div className="techstack-container">
@@ -387,7 +434,8 @@ export default function PodTemplate() {
               )}
             </div>
           </div>
-          {projectSelected === "Empty" ? (
+          {/* Enablees */}
+          {selectedProjectString === "Empty" ? (
             <div>
               <PageViewHeader
                 pageTitle={"Enablees"}
@@ -400,7 +448,7 @@ export default function PodTemplate() {
                 {emptyPodName ||
                 startDate === null ||
                 endDate === null ||
-                projectSelected === "Empty" ? (
+                selectedProjectString === "Empty" ? (
                   <div className="button-center">
                     <Button
                       disabled={true}
@@ -436,7 +484,7 @@ export default function PodTemplate() {
               <div className="enablees-container">
                 <ul className="enablees-list" data-testid="enablee">
                   {enablees.map((enablee, index) => (
-                    <li className="enablees-enablee" key={index}>
+                    <li className="enablees-enablee" key={enablee.employeeId}>
                       <div className="enablee-item-container">
                         <a
                           className="enablee-item"
@@ -454,7 +502,12 @@ export default function PodTemplate() {
                             className="enablee-checkbox"
                             data-testid="enableeCheckbox"
                             type="checkbox"
-                            onChange={() => addEnableeToPod(index)}
+                            //should be disabled if state checkBoxesDisabled is true and this box is not checked
+                            disabled={
+                              checkBoxesDisabled && !checkBoxList[index]
+                            }
+                            checked={checkBoxList[index]}
+                            onChange={() => handleCheckBoxClick(index)}
                           />
                           <span className="enablee-techstack-container">
                             {enablee.technology.map((tech, index) => (
@@ -474,32 +527,39 @@ export default function PodTemplate() {
                 </ul>
               </div>
               <div className="btn-container">
-                {emptyPodName ||
+                {/* {emptyPodName ||
                 startDate === null ||
                 endDate === null ||
-                projectSelected === "Empty" ? (
-                  <div className="button-center">
+                projectSelected === 'Empty' ? (
+                  <div className='button-center'>
                     <Button
                       disabled={true}
-                      variant="contained"
+                      variant='contained'
                       sx={buttonStyle}
                     >
                       Submit
                     </Button>
                   </div>
-                ) : (
-                  <div className="button-center">
-                    <Button
-                      disabled={false}
-                      variant="contained"
-                      sx={buttonStyle}
-                      data-testid="podActiveSubmitButton"
-                      onClick={handleSubmit}
-                    >
-                      Submit
-                    </Button>
-                  </div>
-                )}
+                ) : ( */}
+                <div className="button-center">
+                  <Button
+                    disabled={
+                      emptyPodName ||
+                      startDate === null ||
+                      endDate === null ||
+                      selectedProjectString === "Empty"
+                        ? true
+                        : false
+                    }
+                    variant="contained"
+                    sx={buttonStyle}
+                    data-testid="podActiveSubmitButton"
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </Button>
+                </div>
+                {/* )} */}
               </div>
             </div>
           )}
