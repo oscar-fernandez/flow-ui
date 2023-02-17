@@ -1,140 +1,116 @@
-import { TextField, Typography } from "@mui/material";
+import { SelectChangeEvent, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import "./ToggleGeneralForm.css";
 import { cities, countries, states } from "../../data/EnablerLocation";
-import SelectDropdown from "./SelectDropdown";
-
-const InputProps = {
-  disableUnderline: true,
-};
-
-const titleProps = {
-  input: {
-    fontFamily: "Darker Grotesque",
-    fontSize: "32px",
-    color: "#000048",
-    fontWeight: 700,
-    letterSpacing: "0.025em",
-    "&::placeholder": {
-      color: "#8A8B8A",
-    },
-  },
-};
-
-const labelStyle = {
-  fontFamily: "Darker Grotesque",
-  fontWeight: 600,
-  color: "rgba(138, 139, 138, 0.8)",
-  fontSize: "15px",
-  letterSpacing: "0.025em",
-  width: "90px",
-};
-
-const inputStyle = {
-  input: {
-    fontFamily: "Darker Grotesque",
-    fontWeight: "600",
-    color: "#8A8B8A",
-    fontSize: "15px",
-    letterSpacing: "0.025em",
-  },
-};
+import SelectDropdown from "../UtilFormComponents/SelectDropdown";
+import IEnabler from "../../models/interfaces/IEnabler";
+import InputContainer from "../UtilFormComponents/InputContainer";
+import CheckboxContainer from "../UtilFormComponents/CheckboxContainer";
+import TitleContainer from "../UtilFormComponents/TitleContainer";
 
 export default function ToggleGeneralForm() {
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [country, setCountry] = useState("");
+  const [enabler, setEnabler] = useState<IEnabler>({
+    employeeId: -1,
+    firstName: "",
+    lastName: "",
+    assetTag: "",
+    isEmployed: true,
+    technology: [],
+    city: "",
+    state: "",
+    country: "",
+    communityId: -1,
+    employmentTypeId: -1,
+  });
+
+  //Select Dropdown
+  const cityChangeHandler = (e: SelectChangeEvent<string>) => {
+    setEnabler({ ...enabler, city: e.target.value });
+  };
+  const stateChangeHandler = (e: SelectChangeEvent<string>) => {
+    setEnabler({ ...enabler, state: e.target.value });
+  };
+  const countryChangeHandler = (e: SelectChangeEvent<string>) => {
+    setEnabler({ ...enabler, country: e.target.value });
+  };
+
+  //Input
+  // const firstNameChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
+  //   setEnabler({ ...enabler, firstName: e.target.value.split(" ")[0] });
+  // };
+
+  // const employeeIdChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEnabler({ ...enabler, employeeId: e.target.valueAsNumber });
+  // };
+
+  // const NameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const name = e.target.value.split(" ");
+  //   setEnabler({ ...enabler, firstName: name[0] });
+  //   setEnabler({ ...enabler, lastName: name[1] });
+  // };
+
+  // const lastNameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEnabler({ ...enabler, lastName: e.target.value.split(" ")[1] });
+  // };
+  // const assetTagChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEnabler({ ...enabler, assetTag: e.target.value });
+  // };
+
+  // const technologyChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEnabler({ ...enabler,  technology: e.target.value });
+  // };
+
+  // const communityIdChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEnabler({ ...enabler, communityId: +e.target.value });
+  // };
+
+  // const employementTypeIdChangeHandler = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setEnabler({ ...enabler, employmentTypeId: +e.target.value });
+  // };
+
+  // //CheckBox
+  // const isEmployedChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEnabler({ ...enabler, isEmployed: e.target.checked });
+  // };
+
   return (
     <>
-      <div style={{ maxWidth: "430px" }}>
-        <form>
-          <div className="employee-margin">
-            <TextField
-              key="name"
-              placeholder="Untitled"
-              variant="standard"
-              autoComplete="off"
-              sx={titleProps}
-              InputProps={InputProps}
-              inputProps={{ "data-testid": "enableeName" }}
-            />
-          </div>
-          <div className="grid-container">
-            <Typography sx={labelStyle}>Employee Id</Typography>
-            <div className="id-wrap">
-              <TextField
-                placeholder="Empty"
-                variant="standard"
-                autoComplete="off"
-                InputProps={InputProps}
-                sx={inputStyle}
-                inputProps={{ "data-testid": "employeeId" }}
-              />
-            </div>
-            <Typography sx={labelStyle}>Asset Tag</Typography>
-            <TextField
-              placeholder="Empty"
-              variant="standard"
-              autoComplete="off"
-              InputProps={InputProps}
-              sx={inputStyle}
-              inputProps={{ "data-testid": "assetTag" }}
-            />
-            <Typography sx={labelStyle}>City</Typography>
-            <SelectDropdown
-              value={city}
-              setValue={(e) => setCity(e.target.value)}
-              selectArray={cities}
-              label="City"
-            />
-            <Typography sx={labelStyle}>State</Typography>
-            <SelectDropdown
-              value={state}
-              setValue={(e) => setState(e.target.value)}
-              selectArray={states}
-              label="State"
-            />
-            <Typography sx={labelStyle}>Country</Typography>
-            <SelectDropdown
-              value={country}
-              setValue={(e) => setCountry(e.target.value)}
-              selectArray={countries}
-              label="Country"
-            />
-            <Typography sx={labelStyle}>Community</Typography>
-            <TextField
-              placeholder="Empty"
-              variant="standard"
-              autoComplete="off"
-              InputProps={InputProps}
-              sx={inputStyle}
-              inputProps={{ "data-testid": "community" }}
-            />
-            <Typography sx={labelStyle}>Employment Type</Typography>
-            <TextField
-              placeholder="Empty"
-              variant="standard"
-              autoComplete="off"
-              InputProps={InputProps}
-              sx={inputStyle}
-              inputProps={{ "data-testid": "employmentType" }}
-            />
-            <Typography sx={labelStyle}>Is Employed?</Typography>
-            <div>
-              <input type="checkbox" data-testid="isEmployed"></input>
-            </div>
-            <Typography sx={labelStyle}>Grade</Typography>
-            <TextField
-              placeholder="Empty"
-              variant="standard"
-              autoComplete="off"
-              InputProps={InputProps}
-              sx={inputStyle}
-              inputProps={{ "data-testid": "grade" }}
-            />
-          </div>
-        </form>
-      </div>
+      <form>
+        <div className="employee-margin">
+          <TitleContainer />
+        </div>
+        <div className="grid-container">
+          <InputContainer
+            type={"number"}
+            label={"Employee Id"}
+            required={true}
+          />
+          <SelectDropdown
+            value={enabler.city}
+            setValue={cityChangeHandler}
+            selectArray={cities}
+            label="City"
+          />
+          <SelectDropdown
+            value={enabler.state}
+            setValue={stateChangeHandler}
+            selectArray={states}
+            label="State"
+          />
+          <SelectDropdown
+            value={enabler.country}
+            setValue={countryChangeHandler}
+            selectArray={countries}
+            label="Country"
+          />
+          <InputContainer label={"Asset Tag"} />
+          <InputContainer type={"number"} label={"Community"} />
+          <InputContainer type={"number"} label={"Employment Type"} />
+          <CheckboxContainer label={"Is Employed"} />
+        </div>
+      </form>
     </>
   );
 }

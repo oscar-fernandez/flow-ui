@@ -3,15 +3,10 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  Typography,
 } from "@mui/material";
 import { ReactNode } from "react";
-
-const selectStyle = {
-  color: "#8A8B8A",
-  fontSize: "15px",
-  fontFamily: "Darker Grotesque",
-  fontWeight: 600,
-};
+import { labelStyle, selectStyle } from "./FormStyles";
 
 interface Props {
   value: string;
@@ -27,29 +22,40 @@ export default function SelectDropdown({
   label,
 }: Props) {
   return (
-    <div>
+    <>
+      <Typography sx={labelStyle}>{label}</Typography>
       <FormControl sx={{ width: 120 }}>
         <Select
+          value={value}
+          displayEmpty
           disableUnderline
           variant="standard"
-          displayEmpty
-          value={value}
           onChange={setValue}
+          data-testid={label}
           inputProps={{ IconComponent: () => null }}
-          sx={selectStyle}
+          sx={
+            value
+              ? selectStyle
+              : { ...selectStyle, color: "rgba(138, 139, 138, 0.4)" }
+          }
         >
           <MenuItem disabled value="" sx={selectStyle}>
-            {label}
+            {"* Empty"}
           </MenuItem>
           {selectArray.map((element, i) => {
             return (
-              <MenuItem key={i} value={element} sx={selectStyle}>
+              <MenuItem
+                key={i}
+                value={element}
+                data-testid={element}
+                sx={selectStyle}
+              >
                 {element}
               </MenuItem>
             );
           })}
         </Select>
       </FormControl>
-    </div>
+    </>
   );
 }
