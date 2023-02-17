@@ -4,6 +4,7 @@ import {
   useToggleArrow,
   useToggleDetail,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import { badgesArray, pickBadgePicture } from "../../data/BadgesArray";
 import IFEPod from "../../models/interfaces/IFEPod";
 import ITechnology from "../../models/interfaces/ITechnology";
 import PodTemplate from "../PodTemplate/PodTemplate";
@@ -56,6 +57,8 @@ export default function FilteredPod({
     setClickedPod(true);
   }
 
+  const badgeIndex = pickBadgePicture(pod);
+
   return (
     <>
       {!clickedPod ? (
@@ -77,7 +80,12 @@ export default function FilteredPod({
               }
             ></input>
             <div className="tech-stack-margin">
-              <div className="pod-logo" />
+              {badgeIndex != -1 ? (
+                <img className="img" src={badgesArray[badgeIndex].path} />
+              ) : (
+                <div className="pod-logo" />
+              )}
+
               {filteredTech.map((tech) => (
                 <div
                   key={tech.name}

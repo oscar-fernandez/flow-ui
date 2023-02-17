@@ -6,7 +6,11 @@ import { TagComponent } from "../TagComponent/Tag";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import FilteredPod from "./FilteredPod";
 import { mockFePod } from "../../data/MockFEPod";
-import { isEnableeValidForPod } from "../../utils/utilityFunctions";
+import {
+  isEnableeValidForPod,
+  isDateObject,
+  formatDate,
+} from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
 import {
   useToggle,
@@ -89,25 +93,23 @@ const labelStyle = {
   width: "90px",
 };
 
-const current = new Date().toLocaleDateString("en-us", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
+const currentDate = new Date();
 
 export default function EnableeTemplate() {
   const [name, setName] = useState("");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [employeeId, setEmployeeId] = useState("");
-  const [dateOfJoin, setDateOfJoin] = useState(current);
+  const [dateOfJoin, setDateOfJoin] = useState(formatDate(currentDate));
   const [assetTag, setAssetTag] = useState("");
   const [country, setCountry] = useState("");
   const [community, setCommunity] = useState("");
   const [employmentType, setEmploymentType] = useState("");
   const [isEmployed, setIsEmployed] = useState(true);
   const [grade, setGrade] = useState("");
-  const [techStack, setTeckStack] = useState<ITechnology[]>([]);
+  const [techStack, setTeckStack] = useState<ITechnology[]>([
+    mockTechnology[0],
+  ]);
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
@@ -135,8 +137,15 @@ export default function EnableeTemplate() {
   useEffect(() => {
     if (enablee && isEnablee(enablee)) {
       setName(`${enablee.firstName} ${enablee.lastName}`);
-      setStartDate(new Date(enablee.enablementStartDate));
-      setEndDate(new Date(enablee.enablementEndDate));
+
+      if (
+        enablee.enablementStartDate != null &&
+        enablee.enablementEndDate != null
+      ) {
+        setStartDate(new Date(enablee.enablementStartDate));
+        setEndDate(new Date(enablee.enablementEndDate));
+      }
+
       setEmployeeId(enablee.employeeId.toString());
       setDateOfJoin(enablee.dateOfJoin);
       const tags = enablee.assetTag ? enablee.assetTag.toString() : "";
@@ -201,40 +210,53 @@ export default function EnableeTemplate() {
     }
   }, [name, employeeId, startDate, endDate, filteredPods]);
 
+  const filterPods = () => {
+    if (startDate instanceof Date && endDate instanceof Date) {
+      const filtered = mockFePod.filter((pod) =>
+        isEnableeValidForPod(
+          pod.podStartDate,
+          pod.podEndDate,
+          startDate.toDateString(),
+          endDate.toDateString()
+        )
+      );
+      setFilteredPods(filtered);
+    }
+  };
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    if (enablee == null) {
+    if (enablee == null && startDate != null && endDate != null) {
       const tempEnablee: IEnablee = {
         employeeId: parseInt(employeeId),
-        lastName: name.split(" ")[1],
         firstName: name.split(" ")[0],
-        enablementStartDate: startDate?.toDateString() || "",
-        enablementEndDate: endDate?.toDateString() || "",
+        lastName: name.split(" ")[1],
         dateOfJoin: dateOfJoin,
+        enablementStartDate: formatDate(startDate),
+        enablementEndDate: formatDate(endDate),
         assetTag: assetTag,
         isEmployed: isEmployed,
-        technology: mockTechnology,
+        technology: techStack,
         countryCode: parseInt(country),
         gradeId: parseInt(grade),
         communityId: parseInt(community),
         employmentTypeId: parseInt(employmentType),
-        podId: selectedPod?.id || 0,
+        podId: selectedPod?.id || null,
         commentId: [],
       };
-
       postEnablee(tempEnablee);
-    } else if (isEnablee(enablee)) {
+    } else if (isEnablee(enablee) && endDate != null && startDate != null) {
       const tempDetail: IEnablee = { ...enablee };
       tempDetail.employeeId = parseInt(employeeId);
       tempDetail.firstName = name.split(" ")[0];
       tempDetail.lastName = name.split(" ")[1];
-      tempDetail.enablementStartDate = startDate?.toDateString() || "";
-      tempDetail.enablementEndDate = endDate?.toDateString() || "";
       tempDetail.dateOfJoin = dateOfJoin;
+      tempDetail.enablementStartDate = formatDate(startDate);
+      tempDetail.enablementEndDate = formatDate(endDate);
       tempDetail.assetTag = assetTag;
       tempDetail.isEmployed = isEmployed;
-      tempDetail.technology = mockTechnology;
+      tempDetail.technology = techStack;
       tempDetail.countryCode = parseInt(country);
       tempDetail.gradeId = parseInt(grade);
       tempDetail.communityId = parseInt(community);
@@ -297,12 +319,14 @@ export default function EnableeTemplate() {
 
           <div className="grid-container">
             <Typography sx={labelStyle}>Enablement Dates</Typography>
+
             <DatepickerComponent
-              startDate={startDate}
-              endDate={endDate}
+              startDate={isDateObject(startDate) ? startDate : null}
+              endDate={isDateObject(endDate) ? endDate : null}
               setStartDate={setStartDate}
               setEndDate={setEndDate}
             />
+
             <Typography sx={labelStyle}>Employee Id</Typography>
             <div className="id-wrap">
               <TextField
