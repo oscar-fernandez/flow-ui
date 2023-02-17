@@ -20,6 +20,8 @@ import { mockTechnology } from "../../data/MockData";
 import { useLocation, useNavigate } from "react-router";
 import { useAvailablePods, usePodById } from "../../pages/Pod/Hooks/customHook";
 import { getDefaultLocale } from "react-datepicker";
+import { containsPod } from "./utils/EnableeTemplateUtils";
+import { getPodById } from "../../services/PodAPI";
 
 const InputProps = {
   disableUnderline: true,
@@ -106,23 +108,18 @@ export default function EnableeTemplate() {
   const [isEmployed, setIsEmployed] = useState(true);
   const [grade, setGrade] = useState("");
   const [techStack, setTeckStack] = useState<ITechnology[]>([]);
-  const [originalPodId, setOriginalPodId] = useState(0);
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
 
   const [toggle, changeToggle] = useToggle();
   const navigate = useNavigate();
-  const location = useLocation().pathname;
-  const local = useLocation();
+  const location = useLocation();
   const [enablee, setEnablee] = useToggleDetail();
-  const [availablePods, setAvailablePOds] = useAvailablePods(local);
+  const [availablePods, setAvailablePOds] = useAvailablePods(location);
 
   const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.id === selectedPod?.podName && e.target.checked) {
-      e.target.checked = false;
-      setOriginalPodId(0);
-    } else if (!e.target.checked) {
+    if (!e.target.checked) {
       setSelectedPod(undefined);
     } else {
       const result = filteredPods.filter((p) => p.podName === e.target.id)[0];
@@ -152,13 +149,27 @@ export default function EnableeTemplate() {
       setEmploymentType(employmentType);
       setGrade(enablee.gradeId.toString());
       setTeckStack(enablee.technology);
-      setOriginalPodId(enablee.podId);
+      setOriginalPod();
     }
   }, []);
 
-  //getting original pod for the Enablee ID;
-  const [originalPod, setOriginalPod] = usePodById(originalPodId, local);
-  // console.log("ID = : ", originalPod.id);
+  function setOriginalPod(): void {
+    //selected enablee has non-null podId
+    if (isEnablee(enablee) && enablee.podId) {
+      //first check if filteredPods contain enablee's pod
+      let enableeCurrentPod = containsPod(filteredPods, enablee.podId);
+      //if it doesn't, make call to getPodByID and set enablee's pod
+      if (!enableeCurrentPod) {
+        getPodById(enablee.podId)
+          .then((res) => {
+            enableeCurrentPod = res.data;
+          })
+          .catch((e) => console.error(e));
+      } //and setSelectedPod
+      setSelectedPod(enableeCurrentPod);
+    }
+    //selected enablee has null podId, continue as normal
+  }
 
   const filterPods = () => {
     let filtered: IFEPod[] = [];
@@ -171,12 +182,8 @@ export default function EnableeTemplate() {
           endDate.toDateString()
         )
       );
-      setFilteredPods([...filtered, originalPod]);
+      setFilteredPods(filtered);
     }
-    // if (isEnablee(enablee))
-    // {
-    //   setSelectedPod(originalPod);
-    // }
   };
 
   //check if all fields are entered
@@ -194,9 +201,6 @@ export default function EnableeTemplate() {
     }
   }, [name, employeeId, startDate, endDate, filteredPods]);
 
-  // const handleSubmit2 = (e: ReactFormEvent<HTMLFormElement>) => {
-  //   setCommunity("Jolly Holly");
-  // };
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
@@ -412,20 +416,10 @@ export default function EnableeTemplate() {
                       enableeTech={techStack}
                       handleOnClick={handleOnClick}
                       selectedPod={selectedPod}
-                      originalPodId={originalPodId}
                     />
                   );
                 })}
               </>
-            ) : originalPodId > 0 ? (
-              <FilteredPod
-                key={originalPodId}
-                pod={originalPod}
-                enableeTech={techStack}
-                handleOnClick={handleOnClick}
-                selectedPod={selectedPod}
-                originalPodId={originalPodId}
-              />
             ) : (
               <Typography
                 sx={{
