@@ -23,8 +23,12 @@ import { mockTechnology } from "../../data/MockData";
 import { useLocation, useNavigate } from "react-router";
 import { useAvailablePods, usePodById } from "../../pages/Pod/Hooks/customHook";
 import { getDefaultLocale } from "react-datepicker";
-import { containsPod, isInValidName } from "./utils/EnableeTemplateUtils";
-import { getPodById } from "../../services/PodAPI";
+import {
+  containsPod,
+  isInValidName,
+  isValidDate,
+} from "./utils/EnableeTemplateUtils";
+import { getAvailablePods, getPodById } from "../../services/PodAPI";
 
 const InputProps = {
   disableUnderline: true,
@@ -111,20 +115,20 @@ export default function EnableeTemplate() {
   // ]);
   // // const [disableSubmit, setDisableSubmit] = useState(true);
   // const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
-  // const [selectedPod, setSelectedPod] = useState<IFEPod>();
+  const [selectedPod, setSelectedPod] = useState<IFEPod>();
   // const [toggle, changeToggle] = useToggle();
   // const navigate = useNavigate();
   // const location = useLocation();
   const [enablee, setEnablee] = useToggleDetail();
   // const [availablePods, setAvailablePods] = useAvailablePods(location);
-  // const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (!e.target.checked) {
-  //     setSelectedPod(undefined);
-  //   } else {
-  //     const result = filteredPods.filter((p) => p.podName === e.target.id)[0];
-  //     setSelectedPod(result);
-  //   }
-  // };
+  const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.checked) {
+      setSelectedPod(undefined);
+    } else {
+      const result = filteredPods.filter((p) => p.podName === e.target.id)[0];
+      setSelectedPod(result);
+    }
+  };
   // Hacky way to ensure that the useEffect is passed in a Enablee
   function isEnablee(object: any): object is IEnablee {
     return "enablementStartDate" in object;
@@ -154,29 +158,7 @@ export default function EnableeTemplate() {
   //     setOriginalPod();
   //   }
   // }, []);
-  // function setOriginalPod(): void {
-  //   //selected enablee has non-null podId
-  //   if (isEnablee(enablee) && enablee.podId) {
-  //     //first check if availablePods contain enablee's pod
-  //     let enableeCurrentPod = containsPod(availablePods, enablee.podId);
-  //     //if it doesn't, make call to getPodByID, set enablee's pod, add to available pods, and set selected pod
-  //     if (!enableeCurrentPod) {
-  //       getPodById(enablee.podId)
-  //         .then((res) => {
-  //           enableeCurrentPod = res.data as IFEPod;
-  //           setAvailablePods([enableeCurrentPod, ...availablePods]);
-  //           setSelectedPod(enableeCurrentPod);
-  //           filterPods();
-  //         })
-  //         .catch((e) => console.error(e));
-  //     } else {
-  //       //and setSelectedPod
-  //       setSelectedPod(enableeCurrentPod);
-  //       //filterPods();
-  //     }
-  //   }
-  //   //selected enablee has null podId, continue as normal
-  // }
+
   // //check if all fields are entered
   // // useEffect(() => {
   // //   if (
@@ -192,19 +174,21 @@ export default function EnableeTemplate() {
   // //   }
   // // }, [name, employeeId, startDate, endDate]);
   // //[name, employeeId, startDate, endDate, filteredPods]);
-  // function filterPods() {
-  //   if (startDate instanceof Date && endDate instanceof Date) {
-  //     const filtered = availablePods.filter((pod) =>
-  //       isEnableeValidForPod(
-  //         pod.podStartDate,
-  //         pod.podEndDate,
-  //         startDate.toDateString(),
-  //         endDate.toDateString()
-  //       )
-  //     );
-  //     setFilteredPods((prev) => [...prev, ...filtered]);
-  //   }
-  // }
+  function filterPods(pods: IFEPod[]): IFEPod[] {
+    const startDate = startDateValidator();
+    const endDate = endDateValidator();
+    if (startDate && endDate) {
+      return pods.filter((pod) =>
+        isEnableeValidForPod(
+          pod.podStartDate,
+          pod.podEndDate,
+          startDate.toDateString(),
+          endDate.toDateString()
+        )
+      );
+    }
+    return [];
+  }
   // const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
   //   e.preventDefault();
   //   if (enablee == null && startDate != null && endDate != null) {
@@ -287,6 +271,63 @@ export default function EnableeTemplate() {
     );
   }
 
+  function startDateValidator(): Date | null {
+    if (isEnablee(enablee)) {
+      return isValidDate(enablee.enablementStartDate);
+    }
+    return null;
+  }
+
+  function endDateValidator(): Date | null {
+    if (isEnablee(enablee)) {
+      return isValidDate(enablee.enablementEndDate);
+    }
+    return null;
+  }
+
+  const setStartDate = () => {
+    // console.log("setting startDate");
+  };
+
+  const setEndDate = () => {
+    // console.log("setting endDate");
+  };
+
+  function setEnableeCurrentPod(): void {
+    //selected enablee has non-null podId
+    if (isEnablee(enablee) && enablee.podId) {
+      //first check if availablePods contain enablee's pod
+      let enableeCurrentPod = containsPod(availablePods, enablee.podId);
+      //if it doesn't, make call to getPodByID, set enablee's pod, add to available pods, and set selected pod
+      if (!enableeCurrentPod) {
+        getPodById(enablee.podId)
+          .then((res) => {
+            enableeCurrentPod = res.data as IFEPod;
+            setAvailablePods([enableeCurrentPod, ...availablePods]);
+            setSelectedPod(enableeCurrentPod);
+          })
+          .catch((e) => console.error(e));
+      } else {
+        //and setSelectedPod
+        setSelectedPod(enableeCurrentPod);
+      }
+    }
+    //selected enablee has null podId, continue as normal
+  }
+
+  const location = useLocation();
+  const [availablePods, setAvailablePods] = useAvailablePods(location);
+  const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
+
+  useEffect(() => {
+    setFilteredPods(filterPods(availablePods));
+    setEnableeCurrentPod();
+  }, [availablePods]);
+
+  // useEffect(() => {
+  //   console.log("dchan");
+  // }, [filteredPods]);
+
   return (
     <>
       <div className="enablee-container">
@@ -310,6 +351,50 @@ export default function EnableeTemplate() {
           ) : (
             <div className="dummy-padding"></div>
           )}
+
+          <div className="grid-container">
+            <Typography sx={labelStyle}>Enablement Dates</Typography>
+            <DatepickerComponent
+              startDate={startDateValidator()}
+              endDate={endDateValidator()}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+            />
+          </div>
+
+          <div className="pod-section">
+            <PageViewHeader
+              pageTitle={"Pod"}
+              showPlus={true}
+              isHeader={false}
+              plusClicked={false}
+            />
+            {filteredPods.length > 0 ? (
+              <>
+                {filteredPods.map((pod) => {
+                  return (
+                    <FilteredPod
+                      key={pod.id}
+                      pod={pod}
+                      enableeTech={isEnablee(enablee) ? enablee.technology : []}
+                      handleOnClick={handleOnClick}
+                      selectedPod={selectedPod}
+                    />
+                  );
+                })}
+              </>
+            ) : (
+              <Typography
+                sx={{
+                  ...labelStyle,
+                  width: "none",
+                  color: "rgba(138, 139, 138, 0.4)",
+                }}
+              >
+                No Pods Match Enablement Dates
+              </Typography>
+            )}
+          </div>
         </form>
       </div>
     </>
@@ -318,23 +403,7 @@ export default function EnableeTemplate() {
 
 {
   /* //       <form>
-  //         <TextField
-  //           value={name}
-  //           key="name"
-  //           placeholder="Empty"
-  //           variant="standard"
-  //           autoComplete="off"
-  //           sx={titleProps}
-  //           InputProps={InputProps}
-  //           onChange={(e) => setName(e.target.value)}
-  //           inputProps={{ "data-testid": "enableeName" }}
-  //           error={name.trim().length === 0}
-  //         />
-  //         {name.length === 0 ? (
-  //           <div className="form-error">* Enablee Name required</div>
-  //         ) : (
-  //           <div className="dummy-padding"></div>
-  //         )}
+
   //         <div className="grid-container">
   //           <Typography sx={labelStyle}>Enablement Dates</Typography>
   //           <DatepickerComponent
