@@ -34,14 +34,14 @@ export default function FormComponent(props: any) {
   const [projectLink, setProjectLink] =
     useState(props.selectedRow?.current?.repoLink) || null;
   const [projectDescription, setProjectDescription] =
-    useState(props.selectedRow?.current?.description) || null;
+    useState(props.selectedRow?.current?.summary) || null;
 
   // function to reset form values to origonal values
   const resetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setProjectName(props.selectedRow?.current?.name);
     setProjectLink(props.selectedRow?.current?.repoLink);
-    setProjectDescription(props.selectedRow?.current?.description);
+    setProjectDescription(props.selectedRow?.current?.summary);
     setSelectedStack(props.technologies);
   };
 
