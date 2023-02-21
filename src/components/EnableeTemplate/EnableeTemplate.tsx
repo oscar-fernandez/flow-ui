@@ -108,13 +108,16 @@ export default function EnableeTemplate() {
     mockTechnology[0],
   ]);
   const [disableSubmit, setDisableSubmit] = useState(true);
-  // const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
   const [toggle, changeToggle] = useToggle();
   const navigate = useNavigate();
-  // const location = useLocation();
   const [enablee, setEnablee] = useToggleDetail();
-  // const [availablePods, setAvailablePods] = useAvailablePods(location);
+
+  const location = useLocation();
+  const [availablePods, setAvailablePods] = useAvailablePods(location);
+  const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
+  const [originalPod, setOriginalPod] = useState<IFEPod>(Object);
+
   const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.checked) {
       setSelectedPod(undefined);
@@ -125,18 +128,17 @@ export default function EnableeTemplate() {
   };
   // Hacky way to ensure that the useEffect is passed in a Enablee
   function isEnablee(object: any): object is IEnablee {
+    if (object === null) {
+      return false;
+    }
     return "enablementStartDate" in object;
   }
+
   useEffect(() => {
     if (enablee && isEnablee(enablee)) {
       setName(`${enablee.firstName} ${enablee.lastName}`);
-      // if (
-      //   enablee.enablementStartDate != null &&
-      //   enablee.enablementEndDate != null
-      // ) {
       setStartDate(startDateValidator());
       setEndDate(endDateValidator());
-      // }
       setEmployeeId(enablee.employeeId.toString());
       setDateOfJoin(enablee.dateOfJoin);
       const tags = enablee.assetTag ? enablee.assetTag.toString() : "";
@@ -165,11 +167,8 @@ export default function EnableeTemplate() {
       setDisableSubmit(false);
     }
   }, [name, employeeId, startDate, endDate]);
-  // //[name, employeeId, startDate, endDate, filteredPods]);
+
   function filterPods(pods: IFEPod[]): IFEPod[] {
-    // console.log("FilterPods call");
-    // const startDate = startDateValidator();
-    // const endDate = endDateValidator();
     if (startDate && endDate) {
       return pods.filter((pod) =>
         isEnableeValidForPod(
@@ -182,6 +181,7 @@ export default function EnableeTemplate() {
     }
     return [];
   }
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (enablee == null && startDate != null && endDate != null) {
@@ -223,6 +223,7 @@ export default function EnableeTemplate() {
       putEnablee(tempDetail);
     }
   };
+
   const postEnablee = (enablee: IEnablee) => {
     CreateEnablee(enablee)
       .then((res) => {
@@ -236,6 +237,7 @@ export default function EnableeTemplate() {
         console.error(e);
       });
   };
+
   const putEnablee = (updateEnablee: IEnablee) => {
     UpdateEnablee(updateEnablee)
       .then((res) => {
@@ -266,7 +268,6 @@ export default function EnableeTemplate() {
   }
 
   function startDateValidator(): Date | null {
-    // console.log("StartDateValidator call");
     if (isEnablee(enablee)) {
       return isValidDate(enablee.enablementStartDate);
     }
@@ -281,13 +282,11 @@ export default function EnableeTemplate() {
   }
 
   const resetStartDate = (date: Date) => {
-    // console.log("ResetDate call");
     setStartDate(date);
     setFilteredPods(filterPods(availablePods));
   };
 
   const resetEndDate = (date: Date) => {
-    // console.log("ResetDate call");
     setEndDate(date);
     setFilteredPods(filterPods(availablePods));
   };
@@ -316,11 +315,6 @@ export default function EnableeTemplate() {
     //selected enablee has null podId, continue as normal
   }
 
-  const location = useLocation();
-  const [availablePods, setAvailablePods] = useAvailablePods(location);
-  const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
-  const [originalPod, setOriginalPod] = useState<IFEPod>(Object);
-
   useEffect(() => {
     setFilteredPods(filterPods(availablePods));
     setEnableeCurrentPod();
@@ -336,23 +330,21 @@ export default function EnableeTemplate() {
       <div className="enablee-container">
         <form>
           <TextField
-            value={
-              isEnablee(enablee) && `${enablee.firstName} ${enablee.lastName}`
-            }
+            value={name}
             key="name"
             placeholder="Empty"
             variant="standard"
             autoComplete="off"
             sx={titleProps}
             InputProps={InputProps}
-            // onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             inputProps={{ "data-testid": "enableeName" }}
             error={nameValidator()}
           />
-          {nameValidator() ? (
+          {!nameValidator() && name.length === 0 ? (
             <div className="form-error">* Enablee Name required</div>
           ) : (
-            <div className="dummy-padding"></div>
+            <div className="dummy-padding"> </div>
           )}
 
           <div className="grid-container">
@@ -535,178 +527,4 @@ export default function EnableeTemplate() {
       </div>
     </>
   );
-}
-
-{
-  /* //       <form>
-
-  //         <div className="grid-container">
-  //           <Typography sx={labelStyle}>Enablement Dates</Typography>
-  //           <DatepickerComponent
-  //             startDate={isDateObject(startDate) ? startDate : null}
-  //             endDate={isDateObject(endDate) ? endDate : null}
-  //             setStartDate={setStartDate}
-  //             setEndDate={setEndDate}
-  //           />
-  //           <Typography sx={labelStyle}>Employee Id</Typography>
-  //           <div className="id-wrap">
-  //             <TextField
-  //               value={employeeId}
-  //               placeholder="Empty"
-  //               variant="standard"
-  //               autoComplete="off"
-  //               InputProps={InputProps}
-  //               sx={inputStyle}
-  //               onChange={(e) => setEmployeeId(e.target.value)}
-  //               error={employeeId.trim().length === 0}
-  //               inputProps={{ "data-testid": "employeeId" }}
-  //             />
-  //             {employeeId.length === 0 ? (
-  //               <div className="form-error">* Employee Id required</div>
-  //             ) : null}
-  //           </div>
-  //           <Typography sx={labelStyle}>Date of Join</Typography>
-  //           <Typography data-testid="dateJoin" sx={dateStyle}>
-  //             {dateOfJoin}
-  //           </Typography>
-  //           <Typography sx={labelStyle}>Asset Tag</Typography>
-  //           <TextField
-  //             value={assetTag}
-  //             placeholder="Empty"
-  //             variant="standard"
-  //             autoComplete="off"
-  //             InputProps={InputProps}
-  //             sx={inputStyle}
-  //             onChange={(e) => setAssetTag(e.target.value)}
-  //             inputProps={{ "data-testid": "assetTag" }}
-  //           />
-  //           <Typography sx={labelStyle}>Country</Typography>
-  //           <TextField
-  //             value={country}
-  //             placeholder="Empty"
-  //             variant="standard"
-  //             autoComplete="off"
-  //             InputProps={InputProps}
-  //             sx={inputStyle}
-  //             onChange={(e) => setCountry(e.target.value)}
-  //             inputProps={{ "data-testid": "country" }}
-  //           />
-  //           <Typography sx={labelStyle}>Community</Typography>
-  //           <TextField
-  //             value={community}
-  //             placeholder="Empty"
-  //             variant="standard"
-  //             autoComplete="off"
-  //             InputProps={InputProps}
-  //             sx={inputStyle}
-  //             onChange={(e) => setCommunity(e.target.value)}
-  //             inputProps={{ "data-testid": "community" }}
-  //           />
-  //           <Typography sx={labelStyle}>Employment Type</Typography>
-  //           <TextField
-  //             value={employmentType}
-  //             placeholder="Empty"
-  //             variant="standard"
-  //             autoComplete="off"
-  //             InputProps={InputProps}
-  //             sx={inputStyle}
-  //             onChange={(e) => setEmploymentType(e.target.value)}
-  //             inputProps={{ "data-testid": "employmentType" }}
-  //           />
-  //           <Typography sx={labelStyle}>Is Employed?</Typography>
-  //           <div>
-  //             <input
-  //               type="checkbox"
-  //               checked={isEmployed}
-  //               onChange={(e) => setIsEmployed(e.target.checked)}
-  //               data-testid="isEmployed"
-  //             ></input>
-  //           </div>
-  //           <Typography sx={labelStyle}>Grade</Typography>
-  //           <TextField
-  //             value={grade}
-  //             placeholder="Empty"
-  //             variant="standard"
-  //             autoComplete="off"
-  //             InputProps={InputProps}
-  //             sx={inputStyle}
-  //             onChange={(e) => setGrade(e.target.value)}
-  //             inputProps={{ "data-testid": "grade" }}
-  //           />
-  //           <Typography sx={labelStyle}>Tech Stack</Typography>
-  //           <div>
-  //             {techStack.map((tech: ITechnology) => (
-  //               <TagComponent
-  //                 name={tech.name}
-  //                 color={tech.backgroundColor}
-  //                 key={tech.name}
-  //               />
-  //             ))}
-  //           </div>
-  //         </div>
-  //         <div className="pod-section">
-  //           <PageViewHeader
-  //             pageTitle={"Pod"}
-  //             showPlus={true}
-  //             isHeader={false}
-  //             plusClicked={false}
-  //           />
-  //           {availablePods.length > 0 ? (
-  //             <>
-  //               {filteredPods.map((pod) => {
-  //                 return (
-  //                   <FilteredPod
-  //                     key={pod.id}
-  //                     pod={pod}
-  //                     enableeTech={techStack}
-  //                     handleOnClick={handleOnClick}
-  //                     selectedPod={selectedPod}
-  //                   />
-  //                 );
-  //               })}
-  //             </>
-  //           ) : (
-  //             <Typography
-  //               sx={{
-  //                 ...labelStyle,
-  //                 width: "none",
-  //                 color: "rgba(138, 139, 138, 0.4)",
-  //               }}
-  //             >
-  //               No Pods Match Enablement Dates
-  //             </Typography>
-  //           )}
-  //         </div>
-  //         <div className="comment-section">
-  //           <PageViewHeader
-  //             pageTitle={"Comments"}
-  //             showPlus={true}
-  //             isHeader={false}
-  //             plusClicked={false}
-  //           />
-  //           <Typography
-  //             sx={{
-  //               ...labelStyle,
-  //               width: "none",
-  //               color: "rgba(138, 139, 138, 0.4)",
-  //             }}
-  //           >
-  //             No Comments
-  //           </Typography>
-  //         </div>
-  //         <div className="button-center">
-  //           <Button
-  //             data-testid={"enableeTemplateSubmitBtn"}
-  //             // disabled={disableSubmit}
-  //             disabled={isDisabled()}
-  //             variant={"contained"}
-  //             sx={buttonStyle}
-  //             onClick={(e) => {
-  //               handleSubmit(e);
-  //             }}
-  //           >
-  //             Submit
-  //           </Button>
-  //         </div>
-  //       </form> */
 }
