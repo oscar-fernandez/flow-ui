@@ -30,6 +30,7 @@ describe("FilteredPod tests", () => {
     const checkbox = screen.getByTestId(
       mockFePod[0].podName
     ) as HTMLInputElement;
+    // console.log(mockFePod[0].podName);
     expect(checkbox).not.toBeChecked();
     fireEvent.click(checkbox);
     expect(checkbox).toBeChecked();
