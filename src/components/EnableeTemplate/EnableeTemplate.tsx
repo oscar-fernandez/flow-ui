@@ -1,15 +1,11 @@
 import { Button, TextField, Typography } from "@mui/material";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
 import "./EnableeTemplate.css";
 import { TagComponent } from "../TagComponent/Tag";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import FilteredPod from "./FilteredPod";
-import {
-  isEnableeValidForPod,
-  isDateObject,
-  formatDate,
-} from "../../utils/utilityFunctions";
+import { isEnableeValidForPod, formatDate } from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
 import {
   useToggle,
@@ -17,18 +13,16 @@ import {
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../models/interfaces/IEnablee";
 import ITechnology from "../../models/interfaces/ITechnology";
-import { red } from "@mui/material/colors";
 import { CreateEnablee, UpdateEnablee } from "../../services/EnableeAPI";
 import { mockTechnology } from "../../data/MockData";
 import { useLocation, useNavigate } from "react-router";
-import { useAvailablePods, usePodById } from "../../pages/Pod/Hooks/customHook";
-import { getDefaultLocale } from "react-datepicker";
+import { useAvailablePods } from "../../pages/Pod/Hooks/customHook";
 import {
   containsPod,
   isInValidName,
   isValidDate,
 } from "./utils/EnableeTemplateUtils";
-import { getAvailablePods, getPodById } from "../../services/PodAPI";
+import { getPodById } from "../../services/PodAPI";
 
 const InputProps = {
   disableUnderline: true,
@@ -113,11 +107,11 @@ export default function EnableeTemplate() {
   const [techStack, setTeckStack] = useState<ITechnology[]>([
     mockTechnology[0],
   ]);
-  // // const [disableSubmit, setDisableSubmit] = useState(true);
+  const [disableSubmit, setDisableSubmit] = useState(true);
   // const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
-  // const [toggle, changeToggle] = useToggle();
-  // const navigate = useNavigate();
+  const [toggle, changeToggle] = useToggle();
+  const navigate = useNavigate();
   // const location = useLocation();
   const [enablee, setEnablee] = useToggleDetail();
   // const [availablePods, setAvailablePods] = useAvailablePods(location);
@@ -155,24 +149,22 @@ export default function EnableeTemplate() {
       setEmploymentType(employmentType);
       setGrade(enablee.gradeId.toString());
       setTeckStack(enablee.technology);
-      //     setOriginalPod();
     }
   }, []);
 
-  // //check if all fields are entered
-  // // useEffect(() => {
-  // //   if (
-  // //     name.trim() === "" ||
-  // //     employeeId.trim() === "" ||
-  // //     startDate === null ||
-  // //     endDate === null
-  // //   ) {
-  // //     setDisableSubmit(true);
-  // //   } else {
-  // //     filterPods();
-  // //     setDisableSubmit(false);
-  // //   }
-  // // }, [name, employeeId, startDate, endDate]);
+  // check if all fields are entered
+  useEffect(() => {
+    if (
+      name.trim() === "" ||
+      employeeId.trim() === "" ||
+      startDate === null ||
+      endDate === null
+    ) {
+      setDisableSubmit(true);
+    } else {
+      setDisableSubmit(false);
+    }
+  }, [name, employeeId, startDate, endDate]);
   // //[name, employeeId, startDate, endDate, filteredPods]);
   function filterPods(pods: IFEPod[]): IFEPod[] {
     // console.log("FilterPods call");
@@ -190,73 +182,74 @@ export default function EnableeTemplate() {
     }
     return [];
   }
-  // const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-  //   e.preventDefault();
-  //   if (enablee == null && startDate != null && endDate != null) {
-  //     const tempEnablee: IEnablee = {
-  //       employeeId: parseInt(employeeId),
-  //       firstName: name.split(" ")[0],
-  //       lastName: name.split(" ")[1],
-  //       dateOfJoin: dateOfJoin,
-  //       enablementStartDate: formatDate(startDate),
-  //       enablementEndDate: formatDate(endDate),
-  //       assetTag: assetTag,
-  //       isEmployed: isEmployed,
-  //       technology: techStack,
-  //       countryCode: parseInt(country),
-  //       gradeId: parseInt(grade),
-  //       communityId: parseInt(community),
-  //       employmentTypeId: parseInt(employmentType),
-  //       podId: selectedPod?.id || null,
-  //       commentId: [],
-  //     };
-  //     postEnablee(tempEnablee);
-  //   } else if (isEnablee(enablee) && endDate != null && startDate != null) {
-  //     const tempDetail: IEnablee = { ...enablee };
-  //     tempDetail.employeeId = parseInt(employeeId);
-  //     tempDetail.firstName = name.split(" ")[0];
-  //     tempDetail.lastName = name.split(" ")[1];
-  //     tempDetail.dateOfJoin = dateOfJoin;
-  //     tempDetail.enablementStartDate = formatDate(startDate);
-  //     tempDetail.enablementEndDate = formatDate(endDate);
-  //     tempDetail.assetTag = assetTag;
-  //     tempDetail.isEmployed = isEmployed;
-  //     tempDetail.technology = techStack;
-  //     tempDetail.countryCode = parseInt(country);
-  //     tempDetail.gradeId = parseInt(grade);
-  //     tempDetail.communityId = parseInt(community);
-  //     tempDetail.employmentTypeId = parseInt(employmentType);
-  //     tempDetail.podId = selectedPod?.id || 0;
-  //     tempDetail.commentId = [];
-  //     putEnablee(tempDetail);
-  //   }
-  // };
-  // const postEnablee = (enablee: IEnablee) => {
-  //   CreateEnablee(enablee)
-  //     .then((res) => {
-  //       if (res.status == 200 || res.status == 201) {
-  //         setEnablee(res.data);
-  //         changeToggle();
-  //         navigate(location);
-  //       }
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
-  // };
-  // const putEnablee = (updateEnablee: IEnablee) => {
-  //   UpdateEnablee(updateEnablee)
-  //     .then((res) => {
-  //       if (res.status == 200 || res.status == 201) {
-  //         setEnablee(res.data);
-  //         changeToggle();
-  //         navigate(location);
-  //       }
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
-  // };
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    if (enablee == null && startDate != null && endDate != null) {
+      const tempEnablee: IEnablee = {
+        employeeId: parseInt(employeeId),
+        firstName: name.split(" ")[0],
+        lastName: name.split(" ")[1],
+        dateOfJoin: dateOfJoin,
+        enablementStartDate: formatDate(startDate),
+        enablementEndDate: formatDate(endDate),
+        assetTag: assetTag,
+        isEmployed: isEmployed,
+        technology: techStack,
+        countryCode: parseInt(country),
+        gradeId: parseInt(grade),
+        communityId: parseInt(community),
+        employmentTypeId: parseInt(employmentType),
+        podId: selectedPod?.id || null,
+        commentId: [],
+      };
+      postEnablee(tempEnablee);
+    } else if (isEnablee(enablee) && endDate != null && startDate != null) {
+      const tempDetail: IEnablee = { ...enablee };
+      tempDetail.employeeId = parseInt(employeeId);
+      tempDetail.firstName = name.split(" ")[0];
+      tempDetail.lastName = name.split(" ")[1];
+      tempDetail.dateOfJoin = dateOfJoin;
+      tempDetail.enablementStartDate = formatDate(startDate);
+      tempDetail.enablementEndDate = formatDate(endDate);
+      tempDetail.assetTag = assetTag;
+      tempDetail.isEmployed = isEmployed;
+      tempDetail.technology = techStack;
+      tempDetail.countryCode = parseInt(country);
+      tempDetail.gradeId = parseInt(grade);
+      tempDetail.communityId = parseInt(community);
+      tempDetail.employmentTypeId = parseInt(employmentType);
+      tempDetail.podId = selectedPod?.id || 0;
+      tempDetail.commentId = [];
+      putEnablee(tempDetail);
+    }
+  };
+  const postEnablee = (enablee: IEnablee) => {
+    CreateEnablee(enablee)
+      .then((res) => {
+        if (res.status == 200 || res.status == 201) {
+          setEnablee(res.data);
+          changeToggle();
+          navigate(location);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+  const putEnablee = (updateEnablee: IEnablee) => {
+    UpdateEnablee(updateEnablee)
+      .then((res) => {
+        if (res.status == 200 || res.status == 201) {
+          setEnablee(res.data);
+          changeToggle();
+          navigate(location);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   // function isDisabled(): boolean {
   //   return (
   //     name.trim() === "" ||
@@ -293,9 +286,11 @@ export default function EnableeTemplate() {
     setFilteredPods(filterPods(availablePods));
   };
 
-  // const setEndDate = () => {
-  //   // console.log("setting endDate");
-  // };
+  const resetEndDate = (date: Date) => {
+    // console.log("ResetDate call");
+    setEndDate(date);
+    setFilteredPods(filterPods(availablePods));
+  };
 
   function setEnableeCurrentPod(): void {
     //selected enablee has non-null podId
@@ -309,11 +304,13 @@ export default function EnableeTemplate() {
             enableeCurrentPod = res.data as IFEPod;
             setAvailablePods([enableeCurrentPod, ...availablePods]);
             setSelectedPod(enableeCurrentPod);
+            setOriginalPod(enableeCurrentPod);
           })
           .catch((e) => console.error(e));
       } else {
         //and setSelectedPod
         setSelectedPod(enableeCurrentPod);
+        setOriginalPod(enableeCurrentPod);
       }
     }
     //selected enablee has null podId, continue as normal
@@ -322,15 +319,17 @@ export default function EnableeTemplate() {
   const location = useLocation();
   const [availablePods, setAvailablePods] = useAvailablePods(location);
   const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
+  const [originalPod, setOriginalPod] = useState<IFEPod>(Object);
 
   useEffect(() => {
     setFilteredPods(filterPods(availablePods));
     setEnableeCurrentPod();
+    // isDisabled();
   }, [availablePods]);
 
   useEffect(() => {
     setFilteredPods(filterPods(availablePods));
-  }, [startDate]);
+  }, [startDate, endDate]);
 
   return (
     <>
@@ -362,7 +361,7 @@ export default function EnableeTemplate() {
               startDate={startDate}
               endDate={endDate}
               setStartDate={resetStartDate}
-              setEndDate={setEndDate}
+              setEndDate={resetEndDate}
             />
             <Typography sx={labelStyle}>Employee Id</Typography>
             <div className="id-wrap">
@@ -481,6 +480,14 @@ export default function EnableeTemplate() {
                   );
                 })}
               </>
+            ) : originalPod.id > 0 ? (
+              <FilteredPod
+                key={originalPod.id}
+                pod={originalPod}
+                enableeTech={isEnablee(enablee) ? enablee.technology : []}
+                handleOnClick={handleOnClick}
+                selectedPod={selectedPod}
+              />
             ) : (
               <Typography
                 sx={{
@@ -492,6 +499,37 @@ export default function EnableeTemplate() {
                 No Pods Match Enablement Dates
               </Typography>
             )}
+          </div>
+          <div className="comment-section">
+            <PageViewHeader
+              pageTitle={"Comments"}
+              showPlus={true}
+              isHeader={false}
+              plusClicked={false}
+            />
+            <Typography
+              sx={{
+                ...labelStyle,
+                width: "none",
+                color: "rgba(138, 139, 138, 0.4)",
+              }}
+            >
+              No Comments
+            </Typography>
+          </div>
+          <div className="button-center">
+            <Button
+              data-testid={"enableeTemplateSubmitBtn"}
+              disabled={disableSubmit}
+              // disabled={isDisabled()}
+              variant={"contained"}
+              sx={buttonStyle}
+              onClick={(e) => {
+                handleSubmit(e);
+              }}
+            >
+              Submit
+            </Button>
           </div>
         </form>
       </div>
