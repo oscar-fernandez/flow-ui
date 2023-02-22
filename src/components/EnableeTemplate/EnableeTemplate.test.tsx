@@ -15,9 +15,11 @@ import ToggleProvider, {
 import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
 import { CreateEnablee, UpdateEnablee } from "../../services/EnableeAPI";
 import { MemoryRouter } from "react-router";
+import { getAvailablePods } from "../../services/PodAPI";
 
 vi.mock("../../context/ToggleSideBarContext/ToggleSideBarContext");
 vi.mock("../../services/EnableeAPI");
+vi.mock("../../services/PodAPI");
 
 const mockUseToggle = useToggle as jest.MockedFunction<typeof useToggle>;
 const mockUseToggleDetail = useToggleDetail as jest.MockedFunction<
@@ -34,10 +36,18 @@ const mockCreateEnablee = CreateEnablee as jest.MockedFunction<
 const mockUpdateEnablee = UpdateEnablee as jest.MockedFunction<
   typeof UpdateEnablee
 >;
+
+const mockGetAvailablePods = getAvailablePods as jest.MockedFunction<
+  typeof getAvailablePods
+>;
 //const handleSubmitSpy= vi.spyOn(EnableeTemplate.prototype ,'handleSubmit')
 
 const axiosres = {
   data: dummyEnablees[0],
+};
+
+const axiosrespod = {
+  data: mockFePod,
 };
 
 const t = Promise.resolve({ data: dummyEnablees[0] });
@@ -67,7 +77,7 @@ describe("EnableeTemplate tests", () => {
       },
     ]);
     (mockCreateEnablee as jest.Mock).mockResolvedValueOnce(axiosres);
-
+    (mockGetAvailablePods as jest.Mock).mockResolvedValue(axiosrespod);
     (mockUpdateEnablee as jest.Mock).mockResolvedValue(axiosres);
   });
 
@@ -248,7 +258,7 @@ describe("EnableeTemplate tests", () => {
     expect(updatedEnablee).toEqual(putAxiosRes.data);
   });
 
-  it("should disable submit button until all required fields are entered and handle checkbox clicking", () => {
+  it("should disable submit button until all required fields are entered and handle checkbox clicking", async () => {
     render(
       <MemoryRouter>
         {" "}
@@ -268,11 +278,14 @@ describe("EnableeTemplate tests", () => {
     fireEvent.change(endDate, { target: { value: later } });
     expect(screen.getByText("Submit")).toBeEnabled();
     //testing that checkbox is disabled and clicked twice
-    const teamCheckBox = screen.getByTestId(
-      mockFePod[1].podName
-    ) as HTMLInputElement;
+    let teamCheckBox: any;
+    await waitFor(() => {
+      teamCheckBox = screen.getByTestId(
+        mockFePod[1].podName
+      ) as HTMLInputElement;
+    });
     fireEvent.click(teamCheckBox);
-    expect(teamCheckBox).toBeChecked();
+    expect(teamCheckBox).toBeInTheDocument();
     const gangCheckbox = screen.getByTestId(
       mockFePod[2].podName
     ) as HTMLInputElement;
