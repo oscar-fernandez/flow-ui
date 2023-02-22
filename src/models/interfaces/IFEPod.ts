@@ -6,7 +6,7 @@ interface IFEPod {
   id: number;
   podName: string;
   enablee: IEnablee[];
-  enabler: IEnabler[] | null;
+  enabler: IEnabler[];
   podStartDate: string;
   podEndDate: string;
   project: IProject;

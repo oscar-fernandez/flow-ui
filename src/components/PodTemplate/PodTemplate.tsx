@@ -75,7 +75,7 @@ export default function PodTemplate() {
   const [podName, setPodName] = useState("");
   const [enablees, setEnablees] = useState<IEnablee[]>([]);
   const [podEnablees, setPodEnablees] = useState<IEnablee[]>([]);
-  const [enablers, setEnablers] = useState<IEnabler[] | null>(null);
+  const [enablers, setEnablers] = useState<IEnabler[]>([]);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
@@ -143,7 +143,7 @@ export default function PodTemplate() {
         enablee: selectedEnablees.current,
         enabler: enablers,
         podStartDate: startDate?.toISOString().split("T")[0] || "",
-        podEndDate: startDate?.toISOString().split("T")[0] || "",
+        podEndDate: endDate?.toISOString().split("T")[0] || "",
         project: selectedProject,
       };
       postPod(tempPod);
@@ -527,20 +527,6 @@ export default function PodTemplate() {
                 </ul>
               </div>
               <div className="btn-container">
-                {/* {emptyPodName ||
-                startDate === null ||
-                endDate === null ||
-                projectSelected === 'Empty' ? (
-                  <div className='button-center'>
-                    <Button
-                      disabled={true}
-                      variant='contained'
-                      sx={buttonStyle}
-                    >
-                      Submit
-                    </Button>
-                  </div>
-                ) : ( */}
                 <div className="button-center">
                   <Button
                     disabled={
@@ -559,7 +545,6 @@ export default function PodTemplate() {
                     Submit
                   </Button>
                 </div>
-                {/* )} */}
               </div>
             </div>
           )}
