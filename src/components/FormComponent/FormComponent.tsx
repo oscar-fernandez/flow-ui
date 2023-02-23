@@ -34,14 +34,14 @@ export default function FormComponent(props: any) {
   const [projectLink, setProjectLink] =
     useState(props.selectedRow?.current?.repoLink) || null;
   const [projectDescription, setProjectDescription] =
-    useState(props.selectedRow?.current?.description) || null;
+    useState(props.selectedRow?.current?.summary) || null;
 
   // function to reset form values to origonal values
   const resetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setProjectName(props.selectedRow?.current?.name);
     setProjectLink(props.selectedRow?.current?.repoLink);
-    setProjectDescription(props.selectedRow?.current?.description);
+    setProjectDescription(props.selectedRow?.current?.summary);
     setSelectedStack(props.technologies);
   };
 
@@ -114,14 +114,14 @@ export default function FormComponent(props: any) {
       "projectName"
     ) as HTMLInputElement;
     const currentRepoLink = document.getElementById("link") as HTMLInputElement;
-    const currentProjectsummary = document.getElementById(
+    const currentProjectSummary = document.getElementById(
       "summary"
     ) as HTMLInputElement;
 
     const project: IProject = {
       id: id,
       name: currentProjectName.value,
-      summary: currentProjectsummary.value,
+      summary: currentProjectSummary.value,
       technology: techArr,
       repoLink: currentRepoLink.value,
     };
@@ -312,7 +312,8 @@ export default function FormComponent(props: any) {
                         "^(https://git.work.cognizant.studio/enablement/team-projects/\\S+)"
                       ) ||
                       selectedStack.length === 0 ||
-                      projectDescription?.length >= 100
+                      projectDescription?.length >= 100 ||
+                      projectDescription?.length < 1
                     }
                   >
                     Submit
