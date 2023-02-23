@@ -1,31 +1,23 @@
 import "./EnablerView.css";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
-import { Outlet } from "react-router";
-import { getActivePods, getPendingPods } from "../../../services/PodAPI";
+import { Outlet, useLocation } from "react-router";
 import IFEPod from "../../../models/interfaces/IFEPod";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useMapDetail } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
+import { useActivePods, usePendingStartPods } from "../../Pod/Hooks/customHook";
 
 /**
  * This component is rendered as the parent route "/enabler"
  * @returns enabler view
  */
 export default function EnablerView() {
-  const [activePods, setActivePods] = useState<IFEPod[]>([]);
-  const [pendingPods, setPendingPods] = useState<IFEPod[]>([]);
+  const location = useLocation();
+  const [activePods, setActivePods] = useActivePods(location);
+  const [pendingPods, setPendingPods] = usePendingStartPods(location);
   const [map, setMap] = useMapDetail();
 
   const seedPodMap = (): Map<string, IFEPod[]> => {
     const podMap = new Map();
-
-    getActivePods().then((res) => {
-      setActivePods(res.data);
-    });
-
-    getPendingPods().then((res) => {
-      setPendingPods(res.data);
-    });
-
     podMap.set("Active", activePods);
     podMap.set("Pending", pendingPods);
     return podMap;
@@ -33,7 +25,7 @@ export default function EnablerView() {
 
   useEffect(() => {
     setMap(seedPodMap());
-  }, [activePods, pendingPods]);
+  }, [activePods, pendingPods, location]);
 
   return (
     <>
