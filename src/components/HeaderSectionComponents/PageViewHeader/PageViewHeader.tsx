@@ -1,8 +1,11 @@
 import {
   useToggle,
   useToggleDetail,
+  useToggleTemplate,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import "./PageViewHeader.css";
+import EnableeTemplate from "../../EnableeTemplate/EnableeTemplate";
+import PodTemplate from "../../PodTemplate/PodTemplate";
 
 /**
  * This functional component is a styled header that can
@@ -26,6 +29,9 @@ export function PageViewHeader(props: {
 }) {
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
+  const [, setDetails] = useToggleDetail();
+  const [, setTemplate] = useToggleTemplate();
+  const location = useLocation();
 
   function getTemplate() {
     if (location.pathname.includes("pod")) return <EnableeTemplate />;
