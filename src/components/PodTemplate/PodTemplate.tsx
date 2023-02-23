@@ -194,7 +194,6 @@ export default function PodTemplate() {
    * enablee.
    */
   function retrieveEnablees() {
-    const result: IEnablee[] = [];
     if (startDate && endDate) {
       let retrievedEnablees: IEnablee[] = [];
       GetEnableesPendingPodAssignment().then((res) => {
@@ -272,7 +271,7 @@ export default function PodTemplate() {
       setPodName(pod.podName);
       setEmptyPodName(false);
       setPodEnablees(pod.enablee);
-      setEnablers(pod.enabler);
+      pod.enabler !== null ? setEnablers(pod.enabler) : setEnablers([]);
       setStartDate(new Date(pod.podStartDate));
       setEndDate(new Date(pod.podEndDate));
       setSelectedProjectString(pod.project.name);

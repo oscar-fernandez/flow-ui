@@ -6,7 +6,7 @@ export const mockPods: IFEPod[] = [
     id: 12,
     podName: "Podz",
     enablee: dummyEnablees,
-    enabler: null,
+    enabler: [],
     podStartDate: "2022-01-15",
     podEndDate: "2022-06-21",
     project: {
@@ -27,7 +27,7 @@ export const mockPods: IFEPod[] = [
     id: 11,
     podName: "Pod3",
     enablee: dummyEnablees,
-    enabler: null,
+    enabler: [],
     podStartDate: "2022-01-15",
     podEndDate: "2022-06-21",
     project: {
