@@ -12,7 +12,7 @@ const labelStyle = {
 };
 
 const buttonStyle = {
-  //  fontFamily: "Darker Grotesque",
+  fontFamily: "Darker Grotesque",
   fontWeight: 600,
   color: "#8A8B8A",
   fontSize: "15px",
