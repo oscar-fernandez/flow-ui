@@ -56,6 +56,9 @@ const includeSet = (xs: Set<string>, ys: Set<string>) =>
 
 const matchSomeSkills = (ar: IEnablee[], obj: IFEPod) =>
   ar.filter((e) => {
+    if (e.technology === null) {
+      return false;
+    }
     return includeSet(
       new Set(e.technology.map((t) => t.name)),
       new Set(obj.project.technology.map((t) => t.name))

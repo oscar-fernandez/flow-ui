@@ -20,6 +20,9 @@ import {
   generatePodTags,
   getAvailablePodTag,
 } from "../../utils/utilityFunctions";
+import EnablerView from "../Enabler/EnablerView/EnablerView";
+import { GetAllEnablersHook } from "../Enabler/Hooks/customHook";
+import { EnablerPageContainer } from "../Enabler/EnablerPageContainer/EnablerPageContainer";
 
 function PageRoutes() {
   return (
@@ -65,11 +68,17 @@ function PageRoutes() {
                 />
               </Route>
             </Route>
-            {/* uncomment when 131 is complete */}
-            {/* <Route 
-                path="/enabler" 
-                element {<EnablerView />}
-            /> */}
+            <Route path="/enabler" element={<EnablerView />}>
+              <Route
+                path=""
+                element={
+                  <EnablerPageContainer
+                    hook={GetAllEnablersHook}
+                    displayPageCarousel={false}
+                  />
+                }
+              />
+            </Route>
             <Route path="/mgt" element={<ManagementContainer />} />
             <Route>
               <Route path="/pod" element={<PodView />}>

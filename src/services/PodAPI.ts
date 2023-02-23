@@ -31,3 +31,7 @@ export const createPod = (pod: IFEPod) => {
 export const updatePod = (pod: IFEPod) => {
   return put(`${baseUrl}`, pod);
 };
+
+export const getPodById = (podId: number) => {
+  return get(`${baseUrl}/id?podId=${podId}`);
+};
