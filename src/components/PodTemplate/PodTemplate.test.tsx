@@ -13,7 +13,6 @@ import { GetEnableesPendingPodAssignment } from "../../services/EnableeAPI";
 import { mockFePod } from "../../data/MockFEPod";
 import { mockProjects } from "../../data/MockProjects";
 
-vi.mock("axios");
 vi.mock("../../context/ToggleSideBarContext/ToggleSideBarContext");
 vi.mock("../../services/PodAPI");
 vi.mock("../../services/ManagementAPI");
@@ -39,10 +38,6 @@ const mockUpdatePod = updatePod as jest.MockedFunction<typeof updatePod>;
 
 const axiosres = {
   data: mockFePod[0],
-  status: 200,
-  statusText: "ok",
-  headers: {},
-  config: {},
 };
 
 describe("PodTemplate tests", () => {
@@ -67,25 +62,17 @@ describe("PodTemplate tests", () => {
       },
     ]);
 
-    mockGetProjects.mockResolvedValue({
+    (mockGetProjects as jest.Mock).mockResolvedValue({
       data: mockProjects,
-      status: 200,
-      statusText: "ok",
-      headers: {},
-      config: {},
     });
 
-    mockGetEnablees.mockResolvedValue({
+    (mockGetEnablees as jest.Mock).mockResolvedValue({
       data: [],
-      status: 200,
-      statusText: "ok",
-      headers: {},
-      config: {},
     });
 
-    mockCreatePod.mockResolvedValue(axiosres);
+    (mockCreatePod as jest.Mock).mockResolvedValue(axiosres);
 
-    mockUpdatePod.mockResolvedValue(axiosres);
+    (mockUpdatePod as jest.Mock).mockResolvedValue(axiosres);
   });
 
   afterEach(() => {
