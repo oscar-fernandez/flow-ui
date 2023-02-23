@@ -3,6 +3,7 @@ import { PageViewHeader } from "../../../components/HeaderSectionComponents/Page
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import ManagementTabs from "../ManagementTabsComponent/ManagementTabs";
 import FormComponent from "../../../components/FormComponent/FormComponent";
+import EnablerTemplate from "../../../components/EnablerTemplate/EnablerTemplate";
 import * as Module from "../mgtUtils";
 import {
   getTechnologies,
@@ -252,6 +253,7 @@ export default function ManagementContainer() {
           />
         )}
       </div>
+      <EnablerTemplate />
     </>
   );
 }

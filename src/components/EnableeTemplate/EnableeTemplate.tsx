@@ -59,7 +59,7 @@ const titleProps = {
   },
 };
 
-const buttonStyle = {
+export const buttonStyle = {
   backgroundColor: "#DC8D0B",
   fontFamily: "Darker Grotesque",
   fontWeight: 700,
