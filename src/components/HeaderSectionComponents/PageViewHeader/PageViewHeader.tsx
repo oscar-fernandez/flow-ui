@@ -6,6 +6,7 @@ import {
 import "./PageViewHeader.css";
 import EnableeTemplate from "../../EnableeTemplate/EnableeTemplate";
 import PodTemplate from "../../PodTemplate/PodTemplate";
+import { useLocation } from "react-router";
 
 /**
  * This functional component is a styled header that can
@@ -28,7 +29,6 @@ export function PageViewHeader(props: {
   ) => void;
 }) {
   const [toggle, changeToggle] = useToggle();
-  const [details, setDetails] = useToggleDetail();
   const [, setDetails] = useToggleDetail();
   const [, setTemplate] = useToggleTemplate();
   const location = useLocation();
