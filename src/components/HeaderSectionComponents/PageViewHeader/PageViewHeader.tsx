@@ -26,6 +26,12 @@ export function PageViewHeader(props: {
 }) {
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
+
+  function getTemplate() {
+    if (location.pathname.includes("pod")) return <EnableeTemplate />;
+    else return <PodTemplate />;
+  }
+
   return (
     <div className="header-section">
       <h1 data-testid="pageHeaderTitleId" className="header">
@@ -36,6 +42,8 @@ export function PageViewHeader(props: {
             onClick={() => {
               if (toggle) {
                 //set empty template
+                setDetails(null);
+                setTemplate(getTemplate());
               } else {
                 changeToggle();
                 setDetails(null);
