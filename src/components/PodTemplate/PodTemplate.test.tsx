@@ -124,12 +124,8 @@ describe("PodTemplate tests", () => {
         null;
       },
     ]);
-    mockGetProjects.mockResolvedValue({
+    (mockGetProjects as jest.Mock).mockResolvedValue({
       data: mockProjects,
-      status: 200,
-      statusText: "ok",
-      headers: {},
-      config: {},
     });
     render(
       <MemoryRouter>
@@ -155,12 +151,8 @@ describe("PodTemplate tests", () => {
         null;
       },
     ]);
-    mockGetProjects.mockResolvedValue({
+    (mockGetProjects as jest.Mock).mockResolvedValue({
       data: mockProjects,
-      status: 200,
-      statusText: "ok",
-      headers: {},
-      config: {},
     });
     render(
       <MemoryRouter>
