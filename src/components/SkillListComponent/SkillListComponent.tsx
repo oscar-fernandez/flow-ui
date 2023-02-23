@@ -26,7 +26,7 @@ interface Props {
   allSkills: ITechnology[];
 }
 
-export const SkillListComponent = ({ allSkills }: Props) => {
+export function SkillListComponent({ allSkills }: Props) {
   return (
     <div className="skills-container">
       <Typography sx={labelStyle}>Tech Stack</Typography>
@@ -39,18 +39,10 @@ export const SkillListComponent = ({ allSkills }: Props) => {
         />
       ))}
       <div className="button-add-skill">
-        <Button
-          data-testid={"skillAddBtn"}
-          disabled={false}
-          sx={buttonStyle}
-          //   onClick={(e) => {
-          //     handleAdd(e);
-          //  }
-          // }
-        >
+        <Button data-testid={"skillAddBtn"} disabled={false} sx={buttonStyle}>
           Add Skill
         </Button>
       </div>
     </div>
   );
-};
+}
