@@ -29,13 +29,20 @@ export function PageViewHeader(props: {
   ) => void;
 }) {
   const [toggle, changeToggle] = useToggle();
-  const [, setDetails] = useToggleDetail();
+  const [details, setDetails] = useToggleDetail();
   const [, setTemplate] = useToggleTemplate();
   const location = useLocation();
 
   function getTemplate() {
-    if (location.pathname.includes("pod")) return <EnableeTemplate />;
-    else return <PodTemplate />;
+    const isPodPage = location.pathname.includes("pod");
+    //if detail selected
+    //if on podPage then render EnableeTemplate
+    if (details) {
+      return isPodPage ? <EnableeTemplate /> : <PodTemplate />;
+    } else {
+      //no detail selected then return <PodTemplate /> if on podPage
+      return isPodPage ? <PodTemplate /> : <EnableeTemplate />;
+    }
   }
 
   return (
@@ -53,6 +60,7 @@ export function PageViewHeader(props: {
               } else {
                 changeToggle();
                 setDetails(null);
+                setTemplate(getTemplate());
               }
             }}
           >

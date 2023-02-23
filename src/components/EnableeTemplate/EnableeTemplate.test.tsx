@@ -9,8 +9,10 @@ import ToggleProvider, {
   useToggle,
   useToggleDetail,
   useToggleArrow,
+  useToggleTemplate,
   ToggleArrowContext,
   ToggleDetailsContext,
+  ToggleTemplateContext,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
 import { CreateEnablee, UpdateEnablee } from "../../services/EnableeAPI";
@@ -27,6 +29,9 @@ const mockUseToggleDetail = useToggleDetail as jest.MockedFunction<
 >;
 const mockUseToggleArrow = useToggleArrow as jest.MockedFunction<
   typeof useToggleArrow
+>;
+const mockUseToggleTemplate = useToggleTemplate as jest.MockedFunction<
+  typeof useToggleTemplate
 >;
 
 const mockCreateEnablee = CreateEnablee as jest.MockedFunction<
@@ -72,6 +77,12 @@ describe("EnableeTemplate tests", () => {
     ]);
     mockUseToggleArrow.mockReturnValue([
       false,
+      () => {
+        null;
+      },
+    ]);
+    mockUseToggleTemplate.mockReturnValue([
+      null,
       () => {
         null;
       },
