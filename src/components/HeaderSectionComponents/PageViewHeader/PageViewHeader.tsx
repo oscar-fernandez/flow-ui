@@ -34,8 +34,12 @@ export function PageViewHeader(props: {
           <span
             className="plus"
             onClick={() => {
-              changeToggle();
-              setDetails(null);
+              if (toggle) {
+                //set empty template
+              } else {
+                changeToggle();
+                setDetails(null);
+              }
             }}
           >
             +

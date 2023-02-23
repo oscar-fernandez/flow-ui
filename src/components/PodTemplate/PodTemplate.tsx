@@ -12,12 +12,16 @@ import { dummyEnablees } from "../../data/EnableeMock";
 import {
   useToggle,
   useToggleDetail,
+  useToggleArrow,
+  useTogglePrevDetails,
+  useToggleTemplate,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IFEPod from "../../models/interfaces/IFEPod";
 import IEnabler from "../../models/interfaces/IEnabler";
 import { useLocation, useNavigate } from "react-router";
 import { createPod, updatePod } from "../../services/PodAPI";
 import { Button } from "@mui/material";
+import EnableeTemplate from "../EnableeTemplate/EnableeTemplate";
 
 const buttonStyle = {
   backgroundColor: "#DC8D0B",
@@ -89,6 +93,10 @@ export default function PodTemplate() {
   const [selectedPodProject, setSelectedPodProject] = useState<any>();
   const navigate = useNavigate();
   const location = useLocation().pathname;
+
+  const [template, setTemplate] = useToggleTemplate();
+  const [toggleArrow, setToggleArrow] = useToggleArrow();
+  const [prevDetails, setPrevDetails] = useTogglePrevDetails();
 
   /**
    * Helper function for the useEffect to check if the object
@@ -455,8 +463,11 @@ export default function PodTemplate() {
                           className="enablee-item"
                           data-testid={enablee.firstName}
                           onClick={() => {
-                            changeToggle();
+                            details &&
+                              setPrevDetails([...prevDetails, details]);
                             setDetails(enablee);
+                            setTemplate(<EnableeTemplate />);
+                            setToggleArrow(true);
                           }}
                         >
                           {enablee.firstName} {enablee.lastName}

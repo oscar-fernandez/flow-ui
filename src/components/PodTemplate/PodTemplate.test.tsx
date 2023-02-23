@@ -15,6 +15,8 @@ import {
   useToggleDetail,
   useToggleArrow,
   useToggle,
+  useToggleTemplate,
+  useTogglePrevDetails,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
 import IFEPod from "../../models/interfaces/IFEPod";
@@ -39,6 +41,14 @@ const mockUseToggleArrow = useToggleArrow as jest.MockedFunction<
 const mockCreatePod = createPod as jest.MockedFunction<typeof createPod>;
 
 const mockUpdatePod = updatePod as jest.MockedFunction<typeof updatePod>;
+
+const mockUseToggleTemplate = useToggleTemplate as jest.MockedFunction<
+  typeof useToggleTemplate
+>;
+const mockUseTogglePrevDetails = useTogglePrevDetails as jest.MockedFunction<
+  typeof useTogglePrevDetails
+>;
+
 const axiosres = {
   data: mockFePod[0],
   status: 200,
@@ -68,6 +78,20 @@ describe("PodTemplate tests", () => {
         null;
       },
     ]);
+    mockUseToggleTemplate.mockReturnValue([
+      null,
+      () => {
+        return;
+      },
+    ]);
+
+    mockUseTogglePrevDetails.mockReturnValue([
+      [],
+      () => {
+        return;
+      },
+    ]);
+
     (mockCreatePod as jest.Mock).mockResolvedValue(axiosres);
 
     (mockUpdatePod as jest.Mock).mockResolvedValue(axiosres);
