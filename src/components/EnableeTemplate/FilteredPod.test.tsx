@@ -18,7 +18,7 @@ describe("FilteredPod tests", () => {
     expect(screen.getByText(mockFePod[0].podName)).toBeInTheDocument();
   });
 
-  it("should handle checkbox toggle", () => {
+  it("should be unchecked if no selected pod", () => {
     render(
       <FilteredPod
         pod={mockFePod[0]}
@@ -31,11 +31,9 @@ describe("FilteredPod tests", () => {
       mockFePod[0].podName
     ) as HTMLInputElement;
     expect(checkbox).not.toBeChecked();
-    fireEvent.click(checkbox);
-    expect(checkbox).toBeChecked();
   });
 
-  it("should set selected pod", () => {
+  it("selected pod should be checked", () => {
     render(
       <FilteredPod
         pod={mockFePod[1]}
@@ -47,7 +45,7 @@ describe("FilteredPod tests", () => {
     const checkbox = screen.getByTestId(
       mockFePod[1].podName
     ) as HTMLInputElement;
-    expect(checkbox).not.toBeChecked();
+    expect(checkbox).toBeChecked();
   });
 
   it("should handle pod click", () => {
