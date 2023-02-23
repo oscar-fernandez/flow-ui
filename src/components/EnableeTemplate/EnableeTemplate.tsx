@@ -230,7 +230,7 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
-          navigate(location);
+          navigate(location.pathname);
         }
       })
       .catch((e) => {
@@ -244,7 +244,7 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
-          navigate(location);
+          navigate(location.pathname);
         }
       })
       .catch((e) => {
