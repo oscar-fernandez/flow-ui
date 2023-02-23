@@ -70,7 +70,7 @@ export default function ManagementContainer() {
 
   const toggleShowForm = () => {
     switch (value) {
-      case "Project":
+      case "Projects":
         setTechnologies([]);
         setActive("Form");
         break;
@@ -106,13 +106,13 @@ export default function ManagementContainer() {
   };
 
   const handleProjectChange = (project: IProject) => {
-    if (value == "Project" && active === "Form") {
+    if (value == "Projects" && active === "Form") {
       const tempProjects = projects.map((proj) => {
         return { ...proj };
       });
       tempProjects.push(project);
       setProjects(tempProjects);
-    } else if (value == "Project" && active === "Edit") {
+    } else if (value == "Projects" && active === "Edit") {
       const index = projects.findIndex((item) => item.id == project.id);
       if (index != -1) {
         const tempProjects = projects.map((proj) => {
@@ -136,7 +136,7 @@ export default function ManagementContainer() {
     selectedRow.current = projects[+event.currentTarget.id];
     setTechnologies(projects[+event.currentTarget.id].technology); //shorthand convert str to number
     switch (value) {
-      case "Project":
+      case "Projects":
         setActive("Details");
     }
   };
@@ -158,7 +158,7 @@ export default function ManagementContainer() {
   //temporary
   function fn(): string[][] {
     switch (value) {
-      case "Project":
+      case "Projects":
         return Module.transformProjectRowArray(projects);
       case "Technology":
         return Module.transformTechRowArray(allTechnologies);
@@ -169,7 +169,7 @@ export default function ManagementContainer() {
 
   function headers(): string[] {
     switch (value) {
-      case "Project":
+      case "Projects":
         return ["Project Name", "Tech Stack"];
       case "Technology":
         return ["Skill Name"];

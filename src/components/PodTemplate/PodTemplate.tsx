@@ -146,6 +146,7 @@ export default function PodTemplate() {
         podEndDate: endDate?.toISOString().split("T")[0] || "",
         project: selectedProject,
       };
+
       postPod(tempPod);
     } else if (isPod(pod)) {
       const tempPod: IFEPod = { ...pod };
@@ -193,6 +194,7 @@ export default function PodTemplate() {
    * enablee.
    */
   function retrieveEnablees() {
+    const result: IEnablee[] = [];
     if (startDate && endDate) {
       let retrievedEnablees: IEnablee[] = [];
       GetEnableesPendingPodAssignment().then((res) => {
@@ -328,7 +330,7 @@ export default function PodTemplate() {
               </div>
             )}
             <div className="div2">
-              <span className="numpods">{numEnablees} / 15</span>
+              <div className="numpods">{numEnablees} / 15</div>
             </div>
 
             <div className="div3">

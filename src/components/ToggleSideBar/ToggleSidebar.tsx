@@ -25,7 +25,7 @@ const ToggleSideBar = ({ template }: ToggleSBProps) => {
           // This is all class names to style children components of the drawer.
           sx: {
             // Width of the entire drawer
-            width: "30%",
+            minWidth: "30%",
             "& .sidebar": {
               width: "100%",
               padding: "0 0 0 4rem ",
