@@ -35,6 +35,27 @@ export const ToggleDetailsContext = React.createContext<
   },
 ]);
 
+export const ToggleTemplateContext = React.createContext<
+  [React.ReactNode, (template: React.ReactNode) => void]
+>([
+  null,
+  () => {
+    return;
+  },
+]);
+
+export const TogglePrevDetailsContext = React.createContext<
+  [
+    (IFEPod | IEnablee | IFEEnabler)[],
+    (prevDetails: (IFEPod | IEnablee | IFEEnabler)[]) => void
+  ]
+>([
+  [],
+  () => {
+    return;
+  },
+]);
+
 export function useToggle() {
   return useContext(ToggleContext);
 }
@@ -47,10 +68,22 @@ export function useToggleDetail() {
   return useContext(ToggleDetailsContext);
 }
 
+export function useToggleTemplate() {
+  return useContext(ToggleTemplateContext);
+}
+
+export function useTogglePrevDetails() {
+  return useContext(TogglePrevDetailsContext);
+}
+
 const ToggleProvider = ({ children }: ToggleBarProps) => {
   const [toggle, setToggle] = useState(false);
   const [toggleArrow, setToggleArrow] = useState(false);
   const [detail, setDetail] = useState<any>(null);
+  const [template, setTemplate] = useState<React.ReactNode>(null);
+  const [prevDetails, setPrevDetails] = useState<
+    (IFEPod | IEnablee | IFEEnabler)[]
+  >([]);
 
   const changeToggle = () => {
     setToggle((prevToggle) => !prevToggle);
@@ -67,14 +100,28 @@ const ToggleProvider = ({ children }: ToggleBarProps) => {
     setDetail(item);
   };
 
+  const changeToggleTemplate = (template: React.ReactNode) => {
+    setTemplate(template);
+  };
+
+  const changePrevDetails = (details: (IFEPod | IEnablee | IFEEnabler)[]) => {
+    setPrevDetails(details);
+  };
+
   return (
-    <ToggleContext.Provider value={[toggle, changeToggle]}>
-      <ToggleArrowContext.Provider value={[toggleArrow, changeToggleArrow]}>
-        <ToggleDetailsContext.Provider value={[detail, changeToggleDetail]}>
-          {children}
-        </ToggleDetailsContext.Provider>
-      </ToggleArrowContext.Provider>
-    </ToggleContext.Provider>
+    <ToggleTemplateContext.Provider value={[template, changeToggleTemplate]}>
+      <TogglePrevDetailsContext.Provider
+        value={[prevDetails, changePrevDetails]}
+      >
+        <ToggleContext.Provider value={[toggle, changeToggle]}>
+          <ToggleArrowContext.Provider value={[toggleArrow, changeToggleArrow]}>
+            <ToggleDetailsContext.Provider value={[detail, changeToggleDetail]}>
+              {children}
+            </ToggleDetailsContext.Provider>
+          </ToggleArrowContext.Provider>
+        </ToggleContext.Provider>
+      </TogglePrevDetailsContext.Provider>
+    </ToggleTemplateContext.Provider>
   );
 };
 
