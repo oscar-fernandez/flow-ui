@@ -16,6 +16,7 @@ import {
   generateTags,
   tooltipString,
 } from "../../../utils/utilityFunctions";
+import { convertStringDateToLocalFormat } from "../../Pod/podUtils";
 
 interface Props {
   hook: (location: string) => any[];
@@ -48,20 +49,26 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
     }
   }, [page]);
 
+  useEffect(() => {
+    getEnablees(page - 1);
+  }, [details]);
+
   return (
     <>
       {/* conditional checks if enablees exists before mapping */}
       {getList()?.map((enablee, i) => {
         const tooltip = [...convertToStringArr(enablee.technology)];
-        let startDate: Date | null = null;
-        let endDate: Date | null = null;
+        let startDate: string | null = null;
+        let endDate: string | null = null;
 
         if (
           enablee.enablementStartDate != null &&
           enablee.enablementEndDate != null
         ) {
-          startDate = new Date(enablee.enablementStartDate);
-          endDate = new Date(enablee.enablementEndDate);
+          startDate = convertStringDateToLocalFormat(
+            enablee.enablementStartDate
+          );
+          endDate = convertStringDateToLocalFormat(enablee.enablementEndDate);
         }
 
         const statusTag = generateTags(enablee);
@@ -107,14 +114,7 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
             <div className="row-lg-child date-container">
               <p className="row-primary">Enablement Dates</p>
               {startDate && endDate ? (
-                <p className="row-secondary">{`${startDate.toLocaleString(
-                  "en-US",
-                  { month: "long", day: "numeric", year: "numeric" }
-                )} - ${endDate.toLocaleString("en-us", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}`}</p>
+                <p className="row-secondary">{`${startDate} - ${endDate}`}</p>
               ) : (
                 <p className="row-secondary">Empty</p>
               )}
