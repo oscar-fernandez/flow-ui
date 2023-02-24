@@ -25,7 +25,11 @@ describe("Management View page", () => {
   it("should display management view page with correct components", () => {
     (getProjects as jest.Mock).mockResolvedValueOnce([]);
     (getTechnologies as jest.Mock).mockResolvedValueOnce([]);
-    render(<ManagementView />);
+    render(
+      <MemoryRouter>
+        <ManagementView />
+      </MemoryRouter>
+    );
     expect(screen.getByText("Management")).toBeInTheDocument();
   });
 
