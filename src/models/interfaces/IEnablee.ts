@@ -5,8 +5,8 @@ interface IEnablee {
   firstName: string;
   lastName: string;
   dateOfJoin: string;
-  enablementStartDate: string | null;
-  enablementEndDate: string | null;
+  enablementStartDate: string;
+  enablementEndDate: string;
   assetTag: string;
   isEmployed: boolean;
   technology: ITechnology[];
