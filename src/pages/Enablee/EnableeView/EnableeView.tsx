@@ -35,7 +35,7 @@ export default function EnableeView() {
         />
         <Outlet />
       </div>
-      <ToggleSidebar template={<EnableeTemplate></EnableeTemplate>} />
+      {/* <ToggleSidebar template={<EnableeTemplate></EnableeTemplate>} /> */}
     </>
   );
 }
