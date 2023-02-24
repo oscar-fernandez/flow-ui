@@ -2,6 +2,7 @@ import { get, post, put } from "./API";
 import IFEPod from "../models/interfaces/IFEPod";
 
 const baseUrl = `${process.env.VITE_ENABLEMENT_FEMS}/pod`;
+// const baseUrl = "http://127.0.0.1:8080/pod";
 
 export const getPendingPods = () => {
   return get(`${baseUrl}/pending`);
@@ -29,4 +30,8 @@ export const createPod = (pod: IFEPod) => {
 
 export const updatePod = (pod: IFEPod) => {
   return put(`${baseUrl}`, pod);
+};
+
+export const getPodById = (podId: number) => {
+  return get(`${baseUrl}/id?podId=${podId}`);
 };
