@@ -239,8 +239,10 @@ export default function PodTemplate() {
       );
     }
     selectedEnablees.current = [];
-    updatedCheckedState.map((checked, index) => {
-      checked ? selectedEnablees.current.push(enablees[index]) : null;
+    updatedCheckedState.forEach((checked, index) => {
+      if (checked) {
+        selectedEnablees.current.push(enablees[index]);
+      }
     });
     setCheckBoxList(updatedCheckedState);
   }
