@@ -3,9 +3,12 @@ import { useEffect, useState } from "react";
 import {
   useToggleArrow,
   useToggleDetail,
+  useTogglePrevDetails,
+  useToggleTemplate,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { badgesArray, pickBadgePicture } from "../../data/BadgesArray";
 import IFEPod from "../../models/interfaces/IFEPod";
+import IEnablee from "../../models/interfaces/IEnablee";
 import ITechnology from "../../models/interfaces/ITechnology";
 import PodTemplate from "../PodTemplate/PodTemplate";
 import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
@@ -38,9 +41,11 @@ export default function FilteredPod({
   selectedPod,
 }: Props) {
   const [filteredTech, setFilteredTech] = useState<ITechnology[]>([]);
-  const [clickedPod, setClickedPod] = useState(false);
+  const [clickedPod] = useState(false);
   const [details, setDetails] = useToggleDetail();
-  const [toggleArrow, setToggleArrow] = useToggleArrow();
+  const [, setToggleArrow] = useToggleArrow();
+  const [, setTemplate] = useToggleTemplate();
+  const [prevDetails, setPrevDetails] = useTogglePrevDetails();
 
   useEffect(() => {
     const result = enableeTech.filter((etech) => {
@@ -52,9 +57,10 @@ export default function FilteredPod({
   }, []);
 
   function togglePodTemplate(pod: IFEPod) {
-    setToggleArrow(true);
+    details && setPrevDetails([...prevDetails, details]);
     setDetails(pod);
-    setClickedPod(true);
+    setTemplate(<PodTemplate />);
+    setToggleArrow(true);
   }
 
   const badgeIndex = pickBadgePicture(pod);
@@ -101,7 +107,8 @@ export default function FilteredPod({
           </div>
         </div>
       ) : (
-        <ToggleSideBar template={<PodTemplate />} />
+        <></>
+        // <ToggleSideBar template={<PodTemplate />} />
       )}
     </>
   );

@@ -1,8 +1,12 @@
 import {
   useToggle,
   useToggleDetail,
+  useToggleTemplate,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import "./PageViewHeader.css";
+import EnableeTemplate from "../../EnableeTemplate/EnableeTemplate";
+import PodTemplate from "../../PodTemplate/PodTemplate";
+import { useLocation } from "react-router";
 
 /**
  * This functional component is a styled header that can
@@ -26,6 +30,21 @@ export function PageViewHeader(props: {
 }) {
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
+  const [, setTemplate] = useToggleTemplate();
+  const location = useLocation();
+
+  function getTemplate() {
+    const isPodPage = location.pathname.includes("pod");
+    //if detail selected
+    //if on podPage then render EnableeTemplate
+    if (details) {
+      return isPodPage ? <EnableeTemplate /> : <PodTemplate />;
+    } else {
+      //no detail selected then return <PodTemplate /> if on podPage
+      return isPodPage ? <PodTemplate /> : <EnableeTemplate />;
+    }
+  }
+
   return (
     <div className="header-section">
       <h1 data-testid="pageHeaderTitleId" className="header">
@@ -34,8 +53,15 @@ export function PageViewHeader(props: {
           <span
             className="plus"
             onClick={() => {
-              changeToggle();
-              setDetails(null);
+              if (toggle) {
+                //set empty template
+                setDetails(null);
+                setTemplate(getTemplate());
+              } else {
+                changeToggle();
+                setDetails(null);
+                setTemplate(getTemplate());
+              }
             }}
           >
             +

@@ -5,6 +5,8 @@ import {
   useToggleDetail,
   useToggleArrow,
   useToggle,
+  useToggleTemplate,
+  useTogglePrevDetails,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { MemoryRouter } from "react-router";
 import { createPod, updatePod } from "../../services/PodAPI";
@@ -36,6 +38,13 @@ const mockCreatePod = createPod as jest.MockedFunction<typeof createPod>;
 
 const mockUpdatePod = updatePod as jest.MockedFunction<typeof updatePod>;
 
+const mockUseToggleTemplate = useToggleTemplate as jest.MockedFunction<
+  typeof useToggleTemplate
+>;
+const mockUseTogglePrevDetails = useTogglePrevDetails as jest.MockedFunction<
+  typeof useTogglePrevDetails
+>;
+
 const axiosres = {
   data: mockFePod[0],
 };
@@ -59,6 +68,19 @@ describe("PodTemplate tests", () => {
       false,
       () => {
         null;
+      },
+    ]);
+    mockUseToggleTemplate.mockReturnValue([
+      null,
+      () => {
+        return;
+      },
+    ]);
+
+    mockUseTogglePrevDetails.mockReturnValue([
+      [],
+      () => {
+        return;
       },
     ]);
 
