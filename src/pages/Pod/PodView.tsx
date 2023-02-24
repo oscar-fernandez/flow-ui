@@ -17,7 +17,7 @@ function PodView() {
         ></PageViewHeader>
         <Outlet />
       </div>
-      <ToggleSidebar template={<PodTemplate />} />
+      {/* <ToggleSidebar template={<PodTemplate />} /> */}
     </>
   );
 }

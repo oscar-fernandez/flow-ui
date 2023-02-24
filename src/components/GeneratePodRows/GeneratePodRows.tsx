@@ -14,9 +14,11 @@ import AlertContainer from "../Alert/AlertContainer";
 import {
   useToggle,
   useToggleDetail,
+  useToggleTemplate,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import ToggleSidebar from "../ToggleSideBar/ToggleSidebar";
 import { badgesArray, pickBadgePicture } from "../../data/BadgesArray";
+import PodTemplate from "../PodTemplate/PodTemplate";
 
 interface Props {
   pods: IFEPod[];
@@ -27,6 +29,7 @@ interface Props {
 export function GeneratePodRows({ pods, displayTag, location }: Props) {
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
+  const [template, setTemplate] = useToggleTemplate();
 
   let badgeIndex = 0;
 
@@ -45,7 +48,7 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
             buttonText={"Create Pod"}
             handleClick={handleCreatePodClick}
           />
-          <ToggleSidebar template={<div>Pod Side Bar</div>} />
+          {/* <ToggleSidebar template={<div>Pod Side Bar</div>} /> */}
         </div>
       ) : (
         pods?.map((pod, i) => {
@@ -69,8 +72,10 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
             <Row
               key={i}
               onClick={() => {
-                changeToggle();
+                // changeToggle();
                 setDetails(pod);
+                setTemplate(<PodTemplate />);
+                changeToggle();
               }}
             >
               <div className="row-sm-child">

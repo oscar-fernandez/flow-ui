@@ -1,14 +1,15 @@
 import { Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import EnableeTemplate from "../../../components/EnableeTemplate/EnableeTemplate";
 import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumberCarousel";
 import Row from "../../../components/RowComponent/Row";
 import { TagComponent } from "../../../components/TagComponent/Tag";
 import {
   useToggle,
   useToggleDetail,
+  useToggleTemplate,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
-import { dummyEnablees } from "../../../data/EnableeMock";
 import IEnablee from "../../../models/interfaces/IEnablee";
 import ITechnology from "../../../models/interfaces/ITechnology";
 import {
@@ -29,6 +30,7 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
   const [page, setPage] = useState(1);
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
+  const [template, setTemplate] = useToggleTemplate();
 
   const getTotalPages = () => {
     return Math.ceil(enablees.totalElements / 25);
@@ -77,8 +79,9 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
           <Row
             key={i}
             onClick={() => {
-              changeToggle();
+              setTemplate(<EnableeTemplate />);
               setDetails(enablee);
+              changeToggle();
             }}
           >
             <div className="row-sm-child">
