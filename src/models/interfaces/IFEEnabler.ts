@@ -6,6 +6,7 @@ interface IFEEnabler {
   lastName: string;
   assetTag: string;
   isEmployed: boolean;
+  //employed:boolean
   technology: ITechnology[];
   city: string;
   state: string;

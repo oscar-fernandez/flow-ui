@@ -5,6 +5,8 @@ import IFEPod from "../../../models/interfaces/IFEPod";
 import { useEffect } from "react";
 import { useMapDetail } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { useActivePods, usePendingStartPods } from "../../Pod/Hooks/customHook";
+import ToggleSidebar from "../../../components/ToggleSideBar/ToggleSidebar";
+import EnablerTemplate from "../../../components/EnablerTemplate/EnablerTemplate";
 
 /**
  * This component is rendered as the parent route "/enabler"
@@ -38,6 +40,7 @@ export default function EnablerView() {
         />
       </div>
       <Outlet />
+      <ToggleSidebar template={<EnablerTemplate />} />
     </>
   );
 }

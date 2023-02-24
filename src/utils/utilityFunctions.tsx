@@ -1,6 +1,7 @@
 import IDisplayTag from "../models/interfaces/IDisplayTag";
 import IEnablee from "../models/interfaces/IEnablee";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
+import IFEEnabler from "../models/interfaces/IFEEnabler";
 import IFEPod from "../models/interfaces/IFEPod";
 import IProject from "../models/interfaces/IProject";
 import IProjectTable from "../models/interfaces/IProjectTable";
@@ -201,6 +202,13 @@ export const formatDate = (date: Date | null) => {
   }
   return dateFormat;
 };
+
+export function isIFEEnabler(object: any): object is IFEEnabler {
+  if (object === null) {
+    return false;
+  }
+  return "numActivePods" in object;
+}
 
 // export const convertLocationToString = (location: Location) => {
 //   console.log("inside converter, getting location path: ", location)

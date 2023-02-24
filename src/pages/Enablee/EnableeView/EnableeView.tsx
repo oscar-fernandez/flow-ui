@@ -33,12 +33,6 @@ export default function EnableeView() {
           isHeader={true}
           plusClicked={false}
         />
-        {/* <Filter
-          inputOne="employee id"
-          inputTwo="first name"
-          inputThree="last name"
-          inputFour="tech stack"
-        /> */}
         <Outlet />
       </div>
       <ToggleSidebar template={<EnableeTemplate></EnableeTemplate>} />
