@@ -23,6 +23,7 @@ import {
   isValidDate,
 } from "./utils/EnableeTemplateUtils";
 import { getPodById } from "../../services/PodAPI";
+import { convertStringDateToLocalFormat } from "../../pages/Pod/podUtils";
 
 const InputProps = {
   disableUnderline: true,
@@ -218,7 +219,7 @@ export default function EnableeTemplate() {
       tempDetail.gradeId = parseInt(grade);
       tempDetail.communityId = parseInt(community);
       tempDetail.employmentTypeId = parseInt(employmentType);
-      tempDetail.podId = selectedPod?.id || 0;
+      tempDetail.podId = selectedPod?.id || null;
       tempDetail.commentId = [];
       putEnablee(tempDetail);
     }
@@ -244,6 +245,7 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
+
           navigate(location.pathname);
         }
       })
@@ -269,14 +271,18 @@ export default function EnableeTemplate() {
 
   function startDateValidator(): Date | null {
     if (isEnablee(enablee)) {
-      return isValidDate(enablee.enablementStartDate);
+      return isValidDate(
+        convertStringDateToLocalFormat(enablee.enablementStartDate)
+      );
     }
     return null;
   }
 
   function endDateValidator(): Date | null {
     if (isEnablee(enablee)) {
-      return isValidDate(enablee.enablementEndDate);
+      return isValidDate(
+        convertStringDateToLocalFormat(enablee.enablementEndDate)
+      );
     }
     return null;
   }
@@ -321,6 +327,7 @@ export default function EnableeTemplate() {
     // isDisabled();
   }, [availablePods]);
 
+  //useEffect for updating available pods when date changes
   useEffect(() => {
     setFilteredPods(filterPods(availablePods));
   }, [startDate, endDate]);
