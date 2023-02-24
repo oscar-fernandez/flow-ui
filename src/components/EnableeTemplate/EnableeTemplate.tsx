@@ -496,6 +496,8 @@ export default function EnableeTemplate() {
             <PageViewHeader
               pageTitle={"Comments"}
               showPlus={true}
+              showIcon={true}
+              infoString="String information"
               isHeader={false}
               plusClicked={false}
             />

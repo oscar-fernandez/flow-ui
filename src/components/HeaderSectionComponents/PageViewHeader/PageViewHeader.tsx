@@ -3,6 +3,7 @@ import {
   useToggleDetail,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import "./PageViewHeader.css";
+import { Tooltip } from "@mui/material";
 
 /**
  * This functional component is a styled header that can
@@ -19,6 +20,8 @@ export function PageViewHeader(props: {
   pageTitle: string | undefined;
   showPlus: boolean;
   isHeader: boolean;
+  showIcon?: boolean;
+  infoString?: string;
   plusClicked: boolean;
   handleClick?: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -30,7 +33,24 @@ export function PageViewHeader(props: {
     <div className="header-section">
       <h1 data-testid="pageHeaderTitleId" className="header">
         <p>{props.pageTitle} </p>
-        {props.showPlus ? (
+        {props.showPlus && props.showIcon ? (
+          <span
+            className="plus info"
+            onClick={() => {
+              changeToggle();
+              setDetails(null);
+            }}
+          >
+            +{" "}
+            <Tooltip title={props.infoString} placement="right-start">
+              <span className="info">i</span>
+            </Tooltip>
+          </span>
+        ) : props.showIcon ? (
+          <Tooltip title={props.infoString} placement="right-start">
+            <span className="info">i</span>
+          </Tooltip>
+        ) : (
           <span
             className="plus"
             onClick={() => {
@@ -40,7 +60,7 @@ export function PageViewHeader(props: {
           >
             +
           </span>
-        ) : null}
+        )}
       </h1>
     </div>
   );
