@@ -1,6 +1,6 @@
 import IProject from "../models/interfaces/IProject";
 
-export const dumbProjects: IProject[] = [
+export const mockProjects: IProject[] = [
   {
     id: 1,
     name: "Pixelgram",
