@@ -27,7 +27,7 @@ export const EnableeSubMenuItems = [
     handleOnClick: () => null,
   },
   {
-    name: "Pending Enablement Start Date",
+    name: "Pending Start Date",
     routePath: "enablee/pendingStart",
     handleOnClick: () => null,
   },
