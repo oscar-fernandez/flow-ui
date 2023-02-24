@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import "./ToggleGeneralForm.css";
 import { cities, countries, states } from "../../data/EnablerLocation";
 import SelectDropdown from "../UtilFormComponents/SelectDropdown";
-import IEnabler from "../../models/interfaces/IEnabler";
+
 import InputContainer from "../UtilFormComponents/InputContainer";
 import CheckboxContainer from "../UtilFormComponents/CheckboxContainer";
-import TitleContainer from "../UtilFormComponents/TitleContainer";
+import NameTitleContainer from "../UtilFormComponents/NameTitleContainer";
+import ITechnology from "../../models/interfaces/ITechnology";
 import {
   useToggle,
   useToggleDetail,
@@ -14,9 +15,19 @@ import {
 import { isIFEEnabler } from "../../utils/utilityFunctions";
 import IFEEnabler from "../../models/interfaces/IFEEnabler";
 import IEnablee from "../../models/interfaces/IEnablee";
-import { mockIFEnabler } from "../../data/MockIFEnabler";
 
+import { TagComponent } from "../TagComponent/Tag";
+import { SkillListComponent } from "../SkillListComponent/SkillListComponent";
 export default function ToggleGeneralForm() {
+  const labelStyle = {
+    fontFamily: "Darker Grotesque",
+    fontWeight: 600,
+    color: "#8A8B8A",
+    fontSize: "15px",
+    letterSpacing: "0.025em",
+    width: "90px",
+  };
+
   const [detail, setDetail] = useToggleDetail();
   const [toggle, changeToggle] = useToggle();
   const [formEnabler, setEnabler] = useState<IFEEnabler>({
@@ -36,7 +47,7 @@ export default function ToggleGeneralForm() {
   });
 
   useEffect(() => {
-    if (detail) {
+    if (detail && isIFEEnabler(detail)) {
       setEnabler(detail);
     }
   }, []);
@@ -62,10 +73,10 @@ export default function ToggleGeneralForm() {
   };
 
   // const NameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const name = e.target.value.split(" ");
-  //   setEnabler({ ...formEnabler, firstName: name[0] });
-  //   setEnabler({ ...formEnabler, lastName: name[1] });
-  // };
+  //    const name = e.target.value.split(" ");
+  //    setEnabler({ ...formEnabler, firstName: name[0] });
+  //    setEnabler({ ...formEnabler, lastName: name[1] });
+  //  };
 
   // const lastNameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setEnabler({ ...formEnabler, lastName: e.target.value.split(" ")[1] });
@@ -97,7 +108,10 @@ export default function ToggleGeneralForm() {
     <>
       <form>
         <div className="employee-margin">
-          <TitleContainer />
+          <NameTitleContainer
+            firstName={formEnabler.firstName}
+            lastName={formEnabler.lastName}
+          />
         </div>
         <div className="grid-container">
           <InputContainer
@@ -147,6 +161,7 @@ export default function ToggleGeneralForm() {
             value={formEnabler.isEmployed}
             onChange={isEmployedChangeHandler}
           />
+          <SkillListComponent allSkills={formEnabler.technology} />
         </div>
       </form>
     </>

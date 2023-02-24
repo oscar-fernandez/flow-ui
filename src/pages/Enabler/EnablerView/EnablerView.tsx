@@ -40,7 +40,6 @@ export default function EnablerView() {
         />
       </div>
       <Outlet />
-      <ToggleSidebar template={<EnablerTemplate />} />
     </>
   );
 }

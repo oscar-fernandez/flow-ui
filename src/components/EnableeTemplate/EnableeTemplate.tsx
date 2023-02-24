@@ -440,6 +440,7 @@ export default function EnableeTemplate() {
               onChange={(e) => setGrade(e.target.value)}
               inputProps={{ "data-testid": "grade" }}
             />
+
             <Typography sx={labelStyle}>Tech Stack</Typography>
             <div>
               {techStack.map((tech: ITechnology) => (
