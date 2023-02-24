@@ -8,6 +8,7 @@ import {
   useToggle,
   useToggleArrow,
   useToggleDetail,
+  useToggleTemplate,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { mockFePod } from "../../../data/MockFEPod";
 
@@ -24,6 +25,10 @@ describe("Enabler View Renders", () => {
   >;
   const mockUseToggleArrow = useToggleArrow as jest.MockedFunction<
     typeof useToggleArrow
+  >;
+
+  const mockUseToggleTemplate = useToggleTemplate as jest.MockedFunction<
+    typeof useToggleTemplate
   >;
 
   const mockGetActivePods = getActivePods as jest.MockedFunction<
@@ -66,6 +71,13 @@ describe("Enabler View Renders", () => {
   ]);
   mockUseToggleArrow.mockReturnValue([
     false,
+    () => {
+      null;
+    },
+  ]);
+
+  mockUseToggleTemplate.mockReturnValue([
+    null,
     () => {
       null;
     },
