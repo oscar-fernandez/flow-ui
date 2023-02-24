@@ -35,7 +35,6 @@ export function PageViewHeader(props: {
   const location = useLocation();
 
   function getTemplate() {
-    const isPodPage = location.pathname.includes("pod");
     const pathName = location.pathname;
 
     //if detail selected
@@ -74,6 +73,7 @@ export function PageViewHeader(props: {
         <p>{props.pageTitle} </p>
         {props.showPlus ? (
           <span
+            data-testid="plus"
             className="plus"
             onClick={() => {
               if (toggle) {
