@@ -35,6 +35,15 @@ export const ToggleDetailsContext = React.createContext<
   },
 ]);
 
+export const MapContext = React.createContext<
+  [Map<string, IFEPod[]> | null, (item: Map<string, IFEPod[]> | null) => void]
+>([
+  null,
+  () => {
+    return;
+  },
+]);
+
 export function useToggle() {
   return useContext(ToggleContext);
 }
@@ -47,9 +56,14 @@ export function useToggleDetail() {
   return useContext(ToggleDetailsContext);
 }
 
+export function useMapDetail() {
+  return useContext(MapContext);
+}
+
 const ToggleProvider = ({ children }: ToggleBarProps) => {
   const [toggle, setToggle] = useState(false);
   const [toggleArrow, setToggleArrow] = useState(false);
+  const [map, setMap] = useState<any>(null);
   const [detail, setDetail] = useState<any>(null);
 
   const changeToggle = () => {
@@ -63,18 +77,24 @@ const ToggleProvider = ({ children }: ToggleBarProps) => {
     setDetail(item);
   };
 
+  const changeMapDetail = (item: any) => {
+    setMap(item);
+  };
+
   const setSideBarInfo = (item: IEnablee | IFEPod | null) => {
     setDetail(item);
   };
 
   return (
-    <ToggleContext.Provider value={[toggle, changeToggle]}>
-      <ToggleArrowContext.Provider value={[toggleArrow, changeToggleArrow]}>
-        <ToggleDetailsContext.Provider value={[detail, changeToggleDetail]}>
-          {children}
-        </ToggleDetailsContext.Provider>
-      </ToggleArrowContext.Provider>
-    </ToggleContext.Provider>
+    <MapContext.Provider value={[map, changeMapDetail]}>
+      <ToggleContext.Provider value={[toggle, changeToggle]}>
+        <ToggleArrowContext.Provider value={[toggleArrow, changeToggleArrow]}>
+          <ToggleDetailsContext.Provider value={[detail, changeToggleDetail]}>
+            {children}
+          </ToggleDetailsContext.Provider>
+        </ToggleArrowContext.Provider>
+      </ToggleContext.Provider>
+    </MapContext.Provider>
   );
 };
 
