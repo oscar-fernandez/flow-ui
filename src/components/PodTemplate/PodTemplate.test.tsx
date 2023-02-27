@@ -123,9 +123,9 @@ describe("PodTemplate tests", () => {
     const podNameInput = screen.getByTestId("podName");
     fireEvent.change(podNameInput, { target: { value: "test" } });
     const startDate = screen.getByPlaceholderText("No Start Date Selected");
-    fireEvent.change(startDate, { target: { value: "February 25, 2023 -" } });
+    fireEvent.change(startDate, { target: { value: "February 9, 2024 -" } }); //must improve
     const endDate = screen.getByPlaceholderText("No End Date Selected");
-    fireEvent.change(endDate, { target: { value: "February 26, 2023" } });
+    fireEvent.change(endDate, { target: { value: "February 26, 2024" } }); //must improve
     fireEvent.click(screen.getByTestId("projectsBtn"));
     const project = await screen.findByText("Flow");
     fireEvent.click(project);
@@ -167,8 +167,20 @@ describe("PodTemplate tests", () => {
   });
 
   it("increase and decrease the pod enablee count when clicking on enablee checkboxes", async () => {
+    const pod = mockFePod[0];
+    const e1 = pod.enablee[0];
+    const e2 = pod.enablee[1];
+
+    e1.enablementStartDate = pod.podStartDate;
+    e1.enablementEndDate = pod.podEndDate;
+
+    e2.enablementStartDate = pod.podStartDate;
+    e2.enablementEndDate = pod.podEndDate;
+
+    pod.enablee = [e1, e2];
+
     mockUseToggleDetail.mockReturnValue([
-      mockFePod[0],
+      pod,
       () => {
         null;
       },
@@ -184,8 +196,8 @@ describe("PodTemplate tests", () => {
     const counter = screen.getByText("0 / 15");
     const boxList = await screen.findAllByTestId("enableeCheckbox");
     await waitFor(() => expect(boxList[0]).toBeChecked());
-    expect(counter).toHaveTextContent("5 / 15");
+    expect(counter).toHaveTextContent("2 / 15");
     fireEvent.click(boxList[0]);
-    await waitFor(() => expect(counter).toHaveTextContent("4 / 15"));
+    await waitFor(() => expect(counter).toHaveTextContent("1 / 15"));
   });
 });
