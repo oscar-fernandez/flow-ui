@@ -8,7 +8,7 @@ import EnableeTemplate from "../../EnableeTemplate/EnableeTemplate";
 import PodTemplate from "../../PodTemplate/PodTemplate";
 import { useLocation } from "react-router";
 import EnablerTemplate from "../../EnablerTemplate/EnablerTemplate";
-import { getTemplate } from "../../../utils/utilityFunctions";
+import { getTemplateByPath } from "../../../utils/utilityFunctions";
 /**
  * This functional component is a styled header that can
  * be used throughout the program.
@@ -46,11 +46,11 @@ export function PageViewHeader(props: {
               if (toggle) {
                 //set empty template
                 setDetails(null);
-                setTemplate(getTemplate(pathname, details));
+                setTemplate(getTemplateByPath(pathname, details));
               } else {
                 changeToggle();
                 setDetails(null);
-                setTemplate(getTemplate(pathname, details));
+                setTemplate(getTemplateByPath(pathname, details));
               }
             }}
           >

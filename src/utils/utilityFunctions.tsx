@@ -220,7 +220,7 @@ export function isIFEEnabler(object: any): object is IFEEnabler {
   return "numActivePods" in object;
 }
 
-export function getTemplate(
+export function getTemplateByPath(
   pathname: string,
   details: IFEEnabler | IFEPod | IEnablee | null
 ) {
