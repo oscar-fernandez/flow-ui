@@ -29,39 +29,45 @@ export function PageViewHeader(props: {
 }) {
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
+
   return (
     <div className="header-section">
-      <h1 data-testid="pageHeaderTitleId" className="header">
-        <p>{props.pageTitle} </p>
-        {props.showPlus && props.showIcon ? (
-          <span
-            className="plus info"
-            onClick={() => {
-              changeToggle();
-              setDetails(null);
-            }}
-          >
-            +{" "}
-            <Tooltip title={props.infoString} placement="right-start">
-              <span className="info">i</span>
-            </Tooltip>
-          </span>
-        ) : props.showIcon ? (
-          <Tooltip title={props.infoString} placement="right-start">
-            <span className="info">i</span>
-          </Tooltip>
-        ) : (
-          <span
+      <h1 data-testid="pageHeaderTitleId" className="header" />
+      <p>{props.pageTitle} </p>
+      {props.showPlus && props.showIcon ? (
+        <>
+          <p
             className="plus"
             onClick={() => {
               changeToggle();
               setDetails(null);
             }}
           >
-            +
-          </span>
-        )}
-      </h1>
+            +{" "}
+          </p>
+          <div className="info">
+            <Tooltip title={props.infoString} placement="right-start">
+              <p>i</p>
+            </Tooltip>
+          </div>
+        </>
+      ) : props.showIcon ? (
+        <div className="info">
+          <Tooltip title={props.infoString} placement="right-start">
+            <p>i</p>
+          </Tooltip>
+        </div>
+      ) : (
+        <p
+          className="plus"
+          onClick={() => {
+            changeToggle();
+            setDetails(null);
+          }}
+        >
+          +
+        </p>
+      )}
     </div>
   );
 }
