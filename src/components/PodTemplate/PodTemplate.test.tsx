@@ -1,32 +1,24 @@
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, afterEach, describe, it, expect, vi } from "vitest";
-import userEvent from "@testing-library/user-event";
 import PodTemplate from "./PodTemplate";
 import {
-  ToggleArrowContext,
-  ToggleContext,
-  ToggleDetailsContext,
   useToggleDetail,
   useToggleArrow,
   useToggle,
+  useToggleTemplate,
+  useTogglePrevDetails,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
-import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
-import IFEPod from "../../models/interfaces/IFEPod";
 import { MemoryRouter } from "react-router";
 import { createPod, updatePod } from "../../services/PodAPI";
+import { getProjects } from "../../services/ManagementAPI";
+import { GetEnableesPendingPodAssignment } from "../../services/EnableeAPI";
 import { mockFePod } from "../../data/MockFEPod";
-import { act } from "react-dom/test-utils";
-import { AxiosResponse } from "axios";
+import { mockProjects } from "../../data/MockProjects";
 
-///////////////////////////////
 vi.mock("../../context/ToggleSideBarContext/ToggleSideBarContext");
 vi.mock("../../services/PodAPI");
+vi.mock("../../services/ManagementAPI");
+vi.mock("../../services/EnableeAPI");
 
 const mockUseToggle = useToggle as jest.MockedFunction<typeof useToggle>;
 const mockUseToggleDetail = useToggleDetail as jest.MockedFunction<
@@ -36,15 +28,25 @@ const mockUseToggleArrow = useToggleArrow as jest.MockedFunction<
   typeof useToggleArrow
 >;
 
+const mockGetEnablees = GetEnableesPendingPodAssignment as jest.MockedFunction<
+  typeof GetEnableesPendingPodAssignment
+>;
+
+const mockGetProjects = getProjects as jest.MockedFunction<typeof getProjects>;
+
 const mockCreatePod = createPod as jest.MockedFunction<typeof createPod>;
 
 const mockUpdatePod = updatePod as jest.MockedFunction<typeof updatePod>;
+
+const mockUseToggleTemplate = useToggleTemplate as jest.MockedFunction<
+  typeof useToggleTemplate
+>;
+const mockUseTogglePrevDetails = useTogglePrevDetails as jest.MockedFunction<
+  typeof useTogglePrevDetails
+>;
+
 const axiosres = {
   data: mockFePod[0],
-  status: 200,
-  statusText: "ok",
-  headers: {},
-  config: {},
 };
 
 describe("PodTemplate tests", () => {
@@ -68,211 +70,134 @@ describe("PodTemplate tests", () => {
         null;
       },
     ]);
+    mockUseToggleTemplate.mockReturnValue([
+      null,
+      () => {
+        return;
+      },
+    ]);
+
+    mockUseTogglePrevDetails.mockReturnValue([
+      [],
+      () => {
+        return;
+      },
+    ]);
+
+    (mockGetProjects as jest.Mock).mockResolvedValue({
+      data: mockProjects,
+    });
+
+    (mockGetEnablees as jest.Mock).mockResolvedValue({
+      data: [],
+    });
+
     (mockCreatePod as jest.Mock).mockResolvedValue(axiosres);
 
     (mockUpdatePod as jest.Mock).mockResolvedValue(axiosres);
-
-    // mockUpdatePod.mockResolvedValue(axiosres);
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it("should render pod template", () => {
+  it("should render pod template and submit button should be disabled", async () => {
     render(
       <MemoryRouter>
         <PodTemplate />
       </MemoryRouter>
     );
-    const sub = screen.getByText("Submit");
-    expect(sub);
+    const podNameInput = screen.getByTestId("podName");
+    fireEvent.change(podNameInput, { target: { value: "test" } });
+    await waitFor(() => expect(podNameInput).toHaveValue("test"));
+    const submitButton = screen.getByRole("button", { name: "Submit" });
+    expect(submitButton).toBeDisabled();
   });
 
-  it("should handle name change", () => {
+  it("should enable submit button when all inputs are updated and call createPod when submit clicked", async () => {
     render(
       <MemoryRouter>
         <PodTemplate />
       </MemoryRouter>
     );
-    const nameInput = screen.getByTestId("podName") as HTMLInputElement;
-    fireEvent.change(nameInput, { target: { value: "test" } });
-    expect(nameInput.value).toBe("test");
-    fireEvent.change(nameInput, { target: { value: "" } });
-    const err = screen.getByText("* Pod Name required");
-    expect(err);
-  });
-
-  //render the list of projects
-  it("should render the list of projects", async () => {
-    render(
-      <MemoryRouter>
-        <PodTemplate />
-      </MemoryRouter>
-    );
-    const dataBtn = screen.getByTestId("projectsBtn");
-    await userEvent.click(dataBtn);
-    const flow = screen.getByText("Flow");
-    await userEvent.click(flow);
-    const project = screen.getByText("Flow");
-    expect(project);
-  });
-
-  it("should render the list of available enablees", async () => {
-    render(
-      <MemoryRouter>
-        <PodTemplate />
-      </MemoryRouter>
-    );
-
-    const startDate = screen.getByPlaceholderText(
-      "No Start Date Selected"
-    ) as HTMLInputElement;
-    const endDate = screen.getByPlaceholderText(
-      "No End Date Selected"
-    ) as HTMLInputElement;
-    const today = new Date();
-    const threeDay = addDays(today, 3).toString();
-    const later = addDays(today, 21).toString();
-    const projectBtn = screen.getByTestId("projectsBtn");
-    await userEvent.click(startDate);
-    fireEvent.change(startDate, { target: { value: threeDay } });
-    await userEvent.click(endDate);
-    fireEvent.change(endDate, { target: { value: later } });
-    await userEvent.click(projectBtn);
-    const pixle = screen.getByText("Pixelgram");
-    fireEvent.click(pixle);
-
-    waitFor(() => expect(screen.getByText("Jessabelle Cowringer")))
-      .then()
-      .catch((e) => console.error(e));
-    const checker = waitFor(() => screen.getByTestId("enableeCheckbox"))
-      .then((e) => {
-        fireEvent.change(e, { target: { checked: true } });
-      })
-      .catch((e) => console.error(e));
-    expect(checker);
-  });
-
-  //test the useEffect
-  it("Should mess with the useEffect", async () => {
-    render(
-      <MemoryRouter>
-        <ToggleContext.Provider value={[true, () => false]}>
-          {" "}
-          <ToggleArrowContext.Provider value={[false, () => false]}>
-            {" "}
-            <ToggleDetailsContext.Provider
-              value={[createTempPod(), () => null]}
-            >
-              <ToggleSideBar template={<PodTemplate />} />
-            </ToggleDetailsContext.Provider>
-          </ToggleArrowContext.Provider>
-        </ToggleContext.Provider>
-      </MemoryRouter>
-    );
-  });
-
-  it("Should make a post request when the submit button is clicked & toggle side bar should be closed", async () => {
-    render(
-      <MemoryRouter>
-        <PodTemplate />
-      </MemoryRouter>
-    );
-
-    const nameInput = screen.getByTestId("podName") as HTMLInputElement;
-    fireEvent.change(nameInput, { target: { value: "Crew" } });
+    const podNameInput = screen.getByTestId("podName");
+    fireEvent.change(podNameInput, { target: { value: "test" } });
     const startDate = screen.getByPlaceholderText("No Start Date Selected");
+    fireEvent.change(startDate, { target: { value: "February 9, 2024 -" } }); //must improve
     const endDate = screen.getByPlaceholderText("No End Date Selected");
-
-    const currentDate = new Date();
-    const podEndDate = addDays(currentDate, 15);
-
-    await userEvent.click(startDate);
-    fireEvent.change(startDate, {
-      target: { value: currentDate.toDateString() },
-    });
-
-    await userEvent.click(endDate);
-    fireEvent.change(endDate, { target: { value: podEndDate.toDateString() } });
-
-    const dataBtn = screen.getByTestId("projectsBtn");
-    await userEvent.click(dataBtn);
-    const flow = screen.getByText("Flow");
-    await userEvent.click(flow);
-    let button: any = null;
-    waitFor(() => {
-      button = screen.getByTestId("podActiveSubmitButton");
-    })
-      .then(() => {
-        fireEvent.click(button);
-        expect(mockCreatePod).toHaveBeenCalledOnce();
-      })
-      .catch((e) => console.error(e));
+    fireEvent.change(endDate, { target: { value: "February 26, 2024" } }); //must improve
+    fireEvent.click(screen.getByTestId("projectsBtn"));
+    const project = await screen.findByText("Flow");
+    fireEvent.click(project);
+    await waitFor(() =>
+      expect(screen.getByTestId("projectsBtn")).toHaveTextContent("Flow")
+    );
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "Submit" })).toBeEnabled()
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Submit" }));
+    expect(mockCreatePod).toHaveBeenCalledOnce();
   });
 
-  it("Should make a put request when the submit button is clicked & toggle side bar should be closed", async () => {
-    const tempPod = { ...mockFePod[0] };
-    tempPod.podStartDate = new Date().toDateString();
-    tempPod.podEndDate = addDays(new Date(), 15).toDateString();
-
+  it("should render a prefilled template and call createPod when clicked", async () => {
     mockUseToggleDetail.mockReturnValue([
-      tempPod,
+      mockFePod[0],
       () => {
         null;
       },
     ]);
-
+    (mockGetProjects as jest.Mock).mockResolvedValue({
+      data: mockProjects,
+    });
     render(
       <MemoryRouter>
         <PodTemplate />
       </MemoryRouter>
     );
+    const podNameInput = screen.getByTestId("podName");
+    expect(podNameInput).toHaveValue("Crew");
+    fireEvent.click(screen.getByTestId("projectsBtn"));
+    const project = await screen.findByText("Flow");
+    fireEvent.click(project);
+    await waitFor(() =>
+      expect(screen.getByTestId("projectsBtn")).toHaveTextContent("Flow")
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Submit" }));
+    expect(mockUpdatePod).toHaveBeenCalledOnce();
+  });
 
-    const nameInput = screen.getByTestId("podName") as HTMLInputElement;
-    fireEvent.change(nameInput, { target: { value: "Crew" } });
+  it("increase and decrease the pod enablee count when clicking on enablee checkboxes", async () => {
+    const pod = mockFePod[0];
+    const e1 = pod.enablee[0];
+    const e2 = pod.enablee[1];
 
-    const dataBtn = screen.getByTestId("projectsBtn");
-    await userEvent.click(dataBtn);
-    const flow = screen.getByText("Flow");
-    await userEvent.click(flow);
-    let submitButton: any = null;
+    e1.enablementStartDate = pod.podStartDate;
+    e1.enablementEndDate = pod.podEndDate;
 
-    waitFor(() => {
-      submitButton = screen.getByTestId("podActiveSubmitButton");
-    })
-      .then(() => {
-        fireEvent.click(submitButton);
-        expect(mockUpdatePod).toHaveBeenCalledOnce();
-      })
-      .catch((e) => console.error(e));
+    e2.enablementStartDate = pod.podStartDate;
+    e2.enablementEndDate = pod.podEndDate;
+
+    pod.enablee = [e1, e2];
+
+    mockUseToggleDetail.mockReturnValue([
+      pod,
+      () => {
+        null;
+      },
+    ]);
+    (mockGetProjects as jest.Mock).mockResolvedValue({
+      data: mockProjects,
+    });
+    render(
+      <MemoryRouter>
+        <PodTemplate />
+      </MemoryRouter>
+    );
+    const counter = screen.getByText("0 / 15");
+    const boxList = await screen.findAllByTestId("enableeCheckbox");
+    await waitFor(() => expect(boxList[0]).toBeChecked());
+    expect(counter).toHaveTextContent("2 / 15");
+    fireEvent.click(boxList[0]);
+    await waitFor(() => expect(counter).toHaveTextContent("1 / 15"));
   });
 });
-/**
- * Helper function used to test functions who use dates
- * @param date
- * @param days days to be added
- * @returns the new date
- */
-function addDays(date: Date, days: number) {
-  const copy = new Date(Number(date));
-  copy.setDate(date.getDate() + days);
-  return copy;
-}
-
-/**
- * Helper function to be used to create a pod when need be.
- * @returns the created pod.
- */
-const createTempPod = (): IFEPod => {
-  const thisDate = new Date();
-  return {
-    id: 1,
-    podName: "podCrew",
-    podStartDate: thisDate.toString(),
-    podEndDate: addDays(thisDate, 30).toString(),
-    enablee: [],
-    enabler: [],
-    project: { id: 1, name: "foo", summary: "", technology: [], repoLink: "" },
-  };
-};

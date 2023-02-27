@@ -3,7 +3,15 @@ import React, { useEffect } from "react";
 import {
   useToggle,
   useToggleArrow,
+  useToggleDetail,
+  useTogglePrevDetails,
+  useToggleTemplate,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import IEnablee from "../../models/interfaces/IEnablee";
+import IFEEnabler from "../../models/interfaces/IFEEnabler";
+import IFEPod from "../../models/interfaces/IFEPod";
+import EnableeTemplate from "../EnableeTemplate/EnableeTemplate";
+import PodTemplate from "../PodTemplate/PodTemplate";
 import "./ToggleSideBar.css";
 
 interface ToggleSBProps {
@@ -13,13 +21,51 @@ interface ToggleSBProps {
 const ToggleSideBar = ({ template }: ToggleSBProps) => {
   const [toggle, setToggle] = useToggle();
   const [showArrow, setShowArrow] = useToggleArrow();
+  const [prevDetails, setPrevDetails] = useTogglePrevDetails();
+  const [details, setDetails] = useToggleDetail();
+  const [prevTemplate, setPrevTemplate] = useToggleTemplate();
+  const [, setTemplate] = useToggleTemplate();
+
+  //triggers on back arrow click
+  function goBack(): void {
+    //get the previous item
+    const prevItem = prevDetails.slice(-1)[0];
+
+    //get the template
+    const prevTemplate = getTemplate(prevItem);
+
+    //setDetails to the last item in the prevDetails[]
+    setDetails(prevItem);
+
+    //if prevDetails[] size === 1, setShowArrow to false
+    prevDetails.length === 1 && setShowArrow(false);
+
+    //removes last item in prevDetails []
+    setPrevDetails(prevDetails.slice(0, prevDetails.length - 1));
+
+    //update template
+    setPrevTemplate(prevTemplate);
+  }
+
+  function getTemplate(
+    prevItem: IEnablee | IFEPod | IFEEnabler
+  ): React.ReactNode {
+    if ("podId" in prevItem) return <EnableeTemplate />;
+    else return <PodTemplate />;
+  }
 
   return (
     <>
       <Drawer
         anchor={"right"}
         open={toggle}
-        onClose={() => setToggle()}
+        onClose={() => {
+          setToggle();
+          setDetails(null);
+          setTemplate(null);
+          setShowArrow(false);
+          setPrevDetails([]);
+        }}
         data-testid={"drawer"}
         PaperProps={{
           // This is all class names to style children components of the drawer.
@@ -99,7 +145,7 @@ const ToggleSideBar = ({ template }: ToggleSBProps) => {
                 data-testid={"back-btn"}
                 onClick={() => {
                   // Change view here when back button is clicked
-                  setShowArrow(false);
+                  goBack();
                 }}
                 width="35"
                 height="35"
@@ -120,6 +166,10 @@ const ToggleSideBar = ({ template }: ToggleSBProps) => {
               data-testid={"close-btn"}
               onClick={() => {
                 setToggle();
+                setDetails(null);
+                setTemplate(null);
+                setShowArrow(false);
+                setPrevDetails([]);
               }}
               width="26"
               height="27"

@@ -1,16 +1,19 @@
 import { describe, it, expect } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { PageViewHeader } from "./PageViewHeader";
+import { MemoryRouter } from "react-router";
 
 describe("PageViewHeader Component", () => {
   it("should render without optional props", () => {
     render(
-      <PageViewHeader
-        pageTitle="Test Page"
-        showPlus={false}
-        isHeader={false}
-        plusClicked={false}
-      />
+      <MemoryRouter>
+        <PageViewHeader
+          pageTitle="Test Page"
+          showPlus={false}
+          isHeader={false}
+          plusClicked={false}
+        />
+      </MemoryRouter>
     );
     expect(screen.queryByTestId("plus")).not.toBeInTheDocument();
   });

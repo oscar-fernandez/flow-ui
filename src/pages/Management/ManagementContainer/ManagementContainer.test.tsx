@@ -10,20 +10,33 @@ import {
   getTechnologies,
   updateProject,
 } from "../../../services/ManagementAPI";
+import { MemoryRouter } from "react-router";
+
+function wrapMemoryRouter() {
+  return (
+    <MemoryRouter>
+      <ManagementContainer />
+    </MemoryRouter>
+  );
+}
 
 vi.mock("../../../services/ManagementAPI");
 describe("Management View page", () => {
   it("should display management view page with correct components", () => {
     (getProjects as jest.Mock).mockResolvedValueOnce([]);
     (getTechnologies as jest.Mock).mockResolvedValueOnce([]);
-    render(<ManagementView />);
+    render(
+      <MemoryRouter>
+        <ManagementView />
+      </MemoryRouter>
+    );
     expect(screen.getByText("Management")).toBeInTheDocument();
   });
 
   it("should toggle show form", () => {
     (getProjects as jest.Mock).mockResolvedValueOnce([]);
     (getTechnologies as jest.Mock).mockResolvedValueOnce([]);
-    render(<ManagementContainer />);
+    render(wrapMemoryRouter());
     const button = screen.getByTestId("button") as HTMLButtonElement;
     fireEvent.click(button);
   });
@@ -31,7 +44,7 @@ describe("Management View page", () => {
   it("should handle tabs click and render appropriate view", () => {
     (getProjects as jest.Mock).mockResolvedValueOnce([]);
     (getTechnologies as jest.Mock).mockResolvedValueOnce([]);
-    render(<ManagementContainer />);
+    render(wrapMemoryRouter());
     const technologyTab = screen.getByTestId("techTab");
     fireEvent.click(technologyTab);
     const addSkill = screen.getByTestId("button") as HTMLButtonElement;
@@ -92,7 +105,7 @@ describe("Management View page", () => {
     (getProjects as jest.Mock).mockResolvedValueOnce(projects);
     (getTechnologies as jest.Mock).mockResolvedValueOnce(technologies);
 
-    render(<ManagementContainer />);
+    render(wrapMemoryRouter());
     await waitFor(() =>
       expect(screen.queryByText(projects.data[0].name)).toHaveTextContent(
         projects.data[0].name
@@ -113,7 +126,7 @@ describe("Management View page", () => {
     (getProjects as jest.Mock).mockResolvedValueOnce([]);
     (getTechnologies as jest.Mock).mockResolvedValueOnce([]);
 
-    render(<ManagementContainer />);
+    render(wrapMemoryRouter());
     const gradeTab = screen.getByText("Grade");
     fireEvent.click(gradeTab);
     const addSkill = screen.getByTestId("button") as HTMLButtonElement;
@@ -173,7 +186,7 @@ describe("Management View page", () => {
     (getProjects as jest.Mock).mockResolvedValueOnce(projects);
     (getTechnologies as jest.Mock).mockResolvedValueOnce(technologies);
 
-    render(<ManagementContainer />);
+    render(wrapMemoryRouter());
     const addButton = screen.getByTestId("button") as HTMLButtonElement;
     fireEvent.click(addButton);
     const cancelButton = screen.getByText("Cancel") as HTMLButtonElement;
@@ -233,7 +246,7 @@ describe("Management View page", () => {
 
     (getProjects as jest.Mock).mockResolvedValueOnce(projects);
     (getTechnologies as jest.Mock).mockResolvedValueOnce(technologies);
-    render(<ManagementContainer />);
+    render(wrapMemoryRouter());
 
     let selectedRow;
     await waitFor(() => {
@@ -306,7 +319,7 @@ describe("Management View page", () => {
       },
     });
 
-    render(<ManagementContainer />);
+    render(wrapMemoryRouter());
     const technologyTab = screen.getByTestId("techTab");
     expect(technologyTab).toBeInTheDocument();
     fireEvent.click(technologyTab);

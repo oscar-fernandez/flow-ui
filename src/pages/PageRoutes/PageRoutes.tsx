@@ -20,11 +20,14 @@ import {
   generatePodTags,
   getAvailablePodTag,
 } from "../../utils/utilityFunctions";
+import ToggleSideBar from "../../components/ToggleSideBar/ToggleSidebar";
+import { useToggleTemplate } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import EnablerView from "../Enabler/EnablerView/EnablerView";
 import { GetAllEnablersHook } from "../Enabler/Hooks/customHook";
 import { EnablerPageContainer } from "../Enabler/EnablerPageContainer/EnablerPageContainer";
 
 function PageRoutes() {
+  const [template] = useToggleTemplate();
   return (
     <BrowserRouter>
       <div className="page-container" data-testid="page-container">
@@ -123,6 +126,7 @@ function PageRoutes() {
           </Routes>
         </div>
       </div>
+      <ToggleSideBar template={template} />
     </BrowserRouter>
   );
 }

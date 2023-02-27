@@ -2,9 +2,10 @@ import "./EnableeView.css";
 import { PageViewHeader } from "../../../components/HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import { useEffect, useState } from "react";
 import { GetPaginatedEnablees } from "../../../services/EnableeAPI";
-import { Outlet } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import ToggleSidebar from "../../../components/ToggleSideBar/ToggleSidebar";
 import EnableeTemplate from "../../../components/EnableeTemplate/EnableeTemplate";
+import IEnablee from "../../../models/interfaces/IEnablee";
 // import { Filter } from "../../../components/Filter/Filter";
 
 export default function EnableeView() {
@@ -41,7 +42,7 @@ export default function EnableeView() {
         /> */}
         <Outlet />
       </div>
-      <ToggleSidebar template={<EnableeTemplate></EnableeTemplate>} />
+      {/* <ToggleSidebar template={<EnableeTemplate></EnableeTemplate>} /> */}
     </>
   );
 }

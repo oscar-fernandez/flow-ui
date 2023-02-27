@@ -59,7 +59,9 @@ export function EnablerPageContainer({ hook }: Props) {
 
               <div className="row-md-child row-name">
                 <p className="row-primary">{`${enabler.firstName} ${enabler.lastName}`}</p>
-                <p className="row-secondary">{enabler.employeeId}</p>
+                <p className="row-secondary">
+                  {enabler.city}, {enabler.state}, {enabler.country}
+                </p>
               </div>
 
               <div>

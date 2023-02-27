@@ -1,14 +1,15 @@
 import { Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import EnableeTemplate from "../../../components/EnableeTemplate/EnableeTemplate";
 import PageNumberCarousel from "../../../components/PageNumberCarousel/PageNumberCarousel";
 import Row from "../../../components/RowComponent/Row";
 import { TagComponent } from "../../../components/TagComponent/Tag";
 import {
   useToggle,
   useToggleDetail,
+  useToggleTemplate,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
-import { dummyEnablees } from "../../../data/EnableeMock";
 import IEnablee from "../../../models/interfaces/IEnablee";
 import ITechnology from "../../../models/interfaces/ITechnology";
 import {
@@ -16,6 +17,7 @@ import {
   generateTags,
   tooltipString,
 } from "../../../utils/utilityFunctions";
+import { convertStringDateToLocalFormat } from "../../Pod/podUtils";
 
 interface Props {
   hook: (location: string) => any[];
@@ -28,6 +30,7 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
   const [page, setPage] = useState(1);
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
+  const [template, setTemplate] = useToggleTemplate();
 
   const getTotalPages = () => {
     return Math.ceil(enablees.totalElements / 25);
@@ -48,20 +51,26 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
     }
   }, [page]);
 
+  useEffect(() => {
+    getEnablees(page - 1);
+  }, [details]);
+
   return (
     <>
       {/* conditional checks if enablees exists before mapping */}
       {getList()?.map((enablee, i) => {
         const tooltip = [...convertToStringArr(enablee.technology)];
-        let startDate: Date | null = null;
-        let endDate: Date | null = null;
+        let startDate: string | null = null;
+        let endDate: string | null = null;
 
         if (
           enablee.enablementStartDate != null &&
           enablee.enablementEndDate != null
         ) {
-          startDate = new Date(enablee.enablementStartDate);
-          endDate = new Date(enablee.enablementEndDate);
+          startDate = convertStringDateToLocalFormat(
+            enablee.enablementStartDate
+          );
+          endDate = convertStringDateToLocalFormat(enablee.enablementEndDate);
         }
 
         const statusTag = generateTags(enablee);
@@ -70,8 +79,9 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
           <Row
             key={i}
             onClick={() => {
-              changeToggle();
+              setTemplate(<EnableeTemplate />);
               setDetails(enablee);
+              changeToggle();
             }}
           >
             <div className="row-sm-child">
@@ -107,14 +117,7 @@ export function EnableePageContainer({ hook, displayPageCarousel }: Props) {
             <div className="row-lg-child date-container">
               <p className="row-primary">Enablement Dates</p>
               {startDate && endDate ? (
-                <p className="row-secondary">{`${startDate.toLocaleString(
-                  "en-US",
-                  { month: "long", day: "numeric", year: "numeric" }
-                )} - ${endDate.toLocaleString("en-us", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}`}</p>
+                <p className="row-secondary">{`${startDate} - ${endDate}`}</p>
               ) : (
                 <p className="row-secondary">Empty</p>
               )}

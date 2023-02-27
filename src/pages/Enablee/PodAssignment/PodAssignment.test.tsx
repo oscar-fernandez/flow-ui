@@ -19,8 +19,8 @@ const receivedEnablees = [
     firstName: "John",
     lastName: "Doe",
     dateOfJoin: "2021-12-25",
-    enablementStartDate: "2021-01-21",
-    enablementEndDate: "2021-01-30",
+    enablementStartDate: mockFePod[0].podStartDate,
+    enablementEndDate: mockFePod[0].podEndDate,
     assetTag: "N/A",
     isEmployed: true,
     technology: [

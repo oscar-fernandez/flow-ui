@@ -3,7 +3,8 @@ import { EnablerPageContainer } from "./EnablerPageContainer";
 import { GetAllEnablersHook } from "../Hooks/customHook";
 import { mockEnabler } from "../../../data/MockEnabler";
 import { MemoryRouter } from "react-router";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { mockIFEnabler } from "../../../data/MockIFEnabler";
 
 vi.mock("../Hooks/customHook");
 
@@ -26,5 +27,22 @@ describe("EnablerPageContainer", () => {
         name: "Next page",
       })
     ).not.toBeInTheDocument();
+  });
+
+  it("should handle enabler row click", () => {
+    const mockGetAllEnablers = GetAllEnablersHook as jest.Mock;
+    const enablers = [mockIFEnabler, vi.fn(() => null)];
+    mockGetAllEnablers.mockReturnValue(enablers);
+    render(
+      <MemoryRouter initialEntries={["/enablee/pendingStart"]}>
+        <EnablerPageContainer
+          hook={GetAllEnablersHook}
+          displayPageCarousel={false}
+        />
+      </MemoryRouter>
+    );
+    //clicking on row for coverage
+    const enablerRow = screen.getAllByTestId("rowTest");
+    fireEvent.click(enablerRow[0]);
   });
 });
