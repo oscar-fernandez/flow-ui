@@ -37,28 +37,30 @@ export function PageViewHeader(props: {
       {props.showPlus && props.showIcon ? (
         <>
           <p
+            data-testid="plus"
             className="plus"
             onClick={() => {
               changeToggle();
               setDetails(null);
             }}
           >
-            +{" "}
+            +
           </p>
-          <div className="info">
+          <div data-testid="info" className="info">
             <Tooltip title={props.infoString} placement="right-start">
               <p>i</p>
             </Tooltip>
           </div>
         </>
       ) : props.showIcon ? (
-        <div className="info">
+        <div data-testid="info" className="info">
           <Tooltip title={props.infoString} placement="right-start">
             <p>i</p>
           </Tooltip>
         </div>
-      ) : (
+      ) : props.showPlus ? (
         <p
+          data-testid="plus"
           className="plus"
           onClick={() => {
             changeToggle();
@@ -67,6 +69,8 @@ export function PageViewHeader(props: {
         >
           +
         </p>
+      ) : (
+        <></>
       )}
     </div>
   );
