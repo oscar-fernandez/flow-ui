@@ -9,7 +9,7 @@ import {
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-vi.mock("../../context/ToggleSideBarContext/ToggleSideBarContext");
+vi.mock("../../../context/ToggleSideBarContext/ToggleSideBarContext");
 
 // const mockUseLocation= useLocation
 
@@ -76,7 +76,7 @@ describe("PageViewHeader Component", () => {
   });
   it("Should return the proper template based on the location of the user", () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter initialEntries={[""]}>
         <PageViewHeader
           pageTitle="Pod"
           showPlus={true}

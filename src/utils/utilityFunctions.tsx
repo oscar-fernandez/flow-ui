@@ -7,6 +7,9 @@ import IProject from "../models/interfaces/IProject";
 import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnology from "../models/interfaces/ITechnology";
 import ITechnologyTable from "../models/interfaces/ITechnologyTable";
+import PodTemplate from "../components/PodTemplate/PodTemplate";
+import EnableeTemplate from "../components/EnableeTemplate/EnableeTemplate";
+import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
 
 export function getName(name: string) {
   switch (name) {
@@ -215,6 +218,43 @@ export function isIFEEnabler(object: any): object is IFEEnabler {
     return false;
   }
   return "numActivePods" in object;
+}
+
+export function getTemplate(
+  pathname: string,
+  details: IFEEnabler | IFEPod | IEnablee | null
+) {
+  const pathName = location.pathname;
+  let toggleTemplate: JSX.Element | null = null;
+  //if detail selected
+  //if on podPage then render EnableeTemplate
+
+  if (details) {
+    if (pathName.includes("pod")) {
+      toggleTemplate = <PodTemplate />;
+    } else if (pathName.includes("enablee")) {
+      toggleTemplate = <EnableeTemplate />;
+    } else if (pathName.includes("enabler")) {
+      toggleTemplate = <EnablerTemplate />;
+    }
+  } else {
+    if (pathName.includes("pod")) {
+      toggleTemplate = <PodTemplate />;
+    } else if (pathName.includes("enablee")) {
+      toggleTemplate = <EnableeTemplate />;
+    } else if (pathName.includes("enabler")) {
+      toggleTemplate = <EnablerTemplate />;
+    }
+    return toggleTemplate;
+  }
+
+  // if (details) {
+  //   // return isPodPage ? <EnableeTemplate /> : <PodTemplate />;
+
+  // } else {
+  //   //no detail selected then return <PodTemplate /> if on podPage
+  //   return isPodPage ? <PodTemplate /> : <EnableeTemplate />;
+  // }
 }
 
 // export const convertLocationToString = (location: Location) => {
