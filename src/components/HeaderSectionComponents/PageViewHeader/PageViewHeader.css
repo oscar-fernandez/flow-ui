@@ -1,18 +1,17 @@
-.header-section {
-  line-height: 32px;
+.header {
   color: #dc8d0b;
   font-size: 32px;
   font-weight: 700;
   letter-spacing: 0.025em;
+  line-height: 100%;
   display: flex;
-  margin-bottom: 1rem;
   align-items: center;
+  gap: 10px;
 }
 
 .plus {
   color: #000048;
   margin-bottom: 6px;
-  margin-left: 10px;
   font-size: 50px;
 }
 
@@ -20,22 +19,6 @@
   cursor: pointer;
 }
 
-.info {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: rgba(138, 139, 138, 0.5);
-  position: relative;
-  margin-top: 6px;
-  margin-left: 10px;
-}
-
-.info p {
-  position: absolute;
-  top: -5px;
-  left: 7px;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 16px;
-  color: #fff;
-  cursor: default;
+.header-section {
+  margin-bottom: 1rem;
 }

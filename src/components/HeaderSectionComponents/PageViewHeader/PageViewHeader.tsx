@@ -4,7 +4,6 @@ import {
   useToggleTemplate,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import "./PageViewHeader.css";
-import { Tooltip } from "@mui/material";
 import EnableeTemplate from "../../EnableeTemplate/EnableeTemplate";
 import PodTemplate from "../../PodTemplate/PodTemplate";
 import { useLocation } from "react-router";
@@ -24,8 +23,6 @@ export function PageViewHeader(props: {
   pageTitle: string | undefined;
   showPlus: boolean;
   isHeader: boolean;
-  showIcon?: boolean;
-  infoString?: string;
   plusClicked: boolean;
   handleClick?: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -50,12 +47,10 @@ export function PageViewHeader(props: {
 
   return (
     <div className="header-section">
-      <h1 data-testid="pageHeaderTitleId" className="header" />
-      <p>{props.pageTitle} </p>
-      {props.showPlus && props.showIcon ? (
-        <>
-          <p
-            data-testid="plus"
+      <h1 data-testid="pageHeaderTitleId" className="header">
+        <p>{props.pageTitle} </p>
+        {props.showPlus ? (
+          <span
             className="plus"
             onClick={() => {
               if (toggle) {
@@ -70,33 +65,9 @@ export function PageViewHeader(props: {
             }}
           >
             +
-          </p>
-          <div data-testid="info" className="info">
-            <Tooltip title={props.infoString} placement="right-start">
-              <p>i</p>
-            </Tooltip>
-          </div>
-        </>
-      ) : props.showIcon ? (
-        <div data-testid="info" className="info">
-          <Tooltip title={props.infoString} placement="right-start">
-            <p>i</p>
-          </Tooltip>
-        </div>
-      ) : props.showPlus ? (
-        <p
-          data-testid="plus"
-          className="plus"
-          onClick={() => {
-            changeToggle();
-            setDetails(null);
-          }}
-        >
-          +
-        </p>
-      ) : (
-        <></>
-      )}
+          </span>
+        ) : null}
+      </h1>
     </div>
   );
 }
