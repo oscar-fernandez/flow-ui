@@ -5,8 +5,10 @@ import {
   getAvailablePods,
   getCompletedPods,
   getPendingPods,
+  getPodById,
 } from "../../../services/PodAPI";
 import { Location } from "react-router-dom";
+import { mockFePod } from "../../../data/MockFEPod";
 
 export function useCompletedPods(
   location: Location
@@ -90,4 +92,28 @@ export function usePendingStartPods(
   }, [location]);
 
   return [podList, updatePodList];
+}
+
+export function usePodById(
+  podId: number,
+  location: Location
+): [IFEPod, (pod: IFEPod) => void] {
+  const [pod, setPod] = useState<IFEPod>(Object);
+
+  const getPod = (id: number) => {
+    setPod(mockFePod[0]);
+    // getPodById(id).then((res) => {
+    //   setPod(res.data);
+    // });
+  };
+
+  const updatePod = (pod: IFEPod) => {
+    setPod(pod);
+  };
+
+  useEffect(() => {
+    getPod(podId);
+  }, [location]);
+
+  return [pod, updatePod];
 }

@@ -5,12 +5,7 @@ import "./EnableeTemplate.css";
 import { TagComponent } from "../TagComponent/Tag";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import FilteredPod from "./FilteredPod";
-import { mockFePod } from "../../data/MockFEPod";
-import {
-  isEnableeValidForPod,
-  isDateObject,
-  formatDate,
-} from "../../utils/utilityFunctions";
+import { isEnableeValidForPod, formatDate } from "../../utils/utilityFunctions";
 import IFEPod from "../../models/interfaces/IFEPod";
 import {
   useToggle,
@@ -18,10 +13,16 @@ import {
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../models/interfaces/IEnablee";
 import ITechnology from "../../models/interfaces/ITechnology";
-import { red } from "@mui/material/colors";
 import { CreateEnablee, UpdateEnablee } from "../../services/EnableeAPI";
 import { mockTechnology } from "../../data/MockData";
 import { useLocation, useNavigate } from "react-router";
+import { useAvailablePods } from "../../pages/Pod/Hooks/customHook";
+import {
+  containsPod,
+  isInValidName,
+  isValidDate,
+} from "./utils/EnableeTemplateUtils";
+import { getPodById } from "../../services/PodAPI";
 
 const InputProps = {
   disableUnderline: true,
@@ -107,39 +108,37 @@ export default function EnableeTemplate() {
     mockTechnology[0],
   ]);
   const [disableSubmit, setDisableSubmit] = useState(true);
-  const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
-
   const [toggle, changeToggle] = useToggle();
   const navigate = useNavigate();
-  const location = useLocation().pathname;
+  const [enablee, setEnablee] = useToggleDetail();
+
+  const location = useLocation();
+  const [availablePods, setAvailablePods] = useAvailablePods(location);
+  const [filteredPods, setFilteredPods] = useState<IFEPod[]>([]);
+  const [originalPod, setOriginalPod] = useState<IFEPod>(Object);
+
   const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.checked) {
       setSelectedPod(undefined);
     } else {
-      const result = mockFePod.filter((p) => p.podName === e.target.id)[0];
+      const result = filteredPods.filter((p) => p.podName === e.target.id)[0];
       setSelectedPod(result);
     }
   };
-  const [enablee, setEnablee] = useToggleDetail();
-
   // Hacky way to ensure that the useEffect is passed in a Enablee
   function isEnablee(object: any): object is IEnablee {
+    if (object === null) {
+      return false;
+    }
     return "enablementStartDate" in object;
   }
 
   useEffect(() => {
     if (enablee && isEnablee(enablee)) {
       setName(`${enablee.firstName} ${enablee.lastName}`);
-
-      if (
-        enablee.enablementStartDate != null &&
-        enablee.enablementEndDate != null
-      ) {
-        setStartDate(new Date(enablee.enablementStartDate));
-        setEndDate(new Date(enablee.enablementEndDate));
-      }
-
+      setStartDate(startDateValidator());
+      setEndDate(endDateValidator());
       setEmployeeId(enablee.employeeId.toString());
       setDateOfJoin(enablee.dateOfJoin);
       const tags = enablee.assetTag ? enablee.assetTag.toString() : "";
@@ -155,7 +154,7 @@ export default function EnableeTemplate() {
     }
   }, []);
 
-  //check if all fields are entered
+  // check if all fields are entered
   useEffect(() => {
     if (
       name.trim() === "" ||
@@ -165,14 +164,13 @@ export default function EnableeTemplate() {
     ) {
       setDisableSubmit(true);
     } else {
-      filterPods();
       setDisableSubmit(false);
     }
   }, [name, employeeId, startDate, endDate]);
 
-  const filterPods = () => {
-    if (startDate instanceof Date && endDate instanceof Date) {
-      const filtered = mockFePod.filter((pod) =>
+  function filterPods(pods: IFEPod[]): IFEPod[] {
+    if (startDate && endDate) {
+      return pods.filter((pod) =>
         isEnableeValidForPod(
           pod.podStartDate,
           pod.podEndDate,
@@ -180,13 +178,12 @@ export default function EnableeTemplate() {
           endDate.toDateString()
         )
       );
-      setFilteredPods(filtered);
     }
-  };
+    return [];
+  }
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-
     if (enablee == null && startDate != null && endDate != null) {
       const tempEnablee: IEnablee = {
         employeeId: parseInt(employeeId),
@@ -233,7 +230,7 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
-          navigate(location);
+          navigate(location.pathname);
         }
       })
       .catch((e) => {
@@ -247,13 +244,86 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
-          navigate(location);
+          navigate(location.pathname);
         }
       })
       .catch((e) => {
         console.error(e);
       });
   };
+
+  // function isDisabled(): boolean {
+  //   return (
+  //     name.trim() === "" ||
+  //     employeeId.trim() === "" ||
+  //     startDate === null ||
+  //     endDate === null
+  //   );
+  // }
+
+  function nameValidator(): boolean {
+    return (
+      isEnablee(enablee) && isInValidName(enablee.firstName, enablee.lastName)
+    );
+  }
+
+  function startDateValidator(): Date | null {
+    if (isEnablee(enablee)) {
+      return isValidDate(enablee.enablementStartDate);
+    }
+    return null;
+  }
+
+  function endDateValidator(): Date | null {
+    if (isEnablee(enablee)) {
+      return isValidDate(enablee.enablementEndDate);
+    }
+    return null;
+  }
+
+  const resetStartDate = (date: Date) => {
+    setStartDate(date);
+    setFilteredPods(filterPods(availablePods));
+  };
+
+  const resetEndDate = (date: Date) => {
+    setEndDate(date);
+    setFilteredPods(filterPods(availablePods));
+  };
+
+  function setEnableeCurrentPod(): void {
+    //selected enablee has non-null podId
+    if (isEnablee(enablee) && enablee.podId) {
+      //first check if availablePods contain enablee's pod
+      let enableeCurrentPod = containsPod(availablePods, enablee.podId);
+      //if it doesn't, make call to getPodByID, set enablee's pod, add to available pods, and set selected pod
+      if (!enableeCurrentPod) {
+        getPodById(enablee.podId)
+          .then((res) => {
+            enableeCurrentPod = res.data as IFEPod;
+            setAvailablePods([enableeCurrentPod, ...availablePods]);
+            setSelectedPod(enableeCurrentPod);
+            setOriginalPod(enableeCurrentPod);
+          })
+          .catch((e) => console.error(e));
+      } else {
+        //and setSelectedPod
+        setSelectedPod(enableeCurrentPod);
+        setOriginalPod(enableeCurrentPod);
+      }
+    }
+    //selected enablee has null podId, continue as normal
+  }
+
+  useEffect(() => {
+    setFilteredPods(filterPods(availablePods));
+    setEnableeCurrentPod();
+    // isDisabled();
+  }, [availablePods]);
+
+  useEffect(() => {
+    setFilteredPods(filterPods(availablePods));
+  }, [startDate, endDate]);
 
   return (
     <>
@@ -269,24 +339,22 @@ export default function EnableeTemplate() {
             InputProps={InputProps}
             onChange={(e) => setName(e.target.value)}
             inputProps={{ "data-testid": "enableeName" }}
-            error={name.trim().length === 0}
+            error={nameValidator()}
           />
-          {name.length === 0 ? (
+          {!nameValidator() && name.length === 0 ? (
             <div className="form-error">* Enablee Name required</div>
           ) : (
-            <div className="dummy-padding"></div>
+            <div className="dummy-padding"> </div>
           )}
 
           <div className="grid-container">
             <Typography sx={labelStyle}>Enablement Dates</Typography>
-
             <DatepickerComponent
-              startDate={isDateObject(startDate) ? startDate : null}
-              endDate={isDateObject(endDate) ? endDate : null}
-              setStartDate={setStartDate}
-              setEndDate={setEndDate}
+              startDate={startDate}
+              endDate={endDate}
+              setStartDate={resetStartDate}
+              setEndDate={resetEndDate}
             />
-
             <Typography sx={labelStyle}>Employee Id</Typography>
             <div className="id-wrap">
               <TextField
@@ -397,13 +465,21 @@ export default function EnableeTemplate() {
                     <FilteredPod
                       key={pod.id}
                       pod={pod}
-                      enableeTech={techStack}
+                      enableeTech={isEnablee(enablee) ? enablee.technology : []}
                       handleOnClick={handleOnClick}
                       selectedPod={selectedPod}
                     />
                   );
                 })}
               </>
+            ) : originalPod.id > 0 ? (
+              <FilteredPod
+                key={originalPod.id}
+                pod={originalPod}
+                enableeTech={isEnablee(enablee) ? enablee.technology : []}
+                handleOnClick={handleOnClick}
+                selectedPod={selectedPod}
+              />
             ) : (
               <Typography
                 sx={{
@@ -420,6 +496,8 @@ export default function EnableeTemplate() {
             <PageViewHeader
               pageTitle={"Comments"}
               showPlus={true}
+              showIcon={true}
+              infoString="String information"
               isHeader={false}
               plusClicked={false}
             />
@@ -437,6 +515,7 @@ export default function EnableeTemplate() {
             <Button
               data-testid={"enableeTemplateSubmitBtn"}
               disabled={disableSubmit}
+              // disabled={isDisabled()}
               variant={"contained"}
               sx={buttonStyle}
               onClick={(e) => {
