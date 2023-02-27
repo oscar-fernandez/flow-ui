@@ -8,6 +8,7 @@ import { Tooltip } from "@mui/material";
 import EnableeTemplate from "../../EnableeTemplate/EnableeTemplate";
 import PodTemplate from "../../PodTemplate/PodTemplate";
 import { useLocation } from "react-router";
+import { getEnableeTemplate } from "./Utils";
 
 /**
  * This functional component is a styled header that can
