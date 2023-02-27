@@ -10,6 +10,7 @@ import IFEPod from "../../models/interfaces/IFEPod";
 import {
   useToggle,
   useToggleDetail,
+  useToggleTemplate,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../models/interfaces/IEnablee";
 import ITechnology from "../../models/interfaces/ITechnology";
@@ -111,6 +112,7 @@ export default function EnableeTemplate() {
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
   const [toggle, changeToggle] = useToggle();
+  const [templat, setTemplate] = useToggleTemplate();
   const navigate = useNavigate();
   const [enablee, setEnablee] = useToggleDetail();
 
@@ -231,6 +233,8 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
+          setTemplate(null);
+          setEnablee(null);
           navigate(location.pathname);
         }
       })
@@ -245,7 +249,8 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
-
+          setEnablee(null);
+          setTemplate(null);
           navigate(location.pathname);
         }
       })

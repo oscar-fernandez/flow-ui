@@ -119,6 +119,52 @@ describe("utilityTest", () => {
     );
     expect(result).toBe(false);
   });
+
+  it("isEnableeValidForPod should return false when enablee completed enablement", () => {
+    const podDates = {
+      podStartDate: "2023-01-01",
+      podEndDate: "2023-01-20",
+    };
+    const enableeDates = {
+      starDate: "2020-01-01",
+      endDate: "2020-01-20",
+    };
+
+    const actualReturn = isEnableeValidForPod(
+      podDates.podStartDate,
+      podDates.podEndDate,
+      enableeDates.starDate,
+      enableeDates.endDate
+    );
+
+    expect(actualReturn).toBeFalsy();
+  });
+
+  // it("isEnableeValidForPod should return true when enablee endDate is same as current Date", () => {
+  //   const currentDate = new Date();
+
+  //   const podDates = {
+  //     podStartDate: subtractDays(currentDate, 5).toString(),
+  //     podEndDate: addDays(currentDate, 5).toString(),
+  //   };
+
+  //   const enableeDates = {
+  //     starDate: podDates.podStartDate,
+  //     endDate: addDays(currentDate, 0),
+  //   };
+
+  //   enableeDates.endDate.
+
+  //   const actualReturn = isEnableeValidForPod(
+  //     podDates.podStartDate,
+  //     podDates.podEndDate,
+  //     enableeDates.starDate,
+  //     enableeDates.endDate
+  //   );
+
+  //   expect(actualReturn).toBeTruthy();
+  // });
+
   it("Available pod, less than 15 enablee enrolled ", () => {
     const pod = createPod();
     pod.enablee[0] = createEnablee();

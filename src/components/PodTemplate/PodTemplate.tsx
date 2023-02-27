@@ -143,6 +143,17 @@ export default function PodTemplate() {
     toggleShowProjectList();
   }
 
+  function filterEnableeTech(ar: ITechnology[]) {
+    if (pod && isPod(pod)) {
+      return ar.filter((etech) => {
+        return pod.project.technology.find((ptech) => {
+          return etech.name === ptech.name;
+        });
+      });
+    }
+    return [];
+  }
+
   const handleSubmit = () => {
     if (pod == null) {
       const tempPod: IFEPod = {
@@ -174,6 +185,8 @@ export default function PodTemplate() {
         if (res.status == 200 || res.status == 201) {
           setPod(res.data);
           changeToggle();
+          setTemplate(null);
+          setDetails(null);
           navigate(location);
         }
       })
@@ -188,6 +201,8 @@ export default function PodTemplate() {
         if (res.status == 200 || res.status == 201) {
           setPod(res.data);
           changeToggle();
+          setTemplate(null);
+          setDetails(null);
           navigate(location);
         }
       })
@@ -524,15 +539,17 @@ export default function PodTemplate() {
                             onChange={() => handleCheckBoxClick(index)}
                           />
                           <span className="enablee-techstack-container">
-                            {enablee.technology.map((tech, index) => (
-                              <span
-                                key={index}
-                                className="enablee-tech"
-                                style={{
-                                  backgroundColor: tech.backgroundColor,
-                                }}
-                              ></span>
-                            ))}
+                            {filterEnableeTech(enablee.technology).map(
+                              (tech, index) => (
+                                <span
+                                  key={index}
+                                  className="enablee-tech"
+                                  style={{
+                                    backgroundColor: tech.backgroundColor,
+                                  }}
+                                ></span>
+                              )
+                            )}
                           </span>
                         </span>
                       </div>

@@ -109,10 +109,13 @@ export const isEnableeValidForPod = (
   startDate: string,
   endDate: string
 ) => {
+  const endDateEnablee = new Date(endDate);
+  if (isEnableeCompletedEnb(endDateEnablee)) {
+    return false;
+  }
+  const startDateEnablee = new Date(startDate);
   const startDateFePod = new Date(podStartDate);
   const endDateFePod = new Date(podEndDate);
-  const startDateEnablee = new Date(startDate);
-  const endDateEnablee = new Date(endDate);
   const isPodActive =
     startDateFePod.getTime() < startDateEnablee.getTime() &&
     endDateFePod.getTime() >= endDateEnablee.getTime();
@@ -124,6 +127,10 @@ export const isEnableeValidForPod = (
     (startDateFePod.getTime() >= startDateEnablee.getTime() || isPodActive)
   );
 };
+
+function isEnableeCompletedEnb(enableeEndDate: Date): boolean {
+  return new Date().getTime() > enableeEndDate.getTime();
+}
 
 export const getAvailablePodTag = (pod: IFEPod): IDisplayTag => {
   const POD_SIZE = 15;

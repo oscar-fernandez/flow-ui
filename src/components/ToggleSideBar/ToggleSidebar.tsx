@@ -24,6 +24,7 @@ const ToggleSideBar = ({ template }: ToggleSBProps) => {
   const [prevDetails, setPrevDetails] = useTogglePrevDetails();
   const [details, setDetails] = useToggleDetail();
   const [prevTemplate, setPrevTemplate] = useToggleTemplate();
+  const [, setTemplate] = useToggleTemplate();
 
   //triggers on back arrow click
   function goBack(): void {
@@ -60,6 +61,8 @@ const ToggleSideBar = ({ template }: ToggleSBProps) => {
         open={toggle}
         onClose={() => {
           setToggle();
+          setDetails(null);
+          setTemplate(null);
           setShowArrow(false);
           setPrevDetails([]);
         }}
@@ -163,6 +166,8 @@ const ToggleSideBar = ({ template }: ToggleSBProps) => {
               data-testid={"close-btn"}
               onClick={() => {
                 setToggle();
+                setDetails(null);
+                setTemplate(null);
                 setShowArrow(false);
                 setPrevDetails([]);
               }}
