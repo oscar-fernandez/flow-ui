@@ -7,6 +7,7 @@ import "./PageViewHeader.css";
 import EnableeTemplate from "../../EnableeTemplate/EnableeTemplate";
 import PodTemplate from "../../PodTemplate/PodTemplate";
 import { useLocation } from "react-router";
+import EnablerTemplate from "../../EnablerTemplate/EnablerTemplate";
 
 /**
  * This functional component is a styled header that can
@@ -34,15 +35,36 @@ export function PageViewHeader(props: {
   const location = useLocation();
 
   function getTemplate() {
-    const isPodPage = location.pathname.includes("pod");
+    const pathName = location.pathname;
+
     //if detail selected
     //if on podPage then render EnableeTemplate
+
     if (details) {
-      return isPodPage ? <EnableeTemplate /> : <PodTemplate />;
+      if (pathName.includes("pod")) {
+        return <PodTemplate />;
+      } else if (pathName.includes("enablee")) {
+        return <EnableeTemplate />;
+      } else if (pathName.includes("enabler")) {
+        return <EnablerTemplate />;
+      }
     } else {
-      //no detail selected then return <PodTemplate /> if on podPage
-      return isPodPage ? <PodTemplate /> : <EnableeTemplate />;
+      if (pathName.includes("pod")) {
+        return <PodTemplate />;
+      } else if (pathName.includes("enablee")) {
+        return <EnableeTemplate />;
+      } else if (pathName.includes("enabler")) {
+        return <EnablerTemplate />;
+      }
     }
+
+    // if (details) {
+    //   // return isPodPage ? <EnableeTemplate /> : <PodTemplate />;
+
+    // } else {
+    //   //no detail selected then return <PodTemplate /> if on podPage
+    //   return isPodPage ? <PodTemplate /> : <EnableeTemplate />;
+    // }
   }
 
   return (
@@ -51,6 +73,7 @@ export function PageViewHeader(props: {
         <p>{props.pageTitle} </p>
         {props.showPlus ? (
           <span
+            data-testid="plus"
             className="plus"
             onClick={() => {
               if (toggle) {
