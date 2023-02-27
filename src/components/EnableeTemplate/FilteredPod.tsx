@@ -96,6 +96,7 @@ export default function FilteredPod({
                 <div
                   key={tech.name}
                   style={{
+                    marginLeft: "1px",
                     width: "7px",
                     height: "12px",
                     display: "inline-block",

@@ -10,6 +10,7 @@ import IFEPod from "../../models/interfaces/IFEPod";
 import {
   useToggle,
   useToggleDetail,
+  useToggleTemplate,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IEnablee from "../../models/interfaces/IEnablee";
 import ITechnology from "../../models/interfaces/ITechnology";
@@ -23,6 +24,7 @@ import {
   isValidDate,
 } from "./utils/EnableeTemplateUtils";
 import { getPodById } from "../../services/PodAPI";
+import { convertStringDateToLocalFormat } from "../../pages/Pod/podUtils";
 
 const InputProps = {
   disableUnderline: true,
@@ -110,6 +112,7 @@ export default function EnableeTemplate() {
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [selectedPod, setSelectedPod] = useState<IFEPod>();
   const [toggle, changeToggle] = useToggle();
+  const [templat, setTemplate] = useToggleTemplate();
   const navigate = useNavigate();
   const [enablee, setEnablee] = useToggleDetail();
 
@@ -218,7 +221,7 @@ export default function EnableeTemplate() {
       tempDetail.gradeId = parseInt(grade);
       tempDetail.communityId = parseInt(community);
       tempDetail.employmentTypeId = parseInt(employmentType);
-      tempDetail.podId = selectedPod?.id || 0;
+      tempDetail.podId = selectedPod?.id || null;
       tempDetail.commentId = [];
       putEnablee(tempDetail);
     }
@@ -230,6 +233,8 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
+          setTemplate(null);
+          setEnablee(null);
           navigate(location.pathname);
         }
       })
@@ -244,6 +249,8 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
+          setEnablee(null);
+          setTemplate(null);
           navigate(location.pathname);
         }
       })
@@ -269,14 +276,18 @@ export default function EnableeTemplate() {
 
   function startDateValidator(): Date | null {
     if (isEnablee(enablee)) {
-      return isValidDate(enablee.enablementStartDate);
+      return isValidDate(
+        convertStringDateToLocalFormat(enablee.enablementStartDate)
+      );
     }
     return null;
   }
 
   function endDateValidator(): Date | null {
     if (isEnablee(enablee)) {
-      return isValidDate(enablee.enablementEndDate);
+      return isValidDate(
+        convertStringDateToLocalFormat(enablee.enablementEndDate)
+      );
     }
     return null;
   }
@@ -321,6 +332,7 @@ export default function EnableeTemplate() {
     // isDisabled();
   }, [availablePods]);
 
+  //useEffect for updating available pods when date changes
   useEffect(() => {
     setFilteredPods(filterPods(availablePods));
   }, [startDate, endDate]);
