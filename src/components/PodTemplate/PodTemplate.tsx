@@ -174,6 +174,8 @@ export default function PodTemplate() {
         if (res.status == 200 || res.status == 201) {
           setPod(res.data);
           changeToggle();
+          setTemplate(null);
+          setDetails(null);
           navigate(location);
         }
       })
@@ -188,6 +190,8 @@ export default function PodTemplate() {
         if (res.status == 200 || res.status == 201) {
           setPod(res.data);
           changeToggle();
+          setTemplate(null);
+          setDetails(null);
           navigate(location);
         }
       })

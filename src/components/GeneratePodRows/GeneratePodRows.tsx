@@ -34,6 +34,8 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
   let badgeIndex = 0;
 
   const handleCreatePodClick = () => {
+    setDetails(null);
+    setTemplate(<PodTemplate />);
     changeToggle();
   };
 

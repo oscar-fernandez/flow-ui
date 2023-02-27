@@ -231,6 +231,8 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
+          setTemplate(null);
+          setDetails(null);
           navigate(location.pathname);
         }
       })
@@ -245,7 +247,8 @@ export default function EnableeTemplate() {
         if (res.status == 200 || res.status == 201) {
           setEnablee(res.data);
           changeToggle();
-
+          setDetails(null);
+          setTemplate(null);
           navigate(location.pathname);
         }
       })
