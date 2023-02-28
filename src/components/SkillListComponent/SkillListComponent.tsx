@@ -1,7 +1,9 @@
 import { Button, Typography } from "@mui/material";
 import ITechnology from "../../models/interfaces/ITechnology";
 import { TagComponent } from "../TagComponent/Tag";
+import { mockTechnology } from "../../data/MockData";
 
+import "./SkillList.css";
 const labelStyle = {
   fontFamily: "Darker Grotesque",
   fontWeight: 600,
@@ -17,7 +19,7 @@ const buttonStyle = {
   color: "#8A8B8A",
   fontSize: "15px",
   letterSpacing: "0.025em",
-  padding: ".3rem 1.25rem",
+  paddingLeft: "0",
   textTransform: "none",
   boxShadow: "none",
 };
@@ -28,21 +30,20 @@ interface Props {
 
 export function SkillListComponent({ allSkills }: Props) {
   return (
-    <div className="skills-container">
+    <>
       <Typography sx={labelStyle}>Tech Stack</Typography>
-
-      {allSkills.map((skill) => (
-        <TagComponent
-          name={skill.name}
-          color={skill.backgroundColor}
-          key={skill.id}
-        />
-      ))}
-      <div className="button-add-skill">
+      <div>
+        {allSkills.map((skill) => (
+          <TagComponent
+            name={skill.name}
+            color={skill.backgroundColor}
+            key={skill.id}
+          />
+        ))}
         <Button data-testid={"skillAddBtn"} disabled={false} sx={buttonStyle}>
           Add Skill
         </Button>
       </div>
-    </div>
+    </>
   );
 }

@@ -3,6 +3,7 @@ import { useLocation } from "react-router";
 import {
   useToggle,
   useToggleDetail,
+  useToggleTemplate,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import IFEEnabler from "../../../models/interfaces/IFEEnabler";
 import {
@@ -13,6 +14,7 @@ import Row from "../../../components/RowComponent/Row";
 import { Tooltip } from "@mui/material";
 import ITechnology from "../../../models/interfaces/ITechnology";
 import { TagComponent } from "../../../components/TagComponent/Tag";
+import EnablerTemplate from "../../../components/EnablerTemplate/EnablerTemplate";
 
 interface Props {
   hook: (location: string) => any[];
@@ -29,7 +31,7 @@ export function EnablerPageContainer({ hook }: Props) {
   const [enablers, getEnablers] = hook(location.pathname);
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
-
+  const [template, setTemplate] = useToggleTemplate();
   /**
    * When EnablerPageContainer renders upon loading,
    * getList constant gets set to the enablers state which is
@@ -49,6 +51,7 @@ export function EnablerPageContainer({ hook }: Props) {
             <Row
               key={i}
               onClick={() => {
+                setTemplate(<EnablerTemplate />);
                 changeToggle();
                 setDetails(enabler);
               }}

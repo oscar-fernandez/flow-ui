@@ -13,12 +13,17 @@ import {
   getName,
   formatDate,
   daysUntilPodStarts,
+  getTemplateByPath,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
 import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnologyTable from "../models/interfaces/ITechnologyTable";
 import IEnablee from "../models/interfaces/IEnablee";
 import IFEPod from "../models/interfaces/IFEPod";
+import PodTemplate from "../components/PodTemplate/PodTemplate";
+import EnableeTemplate from "../components/EnableeTemplate/EnableeTemplate";
+import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
+import { mockIFEnabler } from "../data/MockIFEnabler";
 
 describe("utilityTest", () => {
   it("map Enablees to Table Rows", () => {
@@ -310,6 +315,30 @@ describe("generateTags", () => {
   it("return formated date", () => {
     const day = new Date("July 21, 2022 01:15:00");
     expect(formatDate(day)).toEqual("2022-07-21");
+  });
+});
+
+describe("Template tag using location", () => {
+  it("return pod template component with pod in location pathname", () => {
+    const podTemplate = getTemplateByPath("/pod", null);
+    const enableeTemplateDetail = getTemplateByPath("/pod", createEnablee());
+
+    expect(podTemplate).toMatchObject(<PodTemplate />);
+    expect(enableeTemplateDetail).toMatchObject(<EnableeTemplate />);
+  });
+
+  it("return enablee template component with enablee in location pathname", () => {
+    const enableeTemplate = getTemplateByPath("/enablee", null);
+    const podTemplateDetail = getTemplateByPath("/enablee", createPod());
+
+    expect(enableeTemplate).toMatchObject(<EnableeTemplate />);
+    expect(podTemplateDetail).toMatchObject(<PodTemplate />);
+  });
+
+  it("return enableer template component with enableer in location pathname", () => {
+    const enablerTemplate = getTemplateByPath("/enabler", null);
+
+    expect(enablerTemplate).toMatchObject(<EnablerTemplate />);
   });
 });
 
