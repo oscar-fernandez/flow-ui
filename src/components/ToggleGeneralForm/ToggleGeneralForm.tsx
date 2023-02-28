@@ -15,9 +15,9 @@ import {
 import { isIFEEnabler } from "../../utils/utilityFunctions";
 import IFEEnabler from "../../models/interfaces/IFEEnabler";
 import IEnablee from "../../models/interfaces/IEnablee";
-
 import { TagComponent } from "../TagComponent/Tag";
 import { SkillListComponent } from "../SkillListComponent/SkillListComponent";
+
 export default function ToggleGeneralForm() {
   const labelStyle = {
     fontFamily: "Darker Grotesque",
