@@ -8,7 +8,7 @@ import EnableeTemplate from "../../EnableeTemplate/EnableeTemplate";
 import PodTemplate from "../../PodTemplate/PodTemplate";
 import { useLocation } from "react-router";
 import EnablerTemplate from "../../EnablerTemplate/EnablerTemplate";
-
+import { getTemplateByPath } from "../../../utils/utilityFunctions";
 /**
  * This functional component is a styled header that can
  * be used throughout the program.
@@ -32,40 +32,7 @@ export function PageViewHeader(props: {
   const [toggle, changeToggle] = useToggle();
   const [details, setDetails] = useToggleDetail();
   const [, setTemplate] = useToggleTemplate();
-  const location = useLocation();
-
-  function getTemplate() {
-    const pathName = location.pathname;
-
-    //if detail selected
-    //if on podPage then render EnableeTemplate
-
-    if (details) {
-      if (pathName.includes("pod")) {
-        return <PodTemplate />;
-      } else if (pathName.includes("enablee")) {
-        return <EnableeTemplate />;
-      } else if (pathName.includes("enabler")) {
-        return <EnablerTemplate />;
-      }
-    } else {
-      if (pathName.includes("pod")) {
-        return <PodTemplate />;
-      } else if (pathName.includes("enablee")) {
-        return <EnableeTemplate />;
-      } else if (pathName.includes("enabler")) {
-        return <EnablerTemplate />;
-      }
-    }
-
-    // if (details) {
-    //   // return isPodPage ? <EnableeTemplate /> : <PodTemplate />;
-
-    // } else {
-    //   //no detail selected then return <PodTemplate /> if on podPage
-    //   return isPodPage ? <PodTemplate /> : <EnableeTemplate />;
-    // }
-  }
+  const pathname = useLocation().pathname;
 
   return (
     <div className="header-section">
@@ -79,11 +46,11 @@ export function PageViewHeader(props: {
               if (toggle) {
                 //set empty template
                 setDetails(null);
-                setTemplate(getTemplate());
+                setTemplate(getTemplateByPath(pathname, details));
               } else {
                 changeToggle();
                 setDetails(null);
-                setTemplate(getTemplate());
+                setTemplate(getTemplateByPath(pathname, details));
               }
             }}
           >
