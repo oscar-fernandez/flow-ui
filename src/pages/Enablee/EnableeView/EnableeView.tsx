@@ -26,10 +26,6 @@ export default function EnableeView() {
       .catch((e) => console.error(e));
   };
 
-  useEffect(() => {
-    daysUntilPodStarts(new Date("03-01-2023"));
-  }, []);
-
   return (
     <>
       <div className="page-section">

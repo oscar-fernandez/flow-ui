@@ -198,13 +198,13 @@ export function isDateObject(incomingDate: Date | null): boolean {
 }
 
 /**
- *  Calculates the days until a Pod begins
+ *  Calculates the days until a Pod begins the lowest value being 1 day away
  *  Argument
  *    startDate:Date
  *  return
  *    dayDifference:number
  */
-export function daysUntilPodStarts(startDate: Date): number {
+export function daysUntilPodStarts(startDate: Date): string {
   const oneDay = 1000 * 60 * 60 * 24;
 
   const currentDate = new Date();
