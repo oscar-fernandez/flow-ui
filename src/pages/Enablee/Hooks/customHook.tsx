@@ -14,11 +14,7 @@ export const usePendingPodEnablees = () => {
   useEffect(() => {
     GetEnableesPendingPodAssignment()
       .then((items) => {
-        setReceivedEnablees([
-          ...items.data,
-          dummyEnablees[0],
-          dummyEnablees[1],
-        ]);
+        setReceivedEnablees([...items.data]);
       })
       .catch((e) => console.error(e));
   }, []);
