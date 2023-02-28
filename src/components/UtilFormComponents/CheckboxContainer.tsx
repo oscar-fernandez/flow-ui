@@ -4,9 +4,11 @@ import { labelStyle } from "./FormStyles";
 // checked value will need to go here and onchange method
 interface Props {
   label: string;
+  value: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
 }
 
-export default function Checkbox({ label }: Props) {
+export default function Checkbox({ label, onChange, value }: Props) {
   return (
     <>
       <Typography sx={labelStyle}>{label}</Typography>
@@ -14,9 +16,8 @@ export default function Checkbox({ label }: Props) {
         <input
           type="checkbox"
           data-testid="isEmployed"
-          checked={true}
-          // checked={enabler.isEmployed}
-          // onChange={isEmployedChangeHandler}
+          checked={value}
+          onChange={onChange}
         ></input>
       </div>
     </>

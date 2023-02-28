@@ -6,7 +6,7 @@ export const mockIFEnabler: IFEEnabler[] = [
     firstName: "John",
     lastName: "Travolta",
     assetTag: "Tag Asset",
-    isEmployed: true,
+    employed: true,
     technology: [
       { id: 4, name: "Angular", backgroundColor: "green" },
       { id: 5, name: "C", backgroundColor: "blue" },
@@ -25,7 +25,7 @@ export const mockIFEnabler: IFEEnabler[] = [
     firstName: "Becky",
     lastName: "Schmitt",
     assetTag: "Tag Asset",
-    isEmployed: true,
+    employed: true,
     technology: [
       { id: 2, name: "Java", backgroundColor: "yellow" },
       { id: 8, name: "React", backgroundColor: "orange" },
@@ -44,7 +44,7 @@ export const mockIFEnabler: IFEEnabler[] = [
     firstName: "Michael",
     lastName: "Bolton",
     assetTag: "Tag Asset",
-    isEmployed: true,
+    employed: true,
     technology: [
       { id: 2, name: "Java", backgroundColor: "yellow" },
       { id: 8, name: "React", backgroundColor: "orange" },

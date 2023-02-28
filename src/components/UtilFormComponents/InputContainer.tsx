@@ -6,12 +6,16 @@ interface Props {
   type?: string;
   label: string;
   required?: boolean;
+  value?: any;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
 }
 
 export default function InputContainer({
   type = "text",
   label,
+  value,
   required = false,
+  onChange,
 }: Props) {
   return (
     <>
@@ -24,8 +28,8 @@ export default function InputContainer({
         placeholder={required ? "* Empty" : "Empty"}
         inputProps={{ "data-testid": "employeeId" }}
         sx={inputStyle}
-        // value={enabler.employeeId === -1 ? "" : enabler.employeeId}
-        // onChange={employeeIdChangeHandler}
+        value={value}
+        onChange={onChange}
       />
     </>
   );
