@@ -175,7 +175,7 @@ export default function PodAssignment() {
 
   const radioButtonCheckboxes = (
     <FormControl
-      sx={{ display: "flex", flexDirection: "row", mb: 1.5, color: "#585887" }}
+      sx={{ display: "flex", flexDirection: "row", mb: 1, color: "#585887" }}
     >
       <FormControlLabel
         control={
