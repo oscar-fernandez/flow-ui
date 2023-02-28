@@ -234,7 +234,7 @@ describe("utilityTest", () => {
     expect(isDateObject(currentDate)).toBeTruthy();
     expect(isDateObject(nullDate)).toBeFalsy();
   });
-  it("daysUntilPodStarts should return the correct number", () => {
+  it("daysUntilPodStarts should return the days left until the pod Starts", () => {
     const currentDate = new Date();
 
     const startDate = currentDate.setDate(currentDate.getDate() + 3);
