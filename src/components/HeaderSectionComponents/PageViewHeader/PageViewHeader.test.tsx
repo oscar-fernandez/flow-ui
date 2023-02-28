@@ -1,23 +1,7 @@
-import { expect, describe, it, vi, beforeEach, afterEach } from "vitest";
+import { expect, describe, it } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { PageViewHeader } from "./PageViewHeader";
 import { MemoryRouter } from "react-router";
-import {
-  useToggle,
-  useToggleDetail,
-  useToggleTemplate,
-} from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
-
-vi.mock("../../../context/ToggleSideBarContext/ToggleSideBarContext");
-
-const mockUseToggle = useToggle as jest.MockedFunction<typeof useToggle>;
-const mockUseToggleDetail = useToggleDetail as jest.MockedFunction<
-  typeof useToggleDetail
->;
-
-const mockUseToggleTemplate = useToggleTemplate as jest.MockedFunction<
-  typeof useToggleTemplate
->;
 
 function wrapMemoryRouter(props: any) {
   return (
@@ -28,32 +12,6 @@ function wrapMemoryRouter(props: any) {
 }
 
 describe("PageViewHeader Component", () => {
-  beforeEach(() => {
-    mockUseToggle.mockReturnValue([
-      true,
-      () => {
-        null;
-      },
-    ]);
-    mockUseToggleDetail.mockReturnValue([
-      null,
-      () => {
-        null;
-      },
-    ]);
-
-    mockUseToggleTemplate.mockReturnValue([
-      null,
-      () => {
-        null;
-      },
-    ]);
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   it("should render without optional props", () => {
     render(
       wrapMemoryRouter({

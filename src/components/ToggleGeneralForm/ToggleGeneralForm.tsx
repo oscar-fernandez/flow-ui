@@ -35,7 +35,7 @@ export default function ToggleGeneralForm() {
     firstName: "",
     lastName: "",
     assetTag: "",
-    isEmployed: false,
+    employed: true,
     technology: [],
     city: "",
     state: "",

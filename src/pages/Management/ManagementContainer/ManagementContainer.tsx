@@ -253,7 +253,6 @@ export default function ManagementContainer() {
           />
         )}
       </div>
-      <EnablerTemplate />
     </>
   );
 }
