@@ -201,6 +201,25 @@ export function isDateObject(incomingDate: Date | null): boolean {
   return incomingDate instanceof Date;
 }
 
+/**
+ *  Calculates the days until a Pod begins the lowest value being 1 day away
+ *  Argument
+ *    startDate:Date
+ *  return
+ *    dayDifference:number
+ */
+export function daysUntilPodStarts(startDate: Date): string {
+  const oneDay = 1000 * 60 * 60 * 24;
+
+  const currentDate = new Date();
+
+  const dayDifference = Math.abs(
+    Math.round(startDate.valueOf() - currentDate.valueOf()) / oneDay
+  );
+
+  return dayDifference.toFixed(0);
+}
+
 export const formatDate = (date: Date | null) => {
   let dateFormat = "";
   if (date !== null) {

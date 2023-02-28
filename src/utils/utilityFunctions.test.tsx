@@ -12,6 +12,7 @@ import {
   isDateObject,
   getName,
   formatDate,
+  daysUntilPodStarts,
   getTemplateByPath,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
@@ -237,6 +238,15 @@ describe("utilityTest", () => {
     const nullDate = null;
     expect(isDateObject(currentDate)).toBeTruthy();
     expect(isDateObject(nullDate)).toBeFalsy();
+  });
+  it("daysUntilPodStarts should return the days left until the pod Starts", () => {
+    const currentDate = new Date();
+
+    const startDateinTime = currentDate.setDate(currentDate.getDate() + 3);
+    const startDate = new Date(startDateinTime);
+    const daysLeft = daysUntilPodStarts(startDate);
+
+    expect(daysLeft).toBe("3");
   });
 });
 
