@@ -88,8 +88,15 @@ export function PageViewHeader(props: {
           data-testid="plus"
           className="plus"
           onClick={() => {
-            changeToggle();
-            setDetails(null);
+            if (toggle) {
+              //set empty template
+              setDetails(null);
+              setTemplate(getTemplate());
+            } else {
+              changeToggle();
+              setDetails(null);
+              setTemplate(getTemplate());
+            }
           }}
         >
           +
