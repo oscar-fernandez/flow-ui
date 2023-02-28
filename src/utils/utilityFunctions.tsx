@@ -215,37 +215,33 @@ export const formatDate = (date: Date | null) => {
   return dateFormat;
 };
 
-export function PodEnableeEnablerRatio(activeFEPods: IFEPod[]) {
-  let podRatio: IPodRatio[] | null = null;
-
-  podRatio = activeFEPods?.map((pod) => {
-    const ratio: IPodRatio = {
-      enableeRatio: pod.enablee?.length,
-      enablerRatio: pod.enabler?.length,
-    };
-    return ratio;
-  });
-
-  return podRatio;
+// The pod need to be active pod. It return object
+// with two props for enablee and enabler ratio.
+export function PodEnableeEnablerRatio(activeFEPod: IFEPod | null) {
+  const ratio: IPodRatio = {
+    enableeRatio: activeFEPod?.enablee?.length,
+    enablerRatio: activeFEPod?.enabler?.length,
+  };
+  return ratio;
 }
 
-export function getPodProgressPercentage(activeFePod: IFEPod[]) {
-  const prectResult = activeFePod?.map((pod) => {
-    const currentDate = new Date();
-    const endDate = new Date(pod.podEndDate);
-    const startdate = new Date(pod.podStartDate);
-    let precentRatio = 0;
+// The pod need to be active pod. Function will return percentage of pod
+// progress as string of whole number.
+export function getPodProgressPercentage(activeFePod: IFEPod) {
+  const currentDate = new Date();
+  const endDate = new Date(activeFePod.podEndDate);
+  const startdate = new Date(activeFePod.podStartDate);
+  let wholeStrPrecent = "";
 
-    if (startdate.getTime() <= currentDate.getTime()) {
-      precentRatio =
-        ((currentDate.getTime() - startdate.getTime()) /
-          (endDate.getTime() - startdate.getTime())) *
-        100;
-    }
-    return precentRatio.toFixed(2);
-  });
+  if (startdate.getTime() <= currentDate.getTime()) {
+    const precentRatio =
+      ((currentDate.getTime() - startdate.getTime()) /
+        (endDate.getTime() - startdate.getTime())) *
+      100;
+    wholeStrPrecent = Math.trunc(Math.round(precentRatio)).toString();
+  }
 
-  return prectResult;
+  return wholeStrPrecent;
 }
 export function isIFEEnabler(object: any): object is IFEEnabler {
   if (object === null) {
