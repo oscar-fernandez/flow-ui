@@ -170,7 +170,8 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
   let podTag: IDisplayTag = { name: "", color: "" };
   if (
     enablee.enablementStartDate != null &&
-    enablee.enablementEndDate != null
+    enablee.enablementEndDate != null &&
+    enablee.enablementStartDate != ""
   ) {
     startDate = new Date(enablee.enablementStartDate);
     endDate = new Date(enablee.enablementEndDate);
@@ -186,15 +187,13 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
       podTag = { name: "Pending Pod Assignment", color: "rgba(52, 78, 65, 1)" };
     } else if (currentDate > endDate && enablee.podId > 0) {
       podTag = { name: "Completed", color: "rgba(99, 56, 133, 1)" };
-    } else if (
-      enablee.enablementStartDate === null ||
-      enablee.enablementStartDate === ""
-    ) {
-      podTag = { name: "Pending Start Date", color: "rgba(62, 143, 114, 1)" };
     } else if (enablee.podId > 0 && enablee.enablementStartDate != null) {
       podTag = { name: "Pending", color: "rgba(62, 143, 114, 1)" };
     }
+  } else {
+    podTag = { name: "Pending Start Date", color: "rgba(62, 143, 114, 1)" };
   }
+
   return podTag;
 };
 

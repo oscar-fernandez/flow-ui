@@ -1,6 +1,8 @@
 import { Button, Typography } from "@mui/material";
 import ITechnology from "../../models/interfaces/ITechnology";
 import { TagComponent } from "../TagComponent/Tag";
+import { mockTechnology } from "../../data/MockData";
+
 import "./SkillList.css";
 const labelStyle = {
   fontFamily: "Darker Grotesque",

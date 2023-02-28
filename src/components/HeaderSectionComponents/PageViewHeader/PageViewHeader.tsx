@@ -4,6 +4,7 @@ import {
   useToggleTemplate,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import "./PageViewHeader.css";
+import { Tooltip } from "@mui/material";
 import EnableeTemplate from "../../EnableeTemplate/EnableeTemplate";
 import PodTemplate from "../../PodTemplate/PodTemplate";
 import { useLocation } from "react-router";
@@ -24,6 +25,8 @@ export function PageViewHeader(props: {
   pageTitle: string | undefined;
   showPlus: boolean;
   isHeader: boolean;
+  showIcon?: boolean;
+  infoString?: string;
   plusClicked: boolean;
   handleClick?: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -36,10 +39,11 @@ export function PageViewHeader(props: {
 
   return (
     <div className="header-section">
-      <h1 data-testid="pageHeaderTitleId" className="header">
-        <p>{props.pageTitle} </p>
-        {props.showPlus ? (
-          <span
+      <h1 data-testid="pageHeaderTitleId" className="header" />
+      <p>{props.pageTitle} </p>
+      {props.showPlus && props.showIcon ? (
+        <>
+          <p
             data-testid="plus"
             className="plus"
             onClick={() => {
@@ -55,9 +59,40 @@ export function PageViewHeader(props: {
             }}
           >
             +
-          </span>
-        ) : null}
-      </h1>
+          </p>
+          <div data-testid="info" className="info">
+            <Tooltip title={props.infoString} placement="right-start">
+              <p>i</p>
+            </Tooltip>
+          </div>
+        </>
+      ) : props.showIcon ? (
+        <div data-testid="info" className="info">
+          <Tooltip title={props.infoString} placement="right-start">
+            <p>i</p>
+          </Tooltip>
+        </div>
+      ) : props.showPlus ? (
+        <p
+          data-testid="plus"
+          className="plus"
+          onClick={() => {
+            if (toggle) {
+              //set empty template
+              setDetails(null);
+              setTemplate(getTemplateByPath(pathname, details));
+            } else {
+              changeToggle();
+              setDetails(null);
+              setTemplate(getTemplateByPath(pathname, details));
+            }
+          }}
+        >
+          +
+        </p>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
