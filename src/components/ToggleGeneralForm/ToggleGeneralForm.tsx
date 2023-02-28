@@ -101,7 +101,7 @@ export default function ToggleGeneralForm() {
 
   // //CheckBox
   const isEmployedChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEnabler({ ...formEnabler, isEmployed: e.target.checked });
+    setEnabler({ ...formEnabler, employed: e.target.checked });
   };
 
   return (
@@ -158,7 +158,7 @@ export default function ToggleGeneralForm() {
           />
           <CheckboxContainer
             label={"Is Employed"}
-            value={formEnabler.isEmployed}
+            value={formEnabler.employed}
             onChange={isEmployedChangeHandler}
           />
           <SkillListComponent allSkills={formEnabler.technology} />
