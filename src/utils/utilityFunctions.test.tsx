@@ -242,7 +242,8 @@ describe("utilityTest", () => {
   it("daysUntilPodStarts should return the days left until the pod Starts", () => {
     const currentDate = new Date();
 
-    const startDate = currentDate.setDate(currentDate.getDate() + 3);
+    const startDateinTime = currentDate.setDate(currentDate.getDate() + 3);
+    const startDate = new Date(startDateinTime);
     const daysLeft = daysUntilPodStarts(startDate);
 
     expect(daysLeft).toBe("3");
