@@ -350,13 +350,22 @@ describe("enablee and enabler pod ratio test", () => {
 describe("pod precentage progression test", () => {
   it("progression for pods ", () => {
     const fepods = mockFePod;
-    const expectedPercentage = "42";
+    const currentDate = new Date();
 
     fepods[0].podStartDate = formatDate(subtractDays(new Date(), 2));
     fepods[0].podEndDate = formatDate(addDays(new Date(), 5));
-    const podPercentage = getPodProgressPercentage(fepods[0]);
+    const podStartDate = new Date(fepods[0].podStartDate);
+    const podEndDate = new Date(fepods[0].podEndDate);
 
-    expect(podPercentage).toContain(expectedPercentage);
+    const podPrectActual =
+      ((currentDate.getTime() - podStartDate.getTime()) /
+        (podEndDate.getTime() - podStartDate.getTime())) *
+      100;
+
+    const podPercentage = getPodProgressPercentage(fepods[0]);
+    expect(podPercentage).toContain(
+      Math.trunc(Math.round(podPrectActual)).toString()
+    );
   });
 });
 

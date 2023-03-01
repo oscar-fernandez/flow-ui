@@ -230,13 +230,14 @@ export function PodEnableeEnablerRatio(activeFEPod: IFEPod | null) {
 export function getPodProgressPercentage(activeFePod: IFEPod) {
   const currentDate = new Date();
   const endDate = new Date(activeFePod.podEndDate);
-  const startdate = new Date(activeFePod.podStartDate);
+  const startDate = new Date(activeFePod.podStartDate);
+
   let wholeStrPrecent = "";
 
-  if (startdate.getTime() <= currentDate.getTime()) {
+  if (startDate.getTime() <= currentDate.getTime()) {
     const precentRatio =
-      ((currentDate.getTime() - startdate.getTime()) /
-        (endDate.getTime() - startdate.getTime())) *
+      ((currentDate.getTime() - startDate.getTime()) /
+        (endDate.getTime() - startDate.getTime())) *
       100;
     wholeStrPrecent = Math.trunc(Math.round(precentRatio)).toString();
   }
