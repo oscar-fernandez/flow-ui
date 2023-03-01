@@ -61,11 +61,7 @@ describe("usePendingPodEnablees hook tests", async () => {
 
     await act(() => mock);
 
-    expect(result.current.receivedEnablees).toEqual([
-      ...enableesList.data,
-      dummyEnablees[0], //temp
-      dummyEnablees[1], //temp
-    ]);
+    expect(result.current.receivedEnablees).toEqual([...enableesList.data]);
   });
 
   it("should make an API call on mount", async () => {
