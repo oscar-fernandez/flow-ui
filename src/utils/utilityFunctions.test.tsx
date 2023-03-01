@@ -14,6 +14,8 @@ import {
   formatDate,
   daysUntilPodStarts,
   getTemplateByPath,
+  getPodProgressPercentage,
+  PodEnableeEnablerRatio,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
 import IProjectTable from "../models/interfaces/IProjectTable";
@@ -24,6 +26,8 @@ import PodTemplate from "../components/PodTemplate/PodTemplate";
 import EnableeTemplate from "../components/EnableeTemplate/EnableeTemplate";
 import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
 import { mockIFEnabler } from "../data/MockIFEnabler";
+import { mockFePod } from "../data/MockFEPod";
+import IPodRatio from "../models/interfaces/IPodRatio";
 
 describe("utilityTest", () => {
   it("map Enablees to Table Rows", () => {
@@ -340,6 +344,29 @@ describe("Template tag using location", () => {
     const enablerTemplate = getTemplateByPath("/enabler", null);
 
     expect(enablerTemplate).toMatchObject(<EnablerTemplate />);
+  });
+});
+
+describe("enablee and enabler pod ratio test", () => {
+  it("", () => {
+    const expectedRatio: IPodRatio = { enableeRatio: 5, enablerRatio: 1 };
+    const fepods = mockFePod;
+    const podRatio = PodEnableeEnablerRatio(fepods[0]);
+
+    expect(podRatio).toEqual(expectedRatio);
+  });
+});
+
+describe("pod precentage progression test", () => {
+  it("progression for pods ", () => {
+    const fepods = mockFePod;
+    const expectedPercentage = "42";
+
+    fepods[0].podStartDate = formatDate(subtractDays(new Date(), 2));
+    fepods[0].podEndDate = formatDate(addDays(new Date(), 5));
+    const podPercentage = getPodProgressPercentage(fepods[0]);
+
+    expect(podPercentage).toContain(expectedPercentage);
   });
 });
 

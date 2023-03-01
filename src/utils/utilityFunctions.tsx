@@ -11,6 +11,9 @@ import PodTemplate from "../components/PodTemplate/PodTemplate";
 import EnableeTemplate from "../components/EnableeTemplate/EnableeTemplate";
 import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
 
+import { useMapDetail } from "../context/ToggleSideBarContext/ToggleSideBarContext";
+import IPodRatio from "../models/interfaces/IPodRatio";
+
 export function getName(name: string) {
   switch (name) {
     case "id":
@@ -231,6 +234,34 @@ export const formatDate = (date: Date | null) => {
   return dateFormat;
 };
 
+// The pod need to be active pod. It return object
+// with two props for enablee and enabler ratio.
+export function PodEnableeEnablerRatio(activeFEPod: IFEPod | null) {
+  const ratio: IPodRatio = {
+    enableeRatio: activeFEPod?.enablee?.length,
+    enablerRatio: activeFEPod?.enabler?.length,
+  };
+  return ratio;
+}
+
+// The pod need to be active pod. Function will return percentage of pod
+// progress as string of whole number.
+export function getPodProgressPercentage(activeFePod: IFEPod) {
+  const currentDate = new Date();
+  const endDate = new Date(activeFePod.podEndDate);
+  const startdate = new Date(activeFePod.podStartDate);
+  let wholeStrPrecent = "";
+
+  if (startdate.getTime() <= currentDate.getTime()) {
+    const precentRatio =
+      ((currentDate.getTime() - startdate.getTime()) /
+        (endDate.getTime() - startdate.getTime())) *
+      100;
+    wholeStrPrecent = Math.trunc(Math.round(precentRatio)).toString();
+  }
+
+  return wholeStrPrecent;
+}
 export function isIFEEnabler(object: any): object is IFEEnabler {
   if (object === null) {
     return false;
