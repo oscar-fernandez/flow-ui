@@ -4,6 +4,7 @@ import IEnabler from "../../models/interfaces/IEnabler";
 import IFEEnabler from "../../models/interfaces/IFEEnabler";
 import { buttonStyle } from "../EnableeTemplate/EnableeTemplate";
 import ToggleGeneralForm from "../ToggleGeneralForm/ToggleGeneralForm";
+import TogglePodContainer from "../TogglePodContainer/TogglePodContainer";
 import "./EnablerTemplate.css";
 export default function EnablerTemplate() {
   const [disableSubmit, setDisableSubmit] = useState(true);
@@ -15,7 +16,9 @@ export default function EnablerTemplate() {
       <div className="form-container">
         <ToggleGeneralForm></ToggleGeneralForm>
       </div>
-
+      <div>
+        <TogglePodContainer />
+      </div>
       <div className="button-center">
         <Button
           sx={buttonStyle}

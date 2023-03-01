@@ -262,6 +262,7 @@ export function getPodProgressPercentage(activeFePod: IFEPod) {
 
   return wholeStrPrecent;
 }
+
 export function isIFEEnabler(object: any): object is IFEEnabler {
   if (object === null) {
     return false;
