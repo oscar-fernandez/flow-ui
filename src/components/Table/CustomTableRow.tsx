@@ -13,6 +13,7 @@ interface Props {
   updateSelectedEnablees?: (index: number) => void;
   index: number;
   skill: boolean;
+  toggle: boolean;
 }
 
 export default function CustomRowComponent({
@@ -25,16 +26,11 @@ export default function CustomRowComponent({
   updateSelectedEnablees, //currently only used in defaultHandleSelection, will not be called when customHandleSelects for now
   index,
   skill,
+  toggle,
 }: Props) {
-  const [toggle, setToggle] = useState(false);
   const defaultHandleSelection = (
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>
   ) => {
-    if (clickable) {
-      setToggle(!toggle);
-    } else if (!clickable) {
-      setToggle(false);
-    }
     updateSelectedEnablees?.(+e.currentTarget.id) ||
       (customHandleSelection && customHandleSelection(e));
   };

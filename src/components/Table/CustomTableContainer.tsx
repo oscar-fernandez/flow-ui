@@ -5,7 +5,7 @@ import { SxProps, Theme } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import CustomTableRow from "./CustomTableRow";
 import TableHeader from "./TableHeader";
-import React from "react";
+import React, { useState } from "react";
 import TableInput from "./TableInput";
 
 interface Props {
@@ -25,6 +25,7 @@ interface Props {
   setSkill?: (skill: boolean) => void;
   toggleShowForm: () => void;
   buttonStyle?: any;
+  toggleIndex?: number;
 }
 
 const CustomTableContainer = ({
@@ -42,7 +43,10 @@ const CustomTableContainer = ({
   value,
   toggleShowForm,
   buttonStyle,
+  toggleIndex,
 }: Props) => {
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
   return (
     <Paper
       sx={{
@@ -79,9 +83,14 @@ const CustomTableContainer = ({
                 rowStyle={rowStyle}
                 cellStyle={cellStyle}
                 index={index}
-                customHandleSelection={customHandleSelection}
+                customHandleSelection={() => {
+                  if (selectedIndex === index) setSelectedIndex(-1);
+                  else setSelectedIndex(index);
+                  customHandleSelection;
+                }}
                 updateSelectedEnablees={updateSelectedEnablees}
                 skill={skill}
+                toggle={selectedIndex === index || index === toggleIndex}
               />
             ))}
           </TableBody>
