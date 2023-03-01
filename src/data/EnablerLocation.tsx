@@ -9,6 +9,7 @@ export const cities: string[] = [
   "Newport Beach",
   "Fort Worth",
   "Spring",
+  "Dallas",
 ];
 
 export const states: string[] = [

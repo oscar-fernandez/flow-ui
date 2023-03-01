@@ -22,6 +22,8 @@ import { useLocation, useNavigate } from "react-router";
 import { createPod, updatePod } from "../../services/PodAPI";
 import { Button } from "@mui/material";
 import EnableeTemplate from "../EnableeTemplate/EnableeTemplate";
+import EnablerTemplate from "../EnablerTemplate/EnablerTemplate";
+import IFEEnabler from "../../models/interfaces/IFEEnabler";
 
 const buttonStyle = {
   backgroundColor: "#DC8D0B",
@@ -325,6 +327,35 @@ export default function PodTemplate() {
     handleCheckedCount();
   }, [checkBoxList]);
 
+  const mapEnablertoFEEnabler = (iEnabler: IEnabler): IFEEnabler => {
+    const feenabler: IFEEnabler = {
+      employeeId: 0,
+      firstName: "",
+      lastName: "",
+      assetTag: "",
+      employed: false,
+      technology: [],
+      city: "",
+      state: "",
+      country: "",
+      communityId: 0,
+      employmentTypeId: 0,
+      numActivePods: [],
+      numPendingPods: [],
+    };
+    feenabler.employeeId = iEnabler.employeeId;
+    feenabler.firstName = iEnabler.firstName;
+    feenabler.lastName = iEnabler.lastName;
+    feenabler.assetTag = iEnabler.assetTag;
+    feenabler.employed = iEnabler.isEmployed;
+    feenabler.technology = iEnabler.technology;
+    feenabler.city = iEnabler.city;
+    feenabler.state = iEnabler.state;
+    feenabler.country = iEnabler.country;
+    feenabler.communityId = iEnabler.communityId;
+    feenabler.employmentTypeId = iEnabler.employmentTypeId;
+    return feenabler;
+  };
   return (
     <>
       <div className="container">
@@ -392,7 +423,20 @@ export default function PodTemplate() {
                   <ul className="enablers-list">
                     {enablers?.map((enabler, index) => (
                       <li className="enabler-item" key={index}>
-                        {enabler.firstName} {enabler.lastName}
+                        <a
+                          data-testid={enabler.firstName}
+                          onClick={() => {
+                            details &&
+                              setPrevDetails([...prevDetails, details]);
+                            setDetails(mapEnablertoFEEnabler(enabler));
+                            setTemplate(<EnablerTemplate />);
+                            // console.log("John city" + enabler.city);
+                            // console.log("John state" + enabler.state);
+                            setToggleArrow(true);
+                          }}
+                        >
+                          {enabler.firstName} {enabler.lastName}
+                        </a>
                       </li>
                     ))}
                   </ul>
