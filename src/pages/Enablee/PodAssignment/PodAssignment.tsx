@@ -70,7 +70,7 @@ export default function PodAssignment() {
           return Module.transformEnableeArray(
             Unit.matchAllSkills(filterEnablees, selectedRow.current)
           );
-        case "containsTechStack":
+        case "containTechStack":
           return Module.transformEnableeArray(
             Unit.matchSomeSkills(filterEnablees, selectedRow.current)
           );
