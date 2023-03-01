@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import IEnabler from "../../models/interfaces/IEnabler";
 import IFEEnabler from "../../models/interfaces/IFEEnabler";
 import { buttonStyle } from "../EnableeTemplate/EnableeTemplate";
+import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
+import { TogglePodContainer } from "../PodContainer/TogglePodContainer";
 import ToggleGeneralForm from "../ToggleGeneralForm/ToggleGeneralForm";
-import TogglePodContainer from "../TogglePodContainer/TogglePodContainer";
+// import { TogglePodContainer } from "../TogglePodContainer/TogglePodContainer";
+
 import "./EnablerTemplate.css";
 export default function EnablerTemplate() {
   const [disableSubmit, setDisableSubmit] = useState(true);
@@ -16,9 +19,14 @@ export default function EnablerTemplate() {
       <div className="form-container">
         <ToggleGeneralForm></ToggleGeneralForm>
       </div>
-      <div>
-        <TogglePodContainer />
+      {/* <div className="ActivePodContainer">
+        <TogglePodContainer title={"Active Pods"} infoString={"Displays Enablee: Enabler Ratio and Progress"}/>
+      </div> */}
+
+      <div className="Active">
+        <TogglePodContainer title="Active Pods" />
       </div>
+
       <div className="button-center">
         <Button
           sx={buttonStyle}
