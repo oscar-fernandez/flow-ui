@@ -246,11 +246,12 @@ describe("utilityTest", () => {
   it("daysUntilPodStarts should return the days left until the pod Starts", () => {
     const currentDate = new Date();
 
-    const startDateinTime = currentDate.setDate(currentDate.getDate() + 3);
+    const startDateinTime = currentDate.setDate(currentDate.getDate() + 4);
     const startDate = new Date(startDateinTime);
-    const daysLeft = daysUntilPodStarts(startDate);
 
-    expect(daysLeft).toBe("3");
+    const daysLeft = daysUntilPodStarts(formatDate(startDate));
+
+    expect(daysLeft).toBe("4");
   });
 });
 
@@ -357,16 +358,23 @@ describe("enablee and enabler pod ratio test", () => {
   });
 });
 
+/**
+ * Try making getPodProgessPercentage take currentDate as a parameter
+ */
+
 describe("pod precentage progression test", () => {
   it("progression for pods ", () => {
     const fepods = mockFePod;
-    const expectedPercentage = "42";
+    const expectedPercentageLow = 28;
+    const expectedPercentageHigh = 43;
+    const currentDate = new Date();
 
-    fepods[0].podStartDate = formatDate(subtractDays(new Date(), 2));
-    fepods[0].podEndDate = formatDate(addDays(new Date(), 5));
+    fepods[0].podStartDate = formatDate(subtractDays(currentDate, 2));
+    fepods[0].podEndDate = formatDate(addDays(currentDate, 5));
     const podPercentage = getPodProgressPercentage(fepods[0]);
 
-    expect(podPercentage).toContain(expectedPercentage);
+    expect(+podPercentage).toBeGreaterThanOrEqual(expectedPercentageLow);
+    expect(+podPercentage).toBeLessThanOrEqual(expectedPercentageHigh);
   });
 });
 
@@ -410,13 +418,13 @@ export const createEnablee = (): IEnablee => {
   };
 };
 
-function addDays(date: Date, days: number) {
+export function addDays(date: Date, days: number) {
   const copy = new Date(Number(date));
   copy.setDate(date.getDate() + days);
   return copy;
 }
 
-function subtractDays(date: Date, days: number) {
+export function subtractDays(date: Date, days: number) {
   const copy = new Date(Number(date));
   copy.setDate(date.getDate() - days);
   return copy;

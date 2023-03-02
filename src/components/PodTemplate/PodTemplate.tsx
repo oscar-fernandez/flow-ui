@@ -6,7 +6,7 @@ import ITechnology from "../../models/interfaces/ITechnology";
 import { TagComponent } from "../TagComponent/Tag";
 import IEnablee from "../../models/interfaces/IEnablee";
 import IProject from "../../models/interfaces/IProject";
-import { isEnableeValidForPod } from "../../utils/utilityFunctions";
+import { isEnableeValidForPod, isPod } from "../../utils/utilityFunctions";
 import { getProjects } from "../../services/ManagementAPI";
 import { GetEnableesPendingPodAssignment } from "../../services/EnableeAPI";
 import {
@@ -100,16 +100,6 @@ export default function PodTemplate() {
   const [template, setTemplate] = useToggleTemplate();
   const [toggleArrow, setToggleArrow] = useToggleArrow();
   const [prevDetails, setPrevDetails] = useTogglePrevDetails();
-
-  /**
-   * Helper function for the useEffect to check if the object
-   * passed into the context is actually an IFEPod.
-   * @param object
-   * @returns object
-   */
-  function isPod(object: any): object is IFEPod {
-    return "podStartDate" in object;
-  }
 
   // Checks if pod name input is empty helps manage disabling the submit button
   const checkPodName = (event: ChangeEvent<HTMLInputElement>) => {

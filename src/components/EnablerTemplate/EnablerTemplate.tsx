@@ -26,6 +26,9 @@ export default function EnablerTemplate() {
       <div className="Active">
         <TogglePodContainer title="Active Pods" />
       </div>
+      <div className="Upcoming">
+        <TogglePodContainer title="Upcoming Pods" />
+      </div>
 
       <div className="button-center">
         <Button

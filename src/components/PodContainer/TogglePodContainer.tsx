@@ -1,5 +1,6 @@
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import {
+  daysUntilPodStarts,
   getPodProgressPercentage,
   isEnableeValidForPod,
   isIFEEnabler,
@@ -14,6 +15,8 @@ import { getActivePods, getPendingPods } from "../../services/PodAPI";
 import IFEPod from "../../models/interfaces/IFEPod";
 import { useActivePods } from "../../pages/Pod/Hooks/customHook";
 import Checkbox from "../UtilFormComponents/CheckboxContainer";
+import { TogglePodRow } from "./TogglePodRow";
+import ITechnology from "../../models/interfaces/ITechnology";
 
 /**
  * This componet is a container to display the Pods for an Enabler,
@@ -34,11 +37,12 @@ export function TogglePodContainer({ title }: Props) {
   const [enabler, setEnabler] = useToggleDetail();
   const [listOfPods, setListofPods] = useState<IFEPod[] | undefined>([]);
   let enablerId = 0;
+  let enablertechStack: ITechnology[] = [];
 
   useEffect(() => {
     if (isIFEEnabler(enabler)) {
       enablerId = enabler.employeeId;
-
+      enablertechStack = enabler.technology;
       if (title.includes("Active")) {
         setListofPods(map?.get("Active"));
       } else {
@@ -65,30 +69,14 @@ export function TogglePodContainer({ title }: Props) {
       <div className="displayingPods">
         {listOfPods?.map((pod) => {
           return (
-            <>
-              <div className="">{pod.podName}</div>
-
-              <input
-                key={pod.id}
-                className="enablee-checkbox"
-                data-testid="enableeCheckbox"
-                type="checkbox"
-                //should be disabled if state checkBoxesDisabled is true and this box is not checked
-
-                checked={pod.enabler?.some((e) => {
-                  e.employeeId == enablerId;
-                })}
+            <div key={pod.id} className="podRow">
+              <TogglePodRow
+                pod={pod}
+                enablerId={enablerId}
+                type={title}
+                enablerTechStack={enablertechStack}
               />
-
-              <div className="EnablerEnableeRatioDisplay">
-                {PodEnableeEnablerRatio(pod).enableeRatio}:{" "}
-                {PodEnableeEnablerRatio(pod).enablerRatio}
-              </div>
-
-              <div className="Podprogess"></div>
-
-              <div className="DaysUntilPodStarts"></div>
-            </>
+            </div>
           );
         })}
       </div>

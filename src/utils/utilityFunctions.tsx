@@ -205,19 +205,32 @@ export function isDateObject(incomingDate: Date | null): boolean {
 }
 
 /**
+ * Helper function for the useEffect to check if the object
+ * passed into the context is actually an IFEPod.
+ * @param object
+ * @returns object
+ */
+export function isPod(object: any): object is IFEPod {
+  return "podStartDate" in object;
+}
+
+/**
  *  Calculates the days until a Pod begins the lowest value being 1 day away
- *  Argument
- *    startDate:Date
- *  return
+ *  @argument
+ *    startDate:string
+ *  @return
  *    dayDifference:number
  */
-export function daysUntilPodStarts(startDate: Date): string {
+export function daysUntilPodStarts(startDate: string): string {
   const oneDay = 1000 * 60 * 60 * 24;
 
   const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+
+  const officialStartDate = convertStringToDate(startDate);
 
   const dayDifference = Math.abs(
-    Math.round(startDate.valueOf() - currentDate.valueOf()) / oneDay
+    Math.round(officialStartDate.valueOf() - currentDate.valueOf()) / oneDay
   );
 
   return dayDifference.toFixed(0);
@@ -248,27 +261,44 @@ export function PodEnableeEnablerRatio(activeFEPod: IFEPod | null) {
 // progress as string of whole number.
 export function getPodProgressPercentage(activeFePod: IFEPod) {
   const currentDate = new Date();
-  const endDate = new Date(activeFePod.podEndDate);
-  const startdate = new Date(activeFePod.podStartDate);
+
+  const startDate = convertStringToDate(activeFePod.podStartDate);
+  const endDate = convertStringToDate(activeFePod.podEndDate);
+
   let wholeStrPrecent = "";
 
-  if (startdate.getTime() <= currentDate.getTime()) {
+  if (startDate.getTime() <= currentDate.getTime()) {
     const precentRatio =
-      ((currentDate.getTime() - startdate.getTime()) /
-        (endDate.getTime() - startdate.getTime())) *
+      ((currentDate.getTime() - startDate.getTime()) /
+        (endDate.getTime() - startDate.getTime())) *
       100;
     wholeStrPrecent = Math.trunc(Math.round(precentRatio)).toString();
   }
 
   return wholeStrPrecent;
 }
-
 export function isIFEEnabler(object: any): object is IFEEnabler {
   if (object === null) {
     return false;
   }
   return "numActivePods" in object;
 }
+
+/**
+ *
+ * Takes a string formatted as YYYY-MM-DD and converts
+ * it so the Date object is not one day behind
+ * Sets the hours on the formatted date to be Midnight
+ *
+ * @param dateString
+ * @returns formatedDate
+ */
+export const convertStringToDate = (dateString: string) => {
+  const [year, month, day] = dateString.split("-");
+
+  const formatedDate = new Date(+year, +month - 1, +day, 0, 0, 0, 0);
+  return formatedDate;
+};
 
 export function getTemplateByPath(
   pathName: string,
