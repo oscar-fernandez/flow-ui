@@ -107,7 +107,7 @@ export default function ToggleGeneralForm() {
   return (
     <>
       <form>
-        <div className="employee-margin">
+        <div className="employee-margin" data-testid="enabler-firstName">
           <NameTitleContainer
             firstName={formEnabler.firstName}
             lastName={formEnabler.lastName}
