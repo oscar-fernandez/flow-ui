@@ -75,9 +75,11 @@ export default function PodAssignment() {
             Unit.matchSomeSkills(filterEnablees, selectedRow.current)
           );
         case "availableEnablees":
-          return Module.transformEnableeArray(
-            Unit.matchData(filterEnablees, selectedRow.current)
-          );
+          return filterEnablees.length != 0
+            ? Module.transformEnableeArray(
+                Unit.matchData(filterEnablees, selectedRow.current)
+              )
+            : Module.transformEnableeArray(receivedEnablees);
       }
     }
     if (receivedEnablees) {
