@@ -67,13 +67,17 @@ export default function PodAssignment() {
       // console.log(filterEnablees)
       switch (name) {
         case "matchTechStack":
-          return Module.transformEnableeArray(
-            Unit.matchAllSkills(filterEnablees, selectedRow.current)
-          );
+          return filterEnablees.length != 0
+            ? Module.transformEnableeArray(
+                Unit.matchAllSkills(filterEnablees, selectedRow.current)
+              )
+            : Module.transformEnableeArray(receivedEnablees);
         case "containTechStack":
-          return Module.transformEnableeArray(
-            Unit.matchSomeSkills(filterEnablees, selectedRow.current)
-          );
+          return filterEnablees.length != 0
+            ? Module.transformEnableeArray(
+                Unit.matchSomeSkills(filterEnablees, selectedRow.current)
+              )
+            : Module.transformEnableeArray(receivedEnablees);
         case "availableEnablees":
           return filterEnablees.length != 0
             ? Module.transformEnableeArray(
