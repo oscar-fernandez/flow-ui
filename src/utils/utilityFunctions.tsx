@@ -1,14 +1,17 @@
 import IDisplayTag from "../models/interfaces/IDisplayTag";
 import IEnablee from "../models/interfaces/IEnablee";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
-import IEnabler from "../models/interfaces/IEnabler";
-import IFEnabler from "../models/interfaces/IEnabler";
+import IFEEnabler from "../models/interfaces/IFEEnabler";
 import IFEPod from "../models/interfaces/IFEPod";
 import IProject from "../models/interfaces/IProject";
 import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnology from "../models/interfaces/ITechnology";
 import ITechnologyTable from "../models/interfaces/ITechnologyTable";
-import { EnableePageContainer } from "../pages/Enablee/EnableePageContainer/EnableePageContainer";
+import PodTemplate from "../components/PodTemplate/PodTemplate";
+import EnableeTemplate from "../components/EnableeTemplate/EnableeTemplate";
+import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
+
+import IPodRatio from "../models/interfaces/IPodRatio";
 
 export function getName(name: string) {
   switch (name) {
@@ -169,7 +172,8 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
   let podTag: IDisplayTag = { name: "", color: "" };
   if (
     enablee.enablementStartDate != null &&
-    enablee.enablementEndDate != null
+    enablee.enablementEndDate != null &&
+    enablee.enablementStartDate != ""
   ) {
     startDate = new Date(enablee.enablementStartDate);
     endDate = new Date(enablee.enablementEndDate);
@@ -185,15 +189,13 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
       podTag = { name: "Pending Pod Assignment", color: "rgba(52, 78, 65, 1)" };
     } else if (currentDate > endDate && enablee.podId > 0) {
       podTag = { name: "Completed", color: "rgba(99, 56, 133, 1)" };
-    } else if (
-      enablee.enablementStartDate === null ||
-      enablee.enablementStartDate === ""
-    ) {
-      podTag = { name: "Pending Start Date", color: "rgba(62, 143, 114, 1)" };
     } else if (enablee.podId > 0 && enablee.enablementStartDate != null) {
       podTag = { name: "Pending", color: "rgba(62, 143, 114, 1)" };
     }
+  } else {
+    podTag = { name: "Pending Start Date", color: "rgba(62, 143, 114, 1)" };
   }
+
   return podTag;
 };
 
@@ -223,6 +225,25 @@ export function isDateObject(incomingDate: Date | null): boolean {
   return incomingDate instanceof Date;
 }
 
+/**
+ *  Calculates the days until a Pod begins the lowest value being 1 day away
+ *  Argument
+ *    startDate:Date
+ *  return
+ *    dayDifference:number
+ */
+export function daysUntilPodStarts(startDate: Date): string {
+  const oneDay = 1000 * 60 * 60 * 24;
+
+  const currentDate = new Date();
+
+  const dayDifference = Math.abs(
+    Math.round(startDate.valueOf() - currentDate.valueOf()) / oneDay
+  );
+
+  return dayDifference.toFixed(0);
+}
+
 export const formatDate = (date: Date | null) => {
   let dateFormat = "";
   if (date !== null) {
@@ -234,24 +255,71 @@ export const formatDate = (date: Date | null) => {
   return dateFormat;
 };
 
-// export const convertLocationToString = (location: Location) => {
-//   console.log("inside converter, getting location path: ", location)
-//   if(location.pathname === "/pod/active") {
-//     return "Active"
-//   }
-//   return "Unknown"
-//   // switch (location) {
-//   //   case '/pod/active':
-//   //     return "Active";
-//   //   case '/pod/completed':
-//   //     return "Completed";
-//   //   case '/pod/pending':
-//   //     return "Pending";
-//   //   case '/pod/available':
-//   //     return "Available";
-//   //   case '/':
-//   //     return "unknown";
-//   //   default:
-//   //     return "default";
-//   // }
-// };
+// The pod need to be active pod. It return object
+// with two props for enablee and enabler ratio.
+export function PodEnableeEnablerRatio(activeFEPod: IFEPod | null) {
+  const ratio: IPodRatio = {
+    enableeRatio: activeFEPod?.enablee?.length,
+    enablerRatio: activeFEPod?.enabler?.length,
+  };
+  return ratio;
+}
+
+// The pod need to be active pod. Function will return percentage of pod
+// progress as string of whole number.
+export function getPodProgressPercentage(activeFePod: IFEPod) {
+  const currentDate = new Date();
+  const endDate = new Date(activeFePod.podEndDate);
+  const startDate = new Date(activeFePod.podStartDate);
+
+  let wholeStrPrecent = "";
+
+  if (startDate.getTime() <= currentDate.getTime()) {
+    const precentRatio =
+      ((currentDate.getTime() - startDate.getTime()) /
+        (endDate.getTime() - startDate.getTime())) *
+      100;
+    wholeStrPrecent = Math.trunc(Math.round(precentRatio)).toString();
+  }
+
+  return wholeStrPrecent;
+}
+export function isIFEEnabler(object: any): object is IFEEnabler {
+  if (object === null) {
+    return false;
+  }
+  return "numActivePods" in object;
+}
+
+export function getTemplateByPath(
+  pathName: string,
+  details: IFEEnabler | IFEPod | IEnablee | null
+) {
+  let toggleTemplate: JSX.Element | null = null;
+
+  if (details) {
+    if (pathName.includes("pod")) {
+      toggleTemplate = <EnableeTemplate />;
+    } else if (pathName.includes("enablee")) {
+      toggleTemplate = <PodTemplate />;
+    }
+  } else {
+    if (pathName.includes("pod")) {
+      toggleTemplate = <PodTemplate />;
+    } else if (pathName.includes("enablee")) {
+      toggleTemplate = <EnableeTemplate />;
+    } else if (pathName.includes("enabler")) {
+      toggleTemplate = <EnablerTemplate />;
+    }
+  }
+
+  return toggleTemplate;
+
+  // if (details) {
+  //   // return isPodPage ? <EnableeTemplate /> : <PodTemplate />;
+
+  // } else {
+  //   //no detail selected then return <PodTemplate /> if on podPage
+  //   return isPodPage ? <PodTemplate /> : <EnableeTemplate />;
+  // }
+}

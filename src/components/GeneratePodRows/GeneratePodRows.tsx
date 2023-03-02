@@ -7,6 +7,7 @@ import {
   shortenStringList,
   tooltipString,
 } from "../../utils/utilityFunctions";
+import { convertStringDateToLocalFormat } from "../../pages/Pod/podUtils";
 import "./GeneratePodRows.css";
 import { TagComponent } from "../TagComponent/Tag";
 import IDisplayTag from "../../models/interfaces/IDisplayTag";
@@ -56,8 +57,8 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
         pods?.map((pod, i) => {
           const tooltip = [...convertToStringArr(pod.project.technology)];
           const techDisplay = shortenStringList(tooltip);
-          const startDate = new Date(pod.podStartDate);
-          const endDate = new Date(pod.podEndDate);
+          const startDate = convertStringDateToLocalFormat(pod.podStartDate);
+          const endDate = convertStringDateToLocalFormat(pod.podEndDate);
           const tag = displayTag(pod);
           let enablerNames = "";
 
@@ -125,21 +126,11 @@ export function GeneratePodRows({ pods, displayTag, location }: Props) {
 
               <div className="row-lg-child date-container">
                 {pod.podStartDate ? (
-                  <p className="row-secondary">{`${startDate.toLocaleString(
-                    "en-US",
-                    { month: "long", day: "numeric", year: "numeric" }
-                  )} - `}</p>
+                  <p className="row-secondary">{`${startDate} - `}</p>
                 ) : (
                   <p className="row-secondary">Empty</p>
                 )}
-                <p className="row-secondary">{`${endDate.toLocaleString(
-                  "en-us",
-                  {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  }
-                )}`}</p>
+                <p className="row-secondary">{`${endDate}`}</p>
               </div>
 
               <div className="row-lg-child">

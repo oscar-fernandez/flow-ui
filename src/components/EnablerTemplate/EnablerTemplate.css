@@ -1,0 +1,10 @@
+.button-center {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.form-container {
+  margin: auto;
+  padding: 2rem;
+  max-width: 430px;
+}

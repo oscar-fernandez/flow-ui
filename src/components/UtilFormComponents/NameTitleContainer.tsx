@@ -2,8 +2,12 @@ import { TextField } from "@mui/material";
 import { InputProps, titleProps } from "./FormStyles";
 
 //will need to pass value and handler for title
+interface Props {
+  firstName: string;
+  lastName: string;
+}
 
-export default function TitleContainer() {
+export default function NameTitleContainer({ firstName, lastName }: Props) {
   return (
     <>
       <TextField
@@ -13,11 +17,7 @@ export default function TitleContainer() {
         InputProps={InputProps}
         inputProps={{ "data-testid": "enableeName" }}
         sx={titleProps}
-        // value={
-        //   enabler.firstName.length > 0
-        //     ? `${enabler.firstName} ${enabler.lastName}`
-        //     : null
-        // }
+        value={firstName.length > 0 ? `${firstName} ${lastName}` : ""}
         // onChange={NameChangeHandler}
       />
     </>

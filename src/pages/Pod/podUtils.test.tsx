@@ -4,17 +4,18 @@ import * as Utility from "./podUtils";
 import { describe, it, expect } from "vitest";
 import IEnablee from "../../models/interfaces/IEnablee";
 import IFEPod from "../../models/interfaces/IFEPod";
+import { mockEnabler } from "../../data/MockEnabler";
 
 describe("utility", () => {
   // it("should filtered value  by techstack", () => {
   //   const result = Utility.matchSomeSkills(dummyEnablees, mockFePod[0]);
-  //   expect(result).toEqual([
-  //     dummyEnablees[0],
-  //     dummyEnablees[1],
-  //     dummyEnablees[2],
-  //   ]);
+  //   expect(result).toEqual([dummyEnablees[0]]);
   // });
 
+  it("should map IEnabler to IFEEnabler", () => {
+    const result = Utility.mapEnablertoFEEnabler(mockEnabler[0]);
+    expect(result.firstName).toEqual("John");
+  });
   it("should filtered value  by techstack", () => {
     const result = Utility.matchAllSkills(dummyEnablees, mockFePod[0]);
     expect(result).toEqual([]);
