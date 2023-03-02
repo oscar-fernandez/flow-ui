@@ -101,12 +101,14 @@ export function EnablerPageContainer({ hook }: Props) {
 
               <div className="row-md-child date-container">
                 <p className="row-primary">Assigned Pods</p>
-                <p className="row-secondary">{totalAssignedPods}</p>
+                <p className="row-secondary" data-testid="total-assigned-pods">
+                  {totalAssignedPods}
+                </p>
               </div>
 
               <div className="row-md-child">
                 <p className="row-secondary">Status</p>
-                <p className="row-secondary">
+                <p className="row-secondary" data-testid="status-tag">
                   {
                     <TagComponent
                       name={statusTag.name}
