@@ -4,6 +4,8 @@ import IFEPod from "../../models/interfaces/IFEPod";
 import { isEnableeValidForPod } from "../../utils/utilityFunctions";
 import { dummyEnablees } from "../../data/EnableeMock";
 import { mockFePod } from "../../data/MockFEPod";
+import IFEEnabler from "../../models/interfaces/IFEEnabler";
+import IEnabler from "../../models/interfaces/IEnabler";
 
 const listCheckboxes = [
   { name: "Match Tech Stack" },
@@ -99,6 +101,36 @@ const convertStringDateToLocalFormat = (date: string) => {
   return strLocalDate;
 };
 
+const mapEnablertoFEEnabler = (iEnabler: IEnabler): IFEEnabler => {
+  const feenabler: IFEEnabler = {
+    employeeId: 0,
+    firstName: "",
+    lastName: "",
+    assetTag: "",
+    employed: false,
+    technology: [],
+    city: "",
+    state: "",
+    country: "",
+    communityId: 0,
+    employmentTypeId: 0,
+    numActivePods: [],
+    numPendingPods: [],
+  };
+  feenabler.employeeId = iEnabler.employeeId;
+  feenabler.firstName = iEnabler.firstName;
+  feenabler.lastName = iEnabler.lastName;
+  feenabler.assetTag = iEnabler.assetTag;
+  feenabler.employed = iEnabler.isEmployed;
+  feenabler.technology = iEnabler.technology;
+  feenabler.city = iEnabler.city;
+  feenabler.state = iEnabler.state;
+  feenabler.country = iEnabler.country;
+  feenabler.communityId = iEnabler.communityId;
+  feenabler.employmentTypeId = iEnabler.employmentTypeId;
+  return feenabler;
+};
+
 export {
   eqSet,
   convertStringDateToLocalFormat,
@@ -108,4 +140,5 @@ export {
   matchSomeSkills,
   listCheckboxes,
   capasityEmployee,
+  mapEnablertoFEEnabler,
 };

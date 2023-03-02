@@ -14,6 +14,8 @@ import {
   formatDate,
   daysUntilPodStarts,
   getTemplateByPath,
+  getPodProgressPercentage,
+  PodEnableeEnablerRatio,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
 import IProjectTable from "../models/interfaces/IProjectTable";
@@ -24,6 +26,8 @@ import PodTemplate from "../components/PodTemplate/PodTemplate";
 import EnableeTemplate from "../components/EnableeTemplate/EnableeTemplate";
 import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
 import { mockIFEnabler } from "../data/MockIFEnabler";
+import { mockFePod } from "../data/MockFEPod";
+import IPodRatio from "../models/interfaces/IPodRatio";
 
 describe("utilityTest", () => {
   it("map Enablees to Table Rows", () => {
@@ -340,6 +344,91 @@ describe("Template tag using location", () => {
     const enablerTemplate = getTemplateByPath("/enabler", null);
 
     expect(enablerTemplate).toMatchObject(<EnablerTemplate />);
+  });
+});
+
+describe("enablee and enabler pod ratio test", () => {
+  it("return enabler size and enable size as object", () => {
+    const expectedRatio: IPodRatio = { enableeRatio: 5, enablerRatio: 1 };
+    const fepods = mockFePod;
+    const podRatio = PodEnableeEnablerRatio(fepods[0]);
+
+    expect(podRatio).toEqual(expectedRatio);
+  });
+
+  it("return 0 ratio  object when enablee and enabler are empty", () => {
+    const expectedRatio: IPodRatio = { enableeRatio: 0, enablerRatio: 0 };
+    const fepods = mockFePod[0];
+    fepods.enablee = [];
+    fepods.enabler = [];
+    const podRatio = PodEnableeEnablerRatio(fepods);
+
+    expect(podRatio).toEqual(expectedRatio);
+  });
+
+  it("return undefined ratio  fir enabler when enabler is null in pod", () => {
+    const expectedRatio: IPodRatio = {
+      enableeRatio: 0,
+      enablerRatio: undefined,
+    };
+    const fepods = mockFePod[0];
+    fepods.enabler = null;
+    const podRatio = PodEnableeEnablerRatio(fepods);
+
+    expect(podRatio).toEqual(expectedRatio);
+  });
+});
+
+describe("pod precentage progression test", () => {
+  it("progression for pods ", () => {
+    const fepods = mockFePod;
+    const currentDate = new Date();
+
+    fepods[0].podStartDate = formatDate(subtractDays(new Date(), 2));
+    fepods[0].podEndDate = formatDate(addDays(new Date(), 5));
+    const podStartDate = new Date(fepods[0].podStartDate);
+    const podEndDate = new Date(fepods[0].podEndDate);
+
+    const podPrectActual =
+      ((currentDate.getTime() - podStartDate.getTime()) /
+        (podEndDate.getTime() - podStartDate.getTime())) *
+      100;
+
+    const podPercentage = getPodProgressPercentage(fepods[0]);
+    expect(podPercentage).toContain(
+      Math.trunc(Math.round(podPrectActual)).toString()
+    );
+  });
+
+  it("progression for pods when start date and current date are the same", () => {
+    const fepods = mockFePod;
+    const currentDate = new Date();
+
+    fepods[0].podStartDate = formatDate(currentDate);
+    fepods[0].podEndDate = formatDate(addDays(currentDate, 5));
+    const podStartDate = new Date(fepods[0].podStartDate);
+    const podEndDate = new Date(fepods[0].podEndDate);
+
+    const podPrectActual =
+      ((currentDate.getTime() - podStartDate.getTime()) /
+        (podEndDate.getTime() - podStartDate.getTime())) *
+      100;
+
+    const podPercentage = getPodProgressPercentage(fepods[0]);
+    expect(podPercentage).toContain(
+      Math.trunc(Math.round(podPrectActual)).toString()
+    );
+  });
+
+  it("progression for pods when start date is after current date.", () => {
+    const fepods = mockFePod;
+    const currentDate = new Date();
+
+    fepods[0].podStartDate = formatDate(addDays(currentDate, 1));
+    fepods[0].podEndDate = formatDate(addDays(currentDate, 6));
+
+    const podPercentage = getPodProgressPercentage(fepods[0]);
+    expect(podPercentage).toContain("");
   });
 });
 
