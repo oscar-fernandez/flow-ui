@@ -1,11 +1,14 @@
 import IDisplayTag from "../models/interfaces/IDisplayTag";
 import IEnablee from "../models/interfaces/IEnablee";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
+import IEnabler from "../models/interfaces/IEnabler";
+import IFEnabler from "../models/interfaces/IEnabler";
 import IFEPod from "../models/interfaces/IFEPod";
 import IProject from "../models/interfaces/IProject";
 import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnology from "../models/interfaces/ITechnology";
 import ITechnologyTable from "../models/interfaces/ITechnologyTable";
+import { EnableePageContainer } from "../pages/Enablee/EnableePageContainer/EnableePageContainer";
 
 export function getName(name: string) {
   switch (name) {
@@ -190,6 +193,28 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
     } else if (enablee.podId > 0 && enablee.enablementStartDate != null) {
       podTag = { name: "Pending", color: "rgba(62, 143, 114, 1)" };
     }
+  }
+  return podTag;
+};
+
+export const enablerAssignedPods = (
+  activePods: number[],
+  pendingPods: number[]
+) => {
+  return activePods.length + pendingPods.length;
+};
+
+export const generateEnablerTags = (
+  activePods: number[],
+  pendingPods: number[]
+): IDisplayTag => {
+  let podTag: IDisplayTag = { name: "", color: "" };
+  if (activePods.length > 0) {
+    podTag = { name: "Active", color: "#E63946" };
+  } else if (pendingPods.length === 0) {
+    podTag = { name: "Pending Pod Assignment", color: "rgba(52, 78, 65, 1)" };
+  } else if (pendingPods.length > 0) {
+    podTag = { name: "Pending Pod Start", color: "#3E8F72" };
   }
   return podTag;
 };

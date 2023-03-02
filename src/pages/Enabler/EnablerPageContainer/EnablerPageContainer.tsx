@@ -7,6 +7,8 @@ import {
 import IFEEnabler from "../../../models/interfaces/IFEEnabler";
 import {
   convertToStringArr,
+  enablerAssignedPods,
+  generateEnablerTags,
   tooltipString,
 } from "../../../utils/utilityFunctions";
 import Row from "../../../components/RowComponent/Row";
@@ -45,6 +47,15 @@ export function EnablerPageContainer({ hook }: Props) {
       <div className="enabler-page-container">
         {getList()?.map((enabler, i) => {
           const tooltip = [...convertToStringArr(enabler.technology)];
+          const totalAssignedPods = enablerAssignedPods(
+            enabler.numActivePods,
+            enabler.numPendingPods
+          );
+          const statusTag = generateEnablerTags(
+            enabler.numActivePods,
+            enabler.numPendingPods
+          );
+
           return (
             <Row
               key={i}
@@ -87,16 +98,19 @@ export function EnablerPageContainer({ hook }: Props) {
 
               <div className="row-md-child date-container">
                 <p className="row-primary">Assigned Pods</p>
-                {enabler.numActivePods ? (
-                  <p className="row-secondary">{enabler.numActivePods}</p>
-                ) : (
-                  <p className="row-secondary">Empty</p>
-                )}
+                <p className="row-secondary">{totalAssignedPods}</p>
               </div>
 
               <div className="row-md-child">
                 <p className="row-secondary">Status</p>
-                <p className="row-secondary">Empty</p>
+                <p className="row-secondary">
+                  {
+                    <TagComponent
+                      name={statusTag.name}
+                      color={statusTag.color}
+                    />
+                  }
+                </p>
               </div>
             </Row>
           );

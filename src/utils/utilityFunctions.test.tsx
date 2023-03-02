@@ -9,6 +9,8 @@ import {
   getAvailablePodTag,
   generateTags,
   generatePodTags,
+  generateEnablerTags,
+  enablerAssignedPods,
   isDateObject,
   getName,
   formatDate,
@@ -18,6 +20,9 @@ import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnologyTable from "../models/interfaces/ITechnologyTable";
 import IEnablee from "../models/interfaces/IEnablee";
 import IFEPod from "../models/interfaces/IFEPod";
+import IFEEnabler from "../models/interfaces/IFEEnabler";
+import IEnabler from "../models/interfaces/IEnabler";
+import { getActivePods, getPendingPods } from "../services/PodAPI";
 
 describe("utilityTest", () => {
   it("map Enablees to Table Rows", () => {
@@ -304,6 +309,32 @@ describe("generateTags", () => {
   });
 });
 
+describe("generateEnablerTags", () => {
+  it("returns Active even when pending pods is empty", () => {
+    expect(generateEnablerTags([1], []).name).toEqual("Active");
+  });
+
+  it("returns Pending Pod Start", () => {
+    expect(generateEnablerTags([], [1]).name).toEqual("Pending Pod Start");
+  });
+
+  it("returns Pending Pod Assignment", () => {
+    expect(generateEnablerTags([], []).name).toEqual("Pending Pod Assignment");
+  });
+  it("returns Active when active and pending pods are not empty", () => {
+    expect(generateEnablerTags([1], [1]).name).toEqual("Active");
+  });
+});
+
+describe("enablerAssignedPods", () => {
+  const enabler = createEnabler();
+  it("returns number of total assigned pods for an enabler", () => {
+    expect(
+      enablerAssignedPods(enabler.numActivePods, enabler.numPendingPods)
+    ).toEqual(1);
+  });
+});
+
 const createPod = (): IFEPod => {
   const thisDate = new Date();
   return {
@@ -341,6 +372,28 @@ export const createEnablee = (): IEnablee => {
     employmentTypeId: 1,
     podId: 1,
     commentId: [1, 2, 3],
+  };
+};
+
+export const createEnabler = (): IFEEnabler => {
+  return {
+    employeeId: 292024,
+    firstName: "John",
+    lastName: "Travolta",
+    assetTag: "Tag Asset",
+    isEmployed: true,
+    technology: [
+      { id: 4, name: "Angular", backgroundColor: "green" },
+      { id: 5, name: "C", backgroundColor: "blue" },
+      { id: 2, name: "Java", backgroundColor: "yellow" },
+    ],
+    city: "Eaglewood",
+    state: "New Jersey",
+    country: "USA",
+    communityId: 1,
+    employmentTypeId: 1,
+    numActivePods: [],
+    numPendingPods: [1],
   };
 };
 
