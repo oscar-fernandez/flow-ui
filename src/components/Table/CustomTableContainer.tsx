@@ -83,10 +83,12 @@ const CustomTableContainer = ({
                 rowStyle={rowStyle}
                 cellStyle={cellStyle}
                 index={index}
-                customHandleSelection={() => {
+                customHandleSelection={(
+                  e: React.MouseEvent<HTMLTableRowElement, MouseEvent>
+                ) => {
                   if (selectedIndex === index) setSelectedIndex(-1);
                   else setSelectedIndex(index);
-                  customHandleSelection;
+                  customHandleSelection && customHandleSelection(e);
                 }}
                 updateSelectedEnablees={updateSelectedEnablees}
                 skill={skill}
