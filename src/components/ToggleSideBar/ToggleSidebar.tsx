@@ -11,6 +11,7 @@ import IEnablee from "../../models/interfaces/IEnablee";
 import IFEEnabler from "../../models/interfaces/IFEEnabler";
 import IFEPod from "../../models/interfaces/IFEPod";
 import EnableeTemplate from "../EnableeTemplate/EnableeTemplate";
+import EnablerTemplate from "../EnablerTemplate/EnablerTemplate";
 import PodTemplate from "../PodTemplate/PodTemplate";
 import "./ToggleSideBar.css";
 
@@ -51,6 +52,7 @@ const ToggleSideBar = ({ template }: ToggleSBProps) => {
     prevItem: IEnablee | IFEPod | IFEEnabler
   ): React.ReactNode {
     if ("podId" in prevItem) return <EnableeTemplate />;
+    else if ("city" in prevItem) return <EnablerTemplate />;
     else return <PodTemplate />;
   }
 

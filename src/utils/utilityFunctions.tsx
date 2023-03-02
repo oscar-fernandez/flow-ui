@@ -11,6 +11,8 @@ import PodTemplate from "../components/PodTemplate/PodTemplate";
 import EnableeTemplate from "../components/EnableeTemplate/EnableeTemplate";
 import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
 
+import IPodRatio from "../models/interfaces/IPodRatio";
+
 export function getName(name: string) {
   switch (name) {
     case "id":
@@ -197,6 +199,28 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
   return podTag;
 };
 
+export const enablerAssignedPods = (
+  activePods: number[],
+  pendingPods: number[]
+) => {
+  return activePods.length + pendingPods.length;
+};
+
+export const generateEnablerTags = (
+  activePods: number[],
+  pendingPods: number[]
+): IDisplayTag => {
+  let podTag: IDisplayTag = { name: "", color: "" };
+  if (activePods.length > 0) {
+    podTag = { name: "Active", color: "#E63946" };
+  } else if (pendingPods.length === 0) {
+    podTag = { name: "Pending Pod Assignment", color: "rgba(52, 78, 65, 1)" };
+  } else if (pendingPods.length > 0) {
+    podTag = { name: "Pending Pod Start", color: "#3E8F72" };
+  }
+  return podTag;
+};
+
 export function isDateObject(incomingDate: Date | null): boolean {
   return incomingDate instanceof Date;
 }
@@ -231,6 +255,35 @@ export const formatDate = (date: Date | null) => {
   return dateFormat;
 };
 
+// The pod need to be active pod. It return object
+// with two props for enablee and enabler ratio.
+export function PodEnableeEnablerRatio(activeFEPod: IFEPod | null) {
+  const ratio: IPodRatio = {
+    enableeRatio: activeFEPod?.enablee?.length,
+    enablerRatio: activeFEPod?.enabler?.length,
+  };
+  return ratio;
+}
+
+// The pod need to be active pod. Function will return percentage of pod
+// progress as string of whole number.
+export function getPodProgressPercentage(activeFePod: IFEPod) {
+  const currentDate = new Date();
+  const endDate = new Date(activeFePod.podEndDate);
+  const startDate = new Date(activeFePod.podStartDate);
+
+  let wholeStrPrecent = "";
+
+  if (startDate.getTime() <= currentDate.getTime()) {
+    const precentRatio =
+      ((currentDate.getTime() - startDate.getTime()) /
+        (endDate.getTime() - startDate.getTime())) *
+      100;
+    wholeStrPrecent = Math.trunc(Math.round(precentRatio)).toString();
+  }
+
+  return wholeStrPrecent;
+}
 export function isIFEEnabler(object: any): object is IFEEnabler {
   if (object === null) {
     return false;
@@ -270,25 +323,3 @@ export function getTemplateByPath(
   //   return isPodPage ? <PodTemplate /> : <EnableeTemplate />;
   // }
 }
-
-// export const convertLocationToString = (location: Location) => {
-//   console.log("inside converter, getting location path: ", location)
-//   if(location.pathname === "/pod/active") {
-//     return "Active"
-//   }
-//   return "Unknown"
-//   // switch (location) {
-//   //   case '/pod/active':
-//   //     return "Active";
-//   //   case '/pod/completed':
-//   //     return "Completed";
-//   //   case '/pod/pending':
-//   //     return "Pending";
-//   //   case '/pod/available':
-//   //     return "Available";
-//   //   case '/':
-//   //     return "unknown";
-//   //   default:
-//   //     return "default";
-//   // }
-// };

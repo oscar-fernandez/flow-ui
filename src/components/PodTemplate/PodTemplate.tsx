@@ -22,6 +22,8 @@ import { useLocation, useNavigate } from "react-router";
 import { createPod, updatePod } from "../../services/PodAPI";
 import { Button } from "@mui/material";
 import EnableeTemplate from "../EnableeTemplate/EnableeTemplate";
+import EnablerTemplate from "../EnablerTemplate/EnablerTemplate";
+import { mapEnablertoFEEnabler } from "../../pages/Pod/podUtils";
 
 const buttonStyle = {
   backgroundColor: "#DC8D0B",
@@ -392,7 +394,19 @@ export default function PodTemplate() {
                   <ul className="enablers-list">
                     {enablers?.map((enabler, index) => (
                       <li className="enabler-item" key={index}>
-                        {enabler.firstName} {enabler.lastName}
+                        <a
+                          data-testid={enabler.firstName}
+                          onClick={() => {
+                            details &&
+                              setPrevDetails([...prevDetails, details]);
+                            setDetails(mapEnablertoFEEnabler(enabler));
+                            setTemplate(<EnablerTemplate />);
+
+                            setToggleArrow(true);
+                          }}
+                        >
+                          {enabler.firstName} {enabler.lastName}
+                        </a>
                       </li>
                     ))}
                   </ul>
