@@ -23,11 +23,17 @@ export default function EnablerTemplate() {
         <TogglePodContainer title={"Active Pods"} infoString={"Displays Enablee: Enabler Ratio and Progress"}/>
       </div> */}
 
-      <div className="Active">
-        <TogglePodContainer title="Active Pods" />
+      <div className="Active podContainer">
+        <TogglePodContainer
+          title="Active Pods"
+          infoString="Displays Enablee : Enabler Ratio and Progress"
+        />
       </div>
-      <div className="Upcoming">
-        <TogglePodContainer title="Upcoming Pods" />
+      <div className="Upcoming podContainer">
+        <TogglePodContainer
+          title="Upcoming Pods"
+          infoString="Displays Enablee : Enabler Ratio and Start"
+        />
       </div>
 
       <div className="button-center">

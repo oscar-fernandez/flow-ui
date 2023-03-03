@@ -40,7 +40,7 @@ export function PageViewHeader(props: {
   return (
     <div className="header-section">
       <h1 data-testid="pageHeaderTitleId" className="header" />
-      <p>{props.pageTitle} </p>
+      <p className="Title">{props.pageTitle} </p>
       {props.showPlus && props.showIcon ? (
         <>
           <p
@@ -61,14 +61,14 @@ export function PageViewHeader(props: {
             +
           </p>
           <div data-testid="info" className="info">
-            <Tooltip title={props.infoString} placement="right-start">
+            <Tooltip title={props.infoString} placement="top">
               <p>i</p>
             </Tooltip>
           </div>
         </>
       ) : props.showIcon ? (
         <div data-testid="info" className="info">
-          <Tooltip title={props.infoString} placement="right-start">
+          <Tooltip title={props.infoString} placement="top">
             <p>i</p>
           </Tooltip>
         </div>

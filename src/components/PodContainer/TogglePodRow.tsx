@@ -1,4 +1,4 @@
-import { useToggleDetail } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import { badgesArray, pickBadgePicture } from "../../data/BadgesArray";
 import IFEPod from "../../models/interfaces/IFEPod";
 import ITechnology from "../../models/interfaces/ITechnology";
 import {
@@ -7,7 +7,24 @@ import {
   daysUntilPodStarts,
   isPod,
 } from "../../utils/utilityFunctions";
+import "./TogglePodContainer.css";
 
+/**
+ * pod
+ *    The passed in Pod
+ * enablerId
+ *    If an enabler was selected
+ *      then the enabler id will passed
+ *    else
+ *      0 was passed
+ * type
+ *    Determines if the Container is for Active or Upcoming
+ * enablerTechStack
+ *    if an enabler was selected
+ *      then the enabler technology was passed
+ *    else
+ *      [] was passed
+ */
 interface Props {
   pod: IFEPod;
   enablerId: number;
@@ -21,56 +38,95 @@ export function TogglePodRow({
   type,
   enablerTechStack,
 }: Props) {
+  /**
+   * if badgePicture exists for pod
+   *    returns the index of that image from the array
+   * else
+   *  returns -1
+   */
+  const badgeIndex = pickBadgePicture(pod);
+
+  /**
+   *
+   * This function returns the Techstack array that is shared between the enabler and the pod
+   * for that row
+   *
+   * @param techstack:ITechnology
+   * @returns filteredTechStack:ITechnology[]
+   */
   function getSharedTechnologies(techstack: ITechnology[]): ITechnology[] {
+    let filteredTechStack: ITechnology[] = [];
+
     if (pod && isPod(pod)) {
-      return techstack.filter((enablertech) => {
-        return pod.project.technology.find((podtech) => {
-          return enablertech.name == podtech.name;
+      filteredTechStack = techstack.filter((enablerTech) => {
+        return pod.project.technology.find((ptech) => {
+          return enablerTech.id === ptech.id;
         });
       });
     }
-    return [];
+
+    return filteredTechStack;
   }
 
   return (
-    <>
+    <div className="podRowContainer">
+      {/**Display the pods name */}
       <div className="">{pod.podName}</div>
-
+      {/**
+       * CheckBox
+       *  If the enabler is already assigned to the checkbox
+       *    it will start as checked
+       *  else
+       *    unchecked
+       */}
       <input
         key={pod.id}
-        className="enablee-checkbox"
-        data-testid="enableeCheckbox"
+        className="pod-checkbox"
+        data-testid="podCheckbox"
         type="checkbox"
-        //should be disabled if state checkBoxesDisabled is true and this box is not checked
-
-        //Checks pod Enabler list to see if the selected Enabler id exists in the list
-        //If so the box is checked
         checked={pod.enabler?.some((e) => {
           e.employeeId == enablerId;
         })}
       />
-      {getSharedTechnologies(enablerTechStack).map((tech) => {
-        <span
-          key={tech.id}
-          className="enabler-tech"
-          style={{
-            backgroundColor: tech.backgroundColor,
-          }}
-        ></span>;
-      })}
+      <div>
+        {/**Displays the badge for the pod if it exists else displays generic logo */}
+        {badgeIndex != -1 ? (
+          <img className="podBadge" src={badgesArray[badgeIndex].path} />
+        ) : (
+          <img className="toggleSquare" />
+        )}
+        {/**Displays the shared technology between the pod and enabler as a colored squares */}
+        {getSharedTechnologies(enablerTechStack).map((tech) => (
+          <span
+            key={tech.id}
+            className="enabler-tech"
+            style={{
+              backgroundColor: tech.backgroundColor,
+            }}
+          ></span>
+        ))}
+      </div>
 
       {/* Displays the Enablee : Enabler Ratio */}
-      <div className="EnablerEnableeRatioDisplay">
+      <div className="EnablerEnableeRatioDisplay lightGreyColor">
         {PodEnableeEnablerRatio(pod).enableeRatio}:
         {PodEnableeEnablerRatio(pod).enablerRatio}
       </div>
+      {/**
+       * if {type} contains the word Active
+       *    Displays the pod progression until completion
+       * else
+       *    Displays days until pod begins
+       */}
       {type.includes("Active") ? (
-        <div className="Podprogess">{getPodProgressPercentage(pod)} %</div>
+        <div className="Podprogess lightGreyColor">
+          {getPodProgressPercentage(pod)} %
+        </div>
       ) : (
-        <div className="DaysUntilPodStarts">
+        <div className="DaysUntilPodStarts lightGreyColor">
           {daysUntilPodStarts(pod.podStartDate)}d
         </div>
       )}
-    </>
+    </div>
   );
 }
