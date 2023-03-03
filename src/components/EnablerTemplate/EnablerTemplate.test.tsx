@@ -66,7 +66,7 @@ describe("Testing the Enabler Template to display ", () => {
         <EnablerTemplate />
       </MemoryRouter>
     );
-    const enablerName = screen.getByTestId("enableeName");
+    const enablerName = screen.getByTestId("enableeName") as HTMLInputElement;
 
     expect(enablerName.value).toBe("John Travolta");
   });
@@ -82,7 +82,7 @@ describe("Testing the Enabler Template to display ", () => {
         <EnablerTemplate />
       </MemoryRouter>
     );
-    const enablerName = screen.getByTestId("enableeName");
+    const enablerName = screen.getByTestId("enableeName") as HTMLInputElement;
 
     expect(enablerName.value).toBe("");
   });
