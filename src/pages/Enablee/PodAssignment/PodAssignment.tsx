@@ -1,5 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
+import { updatePod } from "../../../services/PodAPI";
 import "./PodAssignment.css";
 import * as Module from "../../Management/mgtUtils";
 import * as Unit from "../../Pod/podUtils";
@@ -61,10 +62,10 @@ export default function PodAssignment() {
   const [selectValue, setSelectValue] = useState("");
   const totalCalculatedEnablees =
     selectedEnablees.length + (selectedRow.current.enablee?.length || 0);
+  const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
 
   function fn(): string[][] {
     if (filterEnablees && selectedRow.current) {
-      // console.log(filterEnablees)
       switch (name) {
         case "matchTechStack":
           return filterEnablees.length != 0
@@ -97,7 +98,6 @@ export default function PodAssignment() {
   ) => {
     const clickedRow = availablePods[+event.currentTarget.id];
     if (selectedRow.current === clickedRow) {
-      //  return;
       selectedRow.current = {} as IFEPod;
       setReceivedEnablees(receivedEnablees);
       setSelectedEnablees([]);
@@ -115,6 +115,13 @@ export default function PodAssignment() {
 
   //temp location
   const updateSelectedEnablees = (index: number) => {
+    if (selectedIndexes.includes(index))
+      setSelectedIndexes(
+        selectedIndexes.filter((i) => {
+          return i !== index;
+        })
+      );
+    else setSelectedIndexes([...selectedIndexes, index]);
     if (filterEnablees && selectedRow.current) {
       const e = filterEnablees?.[index];
       const selectedEnableesCopy = [...selectedEnablees];
@@ -164,6 +171,7 @@ export default function PodAssignment() {
     });
     setFilterEnablees(updatedEnablees);
     const copyOfAvailablePods = [...availablePods];
+
     const targetPodIndex = copyOfAvailablePods.findIndex(
       (podRow) => podRow === selectedRow.current
     );
@@ -177,6 +185,17 @@ export default function PodAssignment() {
     }
     setAvailablePods(copyOfAvailablePods);
     setSelectedEnablees([]);
+
+    const updatedPod = {
+      id: selectedRow.current.id,
+      podName: selectedRow.current.podName,
+      enablee: selectedRow.current.enablee,
+      enabler: selectedRow.current.enabler,
+      podStartDate: selectedRow.current.podStartDate,
+      podEndDate: selectedRow.current.podEndDate,
+      project: selectedRow.current.project,
+    };
+    updatePod(updatedPod);
   };
 
   const radioButtonCheckboxes = (
@@ -229,6 +248,7 @@ export default function PodAssignment() {
               toggleShowForm={() => {
                 return null;
               }}
+              toggleIndex={selectedIndexes}
             />
 
             <div className="containerPodAssignment">
