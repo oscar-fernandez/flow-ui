@@ -7,6 +7,10 @@ import {
   useToggle,
   useToggleTemplate,
   useTogglePrevDetails,
+  ToggleContext,
+  ToggleArrowContext,
+  ToggleDetailsContext,
+  ToggleTemplateContext,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { MemoryRouter } from "react-router";
 import { createPod, updatePod } from "../../services/PodAPI";
@@ -14,6 +18,9 @@ import { getProjects } from "../../services/ManagementAPI";
 import { GetEnableesPendingPodAssignment } from "../../services/EnableeAPI";
 import { mockFePod } from "../../data/MockFEPod";
 import { mockProjects } from "../../data/MockProjects";
+import EnablerTemplate from "../EnablerTemplate/EnablerTemplate";
+import { mockIFEnabler } from "../../data/MockIFEnabler";
+import ToggleSideBar from "../ToggleSideBar/ToggleSidebar";
 
 vi.mock("../../context/ToggleSideBarContext/ToggleSideBarContext");
 vi.mock("../../services/PodAPI");
@@ -107,13 +114,59 @@ describe("PodTemplate tests", () => {
         <PodTemplate />
       </MemoryRouter>
     );
+
     const podNameInput = screen.getByTestId("podName");
     fireEvent.change(podNameInput, { target: { value: "test" } });
     await waitFor(() => expect(podNameInput).toHaveValue("test"));
     const submitButton = screen.getByRole("button", { name: "Submit" });
     expect(submitButton).toBeDisabled();
   });
-
+  it("should render enabler template when clicked on the enabler name", async () => {
+    mockUseToggleDetail.mockReturnValue([
+      mockFePod[0],
+      () => {
+        null;
+      },
+    ]);
+    const podTemp: React.ReactNode = <PodTemplate />;
+    render(
+      <MemoryRouter>
+        <ToggleContext.Provider value={[true, () => false]}>
+          {" "}
+          <ToggleArrowContext.Provider value={[false, () => false]}>
+            {" "}
+            <ToggleTemplateContext.Provider
+              value={[podTemp, () => mockUseToggleTemplate]}
+            >
+              <ToggleDetailsContext.Provider
+                value={[mockFePod[0], () => mockUseToggleDetail]}
+              >
+                <ToggleSideBar template={<PodTemplate />} />
+              </ToggleDetailsContext.Provider>
+            </ToggleTemplateContext.Provider>
+          </ToggleArrowContext.Provider>
+        </ToggleContext.Provider>
+      </MemoryRouter>
+    );
+    const enablerName = screen.getByTestId("John");
+    fireEvent.click(enablerName);
+    const enablerTemplate: React.ReactNode = <EnablerTemplate />;
+    mockUseToggleTemplate.mockReturnValue([
+      enablerTemplate,
+      () => {
+        return;
+      },
+    ]);
+    mockUseToggleDetail.mockReturnValue([
+      mockIFEnabler[0],
+      () => {
+        null;
+      },
+    ]);
+    await waitFor(() => {
+      expect(screen.getByTestId("John")).toBeInTheDocument();
+    });
+  });
   it("should enable submit button when all inputs are updated and call createPod when submit clicked", async () => {
     render(
       <MemoryRouter>

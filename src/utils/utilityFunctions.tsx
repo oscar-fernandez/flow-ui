@@ -11,7 +11,6 @@ import PodTemplate from "../components/PodTemplate/PodTemplate";
 import EnableeTemplate from "../components/EnableeTemplate/EnableeTemplate";
 import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
 
-import { useMapDetail } from "../context/ToggleSideBarContext/ToggleSideBarContext";
 import IPodRatio from "../models/interfaces/IPodRatio";
 
 export function getName(name: string) {
@@ -200,6 +199,28 @@ export const generateTags = (enablee: IEnablee): IDisplayTag => {
   return podTag;
 };
 
+export const enablerAssignedPods = (
+  activePods: number[],
+  pendingPods: number[]
+) => {
+  return activePods.length + pendingPods.length;
+};
+
+export const generateEnablerTags = (
+  activePods: number[],
+  pendingPods: number[]
+): IDisplayTag => {
+  let podTag: IDisplayTag = { name: "", color: "" };
+  if (activePods.length > 0) {
+    podTag = { name: "Active", color: "#E63946" };
+  } else if (pendingPods.length === 0) {
+    podTag = { name: "Pending Pod Assignment", color: "rgba(52, 78, 65, 1)" };
+  } else if (pendingPods.length > 0) {
+    podTag = { name: "Pending Pod Start", color: "#3E8F72" };
+  }
+  return podTag;
+};
+
 export function isDateObject(incomingDate: Date | null): boolean {
   return incomingDate instanceof Date;
 }
@@ -332,25 +353,3 @@ export function getTemplateByPath(
   //   return isPodPage ? <PodTemplate /> : <EnableeTemplate />;
   // }
 }
-
-// export const convertLocationToString = (location: Location) => {
-//   console.log("inside converter, getting location path: ", location)
-//   if(location.pathname === "/pod/active") {
-//     return "Active"
-//   }
-//   return "Unknown"
-//   // switch (location) {
-//   //   case '/pod/active':
-//   //     return "Active";
-//   //   case '/pod/completed':
-//   //     return "Completed";
-//   //   case '/pod/pending':
-//   //     return "Pending";
-//   //   case '/pod/available':
-//   //     return "Available";
-//   //   case '/':
-//   //     return "unknown";
-//   //   default:
-//   //     return "default";
-//   // }
-// };

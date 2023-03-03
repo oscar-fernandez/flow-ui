@@ -9,6 +9,8 @@ import {
   getAvailablePodTag,
   generateTags,
   generatePodTags,
+  generateEnablerTags,
+  enablerAssignedPods,
   isDateObject,
   getName,
   formatDate,
@@ -22,10 +24,10 @@ import IProjectTable from "../models/interfaces/IProjectTable";
 import ITechnologyTable from "../models/interfaces/ITechnologyTable";
 import IEnablee from "../models/interfaces/IEnablee";
 import IFEPod from "../models/interfaces/IFEPod";
+import IFEEnabler from "../models/interfaces/IFEEnabler";
 import PodTemplate from "../components/PodTemplate/PodTemplate";
 import EnableeTemplate from "../components/EnableeTemplate/EnableeTemplate";
 import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
-import { mockIFEnabler } from "../data/MockIFEnabler";
 import { mockFePod } from "../data/MockFEPod";
 import IPodRatio from "../models/interfaces/IPodRatio";
 
@@ -324,6 +326,32 @@ describe("generateTags", () => {
   });
 });
 
+describe("generateEnablerTags", () => {
+  it("returns Active even when pending pods is empty", () => {
+    expect(generateEnablerTags([1], []).name).toEqual("Active");
+  });
+
+  it("returns Pending Pod Start", () => {
+    expect(generateEnablerTags([], [1]).name).toEqual("Pending Pod Start");
+  });
+
+  it("returns Pending Pod Assignment", () => {
+    expect(generateEnablerTags([], []).name).toEqual("Pending Pod Assignment");
+  });
+  it("returns Active when active and pending pods are not empty", () => {
+    expect(generateEnablerTags([1], [1]).name).toEqual("Active");
+  });
+});
+
+describe("enablerAssignedPods", () => {
+  const enabler = createEnabler();
+  it("returns number of total assigned pods for an enabler", () => {
+    expect(
+      enablerAssignedPods(enabler.numActivePods, enabler.numPendingPods)
+    ).toEqual(1);
+  });
+});
+
 describe("Template tag using location", () => {
   it("return pod template component with pod in location pathname", () => {
     const podTemplate = getTemplateByPath("/pod", null);
@@ -349,10 +377,32 @@ describe("Template tag using location", () => {
 });
 
 describe("enablee and enabler pod ratio test", () => {
-  it("", () => {
+  it("return enabler size and enable size as object", () => {
     const expectedRatio: IPodRatio = { enableeRatio: 5, enablerRatio: 1 };
     const fepods = mockFePod;
     const podRatio = PodEnableeEnablerRatio(fepods[0]);
+
+    expect(podRatio).toEqual(expectedRatio);
+  });
+
+  it("return 0 ratio  object when enablee and enabler are empty", () => {
+    const expectedRatio: IPodRatio = { enableeRatio: 0, enablerRatio: 0 };
+    const fepods = mockFePod[0];
+    fepods.enablee = [];
+    fepods.enabler = [];
+    const podRatio = PodEnableeEnablerRatio(fepods);
+
+    expect(podRatio).toEqual(expectedRatio);
+  });
+
+  it("return undefined ratio  fir enabler when enabler is null in pod", () => {
+    const expectedRatio: IPodRatio = {
+      enableeRatio: 0,
+      enablerRatio: undefined,
+    };
+    const fepods = mockFePod[0];
+    fepods.enabler = null;
+    const podRatio = PodEnableeEnablerRatio(fepods);
 
     expect(podRatio).toEqual(expectedRatio);
   });
@@ -418,7 +468,29 @@ export const createEnablee = (): IEnablee => {
   };
 };
 
-export function addDays(date: Date, days: number) {
+export const createEnabler = (): IFEEnabler => {
+  return {
+    employeeId: 292024,
+    firstName: "John",
+    lastName: "Travolta",
+    assetTag: "Tag Asset",
+    employed: true,
+    technology: [
+      { id: 4, name: "Angular", backgroundColor: "green" },
+      { id: 5, name: "C", backgroundColor: "blue" },
+      { id: 2, name: "Java", backgroundColor: "yellow" },
+    ],
+    city: "Eaglewood",
+    state: "New Jersey",
+    country: "USA",
+    communityId: 1,
+    employmentTypeId: 1,
+    numActivePods: [],
+    numPendingPods: [1],
+  };
+};
+
+function addDays(date: Date, days: number) {
   const copy = new Date(Number(date));
   copy.setDate(date.getDate() + days);
   return copy;
