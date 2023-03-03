@@ -1,5 +1,5 @@
-import { render } from "@testing-library/react";
-import { describe, vi, it, beforeEach } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { describe, vi, it, beforeEach, expect, afterEach } from "vitest";
 import { MemoryRouter } from "react-router";
 import EnablerTemplate from "./EnablerTemplate";
 import {
@@ -9,9 +9,7 @@ import {
   useToggleTemplate,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { createEnabler } from "../../utils/utilityFunctions.test";
-import { getActivePods, getPendingPods } from "../../services/PodAPI";
 import { mockFePod } from "../../data/MockFEPod";
-
 vi.mock("../../context/ToggleSideBarContext/ToggleSideBarContext.tsx");
 vi.mock("../../services/PodAPI");
 
@@ -25,23 +23,11 @@ const mockUseToggle = useToggle as jest.MockedFunction<typeof useToggle>;
 const mockUseToggleTemplate = useToggleTemplate as jest.MockedFunction<
   typeof useToggleTemplate
 >;
-const mockGetActivePods = getActivePods as jest.MockedFunction<
-  typeof getActivePods
->;
 
-const mockGetPendingPods = getPendingPods as jest.MockedFunction<
-  typeof getPendingPods
->;
-
-const axiosres = {
-  data: mockFePod,
-};
+mockFePod[0].id = 1;
 const map = new Map();
-map.set("Active", (mockGetActivePods as jest.Mock).mockResolvedValue(axiosres));
-map.set(
-  "Pending",
-  (mockGetPendingPods as jest.Mock).mockResolvedValue(axiosres)
-);
+map.set("Active", mockFePod);
+map.set("Pending", mockFePod);
 
 describe("Testing the Enabler Template to display ", () => {
   beforeEach(() => {
@@ -70,13 +56,34 @@ describe("Testing the Enabler Template to display ", () => {
       },
     ]);
   });
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
 
-  it("Should render the enabler templatee when details is to null", () => {
+  it("Should render the enabler templatee when details is to an Enabler", () => {
     render(
       <MemoryRouter initialEntries={["/enabler"]}>
         <EnablerTemplate />
       </MemoryRouter>
     );
-    expect("John").toBeInTheDocument();
+    const enablerName = screen.getByTestId("enableeName");
+
+    expect(enablerName.value).toBe("John Travolta");
+  });
+  it("Should render the enabler templatee when details is to an null", () => {
+    mockUseToggleDetail.mockReturnValue([
+      null,
+      () => {
+        null;
+      },
+    ]);
+    render(
+      <MemoryRouter initialEntries={["/enabler"]}>
+        <EnablerTemplate />
+      </MemoryRouter>
+    );
+    const enablerName = screen.getByTestId("enableeName");
+
+    expect(enablerName.value).toBe("");
   });
 });

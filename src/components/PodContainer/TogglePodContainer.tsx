@@ -66,7 +66,7 @@ export function TogglePodContainer({ title, infoString }: Props) {
         setListofPods(map?.get("Pending"));
       }
     }
-  }, [enabler]);
+  }, []);
 
   return (
     <>

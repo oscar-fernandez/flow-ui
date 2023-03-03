@@ -1,0 +1,62 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(60px, auto);
+  grid-column-gap: 2rem;
+}
+
+.button-center {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.enablee-container {
+  margin: auto;
+  padding: 2rem;
+  max-width: 430px;
+}
+
+input[type="checkbox"] {
+  accent-color: #000048;
+  vertical-align: middle;
+}
+
+input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+
+.form-error {
+  color: #ef233c;
+  border-top: solid 1px #ef233c;
+  max-width: fit-content;
+}
+
+.dummy-padding {
+  padding-bottom: 25px;
+}
+
+.comment-section {
+  padding-top: 3rem;
+  padding-bottom: 1rem;
+}
+.pod-section {
+  padding-top: 1rem;
+}
+
+/* .MuiInputBase-root::before {
+    border-bottom: transparent !important;
+  } */
+
+/* .MuiInput-root:after {
+    border-bottom: transparent;
+  } */
+
+/* .Mui-error:after {
+    border-bottom-color: #d32f2f !important;
+  } */
