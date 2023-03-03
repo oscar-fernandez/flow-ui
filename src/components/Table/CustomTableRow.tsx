@@ -13,7 +13,7 @@ interface Props {
   updateSelectedEnablees?: (index: number) => void;
   index: number;
   skill: boolean;
-  toggle: boolean;
+  toggle?: boolean;
 }
 
 export default function CustomRowComponent({

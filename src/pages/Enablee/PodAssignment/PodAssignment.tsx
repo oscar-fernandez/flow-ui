@@ -61,8 +61,7 @@ export default function PodAssignment() {
   const [selectValue, setSelectValue] = useState("");
   const totalCalculatedEnablees =
     selectedEnablees.length + (selectedRow.current.enablee?.length || 0);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [selectedPodIndex, setSelectedPodIndex] = useState(-1);
+  const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
 
   function fn(): string[][] {
     if (filterEnablees && selectedRow.current) {
@@ -115,8 +114,13 @@ export default function PodAssignment() {
 
   //temp location
   const updateSelectedEnablees = (index: number) => {
-    if (selectedIndex === index) setSelectedIndex(-1);
-    else setSelectedIndex(index);
+    if (selectedIndexes.includes(index))
+      setSelectedIndexes(
+        selectedIndexes.filter((i) => {
+          return i !== index;
+        })
+      );
+    else setSelectedIndexes([...selectedIndexes, index]);
     if (filterEnablees && selectedRow.current) {
       const e = filterEnablees?.[index];
       const selectedEnableesCopy = [...selectedEnablees];
@@ -231,7 +235,7 @@ export default function PodAssignment() {
               toggleShowForm={() => {
                 return null;
               }}
-              toggleIndex={selectedIndex}
+              toggleIndex={selectedIndexes}
             />
 
             <div className="containerPodAssignment">

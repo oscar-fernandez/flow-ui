@@ -25,7 +25,7 @@ interface Props {
   setSkill?: (skill: boolean) => void;
   toggleShowForm: () => void;
   buttonStyle?: any;
-  toggleIndex?: number;
+  toggleIndex?: number[];
 }
 
 const CustomTableContainer = ({
@@ -92,7 +92,10 @@ const CustomTableContainer = ({
                 }}
                 updateSelectedEnablees={updateSelectedEnablees}
                 skill={skill}
-                toggle={selectedIndex === index || index === toggleIndex}
+                toggle={
+                  selectedIndex === index ||
+                  (toggleIndex && toggleIndex?.includes(index))
+                }
               />
             ))}
           </TableBody>
