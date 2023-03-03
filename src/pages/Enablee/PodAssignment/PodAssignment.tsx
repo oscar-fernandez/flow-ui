@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
 import { updatePod } from "../../../services/PodAPI";
 import "./PodAssignment.css";
@@ -62,10 +62,10 @@ export default function PodAssignment() {
   const [selectValue, setSelectValue] = useState("");
   const totalCalculatedEnablees =
     selectedEnablees.length + (selectedRow.current.enablee?.length || 0);
+  const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
 
   function fn(): string[][] {
     if (filterEnablees && selectedRow.current) {
-      // console.log(filterEnablees)
       switch (name) {
         case "matchTechStack":
           return filterEnablees.length != 0
@@ -98,7 +98,6 @@ export default function PodAssignment() {
   ) => {
     const clickedRow = availablePods[+event.currentTarget.id];
     if (selectedRow.current === clickedRow) {
-      //  return;
       selectedRow.current = {} as IFEPod;
       setReceivedEnablees(receivedEnablees);
       setSelectedEnablees([]);
@@ -116,6 +115,13 @@ export default function PodAssignment() {
 
   //temp location
   const updateSelectedEnablees = (index: number) => {
+    if (selectedIndexes.includes(index))
+      setSelectedIndexes(
+        selectedIndexes.filter((i) => {
+          return i !== index;
+        })
+      );
+    else setSelectedIndexes([...selectedIndexes, index]);
     if (filterEnablees && selectedRow.current) {
       const e = filterEnablees?.[index];
       const selectedEnableesCopy = [...selectedEnablees];
@@ -242,6 +248,7 @@ export default function PodAssignment() {
               toggleShowForm={() => {
                 return null;
               }}
+              toggleIndex={selectedIndexes}
             />
 
             <div className="containerPodAssignment">
