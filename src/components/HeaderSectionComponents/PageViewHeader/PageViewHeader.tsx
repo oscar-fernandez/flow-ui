@@ -60,18 +60,18 @@ export function PageViewHeader(props: {
           >
             +
           </p>
-          <div data-testid="info" className="info">
+          <span data-testid="info" className="info">
             <Tooltip title={props.infoString} placement="top">
               <p>i</p>
             </Tooltip>
-          </div>
+          </span>
         </>
       ) : props.showIcon ? (
-        <div data-testid="info" className="info">
+        <span data-testid="info" className="info">
           <Tooltip title={props.infoString} placement="top">
             <p>i</p>
           </Tooltip>
-        </div>
+        </span>
       ) : props.showPlus ? (
         <p
           data-testid="plus"

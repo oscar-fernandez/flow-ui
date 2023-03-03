@@ -1,7 +1,7 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { DatepickerComponent } from "../DatepickerComponent/DatePickerComponent";
-import "./EnableeTemplate.css";
+
 import { TagComponent } from "../TagComponent/Tag";
 import { PageViewHeader } from "../HeaderSectionComponents/PageViewHeader/PageViewHeader";
 import FilteredPod from "./FilteredPod";
@@ -25,6 +25,8 @@ import {
 } from "./utils/EnableeTemplateUtils";
 import { getPodById } from "../../services/PodAPI";
 import { convertStringDateToLocalFormat } from "../../pages/Pod/podUtils";
+
+import "./EnableeTemplate.css";
 
 const InputProps = {
   disableUnderline: true,

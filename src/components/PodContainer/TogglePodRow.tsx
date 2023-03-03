@@ -6,6 +6,7 @@ import {
   PodEnableeEnablerRatio,
   daysUntilPodStarts,
   isPod,
+  getSharedTechnologies,
 } from "../../utils/utilityFunctions";
 import "./TogglePodContainer.css";
 
@@ -46,28 +47,6 @@ export function TogglePodRow({
    */
   const badgeIndex = pickBadgePicture(pod);
 
-  /**
-   *
-   * This function returns the Techstack array that is shared between the enabler and the pod
-   * for that row
-   *
-   * @param techstack:ITechnology
-   * @returns filteredTechStack:ITechnology[]
-   */
-  function getSharedTechnologies(techstack: ITechnology[]): ITechnology[] {
-    let filteredTechStack: ITechnology[] = [];
-
-    if (pod && isPod(pod)) {
-      filteredTechStack = techstack.filter((enablerTech) => {
-        return pod.project.technology.find((ptech) => {
-          return enablerTech.id === ptech.id;
-        });
-      });
-    }
-
-    return filteredTechStack;
-  }
-
   return (
     <div className="podRowContainer">
       {/**Display the pods name */}
@@ -85,8 +64,9 @@ export function TogglePodRow({
         data-testid="podCheckbox"
         type="checkbox"
         checked={pod.enabler?.some((e) => {
-          e.employeeId == enablerId;
+          return e.employeeId == enablerId;
         })}
+        onChange={() => 1}
       />
       <div>
         {/**Displays the badge for the pod if it exists else displays generic logo */}
@@ -96,7 +76,7 @@ export function TogglePodRow({
           <img className="toggleSquare" />
         )}
         {/**Displays the shared technology between the pod and enabler as a colored squares */}
-        {getSharedTechnologies(enablerTechStack).map((tech) => (
+        {getSharedTechnologies(enablerTechStack, pod).map((tech) => (
           <span
             key={tech.id}
             className="enabler-tech"

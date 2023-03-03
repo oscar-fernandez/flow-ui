@@ -18,6 +18,7 @@ import Checkbox from "../UtilFormComponents/CheckboxContainer";
 import { TogglePodRow } from "./TogglePodRow";
 import ITechnology from "../../models/interfaces/ITechnology";
 import "./TogglePodContainer";
+import { json } from "react-router";
 /**
  * This componet is a container to display the Pods for an Enabler,
  * the component is modular and can be used for Active and Pending Pod depending on
@@ -56,6 +57,7 @@ export function TogglePodContainer({ title, infoString }: Props) {
    * else
    *    listOfPods will hold the Pending pods of the enabler
    */
+
   useEffect(() => {
     if (isIFEEnabler(enabler)) {
       if (title.includes("Active")) {

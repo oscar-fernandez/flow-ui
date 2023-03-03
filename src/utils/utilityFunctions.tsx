@@ -344,12 +344,31 @@ export function getTemplateByPath(
   }
 
   return toggleTemplate;
+}
 
-  // if (details) {
-  //   // return isPodPage ? <EnableeTemplate /> : <PodTemplate />;
+/**
+ *
+ * This function returns the Techstack array that is shared between the enabler and the pod
+ * for that row
+ *
+ * @param
+ *  techstack:ITechnology
+ *  pod:IFEPod|null
+ * @returns filteredTechStack:ITechnology[]
+ */
+export function getSharedTechnologies(
+  techstack: ITechnology[],
+  pod: IFEPod | null
+): ITechnology[] {
+  let filteredTechStack: ITechnology[] = [];
 
-  // } else {
-  //   //no detail selected then return <PodTemplate /> if on podPage
-  //   return isPodPage ? <PodTemplate /> : <EnableeTemplate />;
-  // }
+  if (pod && isPod(pod)) {
+    filteredTechStack = techstack.filter((enablerTech) => {
+      return pod.project.technology.find((ptech) => {
+        return enablerTech.id === ptech.id;
+      });
+    });
+  }
+
+  return filteredTechStack;
 }
