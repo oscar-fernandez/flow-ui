@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import CustomTableContainer from "../../../components/Table/CustomTableContainer";
+import { updatePod } from "../../../services/PodAPI";
 import "./PodAssignment.css";
 import * as Module from "../../Management/mgtUtils";
 import * as Unit from "../../Pod/podUtils";
@@ -170,6 +171,7 @@ export default function PodAssignment() {
     });
     setFilterEnablees(updatedEnablees);
     const copyOfAvailablePods = [...availablePods];
+
     const targetPodIndex = copyOfAvailablePods.findIndex(
       (podRow) => podRow === selectedRow.current
     );
@@ -183,6 +185,17 @@ export default function PodAssignment() {
     }
     setAvailablePods(copyOfAvailablePods);
     setSelectedEnablees([]);
+
+    const updatedPod = {
+      id: selectedRow.current.id,
+      podName: selectedRow.current.podName,
+      enablee: selectedRow.current.enablee,
+      enabler: selectedRow.current.enabler,
+      podStartDate: selectedRow.current.podStartDate,
+      podEndDate: selectedRow.current.podEndDate,
+      project: selectedRow.current.project,
+    };
+    updatePod(updatedPod);
   };
 
   const radioButtonCheckboxes = (
