@@ -17,7 +17,13 @@
   color: #000048;
 }
 .lightGreyColor {
-  color: #8a8b8a80;
+  font-family: Darker Grotesque;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 15px;
+  letter-spacing: 0.025em;
+  text-align: left;
+  color: #8a8b8a;
 }
 .pod-checkbox {
   accent-color: #000048;
@@ -36,4 +42,16 @@ input[type="checkbox"] {
   margin: auto;
   background-color: #000048;
   border: solid;
+}
+.podName {
+  cursor: pointer;
+  font-family: Darker Grotesque;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 15px;
+  letter-spacing: 0.025em;
+  text-align: left;
+}
+.podName:hover {
+  text-decoration: underline;
 }

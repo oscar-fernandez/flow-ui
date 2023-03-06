@@ -1,3 +1,9 @@
+import {
+  useToggleArrow,
+  useToggleDetail,
+  useTogglePrevDetails,
+  useToggleTemplate,
+} from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { badgesArray, pickBadgePicture } from "../../data/BadgesArray";
 import IFEPod from "../../models/interfaces/IFEPod";
 import ITechnology from "../../models/interfaces/ITechnology";
@@ -8,6 +14,7 @@ import {
   isPod,
   getSharedTechnologies,
 } from "../../utils/utilityFunctions";
+import PodTemplate from "../PodTemplate/PodTemplate";
 import "./TogglePodContainer.css";
 
 /**
@@ -39,6 +46,10 @@ export function TogglePodRow({
   type,
   enablerTechStack,
 }: Props) {
+  const [template, setTemplate] = useToggleTemplate();
+  const [details, setDetails] = useToggleDetail();
+  const [prevDetails, setPrevDetails] = useTogglePrevDetails();
+  const [toggleArrow, setToggleArrow] = useToggleArrow();
   /**
    * if badgePicture exists for pod
    *    returns the index of that image from the array
@@ -49,8 +60,22 @@ export function TogglePodRow({
 
   return (
     <div className="podRowContainer">
-      {/**Display the pods name */}
-      <div className="">{pod.podName}</div>
+      {/** Display the pods name
+       *
+       *  Clicking on a podName will render the Podtemplate setting the details to the clicked on Pod
+       */}
+      <div className="podName">
+        <a
+          onClick={() => {
+            details && setPrevDetails([...prevDetails, details]);
+            setDetails(pod);
+            setTemplate(<PodTemplate />);
+            setToggleArrow(true);
+          }}
+        >
+          {pod.podName}
+        </a>
+      </div>
       {/**
        * CheckBox
        *  If the enabler is already assigned to the checkbox
