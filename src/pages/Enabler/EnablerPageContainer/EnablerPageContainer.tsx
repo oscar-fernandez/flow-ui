@@ -108,14 +108,14 @@ export function EnablerPageContainer({ hook }: Props) {
 
               <div className="row-md-child">
                 <p className="row-secondary">Status</p>
-                <p className="row-secondary" data-testid="status-tag">
+                <div className="row-secondary" data-testid="status-tag">
                   {
                     <TagComponent
                       name={statusTag.name}
                       color={statusTag.color}
                     />
                   }
-                </p>
+                </div>
               </div>
             </Row>
           );

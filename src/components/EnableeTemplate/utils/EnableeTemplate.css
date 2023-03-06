@@ -50,13 +50,13 @@ input[type="checkbox"]:hover {
 }
 
 /* .MuiInputBase-root::before {
-    border-bottom: transparent !important;
-  } */
+  border-bottom: transparent !important;
+} */
 
 /* .MuiInput-root:after {
-    border-bottom: transparent;
-  } */
+  border-bottom: transparent;
+} */
 
 /* .Mui-error:after {
-    border-bottom-color: #d32f2f !important;
-  } */
+  border-bottom-color: #d32f2f !important;
+} */

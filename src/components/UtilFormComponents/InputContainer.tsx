@@ -6,7 +6,7 @@ interface Props {
   type?: string;
   label: string;
   required?: boolean;
-  value?: any;
+  value?: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
 }
 
@@ -28,7 +28,7 @@ export default function InputContainer({
         placeholder={required ? "* Empty" : "Empty"}
         inputProps={{ "data-testid": "employeeId" }}
         sx={inputStyle}
-        value={value}
+        value={value ? value : ""}
         onChange={onChange}
       />
     </>

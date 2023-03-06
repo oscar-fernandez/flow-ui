@@ -29,8 +29,8 @@ export default function ToggleGeneralForm() {
   };
 
   const [detail, setDetail] = useToggleDetail();
-  const [toggle, changeToggle] = useToggle();
-  const [formEnabler, setEnabler] = useState<IFEEnabler>({
+
+  const [formEnabler, setFormEnabler] = useState<IFEEnabler>({
     employeeId: -1,
     firstName: "",
     lastName: "",
@@ -48,60 +48,60 @@ export default function ToggleGeneralForm() {
 
   useEffect(() => {
     if (detail && isIFEEnabler(detail)) {
-      setEnabler(detail);
+      setFormEnabler(detail);
     }
-  }, []);
+  }, [detail]);
 
   //Select Dropdown
   const cityChangeHandler = (e: SelectChangeEvent<string>) => {
-    setEnabler({ ...formEnabler, city: e.target.value });
+    setFormEnabler({ ...formEnabler, city: e.target.value });
   };
   const stateChangeHandler = (e: SelectChangeEvent<string>) => {
-    setEnabler({ ...formEnabler, state: e.target.value });
+    setFormEnabler({ ...formEnabler, state: e.target.value });
   };
   const countryChangeHandler = (e: SelectChangeEvent<string>) => {
-    setEnabler({ ...formEnabler, country: e.target.value });
+    setFormEnabler({ ...formEnabler, country: e.target.value });
   };
 
   //Input
   // const firstNameChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
-  //   setEnabler({ ...formEnabler, firstName: e.target.value.split(" ")[0] });
+  //   setFormEnabler({ ...formEnabler, firstName: e.target.value.split(" ")[0] });
   // };
 
   const employeeIdChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEnabler({ ...formEnabler, employeeId: e.target.valueAsNumber });
+    setFormEnabler({ ...formEnabler, employeeId: e.target.valueAsNumber });
   };
 
   // const NameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
   //    const name = e.target.value.split(" ");
-  //    setEnabler({ ...formEnabler, firstName: name[0] });
-  //    setEnabler({ ...formEnabler, lastName: name[1] });
+  //    setFormEnabler({ ...formEnabler, firstName: name[0] });
+  //    setFormEnabler({ ...formEnabler, lastName: name[1] });
   //  };
 
   // const lastNameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setEnabler({ ...formEnabler, lastName: e.target.value.split(" ")[1] });
+  //   setFormEnabler({ ...formEnabler, lastName: e.target.value.split(" ")[1] });
   // };
   const assetTagChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEnabler({ ...formEnabler, assetTag: e.target.value });
+    setFormEnabler({ ...formEnabler, assetTag: e.target.value });
   };
 
   // const technologyChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setEnabler({ ...formEnabler,  technology: e.target.value });
+  //   setFormEnabler({ ...formEnabler,  technology: e.target.value });
   // };
 
   const communityIdChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEnabler({ ...formEnabler, communityId: +e.target.value });
+    setFormEnabler({ ...formEnabler, communityId: +e.target.value });
   };
 
   const employementTypeIdChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setEnabler({ ...formEnabler, employmentTypeId: +e.target.value });
+    setFormEnabler({ ...formEnabler, employmentTypeId: +e.target.value });
   };
 
   // //CheckBox
   const isEmployedChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEnabler({ ...formEnabler, employed: e.target.checked });
+    setFormEnabler({ ...formEnabler, employed: e.target.checked });
   };
 
   return (

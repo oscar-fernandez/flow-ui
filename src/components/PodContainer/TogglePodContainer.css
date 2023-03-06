@@ -1,0 +1,39 @@
+.podRowContainer {
+  display: grid;
+
+  grid-template-columns: 3fr 0.5fr 1fr 1fr 1fr;
+  grid-auto-rows: minmax(30px, auto);
+  align-items: center;
+}
+.enabler-tech {
+  width: 7px;
+  height: 12px;
+  display: inline-block;
+}
+.podContainer {
+  padding: 2rem;
+}
+.podContainer .Title {
+  color: #000048;
+}
+.lightGreyColor {
+  color: #8a8b8a80;
+}
+.pod-checkbox {
+  accent-color: #000048;
+}
+input[type="checkbox"] {
+  accent-color: #000048;
+  background-color: #000048;
+}
+.podBadge {
+  width: 15px;
+  height: 12px;
+}
+.toggleSquare {
+  width: 15px;
+  height: 12px;
+  margin: auto;
+  background-color: #000048;
+  border: solid;
+}
