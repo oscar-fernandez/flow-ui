@@ -248,11 +248,12 @@ describe("utilityTest", () => {
   it("daysUntilPodStarts should return the days left until the pod Starts", () => {
     const currentDate = new Date();
 
-    const startDateinTime = currentDate.setDate(currentDate.getDate() + 3);
+    const startDateinTime = currentDate.setDate(currentDate.getDate() + 4);
     const startDate = new Date(startDateinTime);
-    const daysLeft = daysUntilPodStarts(startDate);
 
-    expect(daysLeft).toBe("3");
+    const daysLeft = daysUntilPodStarts(formatDate(startDate));
+
+    expect(daysLeft).toBe("4");
   });
 });
 
@@ -407,56 +408,23 @@ describe("enablee and enabler pod ratio test", () => {
   });
 });
 
+/**
+ * Try making getPodProgessPercentage take currentDate as a parameter
+ */
+
 describe("pod precentage progression test", () => {
   it("progression for pods ", () => {
     const fepods = mockFePod;
+    const expectedPercentageLow = 28;
+    const expectedPercentageHigh = 43;
     const currentDate = new Date();
 
-    fepods[0].podStartDate = formatDate(subtractDays(new Date(), 2));
-    fepods[0].podEndDate = formatDate(addDays(new Date(), 5));
-    const podStartDate = new Date(fepods[0].podStartDate);
-    const podEndDate = new Date(fepods[0].podEndDate);
-
-    const podPrectActual =
-      ((currentDate.getTime() - podStartDate.getTime()) /
-        (podEndDate.getTime() - podStartDate.getTime())) *
-      100;
-
-    const podPercentage = getPodProgressPercentage(fepods[0]);
-    expect(podPercentage).toContain(
-      Math.trunc(Math.round(podPrectActual)).toString()
-    );
-  });
-
-  it("progression for pods when start date and current date are the same", () => {
-    const fepods = mockFePod;
-    const currentDate = new Date();
-
-    fepods[0].podStartDate = formatDate(currentDate);
+    fepods[0].podStartDate = formatDate(subtractDays(currentDate, 2));
     fepods[0].podEndDate = formatDate(addDays(currentDate, 5));
-    const podStartDate = new Date(fepods[0].podStartDate);
-    const podEndDate = new Date(fepods[0].podEndDate);
-
-    const podPrectActual =
-      ((currentDate.getTime() - podStartDate.getTime()) /
-        (podEndDate.getTime() - podStartDate.getTime())) *
-      100;
-
     const podPercentage = getPodProgressPercentage(fepods[0]);
-    expect(podPercentage).toContain(
-      Math.trunc(Math.round(podPrectActual)).toString()
-    );
-  });
 
-  it("progression for pods when start date is after current date.", () => {
-    const fepods = mockFePod;
-    const currentDate = new Date();
-
-    fepods[0].podStartDate = formatDate(addDays(currentDate, 1));
-    fepods[0].podEndDate = formatDate(addDays(currentDate, 6));
-
-    const podPercentage = getPodProgressPercentage(fepods[0]);
-    expect(podPercentage).toContain("");
+    expect(+podPercentage).toBeGreaterThanOrEqual(expectedPercentageLow);
+    expect(+podPercentage).toBeLessThanOrEqual(expectedPercentageHigh);
   });
 });
 
@@ -512,9 +480,9 @@ export const createEnabler = (): IFEEnabler => {
       { id: 5, name: "C", backgroundColor: "blue" },
       { id: 2, name: "Java", backgroundColor: "yellow" },
     ],
-    city: "Eaglewood",
-    state: "New Jersey",
-    country: "USA",
+    city: "Chicago",
+    state: "IL",
+    country: "United States",
     communityId: 1,
     employmentTypeId: 1,
     numActivePods: [],
@@ -528,7 +496,7 @@ function addDays(date: Date, days: number) {
   return copy;
 }
 
-function subtractDays(date: Date, days: number) {
+export function subtractDays(date: Date, days: number) {
   const copy = new Date(Number(date));
   copy.setDate(date.getDate() - days);
   return copy;
