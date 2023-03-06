@@ -60,7 +60,10 @@ export function TogglePodRow({
 
   return (
     <div className="podRowContainer">
-      {/**Display the pods name */}
+      {/** Display the pods name
+       *
+       *  Clicking on a podName will render the Podtemplate setting the details to the clicked on Pod
+       */}
       <div className="podName">
         <a
           onClick={() => {
