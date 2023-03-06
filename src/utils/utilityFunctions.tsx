@@ -13,6 +13,11 @@ import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
 
 import IPodRatio from "../models/interfaces/IPodRatio";
 
+import {
+  useToggle,
+  useToggleSkills,
+} from "../context/ToggleSideBarContext/ToggleSideBarContext";
+
 export function getName(name: string) {
   switch (name) {
     case "id":
@@ -323,3 +328,9 @@ export function getTemplateByPath(
   //   return isPodPage ? <PodTemplate /> : <EnableeTemplate />;
   // }
 }
+
+//filter function for skills as described in issue 185
+// export function filterAllSkills(
+//   technologies: ITechnology[],
+//   allTechnologies: ITechnology[]
+// ) {}

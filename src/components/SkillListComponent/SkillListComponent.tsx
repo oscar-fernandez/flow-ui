@@ -2,8 +2,11 @@ import { Button, Typography } from "@mui/material";
 import ITechnology from "../../models/interfaces/ITechnology";
 import { TagComponent } from "../TagComponent/Tag";
 import { mockTechnology } from "../../data/MockData";
+import { filterAllSkills } from "../../utils/utilityFunctions";
 
 import "./SkillList.css";
+import { useToggleSkills } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+
 const labelStyle = {
   fontFamily: "Darker Grotesque",
   fontWeight: 600,
@@ -25,22 +28,34 @@ const buttonStyle = {
 };
 
 interface Props {
-  allSkills: ITechnology[];
+  assignedSkills: ITechnology[];
 }
 
-export function SkillListComponent({ allSkills }: Props) {
+//function that will make the call to utility
+const handleNewSkill = (skills: ITechnology[], allSkills: ITechnology[]) => {
+  filterAllSkills(skills, allSkills);
+};
+
+export function SkillListComponent({ assignedSkills }: Props) {
+  const [allSkills, setAllSkills] = useToggleSkills();
+
   return (
     <>
       <Typography sx={labelStyle}>Tech Stack</Typography>
       <div>
-        {allSkills.map((skill) => (
+        {assignedSkills.map((skill) => (
           <TagComponent
             name={skill.name}
             color={skill.backgroundColor}
             key={skill.id}
           />
         ))}
-        <Button data-testid={"skillAddBtn"} disabled={false} sx={buttonStyle}>
+        <Button
+          data-testid={"skillAddBtn"}
+          disabled={false}
+          sx={buttonStyle}
+          onClick={() => handleNewSkill(assignedSkills, allSkills)}
+        >
           Add Skill
         </Button>
       </div>
