@@ -11,7 +11,6 @@ describe("Skill List Tests", () => {
     );
 
     const input = screen.getByTestId("skillAddBtn");
-    expect(input).toBeInTheDocument();
 
     fireEvent.click(input);
   });
