@@ -7,6 +7,8 @@ import {
   useToggle,
   useMapDetail,
   useToggleTemplate,
+  useTogglePrevDetails,
+  useToggleArrow,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { createEnabler } from "../../utils/utilityFunctions.test";
 import { mockFePod } from "../../data/MockFEPod";
@@ -18,6 +20,12 @@ const mockUseToggleDetail = useToggleDetail as jest.MockedFunction<
 >;
 const mockUseMapDetail = useMapDetail as jest.MockedFunction<
   typeof useMapDetail
+>;
+const mockUsePreToggleDetail = useTogglePrevDetails as jest.MockedFunction<
+  typeof useTogglePrevDetails
+>;
+const mockUseToggleArrow = useToggleArrow as jest.MockedFunction<
+  typeof useToggleArrow
 >;
 const mockUseToggle = useToggle as jest.MockedFunction<typeof useToggle>;
 const mockUseToggleTemplate = useToggleTemplate as jest.MockedFunction<
@@ -53,6 +61,18 @@ describe("Testing the Enabler Template to display ", () => {
       null,
       () => {
         null;
+      },
+    ]);
+    mockUsePreToggleDetail.mockReturnValue([
+      [],
+      () => {
+        return;
+      },
+    ]);
+    mockUseToggleArrow.mockReturnValue([
+      false,
+      () => {
+        return;
       },
     ]);
   });
