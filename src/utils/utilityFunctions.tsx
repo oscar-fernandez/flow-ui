@@ -395,3 +395,15 @@ export function matchTechnologies(
     return tech.name.toLowerCase().startsWith(input.toLowerCase());
   });
 }
+
+export function filterAllSkills(
+  technologies: ITechnology[],
+  allTechnologies: ITechnology[]
+) {
+  technologies.forEach((technology) => {
+    allTechnologies = allTechnologies.filter(
+      (item) => item.id !== technology.id
+    );
+  });
+  return allTechnologies;
+}

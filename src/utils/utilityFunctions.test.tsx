@@ -19,6 +19,7 @@ import {
   getPodProgressPercentage,
   PodEnableeEnablerRatio,
   matchTechnologies,
+  filterAllSkills,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
 import IProjectTable from "../models/interfaces/IProjectTable";
@@ -31,7 +32,12 @@ import EnableeTemplate from "../components/EnableeTemplate/EnableeTemplate";
 import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
 import { mockFePod } from "../data/MockFEPod";
 import IPodRatio from "../models/interfaces/IPodRatio";
-import { mockTechnology } from "../data/MockData";
+import {
+  expectedResultForTests,
+  mockSkillForEdgeCase,
+  mockTechnology,
+  secondMockTechnology,
+} from "../data/MockData";
 
 describe("utilityTest", () => {
   it("map Enablees to Table Rows", () => {
@@ -446,6 +452,21 @@ describe("matchTechnologies Tests", () => {
   it("Should return all technologies if user input is empty", () => {
     const technologies = matchTechnologies("", mockTechnology);
     expect(technologies).toEqual(mockTechnology);
+  });
+});
+
+describe("filterAllSkillsTests", () => {
+  it("return the skills from all skills not found in current assigned skills", () => {
+    const skills = filterAllSkills(secondMockTechnology, mockTechnology);
+    expect(skills).toEqual(expectedResultForTests);
+  });
+  it("Should return an empty array when someone is assigned all of the skills", () => {
+    const skills = filterAllSkills(mockTechnology, mockTechnology);
+    expect(skills).toEqual([]);
+  });
+  it("return the skills from all skills not found in current assigned skills", () => {
+    const skills = filterAllSkills(mockSkillForEdgeCase, mockTechnology);
+    expect(skills).toEqual(mockTechnology);
   });
 });
 
