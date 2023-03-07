@@ -18,9 +18,43 @@ export const mockTechnology: ITechnology[] = [
     backgroundColor: "red",
   },
   {
-    id: 3,
+    id: 6,
     name: "Spring Framework",
     backgroundColor: "silver",
+  },
+];
+
+export const secondMockTechnology: ITechnology[] = [
+  {
+    id: 3,
+    name: "Java",
+    backgroundColor: "grey",
+  },
+  {
+    id: 6,
+    name: "Spring Framework",
+    backgroundColor: "silver",
+  },
+];
+
+export const expectedResultForTests: ITechnology[] = [
+  {
+    id: 4,
+    name: "React",
+    backgroundColor: "blue",
+  },
+  {
+    id: 5,
+    name: "Ruby",
+    backgroundColor: "red",
+  },
+];
+
+export const mockSkillForEdgeCase: ITechnology[] = [
+  {
+    id: 56,
+    name: "Fortran",
+    backgroundColor: "red",
   },
 ];
 

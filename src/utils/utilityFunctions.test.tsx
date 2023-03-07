@@ -18,6 +18,7 @@ import {
   getTemplateByPath,
   getPodProgressPercentage,
   PodEnableeEnablerRatio,
+  filterAllSkills,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
 import IProjectTable from "../models/interfaces/IProjectTable";
@@ -30,6 +31,12 @@ import EnableeTemplate from "../components/EnableeTemplate/EnableeTemplate";
 import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
 import { mockFePod } from "../data/MockFEPod";
 import IPodRatio from "../models/interfaces/IPodRatio";
+import {
+  mockTechnology,
+  secondMockTechnology,
+  expectedResultForTests,
+  mockSkillForEdgeCase,
+} from "../data/MockData";
 
 describe("utilityTest", () => {
   it("map Enablees to Table Rows", () => {
@@ -425,6 +432,21 @@ describe("pod precentage progression test", () => {
 
     expect(+podPercentage).toBeGreaterThanOrEqual(expectedPercentageLow);
     expect(+podPercentage).toBeLessThanOrEqual(expectedPercentageHigh);
+  });
+});
+
+describe("filterAllSkillsTests", () => {
+  it("return the skills from all skills not found in current assigned skills", () => {
+    const skills = filterAllSkills(secondMockTechnology, mockTechnology);
+    expect(skills).toEqual(expectedResultForTests);
+  });
+  it("Should return an empty array when someone is assigned all of the skills", () => {
+    const skills = filterAllSkills(mockTechnology, mockTechnology);
+    expect(skills).toEqual([]);
+  });
+  it("return the skills from all skills not found in current assigned skills", () => {
+    const skills = filterAllSkills(mockSkillForEdgeCase, mockTechnology);
+    expect(skills).toEqual(mockTechnology);
   });
 });
 
