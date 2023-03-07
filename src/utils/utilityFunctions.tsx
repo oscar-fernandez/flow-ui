@@ -379,7 +379,14 @@ export function getSharedTechnologies(
 }
 
 //filter function for skills as described in issue 185
-// export function filterAllSkills(
-//   technologies: ITechnology[],
-//   allTechnologies: ITechnology[]
-// ) {}
+export function filterAllSkills(
+  technologies: ITechnology[],
+  allTechnologies: ITechnology[]
+) {
+  technologies.forEach((technology) => {
+    allTechnologies = allTechnologies.filter(
+      (item) => item.id !== technology.id
+    );
+  });
+  return allTechnologies;
+}

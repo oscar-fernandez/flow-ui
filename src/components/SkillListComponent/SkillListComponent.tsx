@@ -2,7 +2,7 @@ import { Button, Typography } from "@mui/material";
 import ITechnology from "../../models/interfaces/ITechnology";
 import { TagComponent } from "../TagComponent/Tag";
 import { mockTechnology } from "../../data/MockData";
-//import { filterAllSkills } from "../../utils/utilityFunctions";
+import { filterAllSkills } from "../../utils/utilityFunctions";
 
 import "./SkillList.css";
 import { useToggleSkills } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
@@ -32,9 +32,9 @@ interface Props {
 }
 
 //function that will make the call to utility
-// const handleNewSkill = (skills: ITechnology[], allSkills: ITechnology[]) => {
-//   filterAllSkills(skills, allSkills);
-// };
+const handleNewSkill = (skills: ITechnology[], allSkills: ITechnology[]) => {
+  filterAllSkills(skills, allSkills);
+};
 
 export function SkillListComponent({ assignedSkills }: Props) {
   const [allSkills, setAllSkills] = useToggleSkills();
@@ -54,7 +54,7 @@ export function SkillListComponent({ assignedSkills }: Props) {
           data-testid={"skillAddBtn"}
           disabled={false}
           sx={buttonStyle}
-          // onClick={() => handleNewSkill(assignedSkills, allSkills)}
+          onClick={() => handleNewSkill(assignedSkills, allSkills)}
         >
           Add Skill
         </Button>
