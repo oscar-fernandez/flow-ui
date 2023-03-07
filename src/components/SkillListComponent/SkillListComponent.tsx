@@ -37,7 +37,7 @@ interface Props {
 
 export function SkillListComponent({ assignedSkills }: Props) {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [allSkills, setAllSkills] = useToggleSkills();
+  const [allSkills] = useToggleSkills();
   const [dropDownTechStackInput, setDropDownTechStackInput] = useState("");
   const [filteredTechStack, setFilteredTechStack] = useState<ITechnology[]>([]);
   const [originalFilteredTechStack, setOriginalFilteredTechStack] = useState<
@@ -46,37 +46,29 @@ export function SkillListComponent({ assignedSkills }: Props) {
 
   useEffect(() => {
     if (dropDownTechStackInput.trim() === "") {
-      //console.log(originalFilteredTechStack);
+      // console.log(originalFilteredTechStack);
       setFilteredTechStack(originalFilteredTechStack);
     } else {
       const tempArr = matchTechnologies(
         dropDownTechStackInput,
-        filteredTechStack
+        originalFilteredTechStack
       );
+      // console.log(tempArr);
       setFilteredTechStack(tempArr);
     }
   }, [dropDownTechStackInput]);
-
-  useEffect(() => {
-    // console.log(filteredTechStack);
-  }, [filteredTechStack]);
-
-  useEffect(() => {
-    // console.log(originalFilteredTechStack);
-  }, [originalFilteredTechStack]);
 
   //function that will make the call to utility
   const handleNewSkill = (skills: ITechnology[], allSkills: ITechnology[]) => {
     const tempArr = filterAllSkills(skills, allSkills);
     setFilteredTechStack(tempArr);
-    setOriginalFilteredTechStack(filteredTechStack);
+    setOriginalFilteredTechStack(tempArr);
   };
 
   const handleDropDown = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === "") {
       setDropDownTechStackInput(e.target.value);
-    }
-    setDropDownTechStackInput(e.target.value);
+    } else setDropDownTechStackInput(e.target.value);
   };
 
   return (
