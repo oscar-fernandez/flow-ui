@@ -8,13 +8,17 @@ import {
   useToggle,
   useToggleArrow,
   useToggleDetail,
+  useToggleSkills,
   useToggleTemplate,
 } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { mockFePod } from "../../../data/MockFEPod";
+import { getTechnologies } from "../../../services/ManagementAPI";
+import { mockTechnology } from "../../../data/MockData";
 
 describe("Enabler View Renders", () => {
   vi.mock("../../../context/ToggleSideBarContext/ToggleSideBarContext");
   vi.mock("../../../services/PodAPI");
+  vi.mock("../../../services/ManagementAPI");
 
   const mockMapDetail = useMapDetail as jest.MockedFunction<
     typeof useMapDetail
@@ -39,8 +43,19 @@ describe("Enabler View Renders", () => {
     typeof getPendingPods
   >;
 
+  const mockGetTechnologies = getTechnologies as jest.MockedFunction<
+    typeof getTechnologies
+  >;
+
+  const mockToggleSkills = useToggleSkills as jest.MockedFunction<
+    typeof useToggleSkills
+  >;
+
   const axiosres = {
     data: mockFePod,
+  };
+  const otherRes = {
+    data: mockTechnology,
   };
   const map = new Map();
   map.set(
@@ -80,6 +95,15 @@ describe("Enabler View Renders", () => {
     null,
     () => {
       null;
+    },
+  ]);
+
+  (mockGetTechnologies as jest.Mock).mockResolvedValue(otherRes);
+
+  mockToggleSkills.mockReturnValue([
+    [],
+    () => {
+      otherRes.data;
     },
   ]);
 

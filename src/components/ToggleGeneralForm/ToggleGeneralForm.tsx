@@ -161,7 +161,7 @@ export default function ToggleGeneralForm() {
             value={formEnabler.employed}
             onChange={isEmployedChangeHandler}
           />
-          <SkillListComponent allSkills={formEnabler.technology} />
+          <SkillListComponent assignedSkills={formEnabler.technology} />
         </div>
       </form>
     </>

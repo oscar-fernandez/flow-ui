@@ -9,9 +9,11 @@ import {
   useToggleTemplate,
   useTogglePrevDetails,
   useToggleArrow,
+  useToggleSkills,
 } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { createEnabler } from "../../utils/utilityFunctions.test";
 import { mockFePod } from "../../data/MockFEPod";
+import { mockTechnology } from "../../data/MockData";
 vi.mock("../../context/ToggleSideBarContext/ToggleSideBarContext.tsx");
 vi.mock("../../services/PodAPI");
 
@@ -32,6 +34,10 @@ const mockUseToggleTemplate = useToggleTemplate as jest.MockedFunction<
   typeof useToggleTemplate
 >;
 
+const mockToggleSkills = useToggleSkills as jest.MockedFunction<
+  typeof useToggleSkills
+>;
+
 mockFePod[0].id = 1;
 const map = new Map();
 map.set("Active", mockFePod);
@@ -39,6 +45,12 @@ map.set("Pending", mockFePod);
 
 describe("Testing the Enabler Template to display ", () => {
   beforeEach(() => {
+    mockToggleSkills.mockReturnValue([
+      [],
+      () => {
+        mockTechnology;
+      },
+    ]);
     mockUseToggleDetail.mockReturnValue([
       createEnabler(),
       () => {

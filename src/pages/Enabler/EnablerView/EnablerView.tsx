@@ -3,10 +3,14 @@ import { PageViewHeader } from "../../../components/HeaderSectionComponents/Page
 import { Outlet, useLocation } from "react-router";
 import IFEPod from "../../../models/interfaces/IFEPod";
 import { useEffect } from "react";
-import { useMapDetail } from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
+import {
+  useMapDetail,
+  useToggleSkills,
+} from "../../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { useActivePods, usePendingStartPods } from "../../Pod/Hooks/customHook";
 import ToggleSidebar from "../../../components/ToggleSideBar/ToggleSidebar";
 import EnablerTemplate from "../../../components/EnablerTemplate/EnablerTemplate";
+import { getTechnologies } from "../../../services/ManagementAPI";
 
 /**
  * This component is rendered as the parent route "/enabler"
@@ -17,6 +21,7 @@ export default function EnablerView() {
   const [activePods, setActivePods] = useActivePods(location);
   const [pendingPods, setPendingPods] = usePendingStartPods(location);
   const [map, setMap] = useMapDetail();
+  const [allSkills, setAllSkills] = useToggleSkills();
 
   const seedPodMap = (): Map<string, IFEPod[]> => {
     const podMap = new Map();
@@ -27,6 +32,9 @@ export default function EnablerView() {
 
   useEffect(() => {
     setMap(seedPodMap());
+    getTechnologies().then((res) => {
+      setAllSkills(res.data);
+    });
   }, [activePods, pendingPods, location]);
 
   return (

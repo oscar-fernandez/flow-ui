@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import IEnablee from "../../models/interfaces/IEnablee";
 import IFEPod from "../../models/interfaces/IFEPod";
 import IFEEnabler from "../../models/interfaces/IFEEnabler";
+import ITechnology from "../../models/interfaces/ITechnology";
 
 interface ToggleBarProps {
   children: JSX.Element;
@@ -65,6 +66,15 @@ export const TogglePrevDetailsContext = React.createContext<
   },
 ]);
 
+export const ToggleSkillsContext = React.createContext<
+  [ITechnology[], (techs: ITechnology[]) => void]
+>([
+  [],
+  () => {
+    return;
+  },
+]);
+
 export function useToggle() {
   return useContext(ToggleContext);
 }
@@ -89,6 +99,10 @@ export function useMapDetail() {
   return useContext(MapContext);
 }
 
+export function useToggleSkills() {
+  return useContext(ToggleSkillsContext);
+}
+
 const ToggleProvider = ({ children }: ToggleBarProps) => {
   const [toggle, setToggle] = useState(false);
   const [toggleArrow, setToggleArrow] = useState(false);
@@ -98,6 +112,8 @@ const ToggleProvider = ({ children }: ToggleBarProps) => {
   const [prevDetails, setPrevDetails] = useState<
     (IFEPod | IEnablee | IFEEnabler)[]
   >([]);
+
+  const [allSkills, setAllSkills] = useState<ITechnology[]>([]);
 
   const changeToggle = () => {
     setToggle((prevToggle) => !prevToggle);
@@ -126,25 +142,34 @@ const ToggleProvider = ({ children }: ToggleBarProps) => {
     setPrevDetails(details);
   };
 
+  const changeSkills = (skills: ITechnology[]) => {
+    setAllSkills(skills);
+  };
+
   return (
     <MapContext.Provider value={[map, changeMapDetail]}>
-      <ToggleTemplateContext.Provider value={[template, changeToggleTemplate]}>
-        <TogglePrevDetailsContext.Provider
-          value={[prevDetails, changePrevDetails]}
+      {/* Something probably broken below */}
+      <ToggleSkillsContext.Provider value={[allSkills, changeSkills]}>
+        <ToggleTemplateContext.Provider
+          value={[template, changeToggleTemplate]}
         >
-          <ToggleContext.Provider value={[toggle, changeToggle]}>
-            <ToggleArrowContext.Provider
-              value={[toggleArrow, changeToggleArrow]}
-            >
-              <ToggleDetailsContext.Provider
-                value={[detail, changeToggleDetail]}
+          <TogglePrevDetailsContext.Provider
+            value={[prevDetails, changePrevDetails]}
+          >
+            <ToggleContext.Provider value={[toggle, changeToggle]}>
+              <ToggleArrowContext.Provider
+                value={[toggleArrow, changeToggleArrow]}
               >
-                {children}
-              </ToggleDetailsContext.Provider>
-            </ToggleArrowContext.Provider>
-          </ToggleContext.Provider>
-        </TogglePrevDetailsContext.Provider>
-      </ToggleTemplateContext.Provider>
+                <ToggleDetailsContext.Provider
+                  value={[detail, changeToggleDetail]}
+                >
+                  {children}
+                </ToggleDetailsContext.Provider>
+              </ToggleArrowContext.Provider>
+            </ToggleContext.Provider>
+          </TogglePrevDetailsContext.Provider>
+        </ToggleTemplateContext.Provider>
+      </ToggleSkillsContext.Provider>
     </MapContext.Provider>
   );
 };
