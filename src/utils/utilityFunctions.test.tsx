@@ -442,7 +442,7 @@ describe("matchTechnologies Tests", () => {
     expect(technologies).toEqual([mockTechnology[0]]);
   });
   it("Should return the technologies that starts with the user input", () => {
-    const technologies = matchTechnologies("ja", mockTechnology);
+    const technologies = matchTechnologies("j", mockTechnology);
     expect(technologies).toEqual([mockTechnology[0]]);
   });
   it("Should return an empty array if no matches", () => {

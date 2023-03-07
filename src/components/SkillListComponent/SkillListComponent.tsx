@@ -9,7 +9,7 @@ import {
 
 import "./SkillList.css";
 import { useToggleSkills } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const labelStyle = {
   fontFamily: "Darker Grotesque",
@@ -40,24 +40,43 @@ export function SkillListComponent({ assignedSkills }: Props) {
   const [allSkills, setAllSkills] = useToggleSkills();
   const [dropDownTechStackInput, setDropDownTechStackInput] = useState("");
   const [filteredTechStack, setFilteredTechStack] = useState<ITechnology[]>([]);
-  const [tempFilteredTechStack, setTempFilteredTechStack] = useState<
+  const [originalFilteredTechStack, setOriginalFilteredTechStack] = useState<
     ITechnology[]
   >([]);
 
+  useEffect(() => {
+    if (dropDownTechStackInput.trim() === "") {
+      //console.log(originalFilteredTechStack);
+      setFilteredTechStack(originalFilteredTechStack);
+    } else {
+      const tempArr = matchTechnologies(
+        dropDownTechStackInput,
+        filteredTechStack
+      );
+      setFilteredTechStack(tempArr);
+    }
+  }, [dropDownTechStackInput]);
+
+  useEffect(() => {
+    // console.log(filteredTechStack);
+  }, [filteredTechStack]);
+
+  useEffect(() => {
+    // console.log(originalFilteredTechStack);
+  }, [originalFilteredTechStack]);
+
   //function that will make the call to utility
   const handleNewSkill = (skills: ITechnology[], allSkills: ITechnology[]) => {
-    setFilteredTechStack(filterAllSkills(skills, allSkills));
-    setTempFilteredTechStack(filteredTechStack);
+    const tempArr = filterAllSkills(skills, allSkills);
+    setFilteredTechStack(tempArr);
+    setOriginalFilteredTechStack(filteredTechStack);
   };
 
   const handleDropDown = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDropDownTechStackInput(e.target.value);
-    if (dropDownTechStackInput.length === 0 && filteredTechStack.length === 0) {
-      setFilteredTechStack(tempFilteredTechStack);
+    if (e.target.value === "") {
+      setDropDownTechStackInput(e.target.value);
     }
-    setFilteredTechStack(
-      matchTechnologies(dropDownTechStackInput, filteredTechStack)
-    );
+    setDropDownTechStackInput(e.target.value);
   };
 
   return (
