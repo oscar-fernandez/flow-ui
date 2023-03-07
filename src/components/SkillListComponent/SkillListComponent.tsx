@@ -1,8 +1,11 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Select, TextField, Typography } from "@mui/material";
 import ITechnology from "../../models/interfaces/ITechnology";
 import { TagComponent } from "../TagComponent/Tag";
 import { mockTechnology } from "../../data/MockData";
-import { filterAllSkills } from "../../utils/utilityFunctions";
+import {
+  filterAllSkills,
+  matchTechnologies,
+} from "../../utils/utilityFunctions";
 
 import "./SkillList.css";
 import { useToggleSkills } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
@@ -32,14 +35,30 @@ interface Props {
   assignedSkills: ITechnology[];
 }
 
-//function that will make the call to utility
-const handleNewSkill = (skills: ITechnology[], allSkills: ITechnology[]) => {
-  filterAllSkills(skills, allSkills);
-};
-
 export function SkillListComponent({ assignedSkills }: Props) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [allSkills, setAllSkills] = useToggleSkills();
+  const [dropDownTechStackInput, setDropDownTechStackInput] = useState("");
+  const [filteredTechStack, setFilteredTechStack] = useState<ITechnology[]>([]);
+  const [tempFilteredTechStack, setTempFilteredTechStack] = useState<
+    ITechnology[]
+  >([]);
+
+  //function that will make the call to utility
+  const handleNewSkill = (skills: ITechnology[], allSkills: ITechnology[]) => {
+    setFilteredTechStack(filterAllSkills(skills, allSkills));
+    setTempFilteredTechStack(filteredTechStack);
+  };
+
+  const handleDropDown = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDropDownTechStackInput(e.target.value);
+    if (dropDownTechStackInput.length === 0 && filteredTechStack.length === 0) {
+      setFilteredTechStack(tempFilteredTechStack);
+    }
+    setFilteredTechStack(
+      matchTechnologies(dropDownTechStackInput, filteredTechStack)
+    );
+  };
 
   return (
     <>
@@ -64,7 +83,16 @@ export function SkillListComponent({ assignedSkills }: Props) {
           Add Skill
         </Button>
       </div>
-      {showDropdown ? <div>Hello</div> : <div>GoodBye</div>}
+      {showDropdown && (
+        // <Select value={dropDownTechStack} onChange={handleDropDown} displayEmpty disableUnderline>
+        //   </Select>
+        <TextField
+          type={"text"}
+          variant={"standard"}
+          value={dropDownTechStackInput}
+          onChange={handleDropDown}
+        ></TextField>
+      )}
     </>
   );
 }
