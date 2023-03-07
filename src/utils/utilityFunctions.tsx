@@ -379,14 +379,24 @@ export function getSharedTechnologies(
 }
 
 //filter function for skills as described in issue 185
+
+/**
+ *
+ * @param userTechStack - the techstack of the user
+ * @param allTechnologies- The full list of technologies
+ * @returns A filited ITechnology that doesn't include any technolgoy in userTechStack
+ *
+ *
+ */
 export function filterAllSkills(
-  technologies: ITechnology[],
+  userTechStack: ITechnology[],
   allTechnologies: ITechnology[]
 ) {
-  technologies.forEach((technology) => {
+  userTechStack.forEach((technology) => {
     allTechnologies = allTechnologies.filter(
       (item) => item.id !== technology.id
     );
   });
+
   return allTechnologies;
 }
