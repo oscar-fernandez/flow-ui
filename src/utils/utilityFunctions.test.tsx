@@ -18,6 +18,7 @@ import {
   getTemplateByPath,
   getPodProgressPercentage,
   PodEnableeEnablerRatio,
+  matchTechnologies,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
 import IProjectTable from "../models/interfaces/IProjectTable";
@@ -30,6 +31,7 @@ import EnableeTemplate from "../components/EnableeTemplate/EnableeTemplate";
 import EnablerTemplate from "../components/EnablerTemplate/EnablerTemplate";
 import { mockFePod } from "../data/MockFEPod";
 import IPodRatio from "../models/interfaces/IPodRatio";
+import { mockTechnology } from "../data/MockData";
 
 describe("utilityTest", () => {
   it("map Enablees to Table Rows", () => {
@@ -425,6 +427,25 @@ describe("pod precentage progression test", () => {
 
     expect(+podPercentage).toBeGreaterThanOrEqual(expectedPercentageLow);
     expect(+podPercentage).toBeLessThanOrEqual(expectedPercentageHigh);
+  });
+});
+
+describe("matchTechnologies Tests", () => {
+  it("Should return the technologies that match the user input", () => {
+    const technologies = matchTechnologies("java", mockTechnology);
+    expect(technologies).toEqual([mockTechnology[0]]);
+  });
+  it("Should return the technologies that starts with the user input", () => {
+    const technologies = matchTechnologies("ja", mockTechnology);
+    expect(technologies).toEqual([mockTechnology[0]]);
+  });
+  it("Should return an empty array if no matches", () => {
+    const technologies = matchTechnologies("zoo", mockTechnology);
+    expect(technologies).toEqual([]);
+  });
+  it("Should return all technologies if user input is empty", () => {
+    const technologies = matchTechnologies("", mockTechnology);
+    expect(technologies).toEqual(mockTechnology);
   });
 });
 

@@ -383,3 +383,15 @@ export function getSharedTechnologies(
 //   technologies: ITechnology[],
 //   allTechnologies: ITechnology[]
 // ) {}
+
+export function matchTechnologies(
+  input: string,
+  availableTech: ITechnology[]
+): ITechnology[] {
+  if (input === "") {
+    return availableTech;
+  }
+  return availableTech.filter((tech) => {
+    return tech.name.toLowerCase().startsWith(input.toLowerCase());
+  });
+}
