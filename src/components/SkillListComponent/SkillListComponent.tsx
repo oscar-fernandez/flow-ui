@@ -6,6 +6,7 @@ import { filterAllSkills } from "../../utils/utilityFunctions";
 
 import "./SkillList.css";
 import { useToggleSkills } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
+import { useState } from "react";
 
 const labelStyle = {
   fontFamily: "Darker Grotesque",
@@ -37,6 +38,7 @@ const handleNewSkill = (skills: ITechnology[], allSkills: ITechnology[]) => {
 };
 
 export function SkillListComponent({ assignedSkills }: Props) {
+  const [showDropdown, setShowDropdown] = useState(false);
   const [allSkills, setAllSkills] = useToggleSkills();
 
   return (
@@ -54,11 +56,15 @@ export function SkillListComponent({ assignedSkills }: Props) {
           data-testid={"skillAddBtn"}
           disabled={false}
           sx={buttonStyle}
-          onClick={() => handleNewSkill(assignedSkills, allSkills)}
+          onClick={() => {
+            handleNewSkill(assignedSkills, allSkills);
+            setShowDropdown(true);
+          }}
         >
           Add Skill
         </Button>
       </div>
+      {showDropdown ? <div>Hello</div> : <div>GoodBye</div>}
     </>
   );
 }

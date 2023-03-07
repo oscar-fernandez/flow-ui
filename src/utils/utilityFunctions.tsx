@@ -326,6 +326,21 @@ export const convertStringToDate = (dateString: string) => {
   return formatedDate;
 };
 
+/**
+ *
+ * @param pathName:the current path the user is on
+ * @param details: If there was a detail prepopulated then it will be passed to compare
+ * @returns
+ *  Returns the proper template to render on the ToggleSidebar
+ *
+ *  if detail exists(PageViewHeader in the ToggleSideBar)
+ *    the opposite template of the pathName will be rendered cause the current template is already being rendered
+ *
+ * if detail doesnt exists(PageViewHeader outside the ToggleSidebar)
+ *    the template that matches the pathname will be rendered because a new Template is being opened
+ *
+ */
+
 export function getTemplateByPath(
   pathName: string,
   details: IFEEnabler | IFEPod | IEnablee | null
@@ -353,13 +368,10 @@ export function getTemplateByPath(
 
 /**
  *
- * This function returns the Techstack array that is shared between the enabler and the pod
- * for that row
- *
  * @param
- *  techstack:ITechnology
- *  pod:IFEPod|null
- * @returns filteredTechStack:ITechnology[]
+ *  techstack:ITechnology- The enabler techstack
+ *  pod:IFEPod|null- The selected pod
+ * @returns filteredTechStack:ITechnology[]- The techstack array that is shared between the enabler and the pod for that row
  */
 export function getSharedTechnologies(
   techstack: ITechnology[],
@@ -379,12 +391,34 @@ export function getSharedTechnologies(
 }
 
 //filter function for skills as described in issue 185
+// export function filterAllSkills(
+//   technologies: ITechnology[],
+//   allTechnologies: ITechnology[]
+// ) {}
+
+/**
+ *
+ * @param input- The string that will be passed as the user types
+ * @param availableTech- The array of technologies that have been filitered out by FilterAllSkills()
+ * @returns The array of technolgoies who's name starts with the input param
+ */
+export function matchTechnologies(
+  input: string,
+  availableTech: ITechnology[]
+): ITechnology[] {
+  if (input === "") {
+    return availableTech;
+  }
+  return availableTech.filter((tech) => {
+    return tech.name.toLowerCase().startsWith(input.toLowerCase());
+  });
+}
 
 /**
  *
  * @param userTechStack - the techstack of the user
  * @param allTechnologies- The full list of technologies
- * @returns A filited ITechnology that doesn't include any technolgoy in userTechStack
+ * @returns A filited ITechnology[] that doesn't include any technolgoy in userTechStack
  *
  *
  */
