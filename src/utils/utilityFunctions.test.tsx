@@ -18,6 +18,7 @@ import {
   getTemplateByPath,
   getPodProgressPercentage,
   PodEnableeEnablerRatio,
+  matchTechnologies,
   filterAllSkills,
 } from "../utils/utilityFunctions";
 import IEnableeTable from "../models/interfaces/IEnableeTable";
@@ -432,6 +433,25 @@ describe("pod precentage progression test", () => {
 
     expect(+podPercentage).toBeGreaterThanOrEqual(expectedPercentageLow);
     expect(+podPercentage).toBeLessThanOrEqual(expectedPercentageHigh);
+  });
+});
+
+describe("matchTechnologies Tests", () => {
+  it("Should return the technologies that match the user input", () => {
+    const technologies = matchTechnologies("java", mockTechnology);
+    expect(technologies).toEqual([mockTechnology[0]]);
+  });
+  it("Should return the technologies that starts with the user input", () => {
+    const technologies = matchTechnologies("j", mockTechnology);
+    expect(technologies).toEqual([mockTechnology[0]]);
+  });
+  it("Should return an empty array if no matches", () => {
+    const technologies = matchTechnologies("zoo", mockTechnology);
+    expect(technologies).toEqual([]);
+  });
+  it("Should return all technologies if user input is empty", () => {
+    const technologies = matchTechnologies("", mockTechnology);
+    expect(technologies).toEqual(mockTechnology);
   });
 });
 
