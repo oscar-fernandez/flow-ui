@@ -30,4 +30,22 @@ describe("Skill List Tests", () => {
 
     expect(screen.getByText("React")).toBeInTheDocument();
   });
+
+  it("should fire handleNewTech when a tech is selected from the dropdown", () => {
+    render(
+      <SkillListComponent assignedSkills={mockTechnology}></SkillListComponent>
+    );
+    const input = screen.getByTestId("skillAddBtn");
+    fireEvent.click(input);
+    const inputField = screen.getByPlaceholderText("Search For Skills");
+    fireEvent.change(inputField, { target: { value: "j" } });
+
+    expect(screen.getByText("Java")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("Java"));
+    fireEvent.change(inputField, { target: { value: "" } });
+    fireEvent.click(screen.getByText("React"));
+    fireEvent.click(screen.getByText("Complete Selection"));
+    fireEvent.click(input);
+  });
 });

@@ -58,6 +58,7 @@ export function SkillListComponent({ assignedSkills }: Props) {
   const [originalFilteredTechStack, setOriginalFilteredTechStack] = useState<
     ITechnology[]
   >([]);
+  const [techToAddToStack, setTechToAddToStack] = useState<ITechnology[]>([]);
 
   useEffect(() => {
     if (dropDownTechStackInput.trim() === "") {
@@ -71,26 +72,42 @@ export function SkillListComponent({ assignedSkills }: Props) {
     }
   }, [dropDownTechStackInput]);
 
+  useEffect(() => {
+    setTechToAddToStack(assignedSkills);
+  }, [assignedSkills]);
+
   //function that will make the call to utility
   const handleNewSkill = (skills: ITechnology[], allSkills: ITechnology[]) => {
     const tempArr = filterAllSkills(skills, allSkills);
-    setFilteredTechStack(tempArr);
-    setOriginalFilteredTechStack(tempArr);
+    if (techToAddToStack.length > 0) {
+      setFilteredTechStack(filterAllSkills(techToAddToStack, tempArr));
+    } else {
+      setFilteredTechStack(tempArr);
+      setOriginalFilteredTechStack(tempArr);
+    }
   };
 
   const handleDropDown = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDropDownTechStackInput(e.target.value);
   };
 
-  // const handleTechnologyAdd = (e: SelectChangeEvent<string>) => {
-  //   console.log("add handler called")
-  // }
+  const handleTechnologyAdd = (e: React.MouseEvent<HTMLLIElement>) => {
+    const techToAdd = e.currentTarget.textContent;
+    const techToAddObj = allSkills.find((tech) => tech.name === techToAdd);
+    const filteredTechExcludingNewTech = filteredTechStack.filter(
+      (tech) => tech.name !== techToAddObj?.name
+    );
+    setFilteredTechStack(filteredTechExcludingNewTech);
+    if (techToAddObj) {
+      setTechToAddToStack([...techToAddToStack, techToAddObj]);
+    }
+  };
 
   return (
     <>
       <Typography sx={labelStyle}>Tech Stack</Typography>
       <div>
-        {assignedSkills.map((skill) => (
+        {techToAddToStack.map((skill) => (
           <TagComponent
             name={skill.name}
             color={skill.backgroundColor}
@@ -106,7 +123,9 @@ export function SkillListComponent({ assignedSkills }: Props) {
             setShowDropdown(!showDropdown);
           }}
         >
-          {assignedSkills.length === 0 ? "*Add Skills" : "Add Skills"}
+          {assignedSkills.length === 0 && !showDropdown && "*Add Skills"}
+          {!showDropdown && assignedSkills.length > 0 && "Add Skills"}
+          {showDropdown && "Complete Selection"}
         </Button>
       </div>
       {showDropdown && (
@@ -128,6 +147,7 @@ export function SkillListComponent({ assignedSkills }: Props) {
                   data-testid={tech.name}
                   sx={selectStyle}
                   className="dropDownItem"
+                  onClick={handleTechnologyAdd}
                 >
                   {tech.name}
                 </MenuItem>
