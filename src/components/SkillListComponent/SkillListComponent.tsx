@@ -1,4 +1,12 @@
-import { Button, Select, TextField, Typography } from "@mui/material";
+import {
+  FormControl,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+  Button,
+  TextField,
+} from "@mui/material";
 import ITechnology from "../../models/interfaces/ITechnology";
 import { TagComponent } from "../TagComponent/Tag";
 import { mockTechnology } from "../../data/MockData";
@@ -10,6 +18,7 @@ import {
 import "./SkillList.css";
 import { useToggleSkills } from "../../context/ToggleSideBarContext/ToggleSideBarContext";
 import { useEffect, useState } from "react";
+import { selectStyle } from "../UtilFormComponents/FormStyles";
 
 const labelStyle = {
   fontFamily: "Darker Grotesque",
@@ -18,6 +27,12 @@ const labelStyle = {
   fontSize: "15px",
   letterSpacing: "0.025em",
   width: "90px",
+};
+
+const dropDownContainerStyle = {
+  width: 120,
+  maxHeight: 100,
+  overflow: "auto",
 };
 
 const buttonStyle = {
@@ -46,14 +61,12 @@ export function SkillListComponent({ assignedSkills }: Props) {
 
   useEffect(() => {
     if (dropDownTechStackInput.trim() === "") {
-      // console.log(originalFilteredTechStack);
       setFilteredTechStack(originalFilteredTechStack);
     } else {
       const tempArr = matchTechnologies(
         dropDownTechStackInput,
         originalFilteredTechStack
       );
-      // console.log(tempArr);
       setFilteredTechStack(tempArr);
     }
   }, [dropDownTechStackInput]);
@@ -66,10 +79,12 @@ export function SkillListComponent({ assignedSkills }: Props) {
   };
 
   const handleDropDown = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === "") {
-      setDropDownTechStackInput(e.target.value);
-    } else setDropDownTechStackInput(e.target.value);
+    setDropDownTechStackInput(e.target.value);
   };
+
+  // const handleTechnologyAdd = (e: SelectChangeEvent<string>) => {
+  //   console.log("add handler called")
+  // }
 
   return (
     <>
@@ -88,21 +103,38 @@ export function SkillListComponent({ assignedSkills }: Props) {
           sx={buttonStyle}
           onClick={() => {
             handleNewSkill(assignedSkills, allSkills);
-            setShowDropdown(true);
+            setShowDropdown(!showDropdown);
           }}
         >
-          Add Skill
+          {assignedSkills.length === 0 ? "*Add Skills" : "Add Skills"}
         </Button>
       </div>
       {showDropdown && (
-        // <Select value={dropDownTechStack} onChange={handleDropDown} displayEmpty disableUnderline>
-        //   </Select>
-        <TextField
-          type={"text"}
-          variant={"standard"}
-          value={dropDownTechStackInput}
-          onChange={handleDropDown}
-        ></TextField>
+        <>
+          <TextField
+            type={"text"}
+            variant={"standard"}
+            value={dropDownTechStackInput}
+            onChange={handleDropDown}
+            placeholder={"Search For Skills"}
+            autoComplete={"off"}
+          ></TextField>
+          <FormControl sx={dropDownContainerStyle} className="dropDown">
+            {filteredTechStack.map((tech) => {
+              return (
+                <MenuItem
+                  key={tech.id}
+                  value={tech.name}
+                  data-testid={tech.name}
+                  sx={selectStyle}
+                  className="dropDownItem"
+                >
+                  {tech.name}
+                </MenuItem>
+              );
+            })}
+          </FormControl>
+        </>
       )}
     </>
   );
